@@ -14,9 +14,54 @@ namespace Mission.Server
 {
 	public class Mission : Service
 	{
-		public constructor()
+		private fields ["_mReverseSides" as Boolean];
+		
+		public constructor("_reverseSides" as Boolean)
 		{
 			call _base.Constructor;
+			
+			_mReverseSides = _reverseSides;
+			
+			_self.EastStartMarkers = [];
+			_self.WestStartMarkers = [];
+		};
+		
+		protected method Side GetActualSide("_side" as Side)
+		{
+			if (_mReverseSides) then {
+				if (_side == east) then {
+					return west;
+				}
+				else {
+					return east;
+				};
+			};
+			
+			return _side;
+		};
+		
+		protected property Array EastStartMarkers { get; private set; };
+		
+		protected property Array WestStartMarkers { get; private set; };
+		
+		public method Array GetStartMarkers("_side" as Side)
+		{
+			if (!_mReverseSides) then {
+				if (_side == east) then {
+					return _self.EastStartMarkers;
+				}
+				else {
+					return _self.WestStartMarkers;
+				};
+			}
+			else {
+				if (_side == east) then {
+					return _self.WestStartMarkers;
+				}
+				else {
+					return _self.EastStartMarkers;
+				};
+			};
 		};
 	
 		// Initializes the mission, i.e. creating and placing vehicles and such.

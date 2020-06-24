@@ -17,9 +17,9 @@ class EditorData
 	class Camera
 	{
 		pos[]={4448.6367,139.97084,3278.5249};
-		dir[]={0,-0.70710683,0.70710683};
-		up[]={0,0.70710677,0.70710677};
-		aside[]={0.99999994,0,-0};
+		dir[]={-0.22370146,-0.047057889,0.97352391};
+		up[]={-0.010538875,0.99889082,0.045864101};
+		aside[]={0.97460443,-4.3655746e-011,0.22394982};
 	};
 };
 binarizationWanted=0;
@@ -100,7 +100,7 @@ class Mission
 			name="m1_east_startarea1";
 			markerType="RECTANGLE";
 			type="rectangle";
-			colorName="ColorWEST";
+			colorName="ColorEAST";
 			fillName="SolidBorder";
 			a=50;
 			b=50;
@@ -110,49 +110,50 @@ class Mission
 		class Item1
 		{
 			dataType="Marker";
-			position[]={3722.239,82.248772,4031.1985};
+			position[]={3722.239,82.249001,4031.198};
 			name="m1_west_StartArea1";
 			markerType="RECTANGLE";
 			type="rectangle";
-			colorName="ColorEAST";
+			colorName="ColorWEST";
 			fillName="SolidBorder";
 			a=250;
 			b=50;
 			angle=135.948;
 			drawBorder=1;
 			id=1;
-			atlOffset=-1.7443848;
+			atlOffset=-1.7443466;
 		};
 		class Item2
 		{
 			dataType="Marker";
-			position[]={4755.5576,95.747826,3735.8796};
+			position[]={4755.5581,95.748001,3735.8799};
 			name="m1_west_StartArea2";
 			markerType="RECTANGLE";
 			type="rectangle";
-			colorName="ColorEAST";
+			colorName="ColorWEST";
 			fillName="SolidBorder";
 			a=100;
 			b=50;
-			angle=94.046425;
+			angle=94.045982;
 			drawBorder=1;
 			id=2;
+			atlOffset=0.00034332275;
 		};
 		class Item3
 		{
 			dataType="Marker";
-			position[]={4144.2476,154.47099,3289.3926};
+			position[]={4144.248,154.47099,3289.3931};
 			name="m1_west_StartArea2_1";
 			markerType="RECTANGLE";
 			type="rectangle";
-			colorName="ColorEAST";
+			colorName="ColorWEST";
 			fillName="SolidBorder";
 			a=50;
 			b=50;
-			angle=0.39761451;
+			angle=0.39799994;
 			drawBorder=1;
 			id=3;
-			atlOffset=-2.8361664;
+			atlOffset=-2.8361816;
 		};
 		class Item4
 		{

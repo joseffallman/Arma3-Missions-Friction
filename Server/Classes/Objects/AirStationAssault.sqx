@@ -12,9 +12,12 @@ namespace Mission.Server
 	public class AirStationAssault : Mission
 	{
 		// Creates a AirStationAssault object.
-		public constructor()
+		public constructor("_reverseSides" as Boolean)
 		{
-			call _base.Constructor;
+			[_reverseSides] call _base.Constructor;
+			
+			_self.EastStartMarkers = ["m1_east_startarea1"];
+			_self.WestStartMarkers = ["m1_west_startarea1", "m1_west_startarea2", "m1_west_startarea3"];
 		};
 		
 		public override method Setup()
