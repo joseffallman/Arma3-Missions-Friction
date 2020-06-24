@@ -1,0 +1,81 @@
+/*
+ * Name:	TaskHandler
+ * Date:	2019-02-18
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A class that handles the local player's tasks (by encapsuling and taking care of all advanced Arma stuff regarding the subject).
+ */
+
+namespace Mission.Client
+{
+	public class TaskHandler : ITaskHandler
+	{
+		private fields ["_mTaskConfig" as ITaskConfig, "_mTaskPrefix" as String];
+		
+		// Creates a TaskHandler object.
+		public constructor("_taskConfig" as ITaskConfig)
+		{
+			_mTaskConfig = _taskConfig;
+			_mTaskPrefix = "MissionTask_";
+			_self.AllTasksCompleted = false;
+		};
+		
+		// Creates the tasks for the player.
+		public method CreatePlayerTasks()
+		{
+			[PlayerTask.FindBlueArrow] call _self.CreateTask;
+			[PlayerTask.FindRedArrow] call _self.CreateTask;
+		};
+		
+		// Creates a task for the current player.
+		public method CreateTask("_task" as PlayerTask)
+		{
+			private ["_taskId" as String, "_taskInfo" as TaskInfo];
+			
+			_taskId = _mTaskPrefix + str _task;
+			_taskInfo = [_task] call _mTaskConfig.GetTaskInfo;
+			
+			[player, _taskId, [_taskInfo.Description, _taskInfo.ShortDescription], [], "CREATED", 0, true] call BIS_fnc_taskCreate;
+		};
+		
+		// Sets task state for current player.
+		// _task (Task): The task to set.
+		// _taskState (TaskState): The task state to be set.
+		public method SetTaskState("_task" as PlayerTask, "_taskState" as TaskState)
+		{
+			private ["_taskId" as String];
+			
+			// Set the task state for the local player
+			
+			_taskId = _mTaskPrefix + str _task;
+			
+			player sideChat "Found one!";
+			[_taskId, [_taskState] call TaskStateMeta.ToString, true] call BIS_fnc_taskSetState;
+			call _self.CheckAllTasksCompleted;
+		};
+		
+		// Gets the task state for one of the local player's tasks.
+		// _task (MissionTask): The task to get state for.
+		// Returns (TaskState): Task state of the task.
+		public method TaskState GetTaskState("_task" as PlayerTask)
+		{
+			private ["_taskId" as String, "_state" as String];
+			
+			_taskId = _mTaskPrefix + str _task;
+			_state = [_taskId] call BIS_fnc_taskState;
+			
+			return [_state] call TaskStateMeta.ToValue;
+		};
+		
+		// Checks if all tasks are completed and updates the AllTasksCompleted property.
+		private method CheckAllTasksCompleted()
+		{
+			_self.AllTasksCompleted = ([PlayerTask.FindBlueArrow] call _self.GetTaskState) == TaskState.Succeeded && ([PlayerTask.FindRedArrow] call _self.GetTaskState) == TaskState.Succeeded;
+		};
+		
+		// Gets whether all tasks are completed or not.
+		public property Boolean AllTasksCompleted { get; private set; };
+	};
+};

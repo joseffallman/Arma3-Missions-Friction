@@ -1,0 +1,17 @@
+/*
+ * Name:    IBriefingHandler
+ * Date:	2020-01-13
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Handles the mission's briefing.
+ */
+namespace Mission.Client
+{
+	public interface IBriefingHandler
+	{
+        // Creates the briefing texts for the player.
+        method CreateBriefing();
+	};
+};

@@ -1,0 +1,18 @@
+// Mission Header
+class Header
+{
+  gameType = COOP;
+  minPlayers = 1;
+  maxPlayers = 60;
+};
+
+onLoadName = "MP Template Mission";
+onLoadMission = "This is a template mission for multiplayer.";
+
+overviewText = "This is a template mission for multiplayer.";
+overviewTextLocked = "";
+author = "AUTHOR";
+
+OnLoadMissionTime = false;
+disabledAI = 1;
+respawn = "NONE";

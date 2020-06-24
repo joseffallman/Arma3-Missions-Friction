@@ -1,0 +1,23 @@
+call compile preprocessFileLineNumbers "Common\Classes\CommonObjects.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\CommonEventHandlers.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\DictionaryItem.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionInfo.sqx";
+
+using Mission.Common;
+using Mission.Common.Statics;
+
+namespace Mission
+{
+	public class Common
+	{
+		// Initializes the common objects on clients and server.
+		public static method Initialize()
+		{
+			// Bootstrap the common singletons
+			call CommonObjects.Init;
+			
+			// Initialize all server eventhandlers.
+			call CommonEventHandlers.Init;
+		};
+	};
+};

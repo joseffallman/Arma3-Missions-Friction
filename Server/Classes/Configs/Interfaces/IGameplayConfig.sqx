@@ -1,0 +1,21 @@
+/*
+ * Name:	IGameplayConfig
+ * Date:	2017-11-18
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * An object containing all relevant and editable settings for a mission round.
+ */
+
+namespace Mission.Server
+{
+	public interface IGameplayConfig
+	{
+		// Gets the game time in seconds.
+		property Scalar GameTime { get; };
+		
+		// Gets the max arrow spawn radius from the starting position in meters.
+		property Scalar ArrowSpawnRadius { get; };
+	};
+};

@@ -1,0 +1,39 @@
+call compile preprocessFileLineNumbers "Client\Enums\TaskState.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\ClientObjects.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Configs\TaskConfig.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Objects\TaskInfo.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Services\TaskMonitor.sqx";
+
+using Mission.Client;
+using Mission.Client.Statics;
+
+namespace Mission
+{
+	public class Client
+	{
+		// Initializes the client
+		public static method Initialize()
+		{
+			// Make sure the player object exists
+			waitUntil { player == player };
+			
+			// Bootstrap the client singletons
+			call ClientObjects.Init;
+			
+			// Initialize all client eventhandlers.
+			call ClientEventHandlers.Init;
+			
+			// Create player's briefing and tasks
+			call ClientObjects.BriefingHandler.CreateBriefing;
+			call ClientObjects.TaskHandler.CreatePlayerTasks;
+			
+			// Start the task monitor (i.e. the service that monitors task fulfillments).
+			call ClientObjects.TaskMonitor.RunAsync;
+		};
+	};
+};

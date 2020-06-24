@@ -1,0 +1,49 @@
+/*
+ * Name:	TaskState
+ * Date:	2020-01-25
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * An enum describing available task states.
+ */
+namespace Mission.Client
+{
+	public enum TaskState
+	{
+		Created,
+		Canceled,
+		Succeeded,
+		Failed
+	};
+	
+	// Class that proveds meta data about the TaskState enum.
+	public class TaskStateMeta
+	{
+		// Converts the TaskState value to the corresponding status text.
+		// _taskState (TaskState): The task state.
+		public static method String ToString("_taskState" as TaskState)
+		{
+			switch (_taskState) do {
+				case TaskState.Created: { return "CREATED"; };
+				case TaskState.Canceled: { return "CANCELED"; };
+				case TaskState.Succeeded: { return "SUCCEEDED"; };
+				case TaskState.Failed: { return "FAILED"; };
+				default { return "UNKNOWN"; };
+			};
+		};
+		
+		// Converts a task string status to the corresponding status value.
+		// _taskState (String): The task state as a string.
+		public static method TaskState ToValue("_taskState" as String)
+		{
+			switch (_taskState) do {
+				case "CREATED": { return TaskState.Created; };
+				case "CANCELED": { return TaskState.Canceled; };
+				case "SUCCEEDED": { return TaskState.Succeeded; };
+				case "FAILED": { return TaskState.Failed; };
+				default { return TaskState.Created; };
+			};
+		};
+	};
+};

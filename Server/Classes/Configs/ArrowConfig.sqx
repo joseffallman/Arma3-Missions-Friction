@@ -1,0 +1,27 @@
+/*
+ * Name:	ArrowConfig
+ * Date:	2020-02-20
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Arrow configuration.
+ */
+namespace Mission.Server
+{
+	public class ArrowConfig : IArrowConfig
+	{
+		// Creates a ArrowConfig object.
+		public constructor()
+		{
+			_self.BlueArrowClassName = "Sign_Arrow_Large_Blue_F";
+			_self.RedArrowClassName = "Sign_Arrow_Large_F";
+		};
+
+		// Gets the blue arrow's class name.
+		public property String BlueArrowClassName { get; private set; };
+
+		// Gets the blue arrow's class name.
+		public property String RedArrowClassName { get; private set; };
+	};
+};

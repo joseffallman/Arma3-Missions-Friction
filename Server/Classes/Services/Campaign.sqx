@@ -1,0 +1,45 @@
+/*
+ * Name:	Campaign
+ * Date:	2020-06-24
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A Friction Campaign.
+ */
+
+using Sqx.Services;
+
+namespace Mission.Server
+{
+	public class Campaign : Service
+	{
+		private fields ["_mMissions" as Array /* of Mission */];
+	
+		// Creates a Campaign object.
+		public constructor("_missions" as Array /* of Mission */)
+		{
+			call _base.Constructor;
+			
+			_mMissions = _missions;
+		};
+		
+		protected override method Run()
+		{
+			private "_mission" as Mission;
+		
+			{
+				_mission = _x;
+				
+				call _mission.Setup;
+				call _mission.RunAsync;
+				
+				waitUntil { !_mission.IsRunning };
+				
+				call _mission.Cleanup;
+			} foreach _mMissions as Mission;
+			
+			call _base.Run;
+		};
+	};
+};

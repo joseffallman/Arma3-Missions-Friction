@@ -1,0 +1,30 @@
+call compile preprocessFileLineNumbers "Server\Classes\ServerEventHandlers.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Configs\GameplayConfig.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Configs\ArrowConfig.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Services\MissionEngine.sqx";
+
+using Mission.Server;
+using Mission.Server.Statics;
+
+namespace Mission
+{
+	public class Server
+	{
+		// Initializes the server.
+		public static method Initialize()
+		{
+			private ["_missionEngine" as MissionEngine];
+			
+			// Bootstrap the server singletons.
+			call ServerObjects.Init;
+			
+			// Initialize all server eventhandlers.
+			call ServerEventHandlers.Init;
+			
+			// Start the mission engine service
+			_missionEngine = [ServerObjects.GameplayConfig, ServerObjects.ArrowConfig] new MissionEngine;
+			call _missionEngine.RunAsync;
+		};
+	};
+};

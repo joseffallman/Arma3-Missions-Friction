@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectRootNode Name="Friction" FileName="">
+    <SubNodes>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Client" FileName="Client">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Classes" FileName="Client\Classes">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Configs" FileName="Client\Classes\Configs">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Client\Classes\Configs\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ITaskConfig.sqx" FileName="Client\Classes\Configs\Interfaces\ITaskConfig.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskConfig.sqx" FileName="Client\Classes\Configs\TaskConfig.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Client\Classes\Handlers">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Client\Classes\Handlers\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IBriefingHandler.sqx" FileName="Client\Classes\Handlers\Interfaces\IBriefingHandler.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IMissionEndHandler.sqx" FileName="Client\Classes\Handlers\Interfaces\IMissionEndHandler.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ITaskHandler.sqx" FileName="Client\Classes\Handlers\Interfaces\ITaskHandler.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BriefingHandler.sqx" FileName="Client\Classes\Handlers\BriefingHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionEndHandler.sqx" FileName="Client\Classes\Handlers\MissionEndHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskHandler.sqx" FileName="Client\Classes\Handlers\TaskHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Objects" FileName="Client\Classes\Objects">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskInfo.sqx" FileName="Client\Classes\Objects\TaskInfo.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskMonitor.sqx" FileName="Client\Classes\Services\TaskMonitor.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventHandlers.sqx" FileName="Client\Classes\ClientEventHandlers.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Client\Classes\ClientEventReciever.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientObjects.sqx" FileName="Client\Classes\ClientObjects.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Enums" FileName="Client\Enums">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PlayerTask.sqx" FileName="Client\Enums\PlayerTask.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskState.sqx" FileName="Client\Enums\TaskState.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Client.sqx" FileName="Client\Client.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Common" FileName="Common">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Classes" FileName="Common\Classes">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Configs" FileName="Common\Classes\Configs">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Common\Classes\Configs\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Configs\Interfaces\_ReadMe.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Configs\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Common\Classes\Handlers">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Common\Classes\Handlers\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Handlers\Interfaces\_ReadMe.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Handlers\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Objects" FileName="Common\Classes\Objects">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="DictionaryItem.sqx" FileName="Common\Classes\Objects\DictionaryItem.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionInfo.sqx" FileName="Common\Classes\Objects\MissionInfo.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Common\Classes\Services">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Services\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CommonEventHandlers.sqx" FileName="Common\Classes\CommonEventHandlers.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CommonObjects.sqx" FileName="Common\Classes\CommonObjects.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Enums" FileName="Common\Enums">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Enums\_ReadMe.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Common.sqx" FileName="Common\Common.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Communication" FileName="Communication">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="InitCommunication.sqx" FileName="Communication\InitCommunication.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PublicVariableHandler.sqx" FileName="Communication\PublicVariableHandler.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Remote.sqx" FileName="Communication\Remote.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="RemoteTargetOptions.sqx" FileName="Communication\RemoteTargetOptions.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Server" FileName="Server">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Classes" FileName="Server\Classes">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Configs" FileName="Server\Classes\Configs">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Server\Classes\Configs\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IArrowConfig.sqx" FileName="Server\Classes\Configs\Interfaces\IArrowConfig.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IGameplayConfig.sqx" FileName="Server\Classes\Configs\Interfaces\IGameplayConfig.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ArrowConfig.sqx" FileName="Server\Classes\Configs\ArrowConfig.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="GameplayConfig.sqx" FileName="Server\Classes\Configs\GameplayConfig.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Server\Classes\Handlers">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Server\Classes\Handlers\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Classes\Handlers\Interfaces\_ReadMe.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Classes\Handlers\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Objects" FileName="Server\Classes\Objects">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Server\Classes\Objects\Interfaces">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Classes\Objects\Interfaces\_ReadMe.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Classes\Objects\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="AirStationAssault.sqx" FileName="Server\Classes\Objects\AirStationAssault.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Server\Classes\Objects\Mission.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Server\Classes\Services">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Server\Classes\Services\Campaign.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionEngine.sqx" FileName="Server\Classes\Services\MissionEngine.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ServerEventHandlers.sqx" FileName="Server\Classes\ServerEventHandlers.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ServerEventReciever.sqx" FileName="Server\Classes\ServerEventReciever.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ServerObjects.sqx" FileName="Server\Classes\ServerObjects.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Enums" FileName="Server\Enums">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Enums\_ReadMe.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Server.sqx" FileName="Server\Server.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Sqx" FileName="Sqx">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Sqx\Services">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IService.sqx" FileName="Sqx\Services\IService.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Service.sqx" FileName="Sqx\Services\Service.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="init.sqx" FileName="init.sqx">
+        <SubNodes />
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="README.sqx" FileName="README.sqx">
+        <SubNodes />
+      </ProjectNodeViewModel>
+    </SubNodes>
+  </ProjectRootNode>
+  <FilteredAnalyzerResultItems />
+</Project>

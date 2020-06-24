@@ -1,0 +1,22 @@
+/*
+ * Name:	ITaskConfig
+ * Date:	2020-02-14
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Contains configuration settings for tasks.
+ */
+
+using Mission.Common;
+
+namespace Mission.Client
+{
+	public interface ITaskConfig
+	{
+		// Gets the task info object assigned to a certain task.
+		// _task (MissionTask): The task to get info about.
+		// Returns (TaskInfo): The task info object associated to the task. classNull if no task info object could be found.
+		method TaskInfo GetTaskInfo("_task" as PlayerTask);
+	};
+};

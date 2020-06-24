@@ -1,0 +1,30 @@
+/*
+ * Name:	AirStationAssault
+ * Date:	2020-06-24
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A mission where players assault and defend Air Station Mike.
+ */
+namespace Mission.Server
+{
+	public class AirStationAssault : Mission
+	{
+		// Creates a AirStationAssault object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		public override method Setup()
+		{
+			
+		};
+		
+		public override method Cleanup()
+		{
+			
+		};
+	};
+};

@@ -1,0 +1,21 @@
+using Mission;
+
+// Common usages
+call compile preprocessFileLineNumbers "Sqx\Services\Service.sqx";
+call compile preprocessFileLineNumbers "Communication\InitCommunication.sqx";
+
+// Init Common (on all machines)
+call compile preprocessFileLineNumbers "Common\Common.sqx";
+call Common.Initialize;
+
+// Init Server (on server only)
+if (isServer) then {
+	call compile preprocessFileLineNumbers "Server\Server.sqx";
+	call Server.Initialize;
+};
+
+// Init Client (on all machines hosting a player)
+if (!isDedicated) then {
+	call compile preprocessFileLineNumbers "Client\Client.sqx";
+	call Client.Initialize;
+};

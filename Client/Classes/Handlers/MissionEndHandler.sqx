@@ -1,0 +1,29 @@
+/*
+ * Name:	MissionEndHandler
+ * Date:	2020-01-13
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Handles all about camera and cutscenes at mission end.
+ */
+
+namespace Mission.Client
+{
+	public class MissionEndHandler : IMissionEndHandler
+	{
+		private fields ["_mTaskHandler" as ITaskHandler];
+		
+		public constructor("_taskHandler" as ITaskHandler)
+		{
+			_mTaskHandler = _taskHandler;
+		};
+		
+		// Plays the end game scene and ends the mission.
+		public method EndGame()
+		{
+			private _isVictory = _mTaskHandler.AllTasksCompleted;			
+			["END1", _isVictory] spawn BIS_fnc_endMission;
+		};
+	};
+};

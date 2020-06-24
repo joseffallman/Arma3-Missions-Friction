@@ -1,0 +1,42 @@
+/*
+ * Name:	ClientObjects
+ * Date:	2019-02-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Static class that bootstraps all client singletons.
+ */
+
+using Sqx.Services;
+using Mission.Client;
+
+namespace Mission.Client.Statics
+{
+	public class ClientObjects
+	{
+		// Initializes the ClientObjects object.
+		public static method Init()
+		{
+			// [Instantiate client config and handler classes here. By that they are reachable from anywhere]
+			
+			_self.TaskConfig = new TaskConfig;
+			_self.BriefingHandler = new BriefingHandler;
+			_self.TaskHandler = [_self.TaskConfig] new TaskHandler;
+			_self.TaskMonitor = [_self.TaskHandler] new TaskMonitor;
+			_self.MissionEndHandler = [_self.TaskHandler] new MissionEndHandler;
+		};
+		
+		// [Declare client config and handler classes as static properties here]
+		
+		public static property ITaskConfig TaskConfig { get; private set; };
+		
+		public static property IBriefingHandler BriefingHandler { get; private set; };
+		
+		public static property IMissionEndHandler MissionEndHandler { get; private set; };
+		
+		public static property ITaskHandler TaskHandler { get; private set; };
+		
+		public static property IService TaskMonitor { get; private set; };
+	};
+};

@@ -1,0 +1,32 @@
+/*
+ * Name:	Mission
+ * Date:	2020-06-24
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Base class for all missions in the campaign.
+ */
+
+using Sqx.Services;
+
+namespace Mission.Server
+{
+	public class Mission : Service
+	{
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+	
+		// Initializes the mission, i.e. creating and placing vehicles and such.
+		public virtual method Setup()
+		{
+		};
+		
+		// Cleans up everything that was created in the Setup method.
+		public virtual method Cleanup()
+		{		
+		};
+	};
+};
