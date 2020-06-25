@@ -14,64 +14,244 @@ namespace Mission.Server
 {
 	public class Mission : Service
 	{
-		private fields ["_mReverseSides" as Boolean];
+		private fields ["_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
 		
-		public constructor("_reverseSides" as Boolean)
+		public constructor("_actingSide" as Side)
 		{
 			call _base.Constructor;
 			
-			_mReverseSides = _reverseSides;
+			_mActingSide = _actingSide;
+			_mSpawnedVehicles = [];
 			
-			_self.EastStartMarkers = [];
-			_self.WestStartMarkers = [];
+			_self.StartTime = 12;
+			_self.ActingSideStartMarkers = [];
+			_self.OpposingSideStartMarkers = [];
 		};
 		
-		protected method Side GetActualSide("_side" as Side)
+		protected method Side GetActualSide("_side" as MissionSide)
 		{
-			if (_mReverseSides) then {
-				if (_side == east) then {
+			if (_mActingSide == west) then {
+				if (_side == MissionSide.Acting) then {
 					return west;
 				}
 				else {
 					return east;
 				};
+			}
+			else // If acting side is east
+			{
+				if (_side == MissionSide.Acting) then {
+					return east;
+				}
+				else {
+					return west;
+				};
 			};
-			
-			return _side;
 		};
 		
-		protected property Array EastStartMarkers { get; private set; };
+		protected method MissionSide GetMissionSide("_side" as Side)
+		{
+			if (_side == _mActingSide) then {
+				return MissionSide.Acting;
+			};
+			
+			return MissionSide.Opposing;
+		};
 		
-		protected property Array WestStartMarkers { get; private set; };
+		// Spawns a vehicle.
+		// _vehicleTypeWest (String): The vehicle type spawned for side west.
+		// _vehicleTypeEast (String): The vehicle type spawned for side east.
+		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		protected method Object SpawnVehicle("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_spawnMarker" as String)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _vehicleType = if (_side == west) then { _vehicleTypeWest  } else { _vehicleTypeEast };
+			private _position = getMarkerPos _spawnMarker;
+			private _direction = markerDir _spawnMarker;
+			
+			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
+			_vehicle setDir _direction;
+			_vehicle setPos _position;
+			
+			_mSpawnedVehicles pushBack _vehicle;
+			
+			return _vehicle;
+		};
+		
+		protected property Scalar StartTime { get; protected set; };
+		
+		protected property Array ActingSideStartMarkers { get; protected set; };
+		
+		protected property Array OpposingSideStartMarkers { get; protected set; };
 		
 		public method Array GetStartMarkers("_side" as Side)
 		{
-			if (!_mReverseSides) then {
-				if (_side == east) then {
-					return _self.EastStartMarkers;
-				}
-				else {
-					return _self.WestStartMarkers;
-				};
-			}
-			else {
-				if (_side == east) then {
-					return _self.WestStartMarkers;
-				}
-				else {
-					return _self.EastStartMarkers;
-				};
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return _self.ActingSideStartMarkers;
 			};
+			
+			return _self.OpposingSideStartMarkers;
 		};
 	
 		// Initializes the mission, i.e. creating and placing vehicles and such.
 		public virtual method Setup()
 		{
+			private _timeToSkip = 24 - daytime + _self.StartTime;
+		
+			skipTime _timeToSkip;
+			
+			call _self.CreateTargets;
+		};
+
+		protected property MissionTask PrimaryTargetForActing { get; private set; };
+		
+		protected property MissionTask SecondaryTargetForActing { get; private set; };
+		
+		protected property MissionTask PrimaryTargetForOpposing { get; private set; };
+		
+		protected property MissionTask SecondaryTargetForOpposing { get; private set; };
+
+		private method CreateTargets()
+		{
+			_self.PrimaryTargetForActing = call _self.CreatePrimaryTargetForActing;
+			_self.SecondaryTargetForActing = call _self.CreateSecondaryTargetForActing;
+			_self.PrimaryTargetForOpposing = call _self.CreatePrimaryTargetForOpposing;
+			_self.SecondaryTargetForOpposing = call _self.CreateSecondaryTargetForOpposing;
+		};
+
+		protected virtual method MissionTask CreatePrimaryTargetForActing()
+		{
+			return ["Do whatever you want."] new MissionTask;
+		};
+		
+		protected virtual method MissionTask CreateSecondaryTargetForActing()
+		{
+			return classNull;
+		};
+		
+		protected virtual method MissionTask CreatePrimaryTargetForOpposing()
+		{
+			return ["Do whatever you want."] new MissionTask;
+		};
+		
+		protected virtual method MissionTask CreateSecondaryTargetForOpposing()
+		{
+			return classNull;
+		};
+		
+		protected virtual method Boolean PrimaryTargetFulfilledForActing()
+		{
+			return false;
+		};
+		
+		protected virtual method Boolean SecondaryTargetFulfilledForActing()
+		{
+			return false;
+		};
+		
+		protected virtual method Boolean PrimaryTargetFulfilledForOpposing()
+		{
+			return false;
+		};
+		
+		protected virtual method Boolean SecondaryTargetFulfilledForOpposing()
+		{
+			return false;
+		};
+		
+		// Checks if mission is completed for the acting side.
+		// Remarks: Default behavior is to return true if both primary and secondary
+		//          targets are complete. If primary target is null, then the mission
+		//          is never complete. If secondary target is null, then the mission
+		//          is considered complete when the primary target is complete.
+		// Returns (Boolean): true if mission is completed, else false.
+		protected virtual method Boolean IsMissionCompleteForActing()
+		{
+			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
+			
+			_primaryTarget = _self.PrimaryTargetForActing;
+			_secondaryTarget = _self.SecondaryTargetForActing;
+			
+			if (isNull _primaryTarget) then {
+				return false;
+			};
+			
+			if (call _self.PrimaryTargetFulfilledForActing) then
+			{
+				if (isNull _secondaryTarget) then {
+					return true;
+				}
+				else {
+					return call _self.SecondaryTargetFulfilledForActing;
+				};
+			};
+		};
+		
+		// Checks if mission is completed for the opposing side.
+		// Remarks: Default behavior is to return true if both primary and secondary
+		//          targets are complete. If primary target is null, then the mission
+		//          is never complete. If secondary target is null, then the mission
+		//          is considered complete when the primary target is complete.
+		// Returns (Boolean): true if mission is completed, else false.
+		protected virtual method Boolean IsMissionCompleteForOpposing()
+		{
+			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
+			
+			_primaryTarget = _self.PrimaryTargetForOpposing;
+			_secondaryTarget = _self.SecondaryTargetForOpposing;
+			
+			if (isNull _primaryTarget) then {
+				return false;
+			};
+			
+			if (call _self.PrimaryTargetFulfilledForOpposing) then
+			{
+				if (isNull _secondaryTarget) then {
+					return true;
+				}
+				else {
+					return call _self.SecondaryTargetFulfilledForOpposing;
+				};
+			};
+		};
+		
+		// Called when a group has been teleported to the insertion point to begin executing the mission.
+		// _group (Group): The group that is being inserted.
+		// _position (Array): The position where the group is inserted.
+		public method Insert("_group" as Group, "_position" as Array)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [side _group] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				[_group, _position] call _self.OnActingGroupInserted;
+			}
+			else
+			{
+				[_group, _position] call _self.OnOpposingGroupInserted;
+			};
+		};
+		
+		protected virtual method OnActingGroupInserted("_group" as Group, "_position" as Array)
+		{
+		};
+		
+		protected virtual method OnOpposingGroupInserted("_group" as Group, "_position" as Array)
+		{
 		};
 		
 		// Cleans up everything that was created in the Setup method.
 		public virtual method Cleanup()
-		{		
+		{
+			{
+				deleteVehicle _x;
+			} foreach _mSpawnedVehicles as Object;
 		};
 	};
 };

@@ -11,23 +11,52 @@ namespace Mission.Server
 {
 	public class AirStationAssault : Mission
 	{
+		private fields ["_mAmmoTruck" as Object];
+		
 		// Creates a AirStationAssault object.
-		public constructor("_reverseSides" as Boolean)
+		public constructor("_actingSide" as Side)
 		{
-			[_reverseSides] call _base.Constructor;
+			[_actingSide] call _base.Constructor;
 			
-			_self.EastStartMarkers = ["m1_east_startarea1"];
-			_self.WestStartMarkers = ["m1_west_startarea1", "m1_west_startarea2", "m1_west_startarea3"];
+			// The "acting" side will be the side attacking.
+			// The "opposing" side will be the side defending.
+			
+			_self.StartTime = 1;
+			_self.ActingSideStartMarkers = ["m1_attacker_startarea1", "m1_attacker_startarea2", "m1_attacker_startarea3"];
+			_self.OpposingSideStartMarkers = ["m1_defender_startarea1"];
 		};
 		
 		public override method Setup()
 		{
+			_mAmmoTruck = ["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.SpawnVehicle;
 			
+			call _base.Setup;
+		};
+
+		protected override method MissionTask CreatePrimaryTargetForActing()
+		{
+			private _shortDescription = "Destroy the ammo truck.";
+			private _longDescription = "Destroy ammo truck. The enemy ammo truck is located somewhere inside the area of Air Station Mike-26.";
+			
+			return [_shortDescription, _longDescription] new MissionTask;
 		};
 		
-		public override method Cleanup()
+		protected override method MissionTask CreatePrimaryTargetForOpposing()
 		{
+			private _shortDescription = "Patrol Air Statin Mike-26.";
+			private _longDescription = "Patrol the Air Station Mike-26 and keep it safe from enemies.";
 			
+			return [_shortDescription, _longDescription] new MissionTask;
+		};
+		
+		protected override method Boolean PrimaryTargetFulfilledForActing()
+		{
+			return alive _mAmmoTruck;
+		};
+		
+		protected override method Boolean PrimaryTargetFulfilledForOpposing()
+		{
+			return !alive _mAmmoTruck;
 		};
 	};
 };

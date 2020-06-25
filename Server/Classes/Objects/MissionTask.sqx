@@ -1,0 +1,29 @@
+/*
+ * Name:	MissionTask
+ * Date:	2020-06-25
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Class that contains all information about a group's primary or secondary task.
+ */
+namespace Mission.Server
+{
+	public class MissionTask
+	{
+		// Creates a MissionTask object.
+		public constructor("_shortDescription" as String, ["_fullDescription" as String, ""])
+		{
+			_self.ShortDescription = _shortDescription;
+			_self.FullDescription = _fullDescription;
+			
+			if (_fullDescription != "") then {
+				_self.FullDescription = _shortDescription;
+			};
+		};
+		
+		public property String ShortDescription { get; private set; };
+		
+		public property String FullDescription { get; private set; };
+	};
+};
