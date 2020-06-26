@@ -9,6 +9,8 @@
  */
 
 using Sqx.Services;
+using Mission.Communication;
+using Mission.Common;
 
 namespace Mission.Server
 {
@@ -17,24 +19,66 @@ namespace Mission.Server
 		private fields ["_mMissions" as Array /* of Mission */];
 	
 		// Creates a Campaign object.
-		public constructor("_missions" as Array /* of Mission */)
+		public constructor()
 		{
 			call _base.Constructor;
 			
-			_mMissions = _missions;
+			{
+				_x setMarkerAlpha 0;
+			} foreach allMapMarkers as String;
+			
+			_mMissions = [
+				[east] new AirStationAssault
+			];
+		};
+		
+		private method NotifyAboutMissionStart("_mission" as Mission)
+		{
+			private ["_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */, "_missionMarkersInfo" as MissionMarkersInfo];
+			
+			_startMarkers = [];
+			_markers = [];
+			
+			{
+				_startMarkers pushBack [_x, west] new MarkerInfo;
+			} foreach [west] call _mission.GetStartMarkers as String;
+			
+			{
+				_startMarkers pushBack [_x, east] new MarkerInfo;
+			} foreach [east] call _mission.GetStartMarkers as String;
+			
+			{
+				_markers pushBack [_x, west] new MarkerInfo;
+			} foreach [west] call _mission.GetMarkers as String;
+			
+			{
+				_markers pushBack [_x, east] new MarkerInfo;
+			} foreach [east] call _mission.GetMarkers as String;
+			
+			_missionMarkersInfo = [_startMarkers, _markers] new MissionMarkersInfo;
+		
+			["ClientEventReciever.OnMissionSetup", [_missionMarkersInfo]] call Remote.Invoke;
 		};
 		
 		protected override method Run()
 		{
 			private "_mission" as Mission;
-		
+			
+			sleep 3;
+			
+			// Run each mission
+			
 			{
 				_mission = _x;
 				
+				[_mission] call _self.NotifyAboutMissionStart;
+				
 				call _mission.Setup;
+				
 				call _mission.RunAsync;
 				
 				waitUntil { !_mission.IsRunning };
+				waitUntil { false };
 				
 				call _mission.Cleanup;
 			} foreach _mMissions as Mission;

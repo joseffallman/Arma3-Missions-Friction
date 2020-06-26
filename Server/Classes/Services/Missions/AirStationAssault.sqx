@@ -24,6 +24,7 @@ namespace Mission.Server
 			_self.StartTime = 1;
 			_self.ActingSideStartMarkers = ["m1_attacker_startarea1", "m1_attacker_startarea2", "m1_attacker_startarea3"];
 			_self.OpposingSideStartMarkers = ["m1_defender_startarea1"];
+			_self.ActingSideMarkers = ["m1_attacker_PrimaryTarget"];
 		};
 		
 		public override method Setup()

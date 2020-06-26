@@ -8,11 +8,11 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=31;
+		nextID=32;
 	};
 	class MarkerIDProvider
 	{
-		nextID=3;
+		nextID=4;
 	};
 	class Camera
 	{
@@ -76,49 +76,48 @@ class Mission
 	};
 	class Entities
 	{
-		items=9;
+		items=10;
 		class Item0
 		{
 			dataType="Marker";
-			position[]={4336.7671,234.22,3874.843};
-			name="m1_east_startarea1";
-			markerType="RECTANGLE";
+			position[]={4339.478,225.08501,3808.3701};
+			name="m1_defender_startarea1";
+			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
 			fillName="SolidBorder";
-			a=50;
-			b=50;
+			a=200;
+			b=120;
+			angle=82.406982;
 			drawBorder=1;
 			id=0;
+			atlOffset=-0.67831421;
 		};
 		class Item1
 		{
 			dataType="Marker";
-			position[]={3964.2944,100.34473,4198.8857};
-			name="m1_west_StartArea1";
-			markerType="RECTANGLE";
+			position[]={3964.2939,100.345,4198.8862};
+			name="m1_attacker_StartArea1";
+			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
-			fillName="SolidBorder";
-			a=100;
-			b=50;
-			angle=159.19418;
-			drawBorder=1;
+			a=150;
+			b=75;
+			angle=159.194;
 			id=1;
+			atlOffset=0.00037384033;
 		};
 		class Item2
 		{
 			dataType="Marker";
 			position[]={4755.5581,95.748001,3735.8799};
-			name="m1_west_StartArea2";
-			markerType="RECTANGLE";
+			name="m1_attacker_StartArea2";
+			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
-			fillName="SolidBorder";
-			a=100;
-			b=50;
-			angle=94.045975;
-			drawBorder=1;
+			a=150;
+			b=75;
+			angle=94.045952;
 			id=2;
 			atlOffset=0.00034332275;
 		};
@@ -126,13 +125,13 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4144.248,154.47099,3289.3931};
-			name="m1_west_StartArea2_1";
-			markerType="RECTANGLE";
+			name="m1_attacker_StartArea3";
+			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
 			fillName="SolidBorder";
-			a=50;
-			b=50;
+			a=75;
+			b=75;
 			angle=0.39799994;
 			drawBorder=1;
 			id=3;
@@ -169,13 +168,14 @@ class Mission
 					class PositionInfo
 					{
 						position[]={7096.3911,7.179687,5959.1729};
-						angles[]={0,4.0548038,0};
+						angles[]={0,4.054801,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
 						name="b1";
+						isPlayer=1;
 					};
 					id=8;
 					type="B_Soldier_F";
@@ -490,7 +490,7 @@ class Mission
 					class Attributes
 					{
 						name="o1";
-						isPlayer=1;
+						isPlayable=1;
 					};
 					id=14;
 					type="O_Soldier_F";
@@ -786,11 +786,21 @@ class Mission
 		class Item8
 		{
 			dataType="Marker";
-			position[]={4354.0586,226.56363,3811.1016};
+			position[]={4340.502,226.86122,3839.5894};
 			name="marker_2";
 			type="Empty";
-			angle=174.42303;
+			angle=174.42299;
 			id=19;
+		};
+		class Item9
+		{
+			dataType="Marker";
+			position[]={4347.4189,226.64,3833.46};
+			name="m1_attacker_PrimaryTarget";
+			text="Destroy ammo truck";
+			type="mil_destroy";
+			id=31;
+			atlOffset=0.00012207031;
 		};
 	};
 };

@@ -1,0 +1,63 @@
+/*
+ * Name:	MapMarkerHandler
+ * Date:	2020-06-26
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Handles map markers on the client.
+ */
+
+using Mission.Common;
+
+namespace Mission.Client
+{
+	public class MapMarkerHandler
+	{
+		// Creates a MapMarkerHandler object.
+		public constructor()
+		{
+		};
+		
+		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
+		{
+			// Draw start markers
+			
+			private _startMarkerColor = if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
+			
+			{
+				if (_x.Side == playerSide) then {
+					private _name = _x.Name + "_local";
+					private _pos = getMarkerPos _x.Name;
+					
+					private _marker = createMarkerLocal [_name, _pos];
+					
+					_marker setMarkerShapeLocal (markerShape _x.Name);
+					_marker setMarkerSizeLocal (markerSize _x.Name);
+					_marker setMarkerDirLocal (markerDir _x.Name);
+					_marker setMarkerColorLocal _startMarkerColor;
+					_marker setMarkerBrushLocal "FDiagonal";
+				};
+			} foreach _missionMarkersInfo.StartMarkers as MarkerInfo;
+			
+			// Draw other markers
+			
+			{
+				if (_x.Side == playerSide) then {
+					private _name = _x.Name + "_local";
+					private _pos = getMarkerPos _x.Name;
+					
+					private _marker = createMarkerLocal [_name, _pos];
+					
+					_marker setMarkerShapeLocal (markerShape _x.Name);
+					_marker setMarkerSizeLocal (markerSize _x.Name);
+					_marker setMarkerDirLocal (markerDir _x.Name);
+					_marker setMarkerColorLocal (markerColor _x.Name);
+					_marker setMarkerBrushLocal (markerBrush _x.Name);
+					_marker setMarkerTypeLocal (markerType _x.Name);
+					_marker setMarkerTextLocal (markerText _x.Name);
+				};
+			} foreach _missionMarkersInfo.Markers as MarkerInfo;
+		};
+	};
+};

@@ -6,6 +6,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Configs\TaskConfig.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Objects\TaskInfo.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TaskMonitor.sqx";
 

@@ -1,0 +1,26 @@
+/*
+ * Name:	MissionMarkersInfo
+ * Date:	2020-06-26
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Contains information about marker used in a mission.
+ */
+namespace Mission.Common
+{
+	public class MissionMarkersInfo
+	{
+		// Creates a MissionMarkersInfo object.
+		public constructor("_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */)
+		{
+			_self.StartMarkers = _startMarkers;
+			_self.Markers = _markers;
+		};
+		
+		public property Array StartMarkers { get; private set; };
+		
+		public property Array Markers { get; private set; };
+	};
+};
+

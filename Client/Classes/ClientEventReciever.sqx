@@ -43,5 +43,10 @@ namespace Mission.Client.Statics
 				call ClientObjects.MissionEndHandler.EndGame;
 			};
 		};
+		
+		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
+		{
+			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
+		};
 	};
 };

@@ -26,6 +26,8 @@ namespace Mission.Server
 			_self.StartTime = 12;
 			_self.ActingSideStartMarkers = [];
 			_self.OpposingSideStartMarkers = [];
+			_self.ActingSideMarkers = [];
+			_self.OpposingSideMarkers = [];
 		};
 		
 		protected method Side GetActualSide("_side" as MissionSide)
@@ -85,6 +87,10 @@ namespace Mission.Server
 		
 		protected property Array OpposingSideStartMarkers { get; protected set; };
 		
+		protected property Array ActingSideMarkers { get; protected set; };
+		
+		protected property Array OpposingSideMarkers { get; protected set; };
+		
 		public method Array GetStartMarkers("_side" as Side)
 		{
 			private ["_missionSide" as MissionSide];
@@ -96,6 +102,19 @@ namespace Mission.Server
 			};
 			
 			return _self.OpposingSideStartMarkers;
+		};
+	
+		public method Array GetMarkers("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return _self.ActingSideMarkers;
+			};
+			
+			return _self.OpposingSideMarkers;
 		};
 	
 		// Initializes the mission, i.e. creating and placing vehicles and such.

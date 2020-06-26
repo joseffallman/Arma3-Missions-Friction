@@ -1,18 +1,21 @@
 // Mission Header
 class Header
 {
-  gameType = COOP;
+  gameType = PATROL;
   minPlayers = 1;
-  maxPlayers = 60;
+  maxPlayers = 10;
 };
 
-onLoadName = "MP Template Mission";
-onLoadMission = "This is a template mission for multiplayer.";
+onLoadName = "Friction";
+onLoadMission = "Combat patrol competition in TvT campaign format.";
 
-overviewText = "This is a template mission for multiplayer.";
+overviewText = "Combat patrol competition in TvT campaign format.";
 overviewTextLocked = "";
 author = "AUTHOR";
 
 OnLoadMissionTime = false;
 disabledAI = 1;
-respawn = "NONE";
+
+respawn = "BASE";
+respawnButton = 0;
+respawnOnStart = 1;

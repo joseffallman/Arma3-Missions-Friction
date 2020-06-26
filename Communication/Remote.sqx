@@ -53,16 +53,7 @@ namespace Mission.Communication
 				switch (_methodFullName) do
 				{
 					case "ClientEventReciever.OnServerTimeTick": { _parameters spawn ClientEventReciever.OnServerTimeTick; };
-					
-					// [Five more examples of event methods that gets called. Add your own event reciever methods following the given pattern]
-					
-					/*
-					case "ClientEventReciever.OnStaticWeaponAssebled": { _parameters spawn ClientEventReciever.OnStaticWeaponAssebled; };
-					case "ClientEventReciever.OnUnitChangedSeat": { _parameters spawn ClientEventReciever.OnUnitChangedSeat};
-					case "ClientEventReciever.OnPlayUnitAnimation": { _parameters spawn ClientEventReciever.OnPlayUnitAnimation};
-					case "ClientEventReciever.OnObservationsUpdated": { _parameters spawn ClientEventReciever.OnObservationsUpdated };
-					case "ClientEventReciever.OnVehicleSupported": { _parameters spawn ClientEventReciever.OnVehicleSupported };					
-					*/
+					case "ClientEventReciever.OnMissionSetup": { _parameters spawn ClientEventReciever.OnMissionSetup; };
 				};
 			};
 		};

@@ -27,49 +27,11 @@ namespace Mission.Server
         // Runs the mission.
         protected override method Run()
         {
-        	private ["_player" as Object, "_startPos" as Array, "_missionInfo" as MissionInfo, "_heading" as Scalar, "_distance" as Scalar, "_blueArrowPos" as Array, "_redArrowPos" as Array];
+        	private ["_campaign" as Campaign];
         	
-        	// Add mission engine logic here...
+        	_campaign = new Campaign;
         	
-        	#region Template Mission Logic - Replace this region with your own mission logic
-        	
-        	// Send a message to all clients that the mission engine starts (client will create tasks).
-    		["ClientEventReciever.OnMissionStart"] call Remote.Invoke;
-    		
-    		// Determine spawn positions for blue and red arrows.
-    		
-    		_player = (call BIS_fnc_listPlayers) select 0;
-    		_startPos = getPos _player;
-    		
-    		_heading = random 360;
-    		_distance = random _mGameplayConfig.ArrowSpawnRadius;
-    		_blueArrowPos = _startPos getPos [_distance, _heading];
-    		
-    		_heading = random 360;
-    		_distance = random _mGameplayConfig.ArrowSpawnRadius;
-    		_redArrowPos = _startPos getPos [_distance, _heading];
-    		
-    		// Create the arrows in the world.
-    		
-    		_mArrowConfig.BlueArrowClassName createVehicle _blueArrowPos;
-    		_mArrowConfig.RedArrowClassName createVehicle _redArrowPos;
-    		
-    		// Broadcast the info about the arrows to all machines.
-    		
-    		_missionInfo = [_blueArrowPos, _redArrowPos] new MissionInfo;
-    		
-    		// Set a public variable 
-			[_missionInfo] call PublicVariableHandler.BroadcastMissionInfo;
-        	
-        	for "_i" from 1 to _mGameplayConfig.GameTime do
-        	{
-        		private _remainingTime = _mGameplayConfig.GameTime - _i;
-        		
-        		["ClientEventReciever.OnServerTimeTick", [_remainingTime]] call Remote.Invoke;
-        		sleep 1;
-        	};
-        	
-        	#endregion
+        	call _campaign.RunAsync();
         	
         	// Always end a service's Run method with a call to its base method.
         	call _base.Run;
