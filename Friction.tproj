@@ -157,6 +157,9 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Enums\_ReadMe.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignPhase.sqx" FileName="Common\Enums\CampaignPhase.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
             </SubNodes>
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Common.sqx" FileName="Common\Common.sqx">

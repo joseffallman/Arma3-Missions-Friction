@@ -44,7 +44,7 @@ namespace Mission.Server
 		
 		protected override method MissionTask CreatePrimaryTargetForOpposing()
 		{
-			private _shortDescription = "Patrol Air Statin Mike-26.";
+			private _shortDescription = "Patrol Air Station Mike-26.";
 			private _longDescription = "Patrol the Air Station Mike-26 and keep it safe from enemies.";
 			
 			return [_shortDescription, _longDescription] new MissionTask;

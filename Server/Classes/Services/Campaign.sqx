@@ -57,14 +57,13 @@ namespace Mission.Server
 			
 			_missionMarkersInfo = [_startMarkers, _markers] new MissionMarkersInfo;
 		
+			[CampaignPhase.MissionPlanning] call PublicVariableHandler.BroadcastCampaignPhase;
 			["ClientEventReciever.OnMissionSetup", [_missionMarkersInfo]] call Remote.Invoke;
 		};
 		
 		protected override method Run()
 		{
 			private "_mission" as Mission;
-			
-			sleep 3;
 			
 			// Run each mission
 			

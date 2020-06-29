@@ -43,6 +43,30 @@ namespace Mission.Communication
 			PUBVAR_MissionInfo
 		};
 		
+		// Sets and broadcasts campaign phase across the network.
+		// _campaignPhase (CampaignPhase): The campaign phase object to be broadcasted.
+		public static method BroadcastCampaignPhase("_campaignPhase" as CampaignPhase)
+		{
+			PUBVAR_CampaignPhase = _campaignPhase;
+			publicVariable "PUBVAR_CampaignPhase";
+		};
+		
+		// Gets whether the variable for campaign phase has started has been public variabled at least once, so it actually has a value.
+		public static method Boolean HasValueCampaignPhase() {
+			return !isNil "PUBVAR_CampaignPhase";
+		};
+		
+		// Gets the campaign phase object from the public network synchronized variable.
+		// Before using this method, always call the corresponding HasValue method, since it might be nil if not yet broadcast.
+		public static method CampaignPhase GetCampaignPhase("_defaultCampaignPhase" as CampaignPhase)
+		{
+			if (call _self.HasValueCampaignPhase) then {
+				return PUBVAR_CampaignPhase;
+			};
+
+			return _defaultCampaignPhase;
+		};
+		
 		#endregion
 	};
 };
