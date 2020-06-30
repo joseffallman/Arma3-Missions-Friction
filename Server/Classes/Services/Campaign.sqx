@@ -16,7 +16,7 @@ namespace Mission.Server
 {
 	public class Campaign : Service
 	{
-		private fields ["_mMissions" as Array /* of Mission */];
+		private fields ["_mMissions" as Array /* of Mission */, "_mWestlyPlayers" as Array, "_mEastlyPlayers" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 	
 		// Creates a Campaign object.
@@ -68,15 +68,34 @@ namespace Mission.Server
 			if (side _group == west) then {
 				if (!_mWestHasInserted) then {
 					[side _group, _position] call _mCurrentMission.InsertGroup;
+					_mWestlyPlayers = units _group;
 					_mWestHasInserted = true;
 				};
 			}
 			else {
 				if (!_mEastHasInserted) then {
 					[side _group, _position] call _mCurrentMission.InsertGroup;
+					_mEastlyPlayers = units _group;
 					_mEastHasInserted = true;
 				};
 			};
+		};
+		
+		private method Boolean AllPlayersAreDead()
+		{
+			{
+				if (alive _x) then {
+					return false;
+				};
+			} foreach _mWestlyPlayers as Object;
+			
+			{
+				if (alive _x) then {
+					return false;
+				};
+			} foreach _mEastlyPlayers as Object;
+			
+			return true;
 		};
 		
 		protected override method Run()
@@ -87,6 +106,8 @@ namespace Mission.Server
 				_mCurrentMission = _x;
 				_mEastHasInserted = false;
 				_mWestHasInserted = false;
+				_mEastlyPlayers = [];
+				_mWestlyPlayers = [];
 				
 				[_mCurrentMission] call _self.NotifyAboutMissionStart;
 				
@@ -96,7 +117,12 @@ namespace Mission.Server
 				
 				while { _mCurrentMission.IsRunning } do
 				{
+					// If all players are dead, cancel the mission.
 					
+					if (call _self.AllPlayersAreDead) then
+					{
+						call _mCurrentMission.Cancel;
+					};
 				};
 				
 				waitUntil { false };
