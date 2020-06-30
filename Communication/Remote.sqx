@@ -46,6 +46,7 @@ namespace Mission.Communication
 				{
 					case "ClientEventReciever.OnServerTimeTick": { _parameters spawn ClientEventReciever.OnServerTimeTick; };
 					case "ClientEventReciever.OnMissionSetup": { _parameters spawn ClientEventReciever.OnMissionSetup; };
+					case "ClientEventReciever.OnInsertGroup": { _parameters spawn ClientEventReciever.OnInsertGroup; };
 				};
 			};
 		};

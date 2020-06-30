@@ -48,5 +48,16 @@ namespace Mission.Client.Statics
 		{
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
 		};
+		
+		public static method OnInsertGroup("_group" as Group, "_position" as Array)
+		{
+			if (playerSide == side _group) then {
+				{
+					if (local _x) then {
+						_x setPos _position;
+					};
+				} foreach units _group;
+			};
+		};
 	};
 };

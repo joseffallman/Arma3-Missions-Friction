@@ -16,7 +16,9 @@ namespace Mission.Server.Statics
 	{
 		public static method OnPlayerPerformingInsertion("_player" as Object, "_position" as Array)
 		{
+			hint "inserted";
 			[group _player, _position] call ServerObjects.Campaign.InsertGroup;
+			
 			["ClientEventReciever.OnInsertGroup", [group _player, _position]] call Remote.Invoke;
 		};
 	};

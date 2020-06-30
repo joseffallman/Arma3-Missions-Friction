@@ -272,5 +272,20 @@ namespace Mission.Server
 				deleteVehicle _x;
 			} foreach _mSpawnedVehicles as Object;
 		};
+		
+		protected override method Run()
+		{
+			while { !_self.IsCancelling } do
+			{
+				if (call _self.IsMissionCompleteForActing && call _self.IsMissionCompleteForOpposing) then {
+					call _self.Cancel;
+				};
+				
+				sleep 1;
+			};
+			
+			player sideChat "turning off mission.";
+			call _base.Run;
+		};
 	};
 };

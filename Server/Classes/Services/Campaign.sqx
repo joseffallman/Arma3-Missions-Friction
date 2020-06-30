@@ -83,6 +83,10 @@ namespace Mission.Server
 		
 		private method Boolean AllPlayersAreDead()
 		{
+			if ((count _mEastlyPlayers) + (count _mWestlyPlayers) == 0) then {
+				return false;
+			};
+		
 			{
 				if (alive _x) then {
 					return false;
@@ -121,10 +125,14 @@ namespace Mission.Server
 					
 					if (call _self.AllPlayersAreDead) then
 					{
+						player sideChat "all players dead.";
 						call _mCurrentMission.Cancel;
 					};
+					
+					sleep 1;
 				};
 				
+				player sideChat "mission canceled";
 				waitUntil { false };
 				
 				call _mCurrentMission.Cleanup;

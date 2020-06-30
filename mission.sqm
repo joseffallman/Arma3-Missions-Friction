@@ -786,11 +786,12 @@ class Mission
 		class Item8
 		{
 			dataType="Marker";
-			position[]={4340.502,226.86122,3839.5894};
-			name="marker_2";
+			position[]={4361.3062,226.707,3817.8369};
+			name="m1_defender_AmmoTruck";
 			type="Empty";
 			angle=174.42299;
 			id=19;
+			atlOffset=-0.00015258789;
 		};
 		class Item9
 		{
