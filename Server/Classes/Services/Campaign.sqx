@@ -17,6 +17,7 @@ namespace Mission.Server
 	public class Campaign : Service
 	{
 		private fields ["_mMissions" as Array /* of Mission */];
+		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 	
 		// Creates a Campaign object.
 		public constructor()
@@ -57,29 +58,50 @@ namespace Mission.Server
 			
 			_missionMarkersInfo = [_startMarkers, _markers] new MissionMarkersInfo;
 		
+			[_missionMarkersInfo] call PublicVariableHandler.BroadcastMissionMarkersInfo;
 			[CampaignPhase.MissionPlanning] call PublicVariableHandler.BroadcastCampaignPhase;
 			["ClientEventReciever.OnMissionSetup", [_missionMarkersInfo]] call Remote.Invoke;
 		};
 		
+		public method InsertGroup("_group" as Group, "_position" as Array)
+		{
+			if (side _group == west) then {
+				if (!_mWestHasInserted) then {
+					[side _group, _position] call _mCurrentMission.InsertGroup;
+					_mWestHasInserted = true;
+				};
+			}
+			else {
+				if (!_mEastHasInserted) then {
+					[side _group, _position] call _mCurrentMission.InsertGroup;
+					_mEastHasInserted = true;
+				};
+			};
+		};
+		
 		protected override method Run()
 		{
-			private "_mission" as Mission;
-			
 			// Run each mission
 			
 			{
-				_mission = _x;
+				_mCurrentMission = _x;
+				_mEastHasInserted = false;
+				_mWestHasInserted = false;
 				
-				[_mission] call _self.NotifyAboutMissionStart;
+				[_mCurrentMission] call _self.NotifyAboutMissionStart;
 				
-				call _mission.Setup;
+				call _mCurrentMission.Setup;
 				
-				call _mission.RunAsync;
+				call _mCurrentMission.RunAsync;
 				
-				waitUntil { !_mission.IsRunning };
+				while { _mCurrentMission.IsRunning } do
+				{
+					
+				};
+				
 				waitUntil { false };
 				
-				call _mission.Cleanup;
+				call _mCurrentMission.Cleanup;
 			} foreach _mMissions as Mission;
 			
 			call _base.Run;

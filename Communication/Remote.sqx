@@ -32,18 +32,10 @@ namespace Mission.Communication
 			{
 				// Messages routed to the server
 				
-				/*
 				switch (_methodFullName) do
 				{
-					// [Five examples of event methods that gets called. Add your own event reciever methods following the pattern below]
-					
-					case "ServerEventReciever.OnPlayerClaimBrigadeLeadership": { _parameters spawn ServerEventReciever.OnPlayerClaimBrigadeLeadership; };
-					case "ServerEventReciever.OnPlayerQuitBrigadeLeadership": { _parameters spawn ServerEventReciever.OnPlayerQuitBrigadeLeadership; };
-					case "ServerEventReciever.OnLeaderMoveBase": { _parameters spawn ServerEventReciever.OnLeaderMoveBase; };
-					case "ServerEventReciever.OnPlayerJoinedGroup": { _parameters spawn ServerEventReciever.OnPlayerJoinedGroup; };
-					case "ServerEventReciever.OnMissionTimeIsUp": { _parameters spawn ServerEventReciever.OnMissionTimeIsUp; };
+					case "ServerEventReciever.OnPlayerPerformingInsertion": { _parameters spawn ServerEventReciever.OnPlayerPerformingInsertion; };
 				};
-				*/
 			};
 			
 			if (!isDedicated) then

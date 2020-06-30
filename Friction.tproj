@@ -38,6 +38,12 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BriefingHandler.sqx" FileName="Client\Classes\Handlers\BriefingHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMessageHandler.sqx" FileName="Client\Classes\Handlers\ClientMessageHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="FrictionMenuHandler.sqx" FileName="Client\Classes\Handlers\FrictionMenuHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -58,6 +64,9 @@
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
                 <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PerformInsertionService.sqx" FileName="Client\Classes\Services\PerformInsertionService.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskMonitor.sqx" FileName="Client\Classes\Services\TaskMonitor.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -70,6 +79,9 @@
                 <SubNodes />
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientObjects.sqx" FileName="Client\Classes\ClientObjects.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientState.sqx" FileName="Client\Classes\ClientState.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
             </SubNodes>

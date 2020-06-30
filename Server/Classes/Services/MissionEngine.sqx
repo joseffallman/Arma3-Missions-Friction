@@ -10,6 +10,7 @@
 using Sqx.Services;
 using Mission.Communication;
 using Mission.Common;
+using Mission.Server.Statics;
 
 namespace Mission.Server
 {
@@ -27,11 +28,7 @@ namespace Mission.Server
         // Runs the mission.
         protected override method Run()
         {
-        	private ["_campaign" as Campaign];
-        	
-        	_campaign = new Campaign;
-        	
-        	call _campaign.RunAsync();
+        	call ServerObjects.Campaign.RunAsync();
         	
         	// Always end a service's Run method with a call to its base method.
         	call _base.Run;

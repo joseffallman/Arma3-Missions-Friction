@@ -21,6 +21,20 @@ namespace Mission.Common
 		public property Array StartMarkers { get; private set; };
 		
 		public property Array Markers { get; private set; };
+		
+		public method Array GetStartMarkersBySide("_side" as Side)
+		{
+			private ["_markers" as Array];
+			
+			_markers = [];
+			
+			{
+				if (_x.Side == _side) then {
+					_markers pushBack _x.Name;
+				};
+			} foreach _self.StartMarkers as MarkerInfo;
+			
+			return _markers;
+		};
 	};
 };
-

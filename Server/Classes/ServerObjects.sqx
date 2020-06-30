@@ -21,6 +21,7 @@ namespace Mission.Server.Statics
 			
 			_self.GameplayConfig = new GameplayConfig;
 			_self.ArrowConfig = new ArrowConfig;
+			_self.Campaign = new Campaign;
 		};
 		
 		// [Declare server config and handler classes as static properties here]
@@ -30,5 +31,7 @@ namespace Mission.Server.Statics
 		
 		// Gets the arrow config object.
 		public static property IArrowConfig ArrowConfig { get; private set; };
+		
+		public static property Campaign Campaign { get; private set; };
 	};
 };

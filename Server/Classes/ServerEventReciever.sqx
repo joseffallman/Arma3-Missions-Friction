@@ -8,10 +8,16 @@
  * Static class that handles all custom events sent from other machines.
  */
 
+using Mission.Communication;
+
 namespace Mission.Server.Statics
 {
 	public class ServerEventReciever
 	{
-		
+		public static method OnPlayerPerformingInsertion("_player" as Object, "_position" as Array)
+		{
+			[group _player, _position] call ServerObjects.Campaign.InsertGroup;
+			["ClientEventReciever.OnInsertGroup", [group _player, _position]] call Remote.Invoke;
+		};
 	};
 };

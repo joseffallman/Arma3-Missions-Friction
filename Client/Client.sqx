@@ -7,8 +7,11 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\FrictionMenuHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Objects\TaskInfo.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TaskMonitor.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 
 using Mission.Client;
 using Mission.Client.Statics;
@@ -23,18 +26,21 @@ namespace Mission
 			// Make sure the player object exists
 			waitUntil { player == player };
 			
-			// Bootstrap the client singletons
+			// Bootstrap the client singletons.
 			call ClientObjects.Init;
 			
 			// Initialize all client eventhandlers.
 			call ClientEventHandlers.Init;
 			
+			// Initialize the Friction menu.
+			call FrictionMenuHandler.Init;
+			
 			// Create player's briefing and tasks
-			call ClientObjects.BriefingHandler.CreateBriefing;
-			call ClientObjects.TaskHandler.CreatePlayerTasks;
+			//call ClientObjects.BriefingHandler.CreateBriefing;
+			//call ClientObjects.TaskHandler.CreatePlayerTasks;
 			
 			// Start the task monitor (i.e. the service that monitors task fulfillments).
-			call ClientObjects.TaskMonitor.RunAsync;
+			//call ClientObjects.TaskMonitor.RunAsync;
 		};
 	};
 };

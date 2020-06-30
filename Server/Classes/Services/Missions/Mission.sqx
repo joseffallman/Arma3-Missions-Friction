@@ -239,29 +239,29 @@ namespace Mission.Server
 			};
 		};
 		
-		// Called when a group has been teleported to the insertion point to begin executing the mission.
-		// _group (Group): The group that is being inserted.
+		// Called one time for each side that performs an insertion to begin carrying out the mission.
+		// _side (Side): The side of the group that is being inserted.
 		// _position (Array): The position where the group is inserted.
-		public method Insert("_group" as Group, "_position" as Array)
+		public method InsertGroup("_side" as Side, "_position" as Array)
 		{
 			private ["_missionSide" as MissionSide];
 			
-			_missionSide = [side _group] call _self.GetMissionSide;
+			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				[_group, _position] call _self.OnActingGroupInserted;
+				[_side, _position] call _self.OnActingGroupInserted;
 			}
 			else
 			{
-				[_group, _position] call _self.OnOpposingGroupInserted;
+				[_side, _position] call _self.OnOpposingGroupInserted;
 			};
 		};
 		
-		protected virtual method OnActingGroupInserted("_group" as Group, "_position" as Array)
+		protected virtual method OnActingGroupInserted("_side" as Side, "_position" as Array)
 		{
 		};
 		
-		protected virtual method OnOpposingGroupInserted("_group" as Group, "_position" as Array)
+		protected virtual method OnOpposingGroupInserted("_side" as Side, "_position" as Array)
 		{
 		};
 		

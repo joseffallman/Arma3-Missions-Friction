@@ -1,0 +1,103 @@
+/*
+ * Name:    FrictionMenuHandler
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Encapsulates all logic for the Friction Menu.
+ */
+
+using Mission.Common;
+using Mission.Communication;
+using Mission.Client.Statics;
+
+namespace Mission.Client
+{
+	public class FrictionMenuHandler
+	{
+        // Initializes the Friction Menu for the player and adds the "Open Mission Menu" action.
+        public static method Init() {
+        	call _self.UpdateVisibleOptions;
+			call _self.BuildFrictionMenu;
+			
+			call _self.ShowAction;
+		};
+		
+		public static method ShowAction()
+		{
+			player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }];
+		};
+		
+		#region Option Properties
+		
+		public static property Boolean OptionPerformInsertionVisible { get; private set; };
+		
+		#endregion
+		
+		#region Show Methods
+		
+		private static method ShowOptionPerformInsertion("_show" as Boolean)
+		{
+			if (_show != _self.OptionPerformInsertionVisible) then {
+				_self.OptionPerformInsertionVisible = _show;
+				call _self.BuildFrictionMenu;
+			};
+		};
+		
+
+		#endregion
+		
+		#region Methods
+		
+		public static method UpdateVisibleOptions()
+		{
+			private ["_campaignPhase" as CampaignPhase];
+			
+			_campaignPhase = [CampaignPhase.MissionPlanning] call PublicVariableHandler.GetCampaignPhase;
+			
+			_self.OptionPerformInsertionVisible = _campaignPhase == CampaignPhase.MissionPlanning;
+			
+			call _self.BuildFrictionMenu;
+		};
+		
+		private static method BuildFrictionMenu()
+		{
+			FRICTION_FrictionMenu = 
+			[
+			  ["Mission Menu", true]
+			];
+			
+			if (_self.OptionPerformInsertionVisible) then {
+				FRICTION_FrictionMenu pushBack ["Perform Insertion", [0], "", -5, [["expression", "call Friction_Client_FrictionMenuHandler_OnPerformInsertion"]], "1", "1"];
+			};
+		};
+		
+		// Opens the Friction menu for the current player.
+		public static method Open {
+			showCommandingMenu "#USER:FRICTION_FrictionMenu";
+		};
+		
+		#endregion
+		
+		#region Option Event Handlers
+		
+		// Called when the local player selects the "PerformInsertion" option.
+		private static method OnPerformInsertion()
+		{
+			private ["_service" as PerformInsertionService, "_missionMarkersInfo" as MissionMarkersInfo];
+			
+			if (call PublicVariableHandler.HasValueMissionMarkersInfo) then
+			{
+				_missionMarkersInfo = call PublicVariableHandler.GetMissionMarkersInfo;
+				
+				_service = [ClientObjects.MessageHandler] new PerformInsertionService;
+				
+				[[playerSide] call _missionMarkersInfo.GetStartMarkersBySide] call _service.Reset;
+				
+				call _service.RunAsync;
+			};
+		};
+		
+		#endregion
+	};
+};

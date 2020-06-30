@@ -20,14 +20,9 @@ namespace Mission.Client.Statics
 				hint "WELCOME!";
 			}] call BIS_fnc_addStackedEventHandler;
 			
-			player addEventHandler ["GetInMan", {
-				params ["_unit" as Object, "_role" as String, "_vehicle" as Object, "_turret" as Array];
-				
-			}];
-			
-			player addEventHandler ["GetOutMan", {
-				params ["_unit" as Object, "_role" as String, "_vehicle" as Object, "_turret" as Array];
-				
+			addMissionEventHandler ["MapSingleClick", {
+				params ["_units" as Array, "_pos" as Array, "_alt" as Boolean, "_shift" as Boolean];
+				[_pos] call ClientObjects.PerformInsertionService.SendMapClick;
 			}];
 		};
 	};

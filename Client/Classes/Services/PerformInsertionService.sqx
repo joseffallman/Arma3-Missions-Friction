@@ -1,0 +1,83 @@
+/*
+ * Name:	PerformInsertionService
+ * Date:	2020-06-30
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Service that handles a group's insertion before executing a mission.
+ */
+
+using Sqx.Services;
+using Mission.Communication;
+
+namespace Mission.Client
+{
+	public class PerformInsertionService : Service
+	{
+		private fields ["_mWaitingForMapClick" as Boolean, "_mMapPos" as Array, "_mInsertionMarkers" as Array, "_mMessageHandler" as ClientMessageHandler];
+	
+		// Creates a PerformInsertionService object.
+		public constructor("_messageHandler" as ClientMessageHandler)
+		{
+			call _base.Constructor;
+			_mMessageHandler = _messageHandler;
+		};
+		
+		public method Reset("_insertionMarkers" as Array /* of String */)
+		{
+			_mWaitingForMapClick = true;
+			_mMapPos = [];
+			_mInsertionMarkers = _insertionMarkers;
+		};
+		
+		public method SendMapClick("_position" as Array)
+		{
+			_mMapPos = _position;
+			_mWaitingForMapClick = false;
+		};
+		
+		private method Boolean InAnyMarker("_position" as Array, "_markers" as Array)
+		{
+			{
+				if (_position inArea _x) then {
+					return true;
+				};
+			} foreach _markers as String;
+			
+			return false;
+		};
+		
+		protected override method Run()
+		{
+			private ["_enoughWaitingTime" as Scalar];
+			
+			// Open the map and ask player to select a group
+			openMap true;
+			
+			// Wait for map click
+			
+			_mWaitingForMapClick = true;
+			_enoughWaitingTime = time + 30;
+			
+			["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
+			
+			waitUntil {	!_mWaitingForMapClick || time > _enoughWaitingTime };
+			
+			if (!_mWaitingForMapClick) then
+			{
+				if ([_mMapPos, _mInsertionMarkers] call _self.InAnyMarker) then {
+					["ServerEventReciever.OnPlayerPerformingInsertion", [player, _mMapPos]] call Remote.Invoke;
+				}
+				else {
+					["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
+				};
+			}
+			else {
+				["Insertion timed out. Please try again when you are ready."] call _mMessageHandler.ShowSubTitle;
+			};
+			
+			call _base.Run;
+		};
+	};
+};

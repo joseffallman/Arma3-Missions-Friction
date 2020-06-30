@@ -67,6 +67,30 @@ namespace Mission.Communication
 			return _defaultCampaignPhase;
 		};
 		
+		// Sets and broadcasts mission markers info across the network.
+		// _campaignPhase (CampaignPhase): The mission markers info object to be broadcasted.
+		public static method BroadcastMissionMarkersInfo("_missionMarkersInfo" as MissionMarkersInfo)
+		{
+			PUBVAR_MissionMarkersInfo = _missionMarkersInfo;
+			publicVariable "PUBVAR_MissionMarkersInfo";
+		};
+		
+		// Gets whether the variable for mission markers info has started has been public variabled at least once, so it actually has a value.
+		public static method Boolean HasValueMissionMarkersInfo() {
+			return !isNil "PUBVAR_MissionMarkersInfo";
+		};
+		
+		// Gets the mission markers info object from the public network synchronized variable.
+		// Before using this method, always call the corresponding HasValue method, since it might be nil if not yet broadcast.
+		public static method MissionMarkersInfo GetMissionMarkersInfo()
+		{
+			if (call _self.HasValueMissionMarkersInfo) then {
+				return PUBVAR_MissionMarkersInfo;
+			};
+
+			return classNull;
+		};
+		
 		#endregion
 	};
 };
