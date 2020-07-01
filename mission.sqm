@@ -8,11 +8,11 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=32;
+		nextID=38;
 	};
 	class MarkerIDProvider
 	{
-		nextID=4;
+		nextID=5;
 	};
 	class Camera
 	{
@@ -26,13 +26,14 @@ binarizationWanted=0;
 addons[]=
 {
 	"A3_Ui_F",
-	"A3_Characters_F"
+	"A3_Characters_F",
+	"A3_Structures_F_Civ_InfoBoards"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=2;
+		items=3;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -44,6 +45,13 @@ class AddonsMetaData
 		{
 			className="A3_Characters_F";
 			name="Arma 3 Alpha - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item2
+		{
+			className="A3_Structures_F";
+			name="Arma 3 - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -76,7 +84,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=10;
+		items=14;
 		class Item0
 		{
 			dataType="Marker";
@@ -140,20 +148,19 @@ class Mission
 		class Item4
 		{
 			dataType="Marker";
-			position[]={7102.313,6.6370001,5983.874};
+			position[]={7096.6255,7.2416492,5969.0493};
 			name="respawn_west";
 			type="Empty";
 			id=4;
-			atlOffset=0.00047445297;
 		};
 		class Item5
 		{
 			dataType="Marker";
-			position[]={3769.3481,10.694092,7945.604};
+			position[]={3763.4968,9.9261475,7947.2769};
 			name="respawn_east";
 			type="Empty";
 			id=5;
-			atlOffset=-0.86278534;
+			atlOffset=-0.7636013;
 		};
 		class Item6
 		{
@@ -167,7 +174,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7096.3911,7.179687,5959.1729};
+						position[]={7093.2495,7.2031264,5964.4673};
 						angles[]={0,4.054801,0};
 					};
 					side="West";
@@ -227,7 +234,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7101.2842,6.7230821,5960.9844};
+						position[]={7098.1426,7.0069919,5966.2788};
 						angles[]={0,4.0004969,0};
 					};
 					side="West";
@@ -239,7 +246,7 @@ class Mission
 					};
 					id=9;
 					type="B_Soldier_F";
-					atlOffset=4.7683716e-007;
+					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -288,7 +295,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7101.3853,6.6269526,5963.3687};
+						position[]={7098.2437,7.0977693,5968.6631};
 						angles[]={0,4.0004969,0};
 					};
 					side="West";
@@ -300,6 +307,7 @@ class Mission
 					};
 					id=10;
 					type="B_Soldier_F";
+					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -348,7 +356,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7099.0815,6.8979793,5962.2314};
+						position[]={7095.9399,7.2913423,5967.5259};
 						angles[]={0,4.0004969,0};
 					};
 					side="West";
@@ -360,7 +368,7 @@ class Mission
 					};
 					id=11;
 					type="B_Soldier_F";
-					atlOffset=-4.7683716e-007;
+					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -409,7 +417,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7099.7861,6.7304096,5964.1665};
+						position[]={7096.6445,7.2377086,5969.4609};
 						angles[]={0,4.0004969,0};
 					};
 					side="West";
@@ -421,6 +429,7 @@ class Mission
 					};
 					id=12;
 					type="B_Soldier_F";
+					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -802,6 +811,58 @@ class Mission
 			type="mil_destroy";
 			id=31;
 			atlOffset=0.00012207031;
+		};
+		class Item10
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3764.6702,12.222459,7945.3428};
+				angles[]={0.2308118,2.5388985,0.074859224};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=32;
+			type="MapBoard_stratis_F";
+			atlOffset=-0.00020694733;
+		};
+		class Item11
+		{
+			dataType="Marker";
+			position[]={3756.5669,10.282,7945.4971};
+			name="base_east_AmmoCrateMarker";
+			type="Empty";
+			id=35;
+			atlOffset=-0.00032138824;
+		};
+		class Item12
+		{
+			dataType="Marker";
+			position[]={7086.9482,7.3130002,5966.5342};
+			name="base_west_AmmoCrateMarker";
+			type="Empty";
+			id=36;
+			atlOffset=-0.00056171417;
+		};
+		class Item13
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={7085.6177,8.0813789,5961.0962};
+				angles[]={0.0025135824,4.262145,6.1123667};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=37;
+			type="MapBoard_stratis_F";
+			atlOffset=4.7683716e-007;
 		};
 	};
 };

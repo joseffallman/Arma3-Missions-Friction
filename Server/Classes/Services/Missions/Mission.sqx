@@ -60,15 +60,11 @@ namespace Mission.Server
 			return MissionSide.Opposing;
 		};
 		
-		// Spawns a vehicle.
-		// _vehicleTypeWest (String): The vehicle type spawned for side west.
-		// _vehicleTypeEast (String): The vehicle type spawned for side east.
-		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
+		// Spawns a vehicle on a marker.
+		// _vehicleType (String): The vehicle type to spawn.
 		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
-		protected method Object SpawnVehicle("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_spawnMarker" as String)
+		private method Object SpawnVehicle("_vehicleType" as String, "_spawnMarker" as String)
 		{
-			private _side = [_missionSide] call _self.GetActualSide;
-			private _vehicleType = if (_side == west) then { _vehicleTypeWest  } else { _vehicleTypeEast };
 			private _position = getMarkerPos _spawnMarker;
 			private _direction = markerDir _spawnMarker;
 			
@@ -79,6 +75,46 @@ namespace Mission.Server
 			_mSpawnedVehicles pushBack _vehicle;
 			
 			return _vehicle;
+		};
+		
+		// Spawns a vehicle on a marker at the scene.
+		// _vehicleTypeWest (String): The vehicle type spawned if side is west.
+		// _vehicleTypeEast (String): The vehicle type spawned if side is east.
+		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		protected method Object SpawnVehicleAtScene("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_spawnMarker" as String)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _vehicleType = if (_side == west) then { _vehicleTypeWest  } else { _vehicleTypeEast };
+			
+			return [_vehicleType, _spawnMarker] call _self.SpawnVehicle;
+		};
+		
+		// Spawns a vehicle in the base.
+		// _vehicleTypeWest (String): The vehicle type spawned for side west.
+		// _vehicleTypeEast (String): The vehicle type spawned for side east.
+		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		protected method Object SpawnVehicleAtBase("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _vehicleType = if (_side == west) then { _vehicleTypeWest  } else { _vehicleTypeEast };
+			
+			private _spawnMarker = "";
+			
+			switch (_baseMarker) do
+			{
+				case BaseMarker.AmmoCrate: {
+					if (_side == west) then {
+						_spawnMarker = "base_west_AmmoCrateMarker";
+					}
+					else {
+						_spawnMarker = "base_east_AmmoCrateMarker";
+					};
+				};
+			};
+			
+			return [_vehicleType, _spawnMarker] call _self.SpawnVehicle;
 		};
 		
 		protected property Scalar StartTime { get; protected set; };

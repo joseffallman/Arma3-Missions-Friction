@@ -17,12 +17,30 @@ namespace Mission.Client.Statics
 			// Fires when preload finishes.
 			["ClientEventHandlerId_01", "onPreloadFinished",
 			{
-				hint "WELCOME!";
+				//hint "WELCOME!";
 			}] call BIS_fnc_addStackedEventHandler;
 			
+			// Triggered when player clicks somewhere the map.
 			addMissionEventHandler ["MapSingleClick", {
 				params ["_units" as Array, "_pos" as Array, "_alt" as Boolean, "_shift" as Boolean];
-				[_pos] call ClientObjects.PerformInsertionService.SendMapClick;
+				
+				if (ClientObjects.PerformInsertionService.IsRunning) then {
+					[_pos] call ClientObjects.PerformInsertionService.SendMapClick;
+				};
+			}];
+			
+			// Triggered when the player respawns.
+			player addEventHandler ["Respawn", {
+				params ["_player" as Object, "_corpse"];
+				
+				_player setVariable ["IsAlive", false, true];
+			}];
+			
+			// Triggered when the player is killed.
+			player addEventHandler ["Killed", {
+				params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
+				
+				_unit setVariable ["IsAlive", false, true];
 			}];
 		};
 	};

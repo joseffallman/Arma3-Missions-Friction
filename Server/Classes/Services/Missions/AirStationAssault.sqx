@@ -21,7 +21,7 @@ namespace Mission.Server
 			// The "acting" side will be the side attacking.
 			// The "opposing" side will be the side defending.
 			
-			_self.StartTime = 1;
+			_self.StartTime = 5;
 			_self.ActingSideStartMarkers = ["m1_attacker_startarea1", "m1_attacker_startarea2", "m1_attacker_startarea3"];
 			_self.OpposingSideStartMarkers = ["m1_defender_startarea1"];
 			_self.ActingSideMarkers = ["m1_attacker_PrimaryTarget"];
@@ -29,8 +29,14 @@ namespace Mission.Server
 		
 		public override method Setup()
 		{
-			_mAmmoTruck = ["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.SpawnVehicle;
-			player sideChat str _mAmmoTruck;
+			// Spawn ammo crates at base
+			private _ammoBox = ["Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.SpawnVehicleAtBase;
+			
+			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			
+			// Spawn vehicles at scene
+			["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.SpawnVehicleAtScene;
+			
 			call _base.Setup;
 		};
 

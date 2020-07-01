@@ -29,7 +29,7 @@ namespace Mission.Server
 			} foreach allMapMarkers as String;
 			
 			_mMissions = [
-				[east] new AirStationAssault
+				[west] new AirStationAssault
 			];
 		};
 		
@@ -65,17 +65,31 @@ namespace Mission.Server
 		
 		public method InsertGroup("_group" as Group, "_position" as Array)
 		{
-			if (side _group == west) then {
-				if (!_mWestHasInserted) then {
+			if (side _group == west) then
+			{
+				if (!_mWestHasInserted) then
+				{
 					[side _group, _position] call _mCurrentMission.InsertGroup;
 					_mWestlyPlayers = units _group;
+					
+					{
+						_x setVariable ["IsAlive", true, true];
+					} foreach units _group as Object;
+					
 					_mWestHasInserted = true;
 				};
 			}
-			else {
-				if (!_mEastHasInserted) then {
+			else // East
+			{
+				if (!_mEastHasInserted) then
+				{
 					[side _group, _position] call _mCurrentMission.InsertGroup;
 					_mEastlyPlayers = units _group;
+					
+					{
+						_x setVariable ["IsAlive", true, true];
+					} foreach units _group as Object;
+					
 					_mEastHasInserted = true;
 				};
 			};
@@ -88,13 +102,13 @@ namespace Mission.Server
 			};
 		
 			{
-				if (alive _x) then {
+				if (_x getVariable ["IsAlive", false]) then {
 					return false;
 				};
 			} foreach _mWestlyPlayers as Object;
 			
 			{
-				if (alive _x) then {
+				if (_x getVariable ["IsAlive", false]) then {
 					return false;
 				};
 			} foreach _mEastlyPlayers as Object;
