@@ -18,6 +18,20 @@ namespace Mission.Common
 			_self.SecondaryTargetCompleted = _secondaryTargetCompleted;
 			_self.MenAtStart = _menAtStart;
 			_self.MenAtEnd = _menAtEnd;
+			
+			private _score = 0;
+			
+			if (_self.PrimaryTargetCompleted) then {
+				_score = _score + 100;
+			};
+			
+			if (_self.SecondaryTargetCompleted) then {
+				_score = _score + 50;
+			};
+			
+			_score = _score - (_menAtStart - _menAtEnd) * 10;
+			
+			_self.Score = _score;
 		};
 		
 		public property Boolean PrimaryTargetCompleted { get; private set; };
@@ -27,5 +41,7 @@ namespace Mission.Common
 		public property Scalar MenAtStart { get; private set; };
 		
 		public property Scalar MenAtEnd { get; private set; };
+		
+		public property Scalar Score { get; private set; };
 	};
 };

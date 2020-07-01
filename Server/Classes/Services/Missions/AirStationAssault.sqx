@@ -21,7 +21,7 @@ namespace Mission.Server
 			// The "acting" side will be the side attacking.
 			// The "opposing" side will be the side defending.
 			
-			_self.StartTime = 5;
+			_self.StartTimeOfDay = 5;
 			_self.ActingSideStartMarkers = ["m1_attacker_startarea1", "m1_attacker_startarea2", "m1_attacker_startarea3"];
 			_self.OpposingSideStartMarkers = ["m1_defender_startarea1"];
 			_self.ActingSideMarkers = ["m1_attacker_PrimaryTarget"];
@@ -56,12 +56,12 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionTask;
 		};
 		
-		protected override method Boolean PrimaryTargetFulfilledForActing()
+		protected override method Boolean PrimaryTargetCompletedForActing()
 		{
 			return _self.RemainingTime == 0 && alive _mAmmoTruck;
 		};
 		
-		protected override method Boolean PrimaryTargetFulfilledForOpposing()
+		protected override method Boolean PrimaryTargetCompletedForOpposing()
 		{
 			return !alive _mAmmoTruck;
 		};

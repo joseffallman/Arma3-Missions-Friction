@@ -58,7 +58,8 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult)
 		{
-			player sideChat str _missionResult;
+			player sideChat ("west: " + str _missionResult.ResultInfoWest.Score);
+			player sideChat ("east: " + str _missionResult.ResultInfoEast.Score);
 		};
 	};
 };

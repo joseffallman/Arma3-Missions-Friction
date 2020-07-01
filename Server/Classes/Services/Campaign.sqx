@@ -37,6 +37,11 @@ namespace Mission.Server
 			} foreach allMapMarkers as String;
 		};
 		
+		protected static method Boolean IsAlive("_player" as Object)
+		{
+			return _player != objNull && { alive _player && _player getVariable ["IsAlive", false] };
+		};
+		
 		private method NotifyAboutMissionStart("_mission" as Mission)
 		{
 			private ["_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */, "_missionMarkersInfo" as MissionMarkersInfo];
@@ -106,13 +111,13 @@ namespace Mission.Server
 			};
 		
 			{
-				if (_x getVariable ["IsAlive", false]) then {
+				if ([_x] call _self.IsAlive) then {
 					return false;
 				};
 			} foreach _mWestlyPlayers as Object;
 			
 			{
-				if (_x getVariable ["IsAlive", false]) then {
+				if ([_x] call _self.IsAlive) then {
 					return false;
 				};
 			} foreach _mEastlyPlayers as Object;

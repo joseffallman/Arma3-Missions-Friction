@@ -6,6 +6,7 @@
  *
  * Description:
  * Base class for all missions in the campaign.
+ * A new mission is easily created by creating a class and inheriting this Mission base class.
  */
 
 using Sqx.Services;
@@ -17,23 +18,71 @@ namespace Mission.Server
 	{
 		private fields ["_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
 		
+		// Creates a mission and sets primitive properties like start time of day and start markers.
+		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
 		public constructor("_actingSide" as Side)
 		{
-			call _base.Constructor;
+			// These lines are of technical use in the base class and should not be altered or overrided.
 			
+			call _base.Constructor;
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
-			
-			_self.StartTime = 12;
-			_self.RemainingTime = 30;
-			_self.ActingSideStartMarkers = [];
-			_self.OpposingSideStartMarkers = [];
-			_self.ActingSideMarkers = [];
-			_self.OpposingSideMarkers = [];
 			_self.ActingPlayers = [];
 			_self.OpposingPlayers = [];
+			
+			// The following properties may be overrided in the constructor of the sub mission. See the
+			// header comment for each property for more information.
+			
+			// The following properties are mandatory to set in the constructor of the sub class.
+			
+			_self.ActingSideStartMarkers = [];
+			_self.OpposingSideStartMarkers = [];
+			
+			// The following properties are optional to set in the constructor of the sub class.
+			
+			_self.StartTimeOfDay = 12;
+			_self.RemainingTime = 30;
+			_self.ActingSideMarkers = [];
+			_self.OpposingSideMarkers = [];
 		};
 		
+		#region Private Methods
+
+		// Creates target for both sides and sets all primary- and secondary target attributes for
+		// the mission.
+		private method CreateTargets()
+		{
+			_self.PrimaryTargetForActing = call _self.CreatePrimaryTargetForActing;
+			_self.SecondaryTargetForActing = call _self.CreateSecondaryTargetForActing;
+			_self.PrimaryTargetForOpposing = call _self.CreatePrimaryTargetForOpposing;
+			_self.SecondaryTargetForOpposing = call _self.CreateSecondaryTargetForOpposing;
+		};
+		
+		// Spawns a vehicle on a marker.
+		// _vehicleType (String): The vehicle type to spawn.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// Returns (Object): The vehicle spawned.
+		private method Object SpawnVehicle("_vehicleType" as String, "_spawnMarker" as String)
+		{
+			private _position = getMarkerPos _spawnMarker;
+			private _direction = markerDir _spawnMarker;
+			
+			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
+			_vehicle setDir _direction;
+			_vehicle setPos _position;
+			
+			_mSpawnedVehicles pushBack _vehicle;
+			
+			return _vehicle;
+		};
+		
+		#endregion
+		
+		#region Helper Methods
+		
+		// Gets the actual side (east or west) out of a mission side (acting or opposing).
+		// _side (MissionSide): The mission side to ask for (acting or opposing).
+		// Returns (Side): The actual side that corresponds to the mission side.
 		protected method Side GetActualSide("_side" as MissionSide)
 		{
 			if (_mActingSide == west) then {
@@ -55,6 +104,9 @@ namespace Mission.Server
 			};
 		};
 		
+		// Gets the mission side (acting or opposing) out of an actual side (east or west).
+		// _side (Side): The side to ask for (east or west).
+		// Returns (MissionSide): The mission side that corresponds to the actual side.
 		protected method MissionSide GetMissionSide("_side" as Side)
 		{
 			if (_side == _mActingSide) then {
@@ -64,33 +116,35 @@ namespace Mission.Server
 			return MissionSide.Opposing;
 		};
 		
+		// Checks whether a unit (player) is considered alive or not. Note that a player 
+		// who has respawned may be alive and in the base, but should be considered dead
+		// by the current mission, since it is no longer taking part.
+		// _player (Object): The player unit to check.
 		protected static method Boolean IsAlive("_player" as Object)
 		{
 			return _player != objNull && { alive _player && _player getVariable ["IsAlive", false] };
 		};
 		
-		// Spawns a vehicle on a marker.
-		// _vehicleType (String): The vehicle type to spawn.
-		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
-		private method Object SpawnVehicle("_vehicleType" as String, "_spawnMarker" as String)
+		// Gets the number of players alive on the acting side.
+		// Returns (Scalar): Number of alive players on the acting side.
+		protected method Scalar ActingPlayersAlive()
 		{
-			private _position = getMarkerPos _spawnMarker;
-			private _direction = markerDir _spawnMarker;
-			
-			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
-			_vehicle setDir _direction;
-			_vehicle setPos _position;
-			
-			_mSpawnedVehicles pushBack _vehicle;
-			
-			return _vehicle;
+			return { [_x] call Mission.IsAlive } count _self.ActingPlayers;
 		};
 		
-		// Spawns a vehicle on a marker at the scene.
+		// Gets the number of players alive on the opposing side.
+		// Returns (Scalar): Number of alive players on the opposing side.
+		protected method Scalar OpposingPlayersAlive()
+		{
+			return { [_x] call Mission.IsAlive } count _self.OpposingPlayers;
+		};
+		
+		// Spawns a vehicle on a marker at the scene of the mission.
 		// _vehicleTypeWest (String): The vehicle type spawned if side is west.
 		// _vehicleTypeEast (String): The vehicle type spawned if side is east.
 		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
 		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// Returns (Object): The vehicle spawned.
 		protected method Object SpawnVehicleAtScene("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_spawnMarker" as String)
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
@@ -103,7 +157,8 @@ namespace Mission.Server
 		// _vehicleTypeWest (String): The vehicle type spawned for side west.
 		// _vehicleTypeEast (String): The vehicle type spawned for side east.
 		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
-		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// _baseMarker (BaseMarker): The marker type that will translate to a marker in the base.
+		// Returns (Object): The vehicle spawned.
 		protected method Object SpawnVehicleAtBase("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker)
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
@@ -126,22 +181,68 @@ namespace Mission.Server
 			return [_vehicleType, _spawnMarker] call _self.SpawnVehicle;
 		};
 		
+		#endregion
+		
+		#region Helper Properties
+		
+		// Gets and sets the remaining time of the mission in minutes. This property may be set in the mission's 
+		// constructor, and after that it is updated by the campaign object. After construction, this property
+		// should only be read from.
 		public property Scalar RemainingTime { get; set; };
 		
-		protected property Scalar StartTime { get; protected set; };
+		// Gets the players on the acting side that was inserted to execute the mission.
+		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
+		protected property Array ActingPlayers { get; private set; };
 		
-		protected property Array ActingPlayers { get; protected set; };
+		// Gets the players on the opposing side that was inserted to execute the mission.
+		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
+		protected property Array OpposingPlayers { get; private set; };
+
+		// Gets the primary target information for the acting side.
+		protected property MissionTask PrimaryTargetForActing { get; private set; };
 		
-		protected property Array OpposingPlayers { get; protected set; };
+		// Gets the secondary target information for the acting side. objNull if there is no secondary target.
+		protected property MissionTask SecondaryTargetForActing { get; private set; };
 		
+		// Gets the primary target information for the opposing side.
+		protected property MissionTask PrimaryTargetForOpposing { get; private set; };
+		
+		// Gets the secondary target information for the opposing side. objNull if there is no secondary target.
+		protected property MissionTask SecondaryTargetForOpposing { get; private set; };
+		
+		#endregion
+		
+		#region Settable Properties
+		
+		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
+		// This property may be set in the mission's construtor, and at mission startup, time is skipped ahead 
+		// to this property value.
+		protected property Scalar StartTimeOfDay { get; protected set; };
+		
+		// Gets or sets the insertion map markers for the acting side.
+		// This property must be set in the constructor of the base class.
 		protected property Array ActingSideStartMarkers { get; protected set; };
 		
+		// Gets or sets the insertion map markers for the opposing side.
+		// This property must be set in the constructor of the base class.
 		protected property Array OpposingSideStartMarkers { get; protected set; };
 		
+		// Gets or sets general markers that should be visible for the acting side.
+		// This property must be set in the constructor of the base class.
 		protected property Array ActingSideMarkers { get; protected set; };
 		
+		// Gets or sets general markers that should be visible for the opposing side.
+		// This property must be set in the constructor of the base class.
 		protected property Array OpposingSideMarkers { get; protected set; };
 		
+		#endregion
+		
+		#region Public Methods
+		
+		// Gets the start markers for a side.
+		// This method is used by the framework to enable mission insertion.
+		// _side (Side): The side to get start markers for (east or west).
+		// Returns (Array of String): Start marker names in an array.
 		public method Array GetStartMarkers("_side" as Side)
 		{
 			private ["_missionSide" as MissionSide];
@@ -155,6 +256,10 @@ namespace Mission.Server
 			return _self.OpposingSideStartMarkers;
 		};
 	
+		// Gets general map markers that should be visible for a side.
+		// This method is used by the framework to know which markers to show for each side.
+		// _side (Side): The side to get markers for (east or west).
+		// Returns (Array of String): Start marker names in an array.
 		public method Array GetMarkers("_side" as Side)
 		{
 			private ["_missionSide" as MissionSide];
@@ -168,6 +273,9 @@ namespace Mission.Server
 			return _self.OpposingSideMarkers;
 		};
 		
+		// Gets the mission result for a side.
+		// This method is used by the framework to get the result and score for a side after a mission is played.
+		// _side (Side): The side.
 		public method MissionResultInfo GetMissionResult("_side" as Side)
 		{
 			private ["_missionSide" as MissionSide];
@@ -175,137 +283,16 @@ namespace Mission.Server
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return [call _self.PrimaryTargetFulfilledForActing, call _self.SecondaryTargetFulfilledForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+				return [call _self.PrimaryTargetCompletedForActing, call _self.SecondaryTargetCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
 			}
 			else {
-				return [call _self.PrimaryTargetFulfilledForOpposing, call _self.SecondaryTargetFulfilledForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
-			};
-		};
-	
-		// Initializes the mission, i.e. creating and placing vehicles and such.
-		public virtual method Setup()
-		{
-			private _timeToSkip = 24 - daytime + _self.StartTime;
-		
-			skipTime _timeToSkip;
-			
-			call _self.CreateTargets;
-		};
-
-		protected property MissionTask PrimaryTargetForActing { get; private set; };
-		
-		protected property MissionTask SecondaryTargetForActing { get; private set; };
-		
-		protected property MissionTask PrimaryTargetForOpposing { get; private set; };
-		
-		protected property MissionTask SecondaryTargetForOpposing { get; private set; };
-
-		private method CreateTargets()
-		{
-			_self.PrimaryTargetForActing = call _self.CreatePrimaryTargetForActing;
-			_self.SecondaryTargetForActing = call _self.CreateSecondaryTargetForActing;
-			_self.PrimaryTargetForOpposing = call _self.CreatePrimaryTargetForOpposing;
-			_self.SecondaryTargetForOpposing = call _self.CreateSecondaryTargetForOpposing;
-		};
-
-		protected virtual method MissionTask CreatePrimaryTargetForActing()
-		{
-			return ["Do whatever you want."] new MissionTask;
-		};
-		
-		protected virtual method MissionTask CreateSecondaryTargetForActing()
-		{
-			return classNull;
-		};
-		
-		protected virtual method MissionTask CreatePrimaryTargetForOpposing()
-		{
-			return ["Do whatever you want."] new MissionTask;
-		};
-		
-		protected virtual method MissionTask CreateSecondaryTargetForOpposing()
-		{
-			return classNull;
-		};
-		
-		protected virtual method Boolean PrimaryTargetFulfilledForActing()
-		{
-			return false;
-		};
-		
-		protected virtual method Boolean SecondaryTargetFulfilledForActing()
-		{
-			return false;
-		};
-		
-		protected virtual method Boolean PrimaryTargetFulfilledForOpposing()
-		{
-			return false;
-		};
-		
-		protected virtual method Boolean SecondaryTargetFulfilledForOpposing()
-		{
-			return false;
-		};
-		
-		// Checks if mission is completed for the acting side.
-		// Remarks: Default behavior is to return true if both primary and secondary
-		//          targets are complete. If primary target is null, then the mission
-		//          is never complete. If secondary target is null, then the mission
-		//          is considered complete when the primary target is complete.
-		// Returns (Boolean): true if mission is completed, else false.
-		protected virtual method Boolean IsMissionCompleteForActing()
-		{
-			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
-			
-			_primaryTarget = _self.PrimaryTargetForActing;
-			_secondaryTarget = _self.SecondaryTargetForActing;
-			
-			if (isNull _primaryTarget) then {
-				return false;
-			};
-			
-			if (call _self.PrimaryTargetFulfilledForActing) then
-			{
-				if (isNull _secondaryTarget) then {
-					return true;
-				}
-				else {
-					return call _self.SecondaryTargetFulfilledForActing;
-				};
-			};
-		};
-		
-		// Checks if mission is completed for the opposing side.
-		// Remarks: Default behavior is to return true if both primary and secondary
-		//          targets are complete. If primary target is null, then the mission
-		//          is never complete. If secondary target is null, then the mission
-		//          is considered complete when the primary target is complete.
-		// Returns (Boolean): true if mission is completed, else false.
-		protected virtual method Boolean IsMissionCompleteForOpposing()
-		{
-			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
-			
-			_primaryTarget = _self.PrimaryTargetForOpposing;
-			_secondaryTarget = _self.SecondaryTargetForOpposing;
-			
-			if (isNull _primaryTarget) then {
-				return false;
-			};
-			
-			if (call _self.PrimaryTargetFulfilledForOpposing) then
-			{
-				if (isNull _secondaryTarget) then {
-					return true;
-				}
-				else {
-					return call _self.SecondaryTargetFulfilledForOpposing;
-				};
+				return [call _self.PrimaryTargetCompletedForOpposing, call _self.SecondaryTargetCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
 			};
 		};
 		
 		// Called one time for each side that performs an insertion to begin carrying out the mission.
-		// _side (Side): The side of the group that is being inserted.
+		// Called by the campaign, and should never be called by the sub mission class.
+		// _group (Group): The group that is being inserted.
 		// _position (Array): The position where the group is inserted.
 		public method InsertGroup("_group" as Group, "_position" as Array)
 		{
@@ -322,16 +309,170 @@ namespace Mission.Server
 				[side _group, _position] call _self.OnOpposingGroupInserted;
 			};
 		};
+	
+		#endregion
 		
+		#region Overridable Methods
+		
+		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
+		// for the game. Called by the campaign as the first method to be called after the constructor.
+		// The default behavior is to set the daytime and create the mission target, so remember to call
+		// _base.Setup.
+		public virtual method Setup()
+		{
+			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
+			skipTime _timeToSkip;
+			
+			call _self.CreateTargets;
+		};
+
+		// Creates the briefing information regarding the primary target for the acting side.
+		// Called once from method Startup. Override this to create a primary target for the acting side.
+		// Default behavior is to create a mission task that says "Do whatever you want."
+		// Returns (MissionTask): Briefing information. Must not return classNull.
+		protected virtual method MissionTask CreatePrimaryTargetForActing()
+		{
+			return ["Do whatever you want."] new MissionTask;
+		};
+		
+		// Creates the briefing information regarding an eventual secondary target for the acting side.
+		// Called once from method Startup. Override this if you want to create a secondary target for the acting side.
+		// Default behavior is to return null - the side has no secondary target.
+		// Returns (MissionTask): Briefing information. classNull if there is no secondary target.
+		protected virtual method MissionTask CreateSecondaryTargetForActing()
+		{
+			return classNull;
+		};
+		
+		// Creates the briefing information regarding the primary target for the opposing side.
+		// Called once from method Startup. Override this to create a primary target for the opposing side.
+		// Default behavior is to create a mission task that says "Do whatever you want."
+		// Returns (MissionTask): Briefing information. Must not return classNull.
+		protected virtual method MissionTask CreatePrimaryTargetForOpposing()
+		{
+			return ["Do whatever you want."] new MissionTask;
+		};
+		
+		// Creates the briefing information regarding an eventual secondary target for the opposing side.
+		// Called once from method Startup. Override this if you want to create a secondary target for the opposing side.
+		// Default behavior is to return null - the side has no secondary target.
+		// Returns (MissionTask): Briefing information. classNull if there is no secondary target.
+		protected virtual method MissionTask CreateSecondaryTargetForOpposing()
+		{
+			return classNull;
+		};
+		
+		// Checks if the primary target for the acting side is completed.
+		// Called continously during the mission.
+		// Override this to specify the condition for when the acting side's primary target is completed.
+		// Default behavior is to return false - i.e. primary target never completes.
+		// Returns (Boolean): true when primary target for the acting side is completed, otherwise false.
+		protected virtual method Boolean PrimaryTargetCompletedForActing()
+		{
+			return false;
+		};
+		
+		// Checks if the secondary target for the acting side is completed.
+		// Called continously during the mission.
+		// Override this if the acting side has a secondary target to specify the condition for when it is completed.
+		// Default behavior is to return false - i.e. secondary target never completes.
+		// Returns (Boolean): true when secondary target for the acting side is completed, otherwise false.
+		protected virtual method Boolean SecondaryTargetCompletedForActing()
+		{
+			return false;
+		};
+		
+		// Checks if the primary target for the opposing side is completed.
+		// Override this to specify the condition for when the opposing side's primary target is completed.
+		// Default behavior is to return false - i.e. primary target never completes.
+		// Returns (Boolean): true when primary target for the opposing side is completed, otherwise false.
+		protected virtual method Boolean PrimaryTargetCompletedForOpposing()
+		{
+			return false;
+		};
+		
+		// Checks if the secondary target for the opposing side is completed.
+		// Override this if the opposing side has a secondary target to specify the condition for when it is completed.
+		// Default behavior is to return false - i.e. secondary target never completes.
+		// Returns (Boolean): true when secondary target for the opposing side is completed, otherwise false.
+		protected virtual method Boolean SecondaryTargetCompletedForOpposing()
+		{
+			return false;
+		};
+		
+		// Checks if mission is fully completed for the acting side, and that there is nothing left for the players to do.
+		// Default behavior is to return true if both primary and secondary targets are completed. If primary target is 
+		// null, then the mission is not complete until all players are dead or the mission time is up. If secondary 
+		// target is null, then the mission is considered complete for the side when its primary target is complete.
+		// Returns (Boolean): true when mission is fully completed, otherwise false.
+		protected virtual method Boolean IsMissionCompleteForActing()
+		{
+			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
+			
+			_primaryTarget = _self.PrimaryTargetForActing;
+			_secondaryTarget = _self.SecondaryTargetForActing;
+			
+			if (isNull _primaryTarget) then {
+				return false;
+			};
+			
+			if (call _self.PrimaryTargetCompletedForActing) then
+			{
+				if (isNull _secondaryTarget) then {
+					return true;
+				}
+				else {
+					return call _self.SecondaryTargetCompletedForActing;
+				};
+			};
+		};
+		
+		// Checks if mission is fully completed for the opposing side, and that there is nothing left for the players to do.
+		// Default behavior is to return true if both primary and secondary targets are completed. If primary target is 
+		// null, then the mission is not complete until all players are dead or the mission time is up. If secondary 
+		// target is null, then the mission is considered complete for the side when its primary target is complete.
+		// Returns (Boolean): true when mission is fully completed, otherwise false.
+		protected virtual method Boolean IsMissionCompleteForOpposing()
+		{
+			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
+			
+			_primaryTarget = _self.PrimaryTargetForOpposing;
+			_secondaryTarget = _self.SecondaryTargetForOpposing;
+			
+			if (isNull _primaryTarget) then {
+				return false;
+			};
+			
+			if (call _self.PrimaryTargetCompletedForOpposing) then
+			{
+				if (isNull _secondaryTarget) then {
+					return true;
+				}
+				else {
+					return call _self.SecondaryTargetCompletedForOpposing;
+				};
+			};
+		};
+		
+		// Performs mission setup for the acting side that may be necessary upon insertion.
+		// _side (Side): The side that is inserted.
+		// _position (Array): The position where the group is being inserted.
 		protected virtual method OnActingGroupInserted("_side" as Side, "_position" as Array)
 		{
 		};
 		
+		// Performs mission setup for the opposing side that may be necessary upon insertion.
+		// _side (Side): The side that is inserted.
+		// _position (Array): The position where the group is being inserted.
 		protected virtual method OnOpposingGroupInserted("_side" as Side, "_position" as Array)
 		{
 		};
 		
 		// Cleans up everything that was created in the Setup method.
+		// Default behavior is to delete all vehicles that are created using the spawn methods of this
+		// mission base class.
+		// Override this if you need to clean up stuff that has been created elsewhere. Remember to call
+		// _base.Cleanup.
 		public virtual method Cleanup()
 		{
 			{
@@ -339,6 +480,11 @@ namespace Mission.Server
 			} foreach _mSpawnedVehicles as Object;
 		};
 		
+		// Runs the mission service.
+		// Default behavior is to run the mission until all mission objectives on both sides are completed.
+		// Override this if you want other conditions or a more active mission service. Make sure to always
+		// quit the mission if the IsCancelling property reads true, and remember to call _base.Run at the 
+		// end.
 		protected override method Run()
 		{
 			while { !_self.IsCancelling } do
@@ -350,8 +496,9 @@ namespace Mission.Server
 				sleep 1;
 			};
 			
-			player sideChat "turning off mission.";
 			call _base.Run;
 		};
+
+		#endregion
 	};
 };

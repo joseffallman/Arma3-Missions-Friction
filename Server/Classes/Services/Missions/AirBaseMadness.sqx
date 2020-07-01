@@ -16,10 +16,6 @@ namespace Mission.Server
 		{
 			[_actingSide] call _base.Constructor;
 			
-			// The "acting" side will be the side attacking.
-			// The "opposing" side will be the side defending.
-			
-			_self.StartTime = 8;
 			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
 		};
@@ -40,12 +36,12 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionTask;
 		};
 		
-		protected override method Boolean PrimaryTargetFulfilledForActing()
+		protected override method Boolean PrimaryTargetCompletedForActing()
 		{
 			return _self.RemainingTime <= 29;
 		};
 		
-		protected override method Boolean PrimaryTargetFulfilledForOpposing()
+		protected override method Boolean PrimaryTargetCompletedForOpposing()
 		{
 			return _self.RemainingTime <= 29;
 		};
