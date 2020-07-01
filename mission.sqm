@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=38;
+		nextID=40;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={4448.6367,139.97084,3278.5249};
-		dir[]={-0.22370146,-0.047057889,0.97352391};
-		up[]={-0.010538875,0.99889082,0.045864101};
-		aside[]={0.97460443,-4.3655746e-011,0.22394982};
+		pos[]={4613.6221,185.0182,5215.1313};
+		dir[]={-0.020956697,-0.58694041,0.80937505};
+		up[]={-0.015192298,0.80962169,0.58675683};
+		aside[]={0.99967957,3.010955e-007,0.02588469};
 	};
 };
 binarizationWanted=0;
@@ -84,7 +84,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=14;
+		items=16;
 		class Item0
 		{
 			dataType="Marker";
@@ -863,6 +863,34 @@ class Mission
 			id=37;
 			type="MapBoard_stratis_F";
 			atlOffset=4.7683716e-007;
+		};
+		class Item14
+		{
+			dataType="Marker";
+			position[]={2055.771,5.402,5831.9839};
+			name="m2_acting_StartArea1";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=150;
+			b=75;
+			angle=228.35695;
+			id=38;
+			atlOffset=0.0002822876;
+		};
+		class Item15
+		{
+			dataType="Marker";
+			position[]={2087.239,3.4489999,5349.21};
+			name="m2_opposing_StartArea1";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=150;
+			b=75;
+			angle=159.194;
+			id=39;
+			atlOffset=-0.00022125244;
 		};
 	};
 };

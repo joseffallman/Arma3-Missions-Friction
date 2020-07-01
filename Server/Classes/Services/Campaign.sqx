@@ -24,13 +24,17 @@ namespace Mission.Server
 		{
 			call _base.Constructor;
 			
+			_mMissions = [
+				[west] new AirBaseMadness,
+				[west] new AirStationAssault
+			];
+		};
+		
+		private method ClearAllMapMarkers()
+		{
 			{
 				_x setMarkerAlpha 0;
 			} foreach allMapMarkers as String;
-			
-			_mMissions = [
-				[west] new AirStationAssault
-			];
 		};
 		
 		private method NotifyAboutMissionStart("_mission" as Mission)
@@ -127,6 +131,8 @@ namespace Mission.Server
 				_mEastlyPlayers = [];
 				_mWestlyPlayers = [];
 				
+				call _self.ClearAllMapMarkers;
+				
 				private _remainingTime = _mCurrentMission.RemainingTime;
 				
 				// Override the mission's own remaining time with 30 minutes if it is too long
@@ -173,6 +179,8 @@ namespace Mission.Server
 				};
 				
 				player sideChat "mission ended";
+				
+				// TODO: Tell players that mission has ended and beam them back to base.
 				
 				call _mCurrentMission.Cleanup;
 			} foreach _mMissions as Mission;

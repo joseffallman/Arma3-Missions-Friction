@@ -1,0 +1,69 @@
+/*
+ * Name:	AirBaseMadness
+ * Date:	2020-07-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A cat-and-mouse mission on the Stratis air base.
+ */
+namespace Mission.Server
+{
+	public class AirBaseMadness : Mission
+	{
+		// Creates a AirBaseMadness object.
+		public constructor("_actingSide" as Side)
+		{
+			[_actingSide] call _base.Constructor;
+			
+			// The "acting" side will be the side attacking.
+			// The "opposing" side will be the side defending.
+			
+			_self.StartTime = 8;
+			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
+			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
+			_self.ActingSideMarkers = [];
+		};
+		
+		public override method Setup()
+		{
+			/*
+			// Spawn ammo crates at base
+			private _ammoBox = ["Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.SpawnVehicleAtBase;
+			
+			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			
+			// Spawn vehicles at scene
+			["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.SpawnVehicleAtScene;
+			*/
+			
+			call _base.Setup;
+		};
+
+		protected override method MissionTask CreatePrimaryTargetForActing()
+		{
+			private _shortDescription = "Find and kill all enemies.";
+			private _longDescription = "Find and kill all enemies.";
+			
+			return [_shortDescription, _longDescription] new MissionTask;
+		};
+		
+		protected override method MissionTask CreatePrimaryTargetForOpposing()
+		{
+			private _shortDescription = "Find and kill all enemies.";
+			private _longDescription = "Find and kill all enemies.";
+			
+			return [_shortDescription, _longDescription] new MissionTask;
+		};
+		
+		protected override method Boolean PrimaryTargetFulfilledForActing()
+		{
+			return _self.RemainingTime <= 29;
+		};
+		
+		protected override method Boolean PrimaryTargetFulfilledForOpposing()
+		{
+			return _self.RemainingTime <= 29;
+		};
+	};
+};
