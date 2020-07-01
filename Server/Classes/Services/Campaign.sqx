@@ -127,27 +127,52 @@ namespace Mission.Server
 				_mEastlyPlayers = [];
 				_mWestlyPlayers = [];
 				
+				private _remainingTime = _mCurrentMission.RemainingTime;
+				
+				// Override the mission's own remaining time with 30 minutes if it is too long
+				if (_remainingTime > 30) then {
+					_mCurrentMission.RemainingTime = 30;
+					_remainingTime = 30;
+				};
+				
 				[_mCurrentMission] call _self.NotifyAboutMissionStart;
 				
 				call _mCurrentMission.Setup;
+				
+				private _startTime = time;
+				private _endTime = time + _remainingTime * 60;
 				
 				call _mCurrentMission.RunAsync;
 				
 				while { _mCurrentMission.IsRunning } do
 				{
+					// Calculate remaining time
+					_remainingTime = floor (1 + (_endTime - time) / 60);
+					
+					if (_remainingTime != _mCurrentMission.RemainingTime) then
+					{
+						_mCurrentMission.RemainingTime = _remainingTime;
+						["ClientEventReciever.OnMissionTimeTick", [_remainingTime]] call Remote.Invoke;
+					};
+					
+					// If time is up, cancel the mission.
+					
+					if (time > _endTime) then {
+						_mCurrentMission.RemainingTime = 0;
+						call _mCurrentMission.Cancel;
+					};
+					
 					// If all players are dead, cancel the mission.
 					
 					if (call _self.AllPlayersAreDead) then
 					{
-						player sideChat "all players dead.";
 						call _mCurrentMission.Cancel;
 					};
 					
 					sleep 1;
 				};
 				
-				player sideChat "mission canceled";
-				waitUntil { false };
+				player sideChat "mission ended";
 				
 				call _mCurrentMission.Cleanup;
 			} foreach _mMissions as Mission;

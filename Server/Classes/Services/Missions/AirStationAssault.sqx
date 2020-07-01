@@ -58,7 +58,7 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryTargetFulfilledForActing()
 		{
-			return alive _mAmmoTruck;
+			return _self.RemainingTime == 0 && alive _mAmmoTruck;
 		};
 		
 		protected override method Boolean PrimaryTargetFulfilledForOpposing()

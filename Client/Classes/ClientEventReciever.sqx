@@ -35,13 +35,9 @@ namespace Mission.Client.Statics
 	
 		// Called each time a second passes in the mission.
 		// _missionTimeRemaining (Scalar): The remaining time until the mission ends in seconds.
-		public static method OnServerTimeTick("_missionTimeRemaining" as Scalar)
+		public static method OnMissionTimeTick("_missionTimeRemaining" as Scalar)
 		{
-			hint ("Mission ends in " + (str _missionTimeRemaining) + " seconds.");
-			
-			if (_missionTimeRemaining == 0) then {
-				call ClientObjects.MissionEndHandler.EndGame;
-			};
+			hint ("Mission ends in " + (str _missionTimeRemaining) + " minutes.");
 		};
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)

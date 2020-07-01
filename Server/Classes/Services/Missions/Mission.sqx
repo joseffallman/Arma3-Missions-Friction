@@ -24,6 +24,7 @@ namespace Mission.Server
 			_mSpawnedVehicles = [];
 			
 			_self.StartTime = 12;
+			_self.RemainingTime = 30;
 			_self.ActingSideStartMarkers = [];
 			_self.OpposingSideStartMarkers = [];
 			_self.ActingSideMarkers = [];
@@ -116,6 +117,8 @@ namespace Mission.Server
 			
 			return [_vehicleType, _spawnMarker] call _self.SpawnVehicle;
 		};
+		
+		public property Scalar RemainingTime { get; set; };
 		
 		protected property Scalar StartTime { get; protected set; };
 		
