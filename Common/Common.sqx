@@ -4,6 +4,8 @@ call compile preprocessFileLineNumbers "Common\Classes\Objects\DictionaryItem.sq
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionInfo.sqx";0
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionMarkersInfo.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MarkerInfo.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResultInfo.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResult.sqx";
 
 using Mission.Common;
 using Mission.Common.Statics;

@@ -9,6 +9,7 @@
  */
 
 using Sqx.Services;
+using Mission.Common;
 
 namespace Mission.Server
 {
@@ -29,6 +30,8 @@ namespace Mission.Server
 			_self.OpposingSideStartMarkers = [];
 			_self.ActingSideMarkers = [];
 			_self.OpposingSideMarkers = [];
+			_self.ActingPlayers = [];
+			_self.OpposingPlayers = [];
 		};
 		
 		protected method Side GetActualSide("_side" as MissionSide)
@@ -59,6 +62,11 @@ namespace Mission.Server
 			};
 			
 			return MissionSide.Opposing;
+		};
+		
+		protected static method Boolean IsAlive("_player" as Object)
+		{
+			return _player != objNull && { alive _player && _player getVariable ["IsAlive", false] };
 		};
 		
 		// Spawns a vehicle on a marker.
@@ -122,6 +130,10 @@ namespace Mission.Server
 		
 		protected property Scalar StartTime { get; protected set; };
 		
+		protected property Array ActingPlayers { get; protected set; };
+		
+		protected property Array OpposingPlayers { get; protected set; };
+		
 		protected property Array ActingSideStartMarkers { get; protected set; };
 		
 		protected property Array OpposingSideStartMarkers { get; protected set; };
@@ -154,6 +166,20 @@ namespace Mission.Server
 			};
 			
 			return _self.OpposingSideMarkers;
+		};
+		
+		public method MissionResultInfo GetMissionResult("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return [call _self.PrimaryTargetFulfilledForActing, call _self.SecondaryTargetFulfilledForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+			}
+			else {
+				return [call _self.PrimaryTargetFulfilledForOpposing, call _self.SecondaryTargetFulfilledForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
+			};
 		};
 	
 		// Initializes the mission, i.e. creating and placing vehicles and such.
@@ -281,18 +307,19 @@ namespace Mission.Server
 		// Called one time for each side that performs an insertion to begin carrying out the mission.
 		// _side (Side): The side of the group that is being inserted.
 		// _position (Array): The position where the group is inserted.
-		public method InsertGroup("_side" as Side, "_position" as Array)
+		public method InsertGroup("_group" as Group, "_position" as Array)
 		{
 			private ["_missionSide" as MissionSide];
 			
-			_missionSide = [_side] call _self.GetMissionSide;
+			_missionSide = [side _group] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				[_side, _position] call _self.OnActingGroupInserted;
+				_self.ActingPlayers = units _group;
+				[side _group, _position] call _self.OnActingGroupInserted;
 			}
-			else
-			{
-				[_side, _position] call _self.OnOpposingGroupInserted;
+			else {
+				_self.OpposingPlayers = units _group;
+				[side _group, _position] call _self.OnOpposingGroupInserted;
 			};
 		};
 		

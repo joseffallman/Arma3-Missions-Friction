@@ -73,7 +73,7 @@ namespace Mission.Server
 			{
 				if (!_mWestHasInserted) then
 				{
-					[side _group, _position] call _mCurrentMission.InsertGroup;
+					[_group, _position] call _mCurrentMission.InsertGroup;
 					_mWestlyPlayers = units _group;
 					
 					{
@@ -87,7 +87,7 @@ namespace Mission.Server
 			{
 				if (!_mEastHasInserted) then
 				{
-					[side _group, _position] call _mCurrentMission.InsertGroup;
+					[_group, _position] call _mCurrentMission.InsertGroup;
 					_mEastlyPlayers = units _group;
 					
 					{
@@ -178,9 +178,13 @@ namespace Mission.Server
 					sleep 1;
 				};
 				
-				player sideChat "mission ended";
+				// Tell players that mission has ended and beam them back to base.
+				private _missionResultWest = [west] call _mCurrentMission.GetMissionResult;
+				private _missionResultEast = [east] call _mCurrentMission.GetMissionResult;
 				
-				// TODO: Tell players that mission has ended and beam them back to base.
+				["ClientEventReciever.OnMissionEnded", [[_missionResultWest, _missionResultEast] new MissionResult]] call Remote.Invoke;
+				
+				sleep 5;
 				
 				call _mCurrentMission.Cleanup;
 			} foreach _mMissions as Mission;

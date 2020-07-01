@@ -55,5 +55,10 @@ namespace Mission.Client.Statics
 				} foreach units _group;
 			};
 		};
+		
+		public static method OnMissionEnded("_missionResult" as MissionResult)
+		{
+			player sideChat str _missionResult;
+		};
 	};
 };

@@ -22,24 +22,8 @@ namespace Mission.Server
 			_self.StartTime = 8;
 			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
-			_self.ActingSideMarkers = [];
 		};
 		
-		public override method Setup()
-		{
-			/*
-			// Spawn ammo crates at base
-			private _ammoBox = ["Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.SpawnVehicleAtBase;
-			
-			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
-			
-			// Spawn vehicles at scene
-			["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.SpawnVehicleAtScene;
-			*/
-			
-			call _base.Setup;
-		};
-
 		protected override method MissionTask CreatePrimaryTargetForActing()
 		{
 			private _shortDescription = "Find and kill all enemies.";

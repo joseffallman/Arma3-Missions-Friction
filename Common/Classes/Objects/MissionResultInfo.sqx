@@ -1,0 +1,31 @@
+/*
+ * Name:	MissionResultInfo
+ * Date:	2020-07-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Contains the result of a mission.
+ */
+namespace Mission.Common
+{
+	public class MissionResultInfo
+	{
+		// Creates a MissionResult object.t
+		public constructor("_primaryTargetCompleted" as Boolean, "_secondaryTargetCompleted" as Boolean, "_menAtStart" as Scalar, "_menAtEnd" as Scalar)
+		{
+			_self.PrimaryTargetCompleted = _primaryTargetCompleted;
+			_self.SecondaryTargetCompleted = _secondaryTargetCompleted;
+			_self.MenAtStart = _menAtStart;
+			_self.MenAtEnd = _menAtEnd;
+		};
+		
+		public property Boolean PrimaryTargetCompleted { get; private set; };
+		
+		public property Boolean SecondaryTargetCompleted { get; private set; };
+		
+		public property Scalar MenAtStart { get; private set; };
+		
+		public property Scalar MenAtEnd { get; private set; };
+	};
+};
