@@ -69,6 +69,8 @@ namespace Mission.Client.Statics
 			_primaryObjective = [playerSide] call _missionBriefing.GetPrimaryObjective;
 			_secondaryObjective = [playerSide] call _missionBriefing.GetSecondaryObjective;
 			
+			player sideChat str _primaryObjective;
+			
 			if (!isNull _primaryObjective) then {
 				[_primaryObjective, ObjectivePrio.Primary] call ClientObjects.TaskHandler.CreateTask;
 			};

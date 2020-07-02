@@ -14,6 +14,10 @@ namespace Mission.Common
 		// Creates a MissionBriefing object.
 		public constructor("_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective)
 		{
+			_self.WestPrimaryObjective = _westPrimaryObjective;
+			_self.WestSecondaryObjective = _westSecondaryObjective;
+			_self.EastPrimaryObjective = _eastPrimaryObjective;
+			_self.EastSecondaryObjective = _eastSecondaryObjective;
 		};
 		
 		public property MissionObjective WestPrimaryObjective { get; private set; };

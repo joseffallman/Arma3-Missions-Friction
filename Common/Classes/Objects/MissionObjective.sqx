@@ -17,7 +17,7 @@ namespace Mission.Common
 			_self.ShortDescription = _shortDescription;
 			_self.FullDescription = _fullDescription;
 			
-			if (_fullDescription != "") then {
+			if (_fullDescription == "") then {
 				_self.FullDescription = _shortDescription;
 			};
 		};

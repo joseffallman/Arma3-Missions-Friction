@@ -50,6 +50,14 @@ namespace Mission.Server
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
+
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			private _shortDescription = "Destroy the fuel truck.";
+			private _longDescription = "Destroy fuel truck. The enemy fuel truck is located somewhere inside the area of Air Station Mike-26.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
