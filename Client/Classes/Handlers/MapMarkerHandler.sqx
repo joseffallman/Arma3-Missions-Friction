@@ -14,13 +14,24 @@ namespace Mission.Client
 {
 	public class MapMarkerHandler
 	{
+		private fields ["_mLocalMarkers" as Array];
+		
 		// Creates a MapMarkerHandler object.
 		public constructor()
 		{
+			_mLocalMarkers = [];
 		};
 		
 		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
 		{
+			// Remove all earlier markers
+			
+			{
+				deleteMarkerLocal _x;
+			} foreach _mLocalMarkers;
+			
+			_mLocalMarkers = [];
+		
 			// Draw start markers
 			
 			private _startMarkerColor = if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
@@ -32,6 +43,7 @@ namespace Mission.Client
 					private _pos = getMarkerPos _x.Name;
 					
 					private _marker = createMarkerLocal [_name, _pos];
+					_mLocalMarkers pushBack _marker;
 					
 					_marker setMarkerShapeLocal (markerShape _x.Name);
 					_marker setMarkerSizeLocal (markerSize _x.Name);
@@ -49,6 +61,7 @@ namespace Mission.Client
 					private _pos = getMarkerPos _x.Name;
 					
 					private _marker = createMarkerLocal [_name, _pos];
+					_mLocalMarkers pushBack _marker;
 					
 					_marker setMarkerShapeLocal (markerShape _x.Name);
 					_marker setMarkerSizeLocal (markerSize _x.Name);
