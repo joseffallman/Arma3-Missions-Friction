@@ -141,6 +141,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MarkerInfo.sqx" FileName="Common\Classes\Objects\MarkerInfo.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionBriefing.sqx" FileName="Common\Classes\Objects\MissionBriefing.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionInfo.sqx" FileName="Common\Classes\Objects\MissionInfo.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -179,6 +182,9 @@
                 <SubNodes />
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignPhase.sqx" FileName="Common\Enums\CampaignPhase.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectivePrio.sqx" FileName="Common\Enums\ObjectivePrio.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
             </SubNodes>

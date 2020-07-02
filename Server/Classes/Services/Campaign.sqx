@@ -72,6 +72,21 @@ namespace Mission.Server
 			["ClientEventReciever.OnMissionSetup", [_missionMarkersInfo]] call Remote.Invoke;
 		};
 		
+		private method NotifyAboutMissionBriefing("_mission" as Mission)
+		{
+			private ["_missionBriefing" as MissionBriefing];
+		
+			private _westPrimaryObjective = [west, ObjectivePrio.Primary] call _mission.GetMissionObjective;
+			private _westSecondaryObjective = [west, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
+			private _eastPrimaryObjective = [east, ObjectivePrio.Primary] call _mission.GetMissionObjective;
+			private _eastSecondaryObjective = [east, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
+			
+			_missionBriefing = [_westPrimaryObjective, _westSecondaryObjective, _eastPrimaryObjective, _eastSecondaryObjective] new MissionBriefing;
+			
+			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
+			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
+		};
+
 		public method InsertGroup("_group" as Group, "_position" as Array)
 		{
 			if (side _group == west) then
@@ -149,6 +164,8 @@ namespace Mission.Server
 				[_mCurrentMission] call _self.NotifyAboutMissionStart;
 				
 				call _mCurrentMission.Setup;
+				
+				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
 				
 				private _startTime = time;
 				private _endTime = time + _remainingTime * 60;

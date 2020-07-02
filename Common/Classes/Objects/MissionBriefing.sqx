@@ -1,0 +1,45 @@
+/*
+ * Name:	MissionBriefing
+ * Date:	2020-07-02
+ * Version: 1.0
+ * Author:  Engimai
+ *
+ * Description:
+ * Contains all necessary information for briefing of a mission.
+ */
+namespace Mission.Common
+{
+	public class MissionBriefing
+	{
+		// Creates a MissionBriefing object.
+		public constructor("_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective)
+		{
+		};
+		
+		public property MissionObjective WestPrimaryObjective { get; private set; };
+		
+		public property MissionObjective WestSecondaryObjective { get; private set; };
+		
+		public property MissionObjective EastPrimaryObjective { get; private set; };
+		
+		public property MissionObjective EastSecondaryObjective { get; private set; };
+		
+		public method MissionObjective GetPrimaryObjective("_side" as Side)
+		{
+			if (_side == west) then {
+				return _self.WestPrimaryObjective;
+			};
+			
+			return _self.EastPrimaryObjective;
+		};
+		
+		public method MissionObjective GetSecondaryObjective("_side" as Side)
+		{
+			if (_side == west) then {
+				return _self.WestSecondaryObjective;
+			};
+			
+			return _self.EastSecondaryObjective;
+		};
+	};
+};

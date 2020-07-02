@@ -290,6 +290,28 @@ namespace Mission.Server
 			};
 		};
 		
+		public method MissionObjective GetMissionObjective("_side" as Side, "_prio" as ObjectivePrio)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
+				return _self.PrimaryObjectiveForActing;
+			};
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
+				return _self.SecondaryObjectiveForActing;
+			};
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
+				return _self.PrimaryObjectiveForOpposing;
+			};
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
+				return _self.SecondaryObjectiveForOpposing;
+			};
+			
+			return classNull;
+		};
+		
 		// Called one time for each side that performs an insertion to begin carrying out the mission.
 		// Called by the campaign, and should never be called by the sub mission class.
 		// _group (Group): The group that is being inserted.

@@ -61,5 +61,10 @@ namespace Mission.Client.Statics
 			player sideChat ("west: " + str _missionResult.ResultInfoWest.Score);
 			player sideChat ("east: " + str _missionResult.ResultInfoEast.Score);
 		};
+		
+		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
+		{
+			//_missionBriefing.
+		};
 	};
 };

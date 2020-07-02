@@ -91,6 +91,31 @@ namespace Mission.Communication
 			return classNull;
 		};
 		
+		
+		// Sets and broadcasts mission briefing across the network.
+		// _campaignPhase (CampaignPhase): The mission markers info object to be broadcasted.
+		public static method BroadcastMissionBriefing("_missionBriefing" as MissionBriefing)
+		{
+			PUBVAR_MissionBriefing = _missionBriefing;
+			publicVariable "PUBVAR_MissionBriefing";
+		};
+		
+		// Gets whether the variable for mission briefing has started has been public variabled at least once, so it actually has a value.
+		public static method Boolean HasValueMissionBriefing() {
+			return !isNil "PUBVAR_MissionBriefing";
+		};
+		
+		// Gets the mission briefing object from the public network synchronized variable.
+		// Before using this method, always call the corresponding HasValue method, since it might be nil if not yet broadcast.
+		public static method MissionBriefing GetMissionBriefing()
+		{
+			if (call _self.HasValueMissionBriefing) then {
+				return PUBVAR_MissionBriefing;
+			};
+
+			return classNull;
+		};
+		
 		#endregion
 	};
 };

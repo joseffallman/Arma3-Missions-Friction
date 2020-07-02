@@ -48,6 +48,8 @@ namespace Mission.Communication
 					case "ClientEventReciever.OnMissionSetup": { _parameters spawn ClientEventReciever.OnMissionSetup; };
 					case "ClientEventReciever.OnInsertGroup": { _parameters spawn ClientEventReciever.OnInsertGroup; };
 					case "ClientEventReciever.OnMissionEnded": { _parameters spawn ClientEventReciever.OnMissionEnded; };
+					case "ClientEventReciever.OnMissionBriefing": { _parameters spawn ClientEventReciever.OnMissionBriefing; };
+					
 				};
 			};
 		};
