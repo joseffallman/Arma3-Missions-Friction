@@ -6,6 +6,7 @@ call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionMarkersInf
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MarkerInfo.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResultInfo.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResult.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionObjective.sqx";
 
 using Mission.Common;
 using Mission.Common.Statics;

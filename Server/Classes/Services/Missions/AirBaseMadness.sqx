@@ -7,6 +7,9 @@
  * Description:
  * A cat-and-mouse mission on the Stratis air base.
  */
+
+using Mission.Common;
+
 namespace Mission.Server
 {
 	public class AirBaseMadness : Mission

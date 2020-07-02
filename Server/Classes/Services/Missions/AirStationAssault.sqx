@@ -7,6 +7,9 @@
  * Description:
  * A mission where players assault and defend Air Station Mike.
  */
+
+using Mission.Common;
+
 namespace Mission.Server
 {
 	public class AirStationAssault : Mission
