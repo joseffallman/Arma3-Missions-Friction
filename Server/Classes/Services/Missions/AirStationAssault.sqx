@@ -40,28 +40,28 @@ namespace Mission.Server
 			call _base.Setup;
 		};
 
-		protected override method MissionTask CreatePrimaryTargetForActing()
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Destroy the ammo truck.";
 			private _longDescription = "Destroy ammo truck. The enemy ammo truck is located somewhere inside the area of Air Station Mike-26.";
 			
-			return [_shortDescription, _longDescription] new MissionTask;
+			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method MissionTask CreatePrimaryTargetForOpposing()
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Patrol Air Station Mike-26.";
 			private _longDescription = "Patrol the Air Station Mike-26 and keep it safe from enemies.";
 			
-			return [_shortDescription, _longDescription] new MissionTask;
+			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryTargetCompletedForActing()
+		protected override method Boolean PrimaryObjectiveCompletedForActing()
 		{
 			return _self.RemainingTime == 0 && alive _mAmmoTruck;
 		};
 		
-		protected override method Boolean PrimaryTargetCompletedForOpposing()
+		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
 		{
 			return !alive _mAmmoTruck;
 		};

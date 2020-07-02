@@ -20,28 +20,28 @@ namespace Mission.Server
 			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
 		};
 		
-		protected override method MissionTask CreatePrimaryTargetForActing()
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Find and kill all enemies.";
 			private _longDescription = "Find and kill all enemies.";
 			
-			return [_shortDescription, _longDescription] new MissionTask;
+			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method MissionTask CreatePrimaryTargetForOpposing()
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Find and kill all enemies.";
 			private _longDescription = "Find and kill all enemies.";
 			
-			return [_shortDescription, _longDescription] new MissionTask;
+			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryTargetCompletedForActing()
+		protected override method Boolean PrimaryObjectiveCompletedForActing()
 		{
 			return _self.RemainingTime <= 29;
 		};
 		
-		protected override method Boolean PrimaryTargetCompletedForOpposing()
+		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
 		{
 			return _self.RemainingTime <= 29;
 		};

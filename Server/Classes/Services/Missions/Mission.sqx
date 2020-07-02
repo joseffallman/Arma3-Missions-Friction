@@ -48,14 +48,14 @@ namespace Mission.Server
 		
 		#region Private Methods
 
-		// Creates target for both sides and sets all primary- and secondary target attributes for
+		// Creates objectives for both sides and sets all primary- and secondary objective attributes for
 		// the mission.
-		private method CreateTargets()
+		private method CreateMissionObjectives()
 		{
-			_self.PrimaryTargetForActing = call _self.CreatePrimaryTargetForActing;
-			_self.SecondaryTargetForActing = call _self.CreateSecondaryTargetForActing;
-			_self.PrimaryTargetForOpposing = call _self.CreatePrimaryTargetForOpposing;
-			_self.SecondaryTargetForOpposing = call _self.CreateSecondaryTargetForOpposing;
+			_self.PrimaryObjectiveForActing = call _self.CreatePrimaryObjectiveForActing;
+			_self.SecondaryObjectiveForActing = call _self.CreateSecondaryObjectiveForActing;
+			_self.PrimaryObjectiveForOpposing = call _self.CreatePrimaryObjectiveForOpposing;
+			_self.SecondaryObjectiveForOpposing = call _self.CreateSecondaryObjectiveForOpposing;
 		};
 		
 		// Spawns a vehicle on a marker.
@@ -198,17 +198,17 @@ namespace Mission.Server
 		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
 		protected property Array OpposingPlayers { get; private set; };
 
-		// Gets the primary target information for the acting side.
-		protected property MissionTask PrimaryTargetForActing { get; private set; };
+		// Gets the primary objective briefing information for the acting side.
+		protected property MissionObjective PrimaryObjectiveForActing { get; private set; };
 		
-		// Gets the secondary target information for the acting side. objNull if there is no secondary target.
-		protected property MissionTask SecondaryTargetForActing { get; private set; };
+		// Gets the secondary objective briefing information for the acting side. classNull if there is no secondary objective.
+		protected property MissionObjective SecondaryObjectiveForActing { get; private set; };
 		
-		// Gets the primary target information for the opposing side.
-		protected property MissionTask PrimaryTargetForOpposing { get; private set; };
+		// Gets the primary objective briefing information for the opposing side.
+		protected property MissionObjective PrimaryObjectiveForOpposing { get; private set; };
 		
-		// Gets the secondary target information for the opposing side. objNull if there is no secondary target.
-		protected property MissionTask SecondaryTargetForOpposing { get; private set; };
+		// Gets the secondary objective briefing information for the opposing side. classNull if there is no secondary objective.
+		protected property MissionObjective SecondaryObjectiveForOpposing { get; private set; };
 		
 		#endregion
 		
@@ -283,10 +283,10 @@ namespace Mission.Server
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return [call _self.PrimaryTargetCompletedForActing, call _self.SecondaryTargetCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+				return [call _self.PrimaryObjectiveCompletedForActing, call _self.SecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
 			}
 			else {
-				return [call _self.PrimaryTargetCompletedForOpposing, call _self.SecondaryTargetCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
+				return [call _self.PrimaryObjectiveCompletedForOpposing, call _self.SecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
 			};
 		};
 		
@@ -316,140 +316,140 @@ namespace Mission.Server
 		
 		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
 		// for the game. Called by the campaign as the first method to be called after the constructor.
-		// The default behavior is to set the daytime and create the mission target, so remember to call
-		// _base.Setup.
+		// The default behavior is to set the daytime and create the mission objectives, so remember to call
+		// _base.Setup from the sub class.
 		public virtual method Setup()
 		{
 			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
 			skipTime _timeToSkip;
 			
-			call _self.CreateTargets;
+			call _self.CreateMissionObjectives;
 		};
 
-		// Creates the briefing information regarding the primary target for the acting side.
-		// Called once from method Startup. Override this to create a primary target for the acting side.
+		// Creates the briefing information regarding the primary objective for the acting side.
+		// Called once from method Startup. Override this to create a primary objective for the acting side.
 		// Default behavior is to create a mission task that says "Do whatever you want."
 		// Returns (MissionTask): Briefing information. Must not return classNull.
-		protected virtual method MissionTask CreatePrimaryTargetForActing()
+		protected virtual method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			return ["Do whatever you want."] new MissionTask;
+			return ["Do whatever you want."] new MissionObjective;
 		};
 		
-		// Creates the briefing information regarding an eventual secondary target for the acting side.
-		// Called once from method Startup. Override this if you want to create a secondary target for the acting side.
-		// Default behavior is to return null - the side has no secondary target.
-		// Returns (MissionTask): Briefing information. classNull if there is no secondary target.
-		protected virtual method MissionTask CreateSecondaryTargetForActing()
+		// Creates the briefing information regarding an eventual secondary objective for the acting side.
+		// Called once from method Startup. Override this if you want to create a secondary objective for the acting side.
+		// Default behavior is to return null - the side has no secondary objective.
+		// Returns (MissionTask): Briefing information. classNull if there is no secondary objective.
+		protected virtual method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			return classNull;
 		};
 		
-		// Creates the briefing information regarding the primary target for the opposing side.
-		// Called once from method Startup. Override this to create a primary target for the opposing side.
+		// Creates the briefing information regarding the primary objective for the opposing side.
+		// Called once from method Startup. Override this to create a primary objective for the opposing side.
 		// Default behavior is to create a mission task that says "Do whatever you want."
 		// Returns (MissionTask): Briefing information. Must not return classNull.
-		protected virtual method MissionTask CreatePrimaryTargetForOpposing()
+		protected virtual method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Do whatever you want."] new MissionTask;
+			return ["Do whatever you want."] new MissionObjective;
 		};
 		
-		// Creates the briefing information regarding an eventual secondary target for the opposing side.
-		// Called once from method Startup. Override this if you want to create a secondary target for the opposing side.
-		// Default behavior is to return null - the side has no secondary target.
-		// Returns (MissionTask): Briefing information. classNull if there is no secondary target.
-		protected virtual method MissionTask CreateSecondaryTargetForOpposing()
+		// Creates the briefing information regarding an eventual secondary objective for the opposing side.
+		// Called once from method Startup. Override this if you want to create a secondary objective for the opposing side.
+		// Default behavior is to return null - the side has no secondary objective.
+		// Returns (MissionTask): Briefing information. classNull if there is no secondary objective.
+		protected virtual method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
 			return classNull;
 		};
 		
-		// Checks if the primary target for the acting side is completed.
+		// Checks if the primary objective for the acting side is completed.
 		// Called continously during the mission.
-		// Override this to specify the condition for when the acting side's primary target is completed.
-		// Default behavior is to return false - i.e. primary target never completes.
-		// Returns (Boolean): true when primary target for the acting side is completed, otherwise false.
-		protected virtual method Boolean PrimaryTargetCompletedForActing()
+		// Override this to specify the condition for when the acting side's primary objective is completed.
+		// Default behavior is to return false - i.e. primary objective never completes.
+		// Returns (Boolean): true when primary objective for the acting side is completed, otherwise false.
+		protected virtual method Boolean PrimaryObjectiveCompletedForActing()
 		{
 			return false;
 		};
 		
-		// Checks if the secondary target for the acting side is completed.
+		// Checks if the secondary objective for the acting side is completed.
 		// Called continously during the mission.
-		// Override this if the acting side has a secondary target to specify the condition for when it is completed.
-		// Default behavior is to return false - i.e. secondary target never completes.
-		// Returns (Boolean): true when secondary target for the acting side is completed, otherwise false.
-		protected virtual method Boolean SecondaryTargetCompletedForActing()
+		// Override this if the acting side has a secondary objective to specify the condition for when it is completed.
+		// Default behavior is to return false - i.e. secondary objective never completes.
+		// Returns (Boolean): true when secondary objective for the acting side is completed, otherwise false.
+		protected virtual method Boolean SecondaryObjectiveCompletedForActing()
 		{
 			return false;
 		};
 		
-		// Checks if the primary target for the opposing side is completed.
-		// Override this to specify the condition for when the opposing side's primary target is completed.
-		// Default behavior is to return false - i.e. primary target never completes.
-		// Returns (Boolean): true when primary target for the opposing side is completed, otherwise false.
-		protected virtual method Boolean PrimaryTargetCompletedForOpposing()
+		// Checks if the primary objective for the opposing side is completed.
+		// Override this to specify the condition for when the opposing side's primary objective is completed.
+		// Default behavior is to return false - i.e. primary objective never completes.
+		// Returns (Boolean): true when primary objective for the opposing side is completed, otherwise false.
+		protected virtual method Boolean PrimaryObjectiveCompletedForOpposing()
 		{
 			return false;
 		};
 		
-		// Checks if the secondary target for the opposing side is completed.
-		// Override this if the opposing side has a secondary target to specify the condition for when it is completed.
-		// Default behavior is to return false - i.e. secondary target never completes.
-		// Returns (Boolean): true when secondary target for the opposing side is completed, otherwise false.
-		protected virtual method Boolean SecondaryTargetCompletedForOpposing()
+		// Checks if the secondary objective for the opposing side is completed.
+		// Override this if the opposing side has a secondary objective to specify the condition for when it is completed.
+		// Default behavior is to return false - i.e. secondary objective never completes.
+		// Returns (Boolean): true when secondary objective for the opposing side is completed, otherwise false.
+		protected virtual method Boolean SecondaryObjectiveCompletedForOpposing()
 		{
 			return false;
 		};
 		
 		// Checks if mission is fully completed for the acting side, and that there is nothing left for the players to do.
-		// Default behavior is to return true if both primary and secondary targets are completed. If primary target is 
+		// Default behavior is to return true if both primary and secondary objectives are completed. If primary objective is 
 		// null, then the mission is not complete until all players are dead or the mission time is up. If secondary 
-		// target is null, then the mission is considered complete for the side when its primary target is complete.
+		// objective is null, then the mission is considered complete for the side when its primary objective is complete.
 		// Returns (Boolean): true when mission is fully completed, otherwise false.
 		protected virtual method Boolean IsMissionCompleteForActing()
 		{
-			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
+			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
-			_primaryTarget = _self.PrimaryTargetForActing;
-			_secondaryTarget = _self.SecondaryTargetForActing;
+			_primaryObjective = _self.PrimaryObjectiveForActing;
+			_secondaryObjective = _self.SecondaryObjectiveForActing;
 			
-			if (isNull _primaryTarget) then {
+			if (isNull _primaryObjective) then {
 				return false;
 			};
 			
-			if (call _self.PrimaryTargetCompletedForActing) then
+			if (call _self.PrimaryObjectiveCompletedForActing) then
 			{
-				if (isNull _secondaryTarget) then {
+				if (isNull _secondaryObjective) then {
 					return true;
 				}
 				else {
-					return call _self.SecondaryTargetCompletedForActing;
+					return call _self.SecondaryObjectiveCompletedForActing;
 				};
 			};
 		};
 		
 		// Checks if mission is fully completed for the opposing side, and that there is nothing left for the players to do.
-		// Default behavior is to return true if both primary and secondary targets are completed. If primary target is 
+		// Default behavior is to return true if both primary and secondary objectives are completed. If primary objective is 
 		// null, then the mission is not complete until all players are dead or the mission time is up. If secondary 
-		// target is null, then the mission is considered complete for the side when its primary target is complete.
+		// objective is null, then the mission is considered complete for the side when its primary objective is complete.
 		// Returns (Boolean): true when mission is fully completed, otherwise false.
 		protected virtual method Boolean IsMissionCompleteForOpposing()
 		{
-			private ["_primaryTarget" as MissionTask, "_secondaryTarget" as MissionTask];
+			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
-			_primaryTarget = _self.PrimaryTargetForOpposing;
-			_secondaryTarget = _self.SecondaryTargetForOpposing;
+			_primaryObjective = _self.PrimaryObjectiveForOpposing;
+			_secondaryObjective = _self.SecondaryObjectiveForOpposing;
 			
-			if (isNull _primaryTarget) then {
+			if (isNull _primaryObjective) then {
 				return false;
 			};
 			
-			if (call _self.PrimaryTargetCompletedForOpposing) then
+			if (call _self.PrimaryObjectiveCompletedForOpposing) then
 			{
-				if (isNull _secondaryTarget) then {
+				if (isNull _secondaryObjective) then {
 					return true;
 				}
 				else {
-					return call _self.SecondaryTargetCompletedForOpposing;
+					return call _self.SecondaryObjectiveCompletedForOpposing;
 				};
 			};
 		};

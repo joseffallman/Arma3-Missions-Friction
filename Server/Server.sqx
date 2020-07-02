@@ -3,7 +3,7 @@ call compile preprocessFileLineNumbers "Server\Classes\ServerEventReciever.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Configs\GameplayConfig.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Configs\ArrowConfig.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionTask.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionObjective.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\MissionEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Campaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\Mission.sqx";

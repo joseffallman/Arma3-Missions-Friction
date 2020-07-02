@@ -1,17 +1,17 @@
 /*
- * Name:	MissionTask
+ * Name:	MissionObjective
  * Date:	2020-06-25
  * Version: 1.0
  * Author:  Engima
  *
  * Description:
- * Class that contains all information about a group's primary or secondary task.
+ * Class that contains briefing information about a primary or secondary objective.
  */
 namespace Mission.Server
 {
-	public class MissionTask
+	public class MissionObjective
 	{
-		// Creates a MissionTask object.
+		// Creates a MissionObjective object.
 		public constructor("_shortDescription" as String, ["_fullDescription" as String, ""])
 		{
 			_self.ShortDescription = _shortDescription;
