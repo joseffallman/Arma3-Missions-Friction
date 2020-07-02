@@ -12,17 +12,14 @@ namespace Mission.Client
 {
 	public class MissionEndHandler : IMissionEndHandler
 	{
-		private fields ["_mTaskHandler" as ITaskHandler];
-		
-		public constructor("_taskHandler" as ITaskHandler)
+		public constructor()
 		{
-			_mTaskHandler = _taskHandler;
 		};
 		
 		// Plays the end game scene and ends the mission.
 		public method EndGame()
 		{
-			private _isVictory = _mTaskHandler.AllTasksCompleted;			
+			private _isVictory = true;			
 			["END1", _isVictory] spawn BIS_fnc_endMission;
 		};
 	};

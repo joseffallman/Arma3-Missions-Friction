@@ -2,15 +2,12 @@ call compile preprocessFileLineNumbers "Client\Enums\TaskState.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientObjects.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Configs\TaskConfig.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\FrictionMenuHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Objects\TaskInfo.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Services\TaskMonitor.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 
 using Mission.Client;

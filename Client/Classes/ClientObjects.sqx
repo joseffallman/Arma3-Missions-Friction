@@ -20,11 +20,9 @@ namespace Mission.Client.Statics
 		{
 			// [Instantiate client config and handler classes here. By that they are reachable from anywhere]
 			
-			_self.TaskConfig = new TaskConfig;
 			_self.BriefingHandler = new BriefingHandler;
-			_self.TaskHandler = [_self.TaskConfig] new TaskHandler;
-			_self.TaskMonitor = [_self.TaskHandler] new TaskMonitor;
-			_self.MissionEndHandler = [_self.TaskHandler] new MissionEndHandler;
+			_self.TaskHandler = new TaskHandler;
+			_self.MissionEndHandler = new MissionEndHandler;
 			_self.MapMarkerHandler = new MapMarkerHandler;
 			_self.MessageHandler = new ClientMessageHandler;
 			_self.PerformInsertionService = [_self.MessageHandler] new PerformInsertionService;
@@ -32,13 +30,11 @@ namespace Mission.Client.Statics
 		
 		// [Declare client config and handler classes as static properties here]
 		
-		public static property ITaskConfig TaskConfig { get; private set; };
-		
 		public static property IBriefingHandler BriefingHandler { get; private set; };
 		
 		public static property IMissionEndHandler MissionEndHandler { get; private set; };
 		
-		public static property ITaskHandler TaskHandler { get; private set; };
+		public static property TaskHandler TaskHandler { get; private set; };
 		
 		public static property IService TaskMonitor { get; private set; };
 		
