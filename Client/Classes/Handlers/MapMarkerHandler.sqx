@@ -26,7 +26,8 @@ namespace Mission.Client
 			private _startMarkerColor = if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
 			
 			{
-				if (_x.Side == playerSide) then {
+				if (_x.Side == playerSide) then
+				{
 					private _name = _x.Name + "_local";
 					private _pos = getMarkerPos _x.Name;
 					

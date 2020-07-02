@@ -874,7 +874,7 @@ class Mission
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=228.35678;
+			angle=228.35651;
 			id=38;
 			atlOffset=0.0002822876;
 		};

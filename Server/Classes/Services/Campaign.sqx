@@ -23,6 +23,7 @@ namespace Mission.Server
 		public constructor()
 		{
 			call _base.Constructor;
+			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
 				[west] new AirStationAssault,
@@ -150,8 +151,6 @@ namespace Mission.Server
 				_mWestHasInserted = false;
 				_mEastlyPlayers = [];
 				_mWestlyPlayers = [];
-				
-				call _self.ClearAllMapMarkers;
 				
 				private _remainingTime = _mCurrentMission.RemainingTime;
 				
