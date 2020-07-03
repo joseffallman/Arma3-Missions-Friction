@@ -79,6 +79,12 @@ namespace Mission.Client.Statics
 			
 			_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
 			call _teleporter.RunAsync;
+			
+			{
+				if (local _x) then {
+					_x setVariable ["IsAlive", false];
+				};
+			} foreach units group player;
 		};
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)

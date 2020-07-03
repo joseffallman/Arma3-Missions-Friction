@@ -31,20 +31,7 @@ namespace Mission.Server
 			_self.ActingPlayers = [];
 			_self.OpposingPlayers = [];
 			
-			// The following properties may be overrided in the constructor of the sub mission. See the
-			// header comment for each property for more information.
-			
-			// The following properties are mandatory to set in the constructor of the sub class.
-			
-			_self.ActingSideStartMarkers = [];
-			_self.OpposingSideStartMarkers = [];
-			
-			// The following properties are optional to set in the constructor of the sub class.
-			
-			_self.StartTimeOfDay = 12;
-			_self.RemainingTime = 30;
-			_self.ActingSideMarkers = [];
-			_self.OpposingSideMarkers = [];
+			call _self.Initialize;
 		};
 		
 		#region Private Methods
@@ -332,10 +319,29 @@ namespace Mission.Server
 		
 		#region Overridable Methods
 		
+		// Initializes mission attributes.
+		// This is a lightweight initialization called from the constructor, with a purpose to set
+		// attributes like markers and start markers as well ass mission time of day and length. As
+		// a good practice, in the method of the sub class, begin with a call to _base.Initialize.
+		protected override method Initialize()
+		{
+			// The following properties are mandatory to set in the constructor of the sub class.
+			
+			_self.ActingSideStartMarkers = [];
+			_self.OpposingSideStartMarkers = [];
+			
+			// The following properties are optional to set in the constructor of the sub class.
+			
+			_self.StartTimeOfDay = 12;
+			_self.RemainingTime = 30;
+			_self.ActingSideMarkers = [];
+			_self.OpposingSideMarkers = [];
+		};
+		
 		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
 		// for the game. Called by the campaign as the first method to be called after the constructor.
-		// The default behavior is to set the daytime and create the mission objectives, so remember to call
-		// _base.Setup from the sub class.
+		// The default behavior is to skip to correct daytime and create the mission objectives, so 
+		// remember to call _base.Setup from the last line in the method of the sub class.
 		public virtual method Setup()
 		{
 			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;

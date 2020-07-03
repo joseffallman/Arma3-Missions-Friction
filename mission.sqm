@@ -874,7 +874,7 @@ class Mission
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=228.35646;
+			angle=228.35643;
 			id=38;
 			atlOffset=0.0002822876;
 		};
@@ -904,7 +904,7 @@ class Mission
 			b=50;
 			angle=90;
 			id=40;
-			atlOffset=-1.5625;
+			atlOffset=-1.5624924;
 		};
 		class Item17
 		{
@@ -925,9 +925,9 @@ class Mission
 			position[]={4503.8545,101.19244,6796.1523};
 			name="m03_Truck";
 			type="Empty";
-			angle=188.28235;
+			angle=188.28232;
 			id=42;
-			atlOffset=-4.7485352;
+			atlOffset=-4.7485428;
 		};
 	};
 };

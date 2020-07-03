@@ -20,6 +20,11 @@ namespace Mission.Server
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+		};
+		
+		protected override method Initialize()
+		{
+			call _base.Initialize;
 			
 			// The "acting" side will be the side attacking.
 			// The "opposing" side will be the side defending.

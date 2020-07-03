@@ -20,9 +20,21 @@ namespace Mission.Server
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+		};
+		
+		protected override method Initialize()
+		{
+			call _base.Initialize;
 			
 			_self.ActingSideStartMarkers = ["m03_a_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m03_o_StartArea1"];
+		};
+		
+		public override method Setup()
+		{
+			_mTruck = ["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Acting, "m03_Truck"] call _self.SpawnVehicleAtScene;
+		
+			call _base.Setup;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -41,13 +53,6 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		public override method Setup()
-		{
-			_mTruck = ["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Acting, "m03_Truck"] call _self.SpawnVehicleAtScene;
-		
-			call _base.Setup;
-		};
-		
 		protected override method Boolean PrimaryObjectiveCompletedForActing()
 		{
 			return { _x distance _mTruck < 10 } count _self.ActingPlayers > 0;
@@ -55,7 +60,7 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
 		{
-			return { _x distance _mTruck < 10 } count _self.OpposingPlayers > 0;
+			return true; //{ _x distance _mTruck < 10 } count _self.OpposingPlayers > 0;
 		};
 	};
 };
