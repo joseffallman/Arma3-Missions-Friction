@@ -5,14 +5,14 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=40;
+		nextID=43;
 	};
 	class MarkerIDProvider
 	{
-		nextID=5;
+		nextID=6;
 	};
 	class Camera
 	{
@@ -84,7 +84,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=16;
+		items=19;
 		class Item0
 		{
 			dataType="Marker";
@@ -874,7 +874,7 @@ class Mission
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=228.35651;
+			angle=228.35646;
 			id=38;
 			atlOffset=0.0002822876;
 		};
@@ -885,12 +885,49 @@ class Mission
 			name="m2_opposing_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
-			colorName="ColorWEST";
+			colorName="ColorEAST";
 			a=150;
 			b=75;
 			angle=159.194;
 			id=39;
 			atlOffset=-0.00022125244;
+		};
+		class Item16
+		{
+			dataType="Marker";
+			position[]={4451.2734,120.05518,6787.9248};
+			name="m03_a_StartArea1";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=100;
+			b=50;
+			angle=90;
+			id=40;
+			atlOffset=-1.5625;
+		};
+		class Item17
+		{
+			dataType="Marker";
+			position[]={4561.646,98.502602,6788.8149};
+			name="m03_o_StartArea1";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorEAST";
+			a=100;
+			b=50;
+			angle=90;
+			id=41;
+		};
+		class Item18
+		{
+			dataType="Marker";
+			position[]={4503.8545,101.19244,6796.1523};
+			name="m03_Truck";
+			type="Empty";
+			angle=188.28235;
+			id=42;
+			atlOffset=-4.7485352;
 		};
 	};
 };

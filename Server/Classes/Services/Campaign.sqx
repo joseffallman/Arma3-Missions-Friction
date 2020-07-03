@@ -28,7 +28,7 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, west] new AirStationAssault,
+				[_mBaseMarkersConfig, west] new EasyKill,
 				[_mBaseMarkersConfig, west] new AirBaseMadness
 			];
 		};

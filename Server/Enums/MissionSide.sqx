@@ -12,7 +12,8 @@ namespace Mission.Server
 	public enum MissionSide
 	{
 		Acting,
-		Opposing
+		Opposing,
+		Guerilla
 	};
 };
 

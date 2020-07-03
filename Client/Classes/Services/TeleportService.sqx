@@ -30,7 +30,7 @@ namespace Mission.Client
 			
 			sleep 1.2;
 			
-			player setPos [(_position select 0) - 3 + random 6, (_position select 1) - 3 + random 6, 0.1];
+			player setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
 			cutText ["", "WHITE IN", 1];
 			
 			call _base.Run;
