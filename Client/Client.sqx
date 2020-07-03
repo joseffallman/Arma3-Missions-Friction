@@ -9,6 +9,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\FrictionMenuHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.sqx";
 
 using Mission.Client;
 using Mission.Client.Statics;

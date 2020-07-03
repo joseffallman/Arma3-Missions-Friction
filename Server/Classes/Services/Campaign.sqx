@@ -16,18 +16,20 @@ namespace Mission.Server
 {
 	public class Campaign : Service
 	{
-		private fields ["_mMissions" as Array /* of Mission */, "_mWestlyPlayers" as Array, "_mEastlyPlayers" as Array];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mMissions" as Array /* of Mission */, "_mWestlyPlayers" as Array, "_mEastlyPlayers" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 	
 		// Creates a Campaign object.
-		public constructor()
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
 		{
 			call _base.Constructor;
+			_mBaseMarkersConfig = _baseMarkersConfig;
+			
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[west] new AirStationAssault,
-				[west] new AirBaseMadness
+				[_mBaseMarkersConfig, west] new AirStationAssault,
+				[_mBaseMarkersConfig, west] new AirBaseMadness
 			];
 		};
 		

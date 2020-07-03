@@ -7,10 +7,11 @@
  * Description:
  * Abstracted base marker for markers that exists in both west's and east's base.
  */
-namespace Mission.Server
+namespace Mission.Common
 {
 	public enum BaseMarker
 	{
+		Respawn,
 		AmmoCrate
 	};
 };

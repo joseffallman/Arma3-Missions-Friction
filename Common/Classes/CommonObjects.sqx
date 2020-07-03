@@ -8,6 +8,8 @@
  * Static class that holds all server side configs, so they can be reached from anywhere on the server.
  */
 
+using Mission.Common;
+
 namespace Mission.Common.Statics
 {
 	public class CommonObjects
@@ -16,8 +18,10 @@ namespace Mission.Common.Statics
 		public static method Init()
 		{
 			// [Instantiate common config and handler classes here. By that they are reachable from anywhere]
+			_self.BaseMarkersConfig = new BaseMarkersConfig;
 		};
 		
 		// [Declare common config and handler classes as static properties here]
+		public static property IBaseMarkersConfig BaseMarkersConfig { get; private set; };
 	};
 };

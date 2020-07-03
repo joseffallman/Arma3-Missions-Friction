@@ -16,15 +16,16 @@ namespace Mission.Server
 {
 	public class Mission : Service
 	{
-		private fields ["_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
 		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
-		public constructor("_actingSide" as Side)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
 			// These lines are of technical use in the base class and should not be altered or overrided.
 			
 			call _base.Constructor;
+			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
 			_self.ActingPlayers = [];
@@ -169,12 +170,7 @@ namespace Mission.Server
 			switch (_baseMarker) do
 			{
 				case BaseMarker.AmmoCrate: {
-					if (_side == west) then {
-						_spawnMarker = "base_west_AmmoCrateMarker";
-					}
-					else {
-						_spawnMarker = "base_east_AmmoCrateMarker";
-					};
+					_spawnMarker = [_side, BaseMarker.AmmoCrate] call _mBaseMarkersConfig.GetMarkerName;
 				};
 			};
 			

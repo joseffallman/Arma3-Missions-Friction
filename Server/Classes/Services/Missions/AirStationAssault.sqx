@@ -17,9 +17,9 @@ namespace Mission.Server
 		private fields ["_mAmmoTruck" as Object];
 		
 		// Creates a AirStationAssault object.
-		public constructor("_actingSide" as Side)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
-			[_actingSide] call _base.Constructor;
+			[_baseMarkersConfig, _actingSide] call _base.Constructor;
 			
 			// The "acting" side will be the side attacking.
 			// The "opposing" side will be the side defending.

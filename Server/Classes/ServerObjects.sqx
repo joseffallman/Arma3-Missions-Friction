@@ -9,6 +9,7 @@
  */
 
 using Mission.Server;
+using Mission.Common.Statics;
 
 namespace Mission.Server.Statics
 {
@@ -17,14 +18,10 @@ namespace Mission.Server.Statics
 		// Initializes the ServerObjects object.
 		public static method Init()
 		{
-			// [Instantiate server config and handler classes here. By that they are reachable from anywhere on the server]
-			
 			_self.GameplayConfig = new GameplayConfig;
 			_self.ArrowConfig = new ArrowConfig;
-			_self.Campaign = new Campaign;
+			_self.Campaign = [CommonObjects.BaseMarkersConfig] new Campaign;
 		};
-		
-		// [Declare server config and handler classes as static properties here]
 		
 		// Gets the gamelay config object.
 		public static property IGameplayConfig GameplayConfig { get; private set; };

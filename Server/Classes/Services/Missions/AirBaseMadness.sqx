@@ -15,9 +15,9 @@ namespace Mission.Server
 	public class AirBaseMadness : Mission
 	{
 		// Creates a AirBaseMadness object.
-		public constructor("_actingSide" as Side)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
-			[_actingSide] call _base.Constructor;
+			[_baseMarkersConfig, _actingSide] call _base.Constructor;
 			
 			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
