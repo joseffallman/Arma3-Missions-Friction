@@ -7,7 +7,7 @@
  * Description:
  * An enum describing available task states.
  */
-namespace Mission.Client
+namespace Mission.Common
 {
 	public enum TaskState
 	{

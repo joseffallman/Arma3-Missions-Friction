@@ -1,4 +1,3 @@
-call compile preprocessFileLineNumbers "Client\Enums\TaskState.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientObjects.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";

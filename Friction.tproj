@@ -73,11 +73,7 @@
             </SubNodes>
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Enums" FileName="Client\Enums">
-            <SubNodes>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskState.sqx" FileName="Client\Enums\TaskState.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
-            </SubNodes>
+            <SubNodes />
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Client.sqx" FileName="Client\Client.sqx">
             <SubNodes />
@@ -182,6 +178,9 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectivePrio.sqx" FileName="Common\Enums\ObjectivePrio.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskState.sqx" FileName="Common\Enums\TaskState.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
             </SubNodes>
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Common.sqx" FileName="Common\Common.sqx">
@@ -212,19 +211,6 @@
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Configs" FileName="Server\Classes\Configs">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Server\Classes\Configs\Interfaces">
-                    <SubNodes>
-                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IArrowConfig.sqx" FileName="Server\Classes\Configs\Interfaces\IArrowConfig.sqx">
-                        <SubNodes />
-                      </ProjectNodeViewModel>
-                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IGameplayConfig.sqx" FileName="Server\Classes\Configs\Interfaces\IGameplayConfig.sqx">
-                        <SubNodes />
-                      </ProjectNodeViewModel>
-                    </SubNodes>
-                  </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ArrowConfig.sqx" FileName="Server\Classes\Configs\ArrowConfig.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="GameplayConfig.sqx" FileName="Server\Classes\Configs\GameplayConfig.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>

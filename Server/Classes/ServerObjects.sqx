@@ -18,16 +18,8 @@ namespace Mission.Server.Statics
 		// Initializes the ServerObjects object.
 		public static method Init()
 		{
-			_self.GameplayConfig = new GameplayConfig;
-			_self.ArrowConfig = new ArrowConfig;
 			_self.Campaign = [CommonObjects.BaseMarkersConfig] new Campaign;
 		};
-		
-		// Gets the gamelay config object.
-		public static property IGameplayConfig GameplayConfig { get; private set; };
-		
-		// Gets the arrow config object.
-		public static property IArrowConfig ArrowConfig { get; private set; };
 		
 		public static property Campaign Campaign { get; private set; };
 	};

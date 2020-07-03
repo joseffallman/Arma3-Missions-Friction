@@ -16,13 +16,9 @@ namespace Mission.Server
 {
 	public class MissionEngine : Service
 	{
-		private fields ["_mGameplayConfig" as IGameplayConfig, "_mArrowConfig" as IArrowConfig];
-	
-		public constructor("_gameplayConfig" as IGameplayConfig, "_arrowConfig" as IArrowConfig /*, ... Add all other configs necessary for the mission engine here. */)
+		public constructor()
 		{
 			call _base.Constructor;
-			_mGameplayConfig = _gameplayConfig;
-			_mArrowConfig = _arrowConfig;
 		};
 		
         // Runs the mission.

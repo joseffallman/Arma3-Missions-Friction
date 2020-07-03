@@ -1,3 +1,4 @@
+call compile preprocessFileLineNumbers "Common\Enums\TaskState.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\CommonObjects.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\CommonEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Configs\BaseMarkersConfig.sqx";

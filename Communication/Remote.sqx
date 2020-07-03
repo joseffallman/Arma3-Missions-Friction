@@ -49,7 +49,7 @@ namespace Mission.Communication
 					case "ClientEventReciever.OnInsertGroup": { _parameters spawn ClientEventReciever.OnInsertGroup; };
 					case "ClientEventReciever.OnMissionEnded": { _parameters spawn ClientEventReciever.OnMissionEnded; };
 					case "ClientEventReciever.OnMissionBriefing": { _parameters spawn ClientEventReciever.OnMissionBriefing; };
-					
+					case "ClientEventReciever.OnTaskStateChanged": { _parameters spawn ClientEventReciever.OnTaskStateChanged; };
 				};
 			};
 		};

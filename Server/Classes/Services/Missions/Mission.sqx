@@ -295,6 +295,28 @@ namespace Mission.Server
 			return classNull;
 		};
 		
+		public method Boolean CheckObjectiveCompleted("_side" as Side, "_prio" as ObjectivePrio)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
+				return call _self.PrimaryObjectiveCompletedForActing;
+			};
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
+				return call _self.SecondaryObjectiveCompletedForActing;
+			};
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
+				return call _self.PrimaryObjectiveCompletedForOpposing;
+			};
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
+				return call _self.SecondaryObjectiveCompletedForOpposing;
+			};
+			
+			return false;
+		};
+		
 		// Called one time for each side that performs an insertion to begin carrying out the mission.
 		// Called by the campaign, and should never be called by the sub mission class.
 		// _group (Group): The group that is being inserted.
@@ -321,7 +343,8 @@ namespace Mission.Server
 		
 		// Initializes mission attributes.
 		// This is a lightweight initialization called from the constructor, with a purpose to set
-		// attributes like markers and start markers as well ass mission time of day and length. As
+		// attributes like markers and start markers as well ass mission time of day and length. 
+		// You should not do anything that alters the world - like creating vehicles or units. As
 		// a good practice, in the method of the sub class, begin with a call to _base.Initialize.
 		protected override method Initialize()
 		{
@@ -341,7 +364,8 @@ namespace Mission.Server
 		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
 		// for the game. Called by the campaign as the first method to be called after the constructor.
 		// The default behavior is to skip to correct daytime and create the mission objectives, so 
-		// remember to call _base.Setup from the last line in the method of the sub class.
+		// remember to call _base.Setup from the last line in the method of the sub class. This is where
+		// you create units like vehicles and AI soldiers.
 		public virtual method Setup()
 		{
 			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
@@ -356,7 +380,7 @@ namespace Mission.Server
 		// Returns (MissionTask): Briefing information. Must not return classNull.
 		protected virtual method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			return ["Do whatever you want."] new MissionObjective;
+			return ["Survive."] new MissionObjective;
 		};
 		
 		// Creates the briefing information regarding an eventual secondary objective for the acting side.
@@ -374,7 +398,7 @@ namespace Mission.Server
 		// Returns (MissionTask): Briefing information. Must not return classNull.
 		protected virtual method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Do whatever you want."] new MissionObjective;
+			return ["Survive."] new MissionObjective;
 		};
 		
 		// Creates the briefing information regarding an eventual secondary objective for the opposing side.
@@ -426,8 +450,8 @@ namespace Mission.Server
 		
 		// Checks if mission is fully completed for the acting side, and that there is nothing left for the players to do.
 		// Default behavior is to return true if both primary and secondary objectives are completed. If primary objective is 
-		// null, then the mission is not complete until all players are dead or the mission time is up. If secondary 
-		// objective is null, then the mission is considered complete for the side when its primary objective is complete.
+		// null, then the mission is never considered complete. If secondary 
+		// objective is null, then the mission is considered complete when the primary objective is complete.
 		// Returns (Boolean): true when mission is fully completed, otherwise false.
 		protected virtual method Boolean IsMissionCompleteForActing()
 		{
@@ -453,8 +477,8 @@ namespace Mission.Server
 		
 		// Checks if mission is fully completed for the opposing side, and that there is nothing left for the players to do.
 		// Default behavior is to return true if both primary and secondary objectives are completed. If primary objective is 
-		// null, then the mission is not complete until all players are dead or the mission time is up. If secondary 
-		// objective is null, then the mission is considered complete for the side when its primary objective is complete.
+		// null, then the mission is never considered complete. If secondary 
+		// objective is null, then the mission is considered complete when the primary objective is complete.
 		// Returns (Boolean): true when mission is fully completed, otherwise false.
 		protected virtual method Boolean IsMissionCompleteForOpposing()
 		{

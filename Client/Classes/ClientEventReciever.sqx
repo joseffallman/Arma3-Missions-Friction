@@ -102,5 +102,12 @@ namespace Mission.Client.Statics
 				[_secondaryObjective, ObjectivePrio.Secondary] call ClientObjects.TaskHandler.CreateTask;
 			};
 		};
+		
+		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_taskState" as TaskState)
+		{
+			if (_side == playerSide) then {
+				[_objectivePrio, _taskState] call ClientObjects.TaskHandler.SetTaskState;
+			};
+		};
 	};
 };

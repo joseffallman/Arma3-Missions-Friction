@@ -1,8 +1,6 @@
 call compile preprocessFileLineNumbers "Server\Classes\ServerEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\ServerEventReciever.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Configs\GameplayConfig.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Configs\ArrowConfig.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\MissionEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Campaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\Mission.sqx";
@@ -29,7 +27,7 @@ namespace Mission
 			call ServerEventHandlers.Init;
 			
 			// Start the mission engine service
-			_missionEngine = [ServerObjects.GameplayConfig, ServerObjects.ArrowConfig] new MissionEngine;
+			_missionEngine = new MissionEngine;
 			call _missionEngine.RunAsync;
 		};
 	};
