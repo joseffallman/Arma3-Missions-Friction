@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=43;
+		nextID=54;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={4613.6221,185.0182,5215.1313};
-		dir[]={-0.020956697,-0.58694041,0.80937505};
-		up[]={-0.015192298,0.80962169,0.58675683};
-		aside[]={0.99967957,3.010955e-007,0.02588469};
+		pos[]={2055.771,30.402,5806.9839};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710677,0.70710677};
+		aside[]={0.99999994,0,-0};
 	};
 };
 binarizationWanted=0;
@@ -84,12 +84,12 @@ class Mission
 	};
 	class Entities
 	{
-		items=19;
+		items=20;
 		class Item0
 		{
 			dataType="Marker";
 			position[]={4339.478,225.08501,3808.3701};
-			name="m1_defender_startarea1";
+			name="m01o_startarea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
@@ -105,7 +105,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={3964.2939,100.345,4198.8862};
-			name="m1_attacker_StartArea1";
+			name="m01a_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
@@ -119,13 +119,13 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4755.5581,95.748001,3735.8799};
-			name="m1_attacker_StartArea2";
+			name="m01a_StartArea2";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=94.045952;
+			angle=94.045967;
 			id=2;
 			atlOffset=0.00034332275;
 		};
@@ -133,7 +133,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4144.248,154.47099,3289.3931};
-			name="m1_attacker_StartArea3";
+			name="m01a_StartArea3";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
@@ -796,7 +796,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4361.3062,226.707,3817.8369};
-			name="m1_defender_AmmoTruck";
+			name="m01o_AmmoTruck";
 			type="Empty";
 			angle=174.42299;
 			id=19;
@@ -806,7 +806,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4347.4189,226.64,3833.46};
-			name="m1_attacker_PrimaryTarget";
+			name="m01a_PrimaryTarget";
 			text="Destroy ammo truck";
 			type="mil_destroy";
 			id=31;
@@ -868,13 +868,13 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={2055.771,5.402,5831.9839};
-			name="m2_acting_StartArea1";
+			name="m02a_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=228.35614;
+			angle=228.35594;
 			id=38;
 			atlOffset=0.0002822876;
 		};
@@ -882,7 +882,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={2087.239,3.4489999,5349.21};
-			name="m2_opposing_StartArea1";
+			name="m02o_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
@@ -895,8 +895,8 @@ class Mission
 		class Item16
 		{
 			dataType="Marker";
-			position[]={4451.2734,120.05518,6787.9248};
-			name="m03_a_StartArea1";
+			position[]={4451.2729,120.055,6787.9248};
+			name="m03a_StartArea1";
 			markerType="RECTANGLE";
 			type="rectangle";
 			colorName="ColorWEST";
@@ -904,13 +904,13 @@ class Mission
 			b=50;
 			angle=90;
 			id=40;
-			atlOffset=-1.5624924;
+			atlOffset=-1.5626831;
 		};
 		class Item17
 		{
 			dataType="Marker";
-			position[]={4561.646,98.502602,6788.8149};
-			name="m03_o_StartArea1";
+			position[]={4561.646,98.502998,6788.8149};
+			name="m03o_StartArea1";
 			markerType="RECTANGLE";
 			type="rectangle";
 			colorName="ColorEAST";
@@ -918,16 +918,27 @@ class Mission
 			b=50;
 			angle=90;
 			id=41;
+			atlOffset=0.00039672852;
 		};
 		class Item18
 		{
 			dataType="Marker";
-			position[]={4503.8545,101.19244,6796.1523};
-			name="m03_Truck";
+			position[]={4504.6128,102.763,6783.0732};
+			name="m03_AmmoTruck";
 			type="Empty";
-			angle=188.2823;
+			angle=188.28191;
 			id=42;
-			atlOffset=-4.7485428;
+			atlOffset=-4.5430908;
+		};
+		class Item19
+		{
+			dataType="Marker";
+			position[]={4505.2251,106.341,6764.2871};
+			name="m03_FuelTruck";
+			type="Empty";
+			angle=235.53194;
+			id=43;
+			atlOffset=-4.5434494;
 		};
 	};
 };

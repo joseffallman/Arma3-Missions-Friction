@@ -94,6 +94,9 @@ namespace Mission.Client.Statics
 			
 			// Show insertion menu option
 			call FrictionMenuHandler.UpdateVisibleOptions;
+			
+			// Delete tasks
+			call ClientObjects.TaskHandler.DeleteAllTasks;
 		};
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)

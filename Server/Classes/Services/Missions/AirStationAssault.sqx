@@ -29,9 +29,9 @@ namespace Mission.Server
 			
 			_self.Name = "Air Station Assault";
 			_self.StartTimeOfDay = 5;
-			_self.ActingSideStartMarkers = ["m1_attacker_startarea1", "m1_attacker_startarea2", "m1_attacker_startarea3"];
-			_self.OpposingSideStartMarkers = ["m1_defender_startarea1"];
-			_self.ActingSideMarkers = ["m1_attacker_PrimaryTarget"];
+			_self.ActingSideStartMarkers = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
+			_self.OpposingSideStartMarkers = ["m01o_startarea1"];
+			_self.ActingSideMarkers = ["m01a_PrimaryTarget"];
 		};
 		
 		public override method Setup()
@@ -42,7 +42,7 @@ namespace Mission.Server
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
 			// Spawn opposing side's objects
-			["AMMO TRUCK", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
+			["AMMO TRUCK", MissionSide.Opposing, "m01o_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
 			
 			call _base.Setup;
 		};
@@ -55,14 +55,6 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 
-		protected override method MissionObjective CreateSecondaryObjectiveForActing()
-		{
-			private _shortDescription = "Destroy the fuel truck.";
-			private _longDescription = "Destroy fuel truck. The enemy fuel truck is located somewhere inside the area of Air Station Mike-26.";
-			
-			return [_shortDescription, _longDescription] new MissionObjective;
-		};
-		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Patrol Air Station Mike-26.";

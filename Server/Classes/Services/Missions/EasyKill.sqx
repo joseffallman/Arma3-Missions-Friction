@@ -14,7 +14,7 @@ namespace Mission.Server
 {
 	public class EasyKill : Mission
 	{
-		private fields ["_mTruck" as Object];
+		private fields ["_mAmmoTruck" as Object, "_mFuelTruck" as Object];
 		
 		// Creates a AirBaseMadness object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
@@ -25,21 +25,30 @@ namespace Mission.Server
 		protected override method Initialize()
 		{
 			_self.Name = "Easy Kill";
-			_self.ActingSideStartMarkers = ["m03_a_StartArea1"];
-			_self.OpposingSideStartMarkers = ["m03_o_StartArea1"];
+			_self.ActingSideStartMarkers = ["m03a_StartArea1"];
+			_self.OpposingSideStartMarkers = ["m03o_StartArea1"];
 		};
 		
 		public override method Setup()
 		{
-			_mTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_Truck"] call _self.CreateSideVehicleOnMarker;
+			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
+			_mFuelTruck = ["FUEL TRUCK", MissionSide.Acting, "m03_FuelTruck"] call _self.CreateSideVehicleOnMarker;
 		
 			call _base.Setup;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			private _shortDescription = "Reach the truck.";
-			private _longDescription = "Reach the truck.";
+			private _shortDescription = "Reach the ammo truck.";
+			private _longDescription = "Reach the ammo truck.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			private _shortDescription = "Reach the fuel truck.";
+			private _longDescription = "Reach the fuel truck.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -54,7 +63,12 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveCompletedForActing()
 		{
-			return { _x distance _mTruck < 10 } count _self.ActingPlayers > 0;
+			return { _x distance _mAmmoTruck < 10 } count _self.ActingPlayers > 0;
+		};
+		
+		protected override method Boolean SecondaryObjectiveCompletedForActing()
+		{
+			return { _x distance _mFuelTruck < 10 } count _self.ActingPlayers > 0;
 		};
 		
 		protected override method Boolean PrimaryObjectiveCompletedForOpposing()

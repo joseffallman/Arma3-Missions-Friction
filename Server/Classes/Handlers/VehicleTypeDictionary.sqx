@@ -18,7 +18,13 @@ namespace Mission.Server
 		{
 			_mVehicleTypes = [
 				["AMMO TRUCK", "B_Truck_01_ammo_F", "O_Truck_03_ammo_F"] new VehicleSideAlias,
-				["AMMOBOX ORDNANCE", "Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F"] new VehicleSideAlias,
+				["TRANSPORT TRUCK", "B_Truck_01_transport_F", "O_Truck_03_transport_F"] new VehicleSideAlias,
+				["FUEL TRUCK", "B_Truck_01_fuel_F", "O_Truck_03_fuel_F"] new VehicleSideAlias,
+				["MEDICAL TRUCK", "B_Truck_01_medical_F", "O_Truck_03_medical_F"] new VehicleSideAlias,
+				["DEVICE TRUCK", "B_Truck_01_box_F", "O_Truck_03_device_F"] new VehicleSideAlias,
+				["REPAIR TRUCK", "B_Truck_01_Repair_F", "O_Truck_03_repair_F"] new VehicleSideAlias,
+				
+				["AMMOBOX ORDNANCE", "Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F"] new VehicleSideAlias			
 			];
 		};
 		

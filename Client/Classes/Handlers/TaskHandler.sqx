@@ -51,7 +51,7 @@ namespace Mission.Client
 		public method DeleteAllTasks()
 		{
 			{
-				[_x, player] call BIS_fnc_deleteTask;
+				[_x, playerSide] call BIS_fnc_deleteTask;
 			} foreach _mTaskIds as String;
 			
 			_mTaskIds = [];

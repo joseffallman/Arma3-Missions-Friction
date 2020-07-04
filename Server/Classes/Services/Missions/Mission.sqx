@@ -17,6 +17,7 @@ namespace Mission.Server
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
+		private fields ["_mPrimaryObjectiveCompletedForActing" as Boolean, "_mSecondaryObjectiveCompletedForActing" as Boolean, "_mPrimaryObjectiveCompletedForOpposing" as Boolean, "_mSecondaryObjectiveCompletedForOpposing" as Boolean];
 		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
@@ -31,6 +32,10 @@ namespace Mission.Server
 			_mSpawnedVehicles = [];
 			_self.ActingPlayers = [];
 			_self.OpposingPlayers = [];
+			_mPrimaryObjectiveCompletedForActing = false;
+			_mSecondaryObjectiveCompletedForActing = false;
+			_mPrimaryObjectiveCompletedForOpposing = false;
+			_mSecondaryObjectiveCompletedForOpposing = false;
 			
 			_self.Name = "New Mission";
 			_self.ActingSideStartMarkers = [];
@@ -309,16 +314,36 @@ namespace Mission.Server
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
-				return call _self.PrimaryObjectiveCompletedForActing;
+				if (_mPrimaryObjectiveCompletedForActing || { call _self.PrimaryObjectiveCompletedForActing }) then {
+					_mPrimaryObjectiveCompletedForActing = true;
+					return true;
+				};
+				
+				return false;
 			};
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
-				return call _self.SecondaryObjectiveCompletedForActing;
+				if (_mSecondaryObjectiveCompletedForActing || { call _self.SecondaryObjectiveCompletedForActing }) then {
+					_mSecondaryObjectiveCompletedForActing = true;
+					return true;
+				};
+				
+				return false;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
-				return call _self.PrimaryObjectiveCompletedForOpposing;
+				if (_mPrimaryObjectiveCompletedForOpposing || { call _self.PrimaryObjectiveCompletedForOpposing }) then {
+					_mPrimaryObjectiveCompletedForOpposing = true;
+					return true;
+				};
+				
+				return false;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
-				return call _self.SecondaryObjectiveCompletedForOpposing;
+				if (_mSecondaryObjectiveCompletedForOpposing || { call _self.SecondaryObjectiveCompletedForOpposing }) then {
+					_mSecondaryObjectiveCompletedForOpposing = true;
+					return true;
+				};
+				
+				return false;
 			};
 			
 			return false;
@@ -481,13 +506,13 @@ namespace Mission.Server
 				return false;
 			};
 			
-			if (call _self.PrimaryObjectiveCompletedForActing) then
+			if (_mPrimaryObjectiveCompletedForActing) then
 			{
 				if (isNull _secondaryObjective) then {
 					return true;
 				}
 				else {
-					return call _self.SecondaryObjectiveCompletedForActing;
+					return _mSecondaryObjectiveCompletedForActing;
 				};
 			};
 		};
@@ -508,13 +533,13 @@ namespace Mission.Server
 				return false;
 			};
 			
-			if (call _self.PrimaryObjectiveCompletedForOpposing) then
+			if (_mPrimaryObjectiveCompletedForOpposing) then
 			{
 				if (isNull _secondaryObjective) then {
 					return true;
 				}
 				else {
-					return call _self.SecondaryObjectiveCompletedForOpposing;
+					return _mSecondaryObjectiveCompletedForOpposing;
 				};
 			};
 		};
