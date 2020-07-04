@@ -116,6 +116,57 @@ namespace Mission.Communication
 			return classNull;
 		};
 		
+		
+		// Sets and broadcasts whether west has inserted across the network.
+		// _hasInserted (Boolean): Whether west has inserted into the mission or not.
+		public static method BroadcastWestHasInserted("_hasInserted" as Boolean)
+		{
+			PUBVAR_WestHasInserted = _hasInserted;
+			publicVariable "PUBVAR_WestHasInserted";
+		};
+		
+		// Gets whether west has inserted into the mission at lwest once, so it actually has a value.
+		public static method Boolean HasValueWestHasInserted() {
+			return !isNil "PUBVAR_WestHasInserted";
+		};
+		
+		// Gets whether west has inserted from the public network synchronized variable.
+		// Returns: true if west has inserted, otherwise false.
+		public static method Boolean GetWestHasInserted()
+		{
+			if (call _self.HasValueWestHasInserted) then {
+				return PUBVAR_WestHasInserted;
+			};
+
+			return false;
+		};
+		
+		
+		// Sets and broadcasts whether east has inserted across the network.
+		// _hasInserted (Boolean): Whether east has inserted into the mission or not.
+		public static method BroadcastEastHasInserted("_hasInserted" as Boolean)
+		{
+			PUBVAR_EastHasInserted = _hasInserted;
+			publicVariable "PUBVAR_EastHasInserted";
+		};
+		
+		// Gets whether east has inserted into the mission at least once, so it actually has a value.
+		public static method Boolean HasValueEastHasInserted() {
+			return !isNil "PUBVAR_EastHasInserted";
+		};
+		
+		// Gets whether east has inserted from the public network synchronized variable.
+		// Returns: true if east has inserted, otherwise false.
+		public static method Boolean GetEastHasInserted()
+		{
+			if (call _self.HasValueEastHasInserted) then {
+				return PUBVAR_EastHasInserted;
+			};
+
+			return false;
+		};
+		
+		
 		#endregion
 	};
 };

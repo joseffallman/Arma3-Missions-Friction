@@ -62,6 +62,9 @@ namespace Mission.Client.Statics
 					};
 				} foreach units _group;
 			};
+			
+			// Hide insertion menu option
+			call FrictionMenuHandler.UpdateVisibleOptions;
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult)
@@ -85,6 +88,9 @@ namespace Mission.Client.Statics
 					_x setVariable ["IsAlive", false];
 				};
 			} foreach units group player;
+			
+			// Show insertion menu option
+			call FrictionMenuHandler.UpdateVisibleOptions;
 		};
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)

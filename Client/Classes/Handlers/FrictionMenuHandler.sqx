@@ -52,11 +52,18 @@ namespace Mission.Client
 		
 		public static method UpdateVisibleOptions()
 		{
-			private ["_campaignPhase" as CampaignPhase];
+			private ["_playerGroupHasInserted" as Boolean];
 			
-			_campaignPhase = [CampaignPhase.MissionPlanning] call PublicVariableHandler.GetCampaignPhase;
+			_playerGroupHasInserted = false;
 			
-			_self.OptionPerformInsertionVisible = _campaignPhase == CampaignPhase.MissionPlanning;
+			if (playerSide == west) then {
+				_playerGroupHasInserted = call PublicVariableHandler.GetWestHasInserted;
+			}
+			else {
+				_playerGroupHasInserted = call PublicVariableHandler.GetEastHasInserted;
+			};
+			
+			_self.OptionPerformInsertionVisible = !_playerGroupHasInserted;
 			
 			call _self.BuildFrictionMenu;
 		};

@@ -105,6 +105,7 @@ namespace Mission.Server
 					} foreach units _group as Object;
 					
 					_mWestHasInserted = true;
+					[true] call PublicVariableHandler.BroadcastWestHasInserted;
 				};
 			}
 			else // East
@@ -119,6 +120,7 @@ namespace Mission.Server
 					} foreach units _group as Object;
 					
 					_mEastHasInserted = true;
+					[true] call PublicVariableHandler.BroadcastEastHasInserted;
 				};
 			};
 		};
@@ -239,9 +241,14 @@ namespace Mission.Server
 				private _missionResultWest = [west] call _mCurrentMission.GetMissionResult;
 				private _missionResultEast = [east] call _mCurrentMission.GetMissionResult;
 				
+				[false] call PublicVariableHandler.BroadcastWestHasInserted;
+				[false] call PublicVariableHandler.BroadcastEastHasInserted;
+				
+				sleep 1;
+				
 				["ClientEventReciever.OnMissionEnded", [[_missionResultWest, _missionResultEast] new MissionResult]] call Remote.Invoke;
 				
-				sleep 5;
+				sleep 4;
 				
 				call _mCurrentMission.Cleanup;
 			} foreach _mMissions as Mission;
