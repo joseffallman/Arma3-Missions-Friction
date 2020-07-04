@@ -176,7 +176,11 @@ namespace Mission.Server
 		
 		protected override method Run()
 		{
+			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
+			
 			// Run each mission
+			private _accumulatedScoreWest = 0;
+			private _accumulatedScoreEast = 0;
 			
 			{
 				_mCurrentMission = _x;
@@ -239,15 +243,18 @@ namespace Mission.Server
 				};
 				
 				// Tell players that mission has ended and beam them back to base.
-				private _missionResultWest = [west] call _mCurrentMission.GetMissionResult;
-				private _missionResultEast = [east] call _mCurrentMission.GetMissionResult;
+				_missionResultWest = [west] call _mCurrentMission.GetMissionResult;
+				_missionResultEast = [east] call _mCurrentMission.GetMissionResult;
 				
 				[false] call PublicVariableHandler.BroadcastWestHasInserted;
 				[false] call PublicVariableHandler.BroadcastEastHasInserted;
 				
 				sleep 1;
 				
-				["ClientEventReciever.OnMissionEnded", [[_missionResultWest, _missionResultEast] new MissionResult]] call Remote.Invoke;
+				_accumulatedScoreWest = _accumulatedScoreWest + _missionResultWest.Score;
+				_accumulatedScoreEast = _accumulatedScoreEast + _missionResultEast.Score;
+				
+				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 				
 				sleep 4;
 				

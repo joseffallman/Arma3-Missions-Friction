@@ -11,15 +11,27 @@ namespace Mission.Common
 {
 	public class MissionResult
 	{
-		// Creates a MissionResult object.t
-		public constructor("_resultInfoWest" as MissionResultInfo, "_resultInfoEast" as MissionResultInfo)
+		// Creates a MissionResult object.
+		public constructor("_missionName" as String, "_resultInfoWest" as MissionResultInfo, "_resultInfoEast" as MissionResultInfo)
 		{
+			_self.MissionName = _missionName;
 			_self.ResultInfoWest = _resultInfoWest;
 			_self.ResultInfoEast = _resultInfoEast;
 		};
 		
+		public property String MissionName { get; private set; };
+		
 		public property MissionResultInfo ResultInfoWest { get; private set; };
 		
 		public property MissionResultInfo ResultInfoEast { get; private set; };
+		
+		public method MissionResultInfo GetResultInfo("_side" as Side)
+		{
+			if (_side == west) then {
+				return _self.ResultInfoWest;
+			};
+			
+			return _self.ResultInfoEast;
+		};
 	};
 };

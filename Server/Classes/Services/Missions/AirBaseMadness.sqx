@@ -22,8 +22,7 @@ namespace Mission.Server
 		
 		protected override method Initialize()
 		{
-			call _base.Initialize;
-			
+			_self.Name = "Air Base Madness";
 			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
 		};

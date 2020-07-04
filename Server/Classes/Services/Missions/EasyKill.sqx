@@ -24,8 +24,7 @@ namespace Mission.Server
 		
 		protected override method Initialize()
 		{
-			call _base.Initialize;
-			
+			_self.Name = "Easy Kill";
 			_self.ActingSideStartMarkers = ["m03_a_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m03_o_StartArea1"];
 		};

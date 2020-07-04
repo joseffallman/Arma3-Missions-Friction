@@ -31,6 +31,7 @@ namespace Mission.Server
 			_self.ActingPlayers = [];
 			_self.OpposingPlayers = [];
 			
+			_self.Name = "New Mission";
 			_self.ActingSideStartMarkers = [];
 			_self.OpposingSideStartMarkers = [];
 			_self.StartTimeOfDay = 12;
@@ -74,6 +75,8 @@ namespace Mission.Server
 		#endregion
 		
 		#region Settable Properties
+		
+		public property String Name { get; protected set; };
 		
 		// Gets or sets the insertion map markers for the acting side.
 		// This property must be set in the constructor of the base class.
@@ -357,6 +360,7 @@ namespace Mission.Server
 		// a good practice, in the method of the sub class, begin with a call to _base.Initialize.
 		protected override method Initialize()
 		{
+			_self.Name = "New Mission";
 			_self.ActingSideStartMarkers = [];
 			_self.OpposingSideStartMarkers = [];
 			_self.StartTimeOfDay = 12;

@@ -67,14 +67,17 @@ namespace Mission.Client.Statics
 			call FrictionMenuHandler.UpdateVisibleOptions;
 		};
 		
-		public static method OnMissionEnded("_missionResult" as MissionResult)
+		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
 		{
 			private ["_teleporter" as TeleportService];
 			
 			// Show mission result
 			
-			player sideChat ("west: " + str _missionResult.ResultInfoWest.Score);
-			player sideChat ("east: " + str _missionResult.ResultInfoEast.Score);
+			if (!(player diarySubjectExists "Results")) then {
+				player createDiarySubject ["Results", "Mission Results"];
+			};
+			
+			player createDiaryRecord ["Results", ["This mission: " + _missionResult.MissionName, str ([playerSide] call _missionResult.GetResultInfo).Score + ". (West: " + str _accumulatedScoreWest + " East: " + str _accumulatedScoreEast + ")"]];
 			
 			// Teleport to base
 			
