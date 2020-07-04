@@ -253,6 +253,9 @@
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="AirStationAssault.sqx" FileName="Server\Classes\Services\Missions\AirStationAssault.sqx">
                         <SubNodes />
                       </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="AsEasyAsItGets.sqx" FileName="Server\Classes\Services\Missions\AsEasyAsItGets.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="EasyKill.sqx" FileName="Server\Classes\Services\Missions\EasyKill.sqx">
                         <SubNodes />
                       </ProjectNodeViewModel>

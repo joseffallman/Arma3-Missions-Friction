@@ -39,6 +39,10 @@ namespace Mission.Client
 		
 		private method Boolean InAnyMarker("_position" as Array, "_markers" as Array)
 		{
+			if (count _markers == 0) then {
+				return true;
+			};
+		
 			{
 				if (_position inArea _x) then {
 					return true;
@@ -60,7 +64,12 @@ namespace Mission.Client
 			_mWaitingForMapClick = true;
 			_enoughWaitingTime = time + 30;
 			
-			["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
+			if (count _mInsertionMarkers == 0) then {
+				["Select an insertion position anywhere on the map."] call _mMessageHandler.ShowSubTitle;
+			}
+			else {
+				["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
+			};
 			
 			waitUntil {	!_mWaitingForMapClick || time > _enoughWaitingTime };
 			
