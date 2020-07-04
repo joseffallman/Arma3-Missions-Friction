@@ -36,13 +36,13 @@ namespace Mission.Server
 		
 		public override method Setup()
 		{
-			// Spawn ammo crates at base
-			private _ammoBox = ["Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.SpawnVehicleAtBase;
+			// Spawn acting side's objects
+			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
-			// Spawn vehicles at scene
-			["B_Truck_01_ammo_F", "O_Truck_03_ammo_F", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.SpawnVehicleAtScene;
+			// Spawn opposing side's objects
+			["AMMO TRUCK", MissionSide.Opposing, "m1_defender_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
 			
 			call _base.Setup;
 		};

@@ -25,6 +25,7 @@ namespace Mission.Server
 			// These lines are of technical use in the base class and should not be altered or overrided.
 			
 			call _base.Constructor;
+			_self.VehicleTypeDictionary = new VehicleTypeDictionary;
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
@@ -58,10 +59,10 @@ namespace Mission.Server
 		// _vehicleType (String): The vehicle type to spawn.
 		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
 		// Returns (Object): The vehicle spawned.
-		private method Object SpawnVehicle("_vehicleType" as String, "_spawnMarker" as String)
+		protected method Object CreateVehicleOnMarker("_vehicleType" as String, "_markerName" as String)
 		{
-			private _position = getMarkerPos _spawnMarker;
-			private _direction = markerDir _spawnMarker;
+			private _position = getMarkerPos _markerName;
+			private _direction = markerDir _markerName;
 			
 			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
 			_vehicle setDir _direction;
@@ -175,12 +176,12 @@ namespace Mission.Server
 		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
 		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
 		// Returns (Object): The vehicle spawned.
-		protected method Object SpawnVehicleAtScene("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_spawnMarker" as String)
+		protected method Object CreateSideVehicleOnMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_markerName" as String)
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
-			private _vehicleType = if (_side == west) then { _vehicleTypeWest  } else { _vehicleTypeEast };
+			private _vehicleType = [_vehicleTypeAlias, _side] call _self.VehicleTypeDictionary.GetVehicleType;
 			
-			return [_vehicleType, _spawnMarker] call _self.SpawnVehicle;
+			return [_vehicleType, _markerName] call _self.CreateVehicleOnMarker;
 		};
 		
 		// Spawns a vehicle in the base.
@@ -189,26 +190,20 @@ namespace Mission.Server
 		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
 		// _baseMarker (BaseMarker): The marker type that will translate to a marker in the base.
 		// Returns (Object): The vehicle spawned.
-		protected method Object SpawnVehicleAtBase("_vehicleTypeWest" as String, "_vehicleTypeEast" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker)
+		protected method Object CreateSideVehicleOnBaseMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker)
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
-			private _vehicleType = if (_side == west) then { _vehicleTypeWest  } else { _vehicleTypeEast };
+			private _vehicleType = [_vehicleTypeAlias, _side] call _self.VehicleTypeDictionary.GetVehicleType;
+			private _spawnMarker = [_side, _baseMarker] call _mBaseMarkersConfig.GetMarkerName;
 			
-			private _spawnMarker = "";
-			
-			switch (_baseMarker) do
-			{
-				case BaseMarker.AmmoCrate: {
-					_spawnMarker = [_side, BaseMarker.AmmoCrate] call _mBaseMarkersConfig.GetMarkerName;
-				};
-			};
-			
-			return [_vehicleType, _spawnMarker] call _self.SpawnVehicle;
+			return [_vehicleType, _spawnMarker] call _self.CreateVehicleOnMarker;
 		};
 		
 		#endregion
 		
 		#region Protected Properties
+		
+		protected property VehicleTypeDictionary VehicleTypeDictionary { get; private set; };
 		
 		// Gets the players on the acting side that was inserted to execute the mission.
 		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
