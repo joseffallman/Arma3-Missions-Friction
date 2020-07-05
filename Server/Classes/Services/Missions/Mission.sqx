@@ -23,9 +23,8 @@ namespace Mission.Server
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
-			// These lines are of technical use in the base class and should not be altered or overrided.
-			
 			call _base.Constructor;
+			
 			_self.VehicleTypeDictionary = new VehicleTypeDictionary;
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mActingSide = _actingSide;
