@@ -60,7 +60,7 @@ namespace Mission.Client.Statics
 			};
 			
 			// If noone is on the other side (during development or SP), perform simple insertion for the other side
-/*
+
 			private _countPlayersOnTheOtherSide = 0;
 			private _otherSide = if (playerSide == west) then { east } else { west };
 			private _otherSideUnit = objNull;
@@ -85,12 +85,23 @@ namespace Mission.Client.Statics
 				if (count _markerInfos > 0) then {
 					_marker = _markerInfos select 0;
 					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getMarkerPos _marker]] call Remote.Invoke;
+					[getMarkerPos _marker] call Sqx.Markers.Marker.CreateIconMarker;
 				}
 				else {
 					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getPos _otherSideUnit]] call Remote.Invoke;
 				};
 			};
-*/
+		};
+		
+		private static method Boolean AnyMemberIsPlayer("_group" as Group)
+		{
+			{
+				if (_x getVariable ["IsPlayer", false]) then {
+					return true;
+				};
+			} foreach units _group;
+			
+			return false;
 		};
 		
 		public static method OnInsertGroup("_group" as Group, "_position" as Array)
@@ -109,6 +120,14 @@ namespace Mission.Client.Statics
 						_x setPos _position;
 					};
 				} foreach units _group;
+			}
+			else // If other group and no more is a player, insert them to - (will work on hosted)
+			{
+				if (!([_group] call _self.AnyMemberIsPlayer)) then {
+					{
+						_x setPos _position;
+					} foreach units _group;
+				};
 			};
 			
 			// Hide insertion menu option
