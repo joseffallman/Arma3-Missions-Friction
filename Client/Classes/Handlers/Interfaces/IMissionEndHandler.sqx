@@ -12,6 +12,6 @@ namespace Mission.Client
 	public interface IMissionEndHandler
 	{
 		// Plays the end game scene and ends the mission.
-		method EndGame();
+		method EndGame("_isVictory" as Boolean);
 	};
 };

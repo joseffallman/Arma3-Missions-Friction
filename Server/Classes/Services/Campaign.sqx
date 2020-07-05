@@ -30,9 +30,9 @@ namespace Mission.Server
 			
 			_mMissions = [
 				[_mBaseMarkersConfig, west] new EasyKill,
-				[_mBaseMarkersConfig, west] new AsEasyAsItGets,
-				[_mBaseMarkersConfig, west] new AirStationAssault,
-				[_mBaseMarkersConfig, west] new AirBaseMadness
+				[_mBaseMarkersConfig, west] new AsEasyAsItGets
+//				[_mBaseMarkersConfig, west] new AirStationAssault,
+//				[_mBaseMarkersConfig, west] new AirBaseMadness
 			];
 		};
 		
@@ -261,6 +261,8 @@ namespace Mission.Server
 				
 				call _mCurrentMission.Cleanup;
 			} foreach _mMissions as Mission;
+
+			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 			
 			call _base.Run;
 		};

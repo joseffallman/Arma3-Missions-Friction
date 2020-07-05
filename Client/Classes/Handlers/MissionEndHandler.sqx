@@ -17,9 +17,8 @@ namespace Mission.Client
 		};
 		
 		// Plays the end game scene and ends the mission.
-		public method EndGame()
+		public method EndGame("_isVictory" as Boolean)
 		{
-			private _isVictory = true;			
 			["END1", _isVictory] spawn BIS_fnc_endMission;
 		};
 	};
