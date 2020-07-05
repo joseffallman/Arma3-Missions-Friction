@@ -9,18 +9,20 @@
  */
 
 using Mission.Common;
+using Sqx.Markers;
 
 namespace Mission.Server
 {
 	public class GreyHawkDown : Mission
 	{
-		private fields ["_mGreyHawk" as Object, "_mOpposingHasIntel" as Boolean];
+		private fields ["_mGreyHawk" as Object, "_mOpposingHasIntel" as Boolean, "_mGreyHawkMarker" as String];
 		
 		// Creates a AirBaseMadness object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
 			_mOpposingHasIntel = false;
+			_mGreyHawkMarker = "";
 		};
 		
 		protected override method Initialize()
@@ -39,7 +41,10 @@ namespace Mission.Server
 			
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
-			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m05_CrashSite"] call _self.CreateSideVehicleOnMarker;
+			_mGreyHawkMarker = createMarkerLocal ["m05_Wreckage", ["m05_CrashSite"] call MarkerHelper.GetRandomPosInsideMarker];
+			_mGreyHawkMarker setMarkerDirLocal random 360;
+			
+			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, _mGreyHawkMarker] call _self.CreateSideVehicleOnMarker;
 			_mGreyHawk setDamage [0.8, false];
 			
 			call _base.Setup;
@@ -47,15 +52,15 @@ namespace Mission.Server
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			private _shortDescription = "Find the wreck and destroy it.";
-			private _longDescription = "Find the wreck inside the crash site before the enemy finds it, and destroy it.";
+			private _shortDescription = "Destroy helicopter";
+			private _longDescription = "Find and destroy the helicopter before it falls into enemy hands.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
-			private _shortDescription = "Return to the insertion area.";
+			private _shortDescription = "Return to insertion area";
 			private _longDescription = "Return to the insertion area.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
@@ -63,15 +68,15 @@ namespace Mission.Server
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			private _shortDescription = "Find the downed enemy helicopter and steal intel.";
-			private _longDescription = "Find the downed enemy helicopter before the enemy can reach it and steal some intel.";
+			private _shortDescription = "Steal intel from wreckage";
+			private _longDescription = "Find the downed enemy helicopter before the enemy finds it and steal some intel.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
-			private _shortDescription = "Return to the insertion area.";
+			private _shortDescription = "Return to insertion area.";
 			private _longDescription = "Return to the insertion area.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;

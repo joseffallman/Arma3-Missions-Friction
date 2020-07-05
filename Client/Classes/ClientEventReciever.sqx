@@ -45,7 +45,7 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
 		{
-			private ["_markerInfos" as Array /* of MarkerInfo */, "_markerInfo" as MarkerInfo];
+			private ["_markerInfos" as Array /* of String */, "_marker" as String];
 			
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
 			
@@ -60,7 +60,7 @@ namespace Mission.Client.Statics
 			};
 			
 			// If noone is on the other side (during development or SP), perform simple insertion for the other side
-			
+/*
 			private _countPlayersOnTheOtherSide = 0;
 			private _otherSide = if (playerSide == west) then { east } else { west };
 			private _otherSideUnit = objNull;
@@ -68,9 +68,14 @@ namespace Mission.Client.Statics
 			{
 				if (side group _x == _otherSide) then {
 					_countPlayersOnTheOtherSide = _countPlayersOnTheOtherSide + 1;
+				};
+			} foreach call BIS_fnc_listPlayers;
+			
+			{
+				if (side group _x == _otherSide) then {
 					_otherSideUnit = _x;
 				};
-			} foreach count call BIS_fnc_listPlayers;			
+			} foreach switchableUnits as Object;
 			
 			if (_countPlayersOnTheOtherSide == 0) then
 			{
@@ -78,13 +83,14 @@ namespace Mission.Client.Statics
 				_markerInfos = [_otherSide] call _missionMarkersInfo.GetStartMarkersBySide;
 				
 				if (count _markerInfos > 0) then {
-					_markerInfo = _markerInfos select 0;
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getMarkerPos _markerInfo.Name]] call Remote.Invoke;
+					_marker = _markerInfos select 0;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getMarkerPos _marker]] call Remote.Invoke;
 				}
 				else {
 					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getPos _otherSideUnit]] call Remote.Invoke;
 				};
 			};
+*/
 		};
 		
 		public static method OnInsertGroup("_group" as Group, "_position" as Array)

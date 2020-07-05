@@ -271,10 +271,11 @@ namespace Mission.Server
 					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
 					
 					// End mission if one side has completed objectives and there are no humans on the other side
+					// Doesn't work...
 					
-					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
-						call _mCurrentMission.Cancel;
-					};
+//					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
+//						call _mCurrentMission.Cancel;
+//					};
 					
 					sleep 1;
 				};

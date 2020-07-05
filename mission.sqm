@@ -16,7 +16,7 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5813.7021,72.320404,4140.6445};
+		pos[]={5809.8491,91.392349,4129.2788};
 		dir[]={0,-0.70710683,0.70710683};
 		up[]={0,0.70710677,0.70710677};
 		aside[]={0.99999994,0,0};
@@ -174,7 +174,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7093.2495,7.2031264,5964.4673};
+						position[]={7093.25,7.2031116,5964.4668};
 						angles[]={0,4.054801,0};
 					};
 					side="West";
@@ -182,6 +182,7 @@ class Mission
 					class Attributes
 					{
 						name="b1";
+						isPlayable=1;
 					};
 					id=8;
 					type="B_Soldier_F";
@@ -978,7 +979,7 @@ class Mission
 			colorName="ColorEAST";
 			a=100;
 			b=25;
-			angle=217.71075;
+			angle=217.71066;
 			id=56;
 			atlOffset=-26.997482;
 		};
