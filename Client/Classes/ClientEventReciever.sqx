@@ -68,18 +68,14 @@ namespace Mission.Client.Statics
 			{
 				// Teleport to base (if not already there)
 				
-				private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
-				
-				if (player distance getMarkerPos _baseMarkerName > 50) then {
-					_teleporter = [_position] new TeleportService;
-					call _teleporter.RunAsync;
-				
-					{
-						if (local _x && _x != player) then {
-							_x setPos _position;
-						};
-					} foreach units _group;
-				};
+				_teleporter = [_position] new TeleportService;
+				call _teleporter.RunAsync;
+			
+				{
+					if (local _x && _x != player) then {
+						_x setPos _position;
+					};
+				} foreach units _group;
 			};
 			
 			// Hide insertion menu option

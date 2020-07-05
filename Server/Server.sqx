@@ -10,6 +10,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\AirStat
 call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\AirBaseMadness.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\EasyKill.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\AsEasyAsItGets.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\GreyHawkDown.sqx";
 
 using Mission.Server;
 using Mission.Server.Statics;

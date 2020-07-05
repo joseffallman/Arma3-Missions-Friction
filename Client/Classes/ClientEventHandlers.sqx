@@ -42,6 +42,10 @@ namespace Mission.Client.Statics
 				
 				_unit setVariable ["IsAlive", false, true];
 			}];
+			
+			player addEventHandler ["HandleRating", {
+				0
+			}];
 		};
 	};
 };

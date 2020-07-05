@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=54;
+		nextID=63;
 	};
 	class MarkerIDProvider
 	{
-		nextID=6;
+		nextID=7;
 	};
 	class Camera
 	{
-		pos[]={5827.7212,102.18117,4490.582};
-		dir[]={0.51440567,-0.35688883,0.77978474};
-		up[]={0.19652726,0.93414533,0.29791528};
-		aside[]={0.83475763,-1.1350494e-008,-0.55066866};
+		pos[]={5813.7021,72.320404,4140.6445};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710677,0.70710677};
+		aside[]={0.99999994,0,0};
 	};
 };
 binarizationWanted=0;
@@ -84,7 +84,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=20;
+		items=23;
 		class Item0
 		{
 			dataType="Marker";
@@ -182,7 +182,6 @@ class Mission
 					class Attributes
 					{
 						name="b1";
-						isPlayer=1;
 					};
 					id=8;
 					type="B_Soldier_F";
@@ -499,6 +498,7 @@ class Mission
 					class Attributes
 					{
 						name="o1";
+						isPlayer=1;
 						isPlayable=1;
 					};
 					id=14;
@@ -874,7 +874,7 @@ class Mission
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=228.3558;
+			angle=228.35576;
 			id=38;
 			atlOffset=0.0002822876;
 		};
@@ -939,6 +939,48 @@ class Mission
 			angle=235.53194;
 			id=43;
 			atlOffset=-4.5434494;
+		};
+		class Item20
+		{
+			dataType="Marker";
+			position[]={5855.7979,24.89917,4558.3301};
+			name="m05_CrashSite";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorRed";
+			a=200;
+			b=100;
+			angle=142.35197;
+			id=54;
+			atlOffset=3.9350967;
+		};
+		class Item21
+		{
+			dataType="Marker";
+			position[]={6232.7813,83.695251,4893.0034};
+			name="m05a_StartArea";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=100;
+			b=25;
+			angle=231.10794;
+			id=55;
+			atlOffset=-8.374794;
+		};
+		class Item22
+		{
+			dataType="Marker";
+			position[]={5544.7334,105.66028,4233.0308};
+			name="m05o_StartArea";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorEAST";
+			a=100;
+			b=25;
+			angle=217.71075;
+			id=56;
+			atlOffset=-26.997482;
 		};
 	};
 };

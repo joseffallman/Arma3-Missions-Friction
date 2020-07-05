@@ -6,13 +6,6 @@
         <SubNodes>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Classes" FileName="Client\Classes">
             <SubNodes>
-              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Configs" FileName="Client\Classes\Configs">
-                <SubNodes>
-                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Client\Classes\Configs\Interfaces">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
-                </SubNodes>
-              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Client\Classes\Handlers">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Client\Classes\Handlers\Interfaces">
@@ -45,9 +38,6 @@
                   </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Objects" FileName="Client\Classes\Objects">
-                <SubNodes />
-              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PerformInsertionService.sqx" FileName="Client\Classes\Services\PerformInsertionService.sqx">
@@ -71,9 +61,6 @@
                 <SubNodes />
               </ProjectNodeViewModel>
             </SubNodes>
-          </ProjectNodeViewModel>
-          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Enums" FileName="Client\Enums">
-            <SubNodes />
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Client.sqx" FileName="Client\Client.sqx">
             <SubNodes />
@@ -208,13 +195,6 @@
         <SubNodes>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Classes" FileName="Server\Classes">
             <SubNodes>
-              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Configs" FileName="Server\Classes\Configs">
-                <SubNodes>
-                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Server\Classes\Configs\Interfaces">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
-                </SubNodes>
-              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Server\Classes\Handlers">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Interfaces" FileName="Server\Classes\Handlers\Interfaces">
@@ -263,6 +243,9 @@
                         <SubNodes />
                       </ProjectNodeViewModel>
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="EasyKill.sqx" FileName="Server\Classes\Services\Missions\EasyKill.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="GreyHawkDown.sqx" FileName="Server\Classes\Services\Missions\GreyHawkDown.sqx">
                         <SubNodes />
                       </ProjectNodeViewModel>
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Server\Classes\Services\Missions\Mission.sqx">

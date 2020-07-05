@@ -1,0 +1,114 @@
+/*
+ * Name:	EasyKill
+ * Date:	2020-07-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A very simple test mission.
+ */
+
+using Mission.Common;
+
+namespace Mission.Server
+{
+	public class GreyHawkDown : Mission
+	{
+		private fields ["_mGreyHawk" as Object, "_mOpposingHasIntel" as Boolean];
+		
+		// Creates a AirBaseMadness object.
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
+		{
+			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+			_mOpposingHasIntel = false;
+		};
+		
+		protected override method Initialize()
+		{
+			_self.Name = "Grey Hawk Down";
+			_self.ActingSideStartMarkers = ["m05a_StartArea"];
+			_self.OpposingSideStartMarkers = ["m05o_StartArea"];
+			_self.ActingSideMarkers = ["m05_CrashSite"];
+			_self.OpposingSideMarkers = ["m05_CrashSite"];
+		};
+		
+		public override method Setup()
+		{
+			// Spawn acting side's objects
+			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			
+			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			
+			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m05_CrashSite"] call _self.CreateSideVehicleOnMarker;
+			_mGreyHawk setDamage [0.8, false];
+			
+			call _base.Setup;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			private _shortDescription = "Find the wreck and destroy it.";
+			private _longDescription = "Find the wreck inside the crash site before the enemy finds it, and destroy it.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			private _shortDescription = "Return to the insertion area.";
+			private _longDescription = "Return to the insertion area.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Find the downed enemy helicopter and steal intel.";
+			private _longDescription = "Find the downed enemy helicopter before the enemy can reach it and steal some intel.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Return to the insertion area.";
+			private _longDescription = "Return to the insertion area.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method Boolean PrimaryObjectiveCompletedForActing()
+		{
+			return !alive _mGreyHawk;
+		};
+		
+		protected override method Boolean SecondaryObjectiveCompletedForActing()
+		{
+			private _greyHawkAlive = alive _mGreyHawk;
+			private _playersNearStartMarker = { _x distance getMarkerPos "m05a_StartArea" < 100 } count _self.ActingPlayers;
+			private _playersAlive = call _self.CountActingPlayersAlive;
+			
+			return (!_greyHawkAlive || _mOpposingHasIntel) && _playersNearStartMarker == _playersAlive;
+		};
+		
+		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
+		{
+			private _fulfilled = alive _mGreyHawk && ({ _x distance _mGreyHawk < 10 } count _self.OpposingPlayers > 0);
+			
+			if (_fulfilled) then {
+				_mOpposingHasIntel = true;
+			};
+			
+			return _fulfilled;
+		};
+		
+		protected override method Boolean SecondaryObjectiveCompletedForOpposing()
+		{
+			private _greyHawkAlive = alive _mGreyHawk;
+			private _playersNearStartMarker = { _x distance getMarkerPos "m05o_StartArea" < 100 } count _self.OpposingPlayers;
+			private _playersAlive = call _self.CountOpposingPlayersAlive;
+			
+			return (!_greyHawkAlive || _mOpposingHasIntel) && _playersNearStartMarker == _playersAlive;
+		};
+	};
+};
