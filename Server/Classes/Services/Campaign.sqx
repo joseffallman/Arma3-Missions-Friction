@@ -16,7 +16,7 @@ namespace Mission.Server
 {
 	public class Campaign : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mMissions" as Array /* of Mission */, "_mWestlyPlayers" as Array, "_mEastlyPlayers" as Array];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean];
 	
@@ -109,7 +109,7 @@ namespace Mission.Server
 				if (!_mWestHasInserted) then
 				{
 					[_group, _position] call _mCurrentMission.InsertGroup;
-					_mWestlyPlayers = units _group;
+					_mWestlyUnits = units _group;
 					
 					{
 						_x setVariable ["IsAlive", true, true];
@@ -124,7 +124,7 @@ namespace Mission.Server
 				if (!_mEastHasInserted) then
 				{
 					[_group, _position] call _mCurrentMission.InsertGroup;
-					_mEastlyPlayers = units _group;
+					_mEastlyUnits = units _group;
 					
 					{
 						_x setVariable ["IsAlive", true, true];
@@ -136,9 +136,9 @@ namespace Mission.Server
 			};
 		};
 		
-		private method Boolean AllPlayersAreDead()
+		private method Boolean AllUnitsAreDead()
 		{
-			if ((count _mEastlyPlayers) + (count _mWestlyPlayers) == 0) then {
+			if ((count _mEastlyUnits) + (count _mWestlyUnits) == 0) then {
 				return false;
 			};
 		
@@ -146,13 +146,13 @@ namespace Mission.Server
 				if ([_x] call _self.IsAlive) then {
 					return false;
 				};
-			} foreach _mWestlyPlayers as Object;
+			} foreach _mWestlyUnits as Object;
 			
 			{
 				if ([_x] call _self.IsAlive) then {
 					return false;
 				};
-			} foreach _mEastlyPlayers as Object;
+			} foreach _mEastlyUnits as Object;
 			
 			return true;
 		};
@@ -184,6 +184,27 @@ namespace Mission.Server
 			};
 		};
 		
+		private method Boolean EndDueToCompletedObjectivesAndHumanPlayers()
+		{
+			if (_mWestPrimaryObjectiveCompleted && _mWestSecondaryObjectiveCompleted) then {
+				{
+					if ([_x] call _self.IsAlive && _x getVariable ["IsPlayer", false]) then {
+						return false;
+					};
+				} foreach _mEastlyUnits as Object;
+			};
+			
+			if (_mEastPrimaryObjectiveCompleted && _mEastSecondaryObjectiveCompleted) then {
+				{
+					if ([_x] call _self.IsAlive && _x getVariable ["IsPlayer", false]) then {
+						return false;
+					};
+				} foreach _mWestlyUnits as Object;
+			};
+			
+			return true;
+		};
+		
 		protected override method Run()
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
@@ -196,8 +217,8 @@ namespace Mission.Server
 				_mCurrentMission = _x;
 				_mEastHasInserted = false;
 				_mWestHasInserted = false;
-				_mEastlyPlayers = [];
-				_mWestlyPlayers = [];
+				_mEastlyUnits = [];
+				_mWestlyUnits = [];
 				_mWestPrimaryObjectiveCompleted = false;
 				_mWestSecondaryObjectiveCompleted = false;
 				_mEastPrimaryObjectiveCompleted = false;
@@ -242,12 +263,18 @@ namespace Mission.Server
 					
 					// If all players are dead, cancel the mission.
 					
-					if (call _self.AllPlayersAreDead) then
+					if (call _self.AllUnitsAreDead) then
 					{
 						call _mCurrentMission.Cancel;
 					};
 					
 					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
+					
+					// End mission if one side has completed objectives and there are no humans on the other side
+					
+					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
+						call _mCurrentMission.Cancel;
+					};
 					
 					sleep 1;
 				};

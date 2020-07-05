@@ -34,6 +34,7 @@ namespace Mission.Client.Statics
 				params ["_player" as Object, "_corpse"];
 				
 				_player setVariable ["IsAlive", false, true];
+				_player setVariable ["IsPlayer", true, true];
 			}];
 			
 			// Triggered when the player is killed.
