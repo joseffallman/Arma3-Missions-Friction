@@ -89,19 +89,21 @@ namespace Mission.Server
 		public property String Name { get; protected set; };
 		
 		// Gets or sets the insertion map markers for the acting side.
-		// This property must be set in the constructor of the base class.
+		// This property must be set in the initialization phase of the mission.
+		// If this array is empty, then the group will be auto inserted in its base.
 		protected property Array ActingSideStartMarkers { get; protected set; };
 		
 		// Gets or sets the insertion map markers for the opposing side.
-		// This property must be set in the constructor of the base class.
-		protected property Array OpposingSideStartMarkers { get; protected set; };
+		// This property must be set in the initialization phase of the mission.
+		// If this array is empty, then the group will be auto inserted in its base.
+ 		protected property Array OpposingSideStartMarkers { get; protected set; };
 		
 		// Gets or sets general markers that should be visible for the acting side.
-		// This property must be set in the constructor of the base class.
+		// This property must be set in the initialization phase of the mission.
 		protected property Array ActingSideMarkers { get; protected set; };
 		
 		// Gets or sets general markers that should be visible for the opposing side.
-		// This property must be set in the constructor of the base class.
+		// This property must be set in the initialization phase of the mission.
 		protected property Array OpposingSideMarkers { get; protected set; };
 		
 		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
@@ -577,8 +579,8 @@ namespace Mission.Server
 		// Runs the mission service.
 		// Default behavior is to run the mission until all mission objectives on both sides are completed.
 		// Override this if you want other conditions or a more active mission service. Make sure to always
-		// quit the mission if the IsCancelling property reads true, and remember to call _base.Run at the 
-		// end.
+		// exit the service loop if the IsCancelling property reads true, and stop the execution by calling 
+		// _self.Cancel, and to to call _base.Run at the end.
 		protected override method Run()
 		{
 			while { !_self.IsCancelling } do

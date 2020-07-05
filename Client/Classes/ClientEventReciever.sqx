@@ -24,6 +24,7 @@
 using Mission.Common;
 using Mission.Common.Statics;
 using Mission.Client;
+using Mission.Communication;
 
 namespace Mission.Client.Statics
 {
@@ -44,7 +45,19 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
 		{
+			private ["_markerInfo" as Array /* of MarkerInfo */];
+			
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
+			
+			if (player == leader group player) then
+			{
+				// If no insertion markers are specified, perform insertion immediately
+				_markerInfo = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
+				
+				if (count _markerInfo == 0) then {
+					["ServerEventReciever.OnPlayerPerformingInsertion", [player, getPos player]] call Remote.Invoke;
+				};
+			};
 		};
 		
 		public static method OnInsertGroup("_group" as Group, "_position" as Array)
@@ -53,14 +66,20 @@ namespace Mission.Client.Statics
 			
 			if (playerSide == side _group) then
 			{
-				_teleporter = [_position] new TeleportService;
-				call _teleporter.RunAsync;
+				// Teleport to base (if not already there)
 				
-				{
-					if (local _x && _x != player) then {
-						_x setPos _position;
-					};
-				} foreach units _group;
+				private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+				
+				if (player distance getMarkerPos _baseMarkerName > 50) then {
+					_teleporter = [_position] new TeleportService;
+					call _teleporter.RunAsync;
+				
+					{
+						if (local _x && _x != player) then {
+							_x setPos _position;
+						};
+					} foreach units _group;
+				};
 			};
 			
 			// Hide insertion menu option
@@ -100,16 +119,21 @@ namespace Mission.Client.Statics
 			};
 			
 			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
-			_diaryText = _diaryText + "<br /><br />Score: " + str _resultInfo.Score;
+			_diaryText = _diaryText + "<br /><br />Mission score: " + str _resultInfo.Score;
+			
+			_diaryText = _diaryText + "<br /><br />Total score";
+			_diaryText = _diaryText + "<br />West: " + str _accumulatedScoreWest + ". East: " + str _accumulatedScoreEast + ".";
 
 			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
 
-			// Teleport to base
+			// Teleport to base (if not already there)
 			
 			private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
 			
-			_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
-			call _teleporter.RunAsync;
+			if (player distance getMarkerPos _baseMarkerName > 50) then {
+				_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
+				call _teleporter.RunAsync;
+			};
 			
 			{
 				if (local _x) then {

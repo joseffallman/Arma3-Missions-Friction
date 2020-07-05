@@ -29,8 +29,8 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, west] new EasyKill,
 				[_mBaseMarkersConfig, west] new AsEasyAsItGets,
+				[_mBaseMarkersConfig, west] new EasyKill,
 				[_mBaseMarkersConfig, east] new AirStationAssault
 //				[_mBaseMarkersConfig, west] new AirBaseMadness
 			];
@@ -76,6 +76,15 @@ namespace Mission.Server
 			[_missionMarkersInfo] call PublicVariableHandler.BroadcastMissionMarkersInfo;
 			[CampaignPhase.MissionPlanning] call PublicVariableHandler.BroadcastCampaignPhase;
 			["ClientEventReciever.OnMissionSetup", [_missionMarkersInfo]] call Remote.Invoke;
+			
+			// TODO: Perform insertion in base for groups that have no start markers
+			/*
+			private _westStartMarkers = [west] call _missionMarkersInfo.GetStartMarkersBySide;
+			
+			if (count _westStartMarkers == 0) then {
+				[0, [west, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName] call _self.InsertGroup;
+			};
+			*/
 		};
 		
 		private method NotifyAboutMissionBriefing("_mission" as Mission)
