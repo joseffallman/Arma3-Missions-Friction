@@ -69,7 +69,7 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
 		{
-			private ["_teleporter" as TeleportService];
+			private ["_teleporter" as TeleportService, "_resultInfo" as MissionResultInfo];
 			
 			// Show mission result
 			
@@ -77,8 +77,33 @@ namespace Mission.Client.Statics
 				player createDiarySubject ["Results", "Mission Results"];
 			};
 			
-			player createDiaryRecord ["Results", ["This mission: " + _missionResult.MissionName, str ([playerSide] call _missionResult.GetResultInfo).Score + ". (West: " + str _accumulatedScoreWest + " East: " + str _accumulatedScoreEast + ")"]];
+			_resultInfo = [playerSide] call _missionResult.GetResultInfo;
 			
+			private _diaryText = _missionResult.MissionName + "<br />";
+			_diaryText = _diaryText + "<br />" + _resultInfo.PrimaryObjectiveName + ": ";
+
+			if (_resultInfo.PrimaryObjectiveCompleted) then {
+				_diaryText = _diaryText + "Success";
+			} else {
+				_diaryText = _diaryText + "Fail";
+			};
+			
+			if (_resultInfo.SecondaryObjectiveName != "") then
+			{
+				_diaryText = _diaryText + "<br />" + _resultInfo.SecondaryObjectiveName + ": ";
+				
+				if (_resultInfo.SecondaryObjectiveCompleted) then {
+					_diaryText = _diaryText + "Success";
+				} else {
+					_diaryText = _diaryText + "Fail";
+				};
+			};
+			
+			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
+			_diaryText = _diaryText + "<br /><br />Score: " + str _resultInfo.Score;
+
+			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
+
 			// Teleport to base
 			
 			private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;

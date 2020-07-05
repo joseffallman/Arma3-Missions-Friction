@@ -277,15 +277,29 @@ namespace Mission.Server
 		// _side (Side): The side.
 		public method MissionResultInfo GetMissionResult("_side" as Side)
 		{
-			private ["_missionSide" as MissionSide];
+			private ["_missionSide" as MissionSide, "_secondaryObjectiveName" as String];
 			
 			_missionSide = [_side] call _self.GetMissionSide;
 			
-			if (_missionSide == MissionSide.Acting) then {
-				return [call _self.PrimaryObjectiveCompletedForActing, call _self.SecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+			if (_missionSide == MissionSide.Acting) then
+			{
+				_secondaryObjectiveName = "";
+				
+				if (!isNull _self.SecondaryObjectiveForActing) then {
+					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
+				};
+				
+				return [_self.PrimaryObjectiveForActing.ShortDescription, call _self.PrimaryObjectiveCompletedForActing, _secondaryObjectiveName, call _self.SecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
 			}
-			else {
-				return [call _self.PrimaryObjectiveCompletedForOpposing, call _self.SecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
+			else
+			{
+				_secondaryObjectiveName = "";
+				
+				if (!isNull _self.SecondaryObjectiveForOpposing) then {
+					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
+				};
+				
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, call _self.PrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, call _self.SecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
 			};
 		};
 		

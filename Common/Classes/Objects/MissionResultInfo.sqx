@@ -12,31 +12,37 @@ namespace Mission.Common
 	public class MissionResultInfo
 	{
 		// Creates a MissionResult object.t
-		public constructor("_primaryTargetCompleted" as Boolean, "_secondaryTargetCompleted" as Boolean, "_menAtStart" as Scalar, "_menAtEnd" as Scalar)
+		public constructor("_primaryObjectiveName" as String, "_primaryObjectiveCompleted" as Boolean, "_secondaryObjectiveName" as String, "_secondaryObjectiveCompleted" as Boolean, "_menAtStart" as Scalar, "_menAtEnd" as Scalar)
 		{
-			_self.PrimaryTargetCompleted = _primaryTargetCompleted;
-			_self.SecondaryTargetCompleted = _secondaryTargetCompleted;
+			_self.PrimaryObjectiveName = _primaryObjectiveName;
+			_self.PrimaryObjectiveCompleted = _primaryObjectiveCompleted;
+			_self.SecondaryObjectiveName = _secondaryObjectiveName;
+			_self.SecondaryObjectiveCompleted = _secondaryObjectiveCompleted;
 			_self.MenAtStart = _menAtStart;
 			_self.MenAtEnd = _menAtEnd;
 			
 			private _score = 0;
 			
-			if (_self.PrimaryTargetCompleted) then {
+			if (_self.PrimaryObjectiveCompleted) then {
 				_score = _score + 100;
 			};
 			
-			if (_self.SecondaryTargetCompleted) then {
-				_score = _score + 50;
+			if (_self.SecondaryObjectiveCompleted) then {
+				_score = _score + 75;
 			};
 			
-			_score = _score - (_menAtStart - _menAtEnd) * 10;
+			_score = _score - (_menAtStart - _menAtEnd) * 30;
 			
 			_self.Score = _score;
 		};
 		
-		public property Boolean PrimaryTargetCompleted { get; private set; };
+		public property String PrimaryObjectiveName { get; private set; };
 		
-		public property Boolean SecondaryTargetCompleted { get; private set; };
+		public property Boolean PrimaryObjectiveCompleted { get; private set; };
+		
+		public property String SecondaryObjectiveName { get; private set; };
+		
+		public property Boolean SecondaryObjectiveCompleted { get; private set; };
 		
 		public property Scalar MenAtStart { get; private set; };
 		
