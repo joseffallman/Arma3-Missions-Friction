@@ -944,16 +944,16 @@ class Mission
 		class Item20
 		{
 			dataType="Marker";
-			position[]={5855.7979,24.89917,4558.3301};
+			position[]={5855.7979,24.899,4558.3301};
 			name="m05_CrashSite";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorRed";
-			a=200;
-			b=100;
-			angle=142.35197;
+			a=175;
+			b=125;
+			angle=142.35199;
 			id=54;
-			atlOffset=3.9350967;
+			atlOffset=3.934927;
 		};
 		class Item21
 		{
