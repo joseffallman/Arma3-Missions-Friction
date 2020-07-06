@@ -47,6 +47,10 @@ namespace Mission.Server
 			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, _mGreyHawkMarker] call _self.CreateSideVehicleOnMarker;
 			_mGreyHawk setDamage [0.8, false];
 			
+			if (HistoryToken.Fuel in _self.EarlierGainedTokensActing) then {
+				["FUEL TRUCK", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			};
+			
 			call _base.Setup;
 		};
 		

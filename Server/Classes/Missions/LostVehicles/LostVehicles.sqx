@@ -34,6 +34,8 @@ namespace Mission.Server
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
 			_mFuelTruck = ["FUEL TRUCK", MissionSide.Acting, "m03_FuelTruck"] call _self.CreateSideVehicleOnMarker;
 		
+			_self.GainedTokenActing = HistoryToken.Fuel;
+		
 			call _base.Setup;
 		};
 		
@@ -55,8 +57,8 @@ namespace Mission.Server
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			private _shortDescription = "Reach the truck.";
-			private _longDescription = "Reach the truck.";
+			private _shortDescription = "Reach the ammo truck.";
+			private _longDescription = "Reach the ammo truck.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};

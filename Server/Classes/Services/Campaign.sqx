@@ -19,6 +19,7 @@ namespace Mission.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean];
+		private fields ["_mGainedTokensActing" as Array /* of HistoryToken */, "_mLostTokensActing" as Array, "_mGainedTokensOpposing" as Array, "_mLostTokensOpposing" as Array];
 	
 		// Creates a Campaign object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
@@ -211,13 +212,34 @@ namespace Mission.Server
 			return true;
 		};
 		
+		private method SaveHistoryTokens("_mission" as Mission)
+		{
+			if (!isNull _mission.GainedTokenActing) then {
+				_mGainedTokensActing pushBack _mission.GainedTokenActing;
+			};
+			if (!isNull _mission.LostTokenActing) then {
+				_mLostTokensActing pushBack _mission.LostTokenActing;
+			};
+			if (!isNull _mission.GainedTokenOpposing) then {
+				_mGainedTokensOpposing pushBack _mission.GainedTokenOpposing;
+			};
+			if (!isNull _mission.LostTokenOpposing) then {
+				_mLostTokensOpposing pushBack _mission.LostTokenOpposing;
+			};
+		};
+		
 		protected override method Run()
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
 			
-			// Run each mission
+			_mGainedTokensActing = [];
+			_mLostTokensActing = [];
+			_mGainedTokensOpposing = [];
+			_mLostTokensOpposing = [];
 			private _accumulatedScoreWest = 0;
 			private _accumulatedScoreEast = 0;
+			
+			// Run each mission
 			
 			{
 				_mCurrentMission = _x;
@@ -240,6 +262,7 @@ namespace Mission.Server
 				
 				[_mCurrentMission] call _self.NotifyAboutMissionStart;
 				
+				[_mGainedTokensActing, _mLostTokensActing, _mGainedTokensOpposing, _mLostTokensOpposing] call _mCurrentMission.SetHistoryTokens;
 				call _mCurrentMission.Setup;
 				
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
@@ -285,6 +308,9 @@ namespace Mission.Server
 					
 					sleep 1;
 				};
+				
+				// Take care of eventual gained and lost tokens
+				[_mCurrentMission] call _self.SaveHistoryTokens;
 				
 				// Tell players that mission has ended and beam them back to base.
 				_missionResultWest = [west] call _mCurrentMission.GetMissionResult;

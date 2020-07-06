@@ -182,6 +182,7 @@ class Mission
 					class Attributes
 					{
 						name="b1";
+						isPlayer=1;
 						isPlayable=1;
 					};
 					id=8;
@@ -499,7 +500,6 @@ class Mission
 					class Attributes
 					{
 						name="o1";
-						isPlayer=1;
 						isPlayable=1;
 					};
 					id=14;
@@ -951,7 +951,7 @@ class Mission
 			colorName="ColorRed";
 			a=175;
 			b=125;
-			angle=142.35199;
+			angle=142.35197;
 			id=54;
 			atlOffset=3.934927;
 		};

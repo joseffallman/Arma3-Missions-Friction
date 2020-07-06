@@ -115,6 +115,30 @@ namespace Mission.Server
 		// should only be read from.
 		public property Scalar RemainingTime { get; set; };
 		
+		// Gets an array of history token keys gained in earlier missions for the acting side.
+		protected property Array EarlierGainedTokensActing { get; private set; };
+		
+		// Gets an array of history token keys lost in earlier missions for the acting side.
+		protected property Array EarlierLostTokensActing { get; private set; };
+		
+		// Gets an array of history token keys gained in earlier missions for the opposing side.
+		protected property Array EarlierGainedTokensOpposing { get; private set; };
+		
+		// Gets an array of history token keys lost in earlier missions for the opposing side.
+		protected property Array EarlierLostTokensOpposing { get; private set; };
+		
+		// Gets or sets something of free choice that may be of use in future missions for the acting side.
+		public property HistoryToken GainedTokenActing { get; protected set; };
+		
+		// Gets or sets something of free choice that is considered lost and may affect future missions for the acting side.
+		public property HistoryToken LostTokenActing { get; protected set; };
+		
+		// Gets or sets something of free choice that may be of use in future missions for the opposing side.
+		public property HistoryToken GainedTokenOpposing { get; protected set; };
+		
+		// Gets or sets something of free choice that is considered lost and may affect future missions for the opposing side.
+		public property HistoryToken LostTokenOpposing { get; protected set; };
+		
 		#endregion
 		
 		#region Protected Methods
@@ -408,6 +432,15 @@ namespace Mission.Server
 			_self.OpposingSideMarkers = [];
 		};
 		
+		// Loads the mission with all gained and lost history items.
+		public method SetHistoryTokens("_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
+		{
+			_self.EarlierGainedTokensActing = _earlierGainedTokensActing;
+			_self.EarlierLostTokensActing = _earlierLostTokensActing;
+			_self.EarlierGainedTokensOpposing = _earlierGainedTokensOpposing;
+			_self.EarlierLostTokensOpposing = _earlierLostTokensOpposing;
+		};
+		
 		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
 		// for the game. Called by the campaign as the first method to be called after the constructor.
 		// The default behavior is to skip to correct daytime and create the mission objectives, so 
@@ -481,15 +514,6 @@ namespace Mission.Server
 			return _self.RemainingTime == 0 && (call _self.CountActingPlayersAlive) > 0;
 		};
 		
-		// Checks if the primary objective for the opposing side is completed.
-		// Override this to specify the condition for when the opposing side's primary objective is completed.
-		// Default behavior is to return true when mission time has past and players are still alive.
-		// Returns (Boolean): true when primary objective for the opposing side is completed, otherwise false.
-		protected virtual method Boolean PrimaryObjectiveCompletedForOpposing()
-		{
-			return _self.RemainingTime == 0 && (call _self.CountOpposingPlayersAlive) > 0;
-		};
-		
 		// Checks if the secondary objective for the acting side is completed.
 		// Called continously during the mission.
 		// Override this if the acting side has a secondary objective to specify the condition for when it is completed.
@@ -498,6 +522,15 @@ namespace Mission.Server
 		protected virtual method Boolean SecondaryObjectiveCompletedForActing()
 		{
 			return false;
+		};
+		
+		// Checks if the primary objective for the opposing side is completed.
+		// Override this to specify the condition for when the opposing side's primary objective is completed.
+		// Default behavior is to return true when mission time has past and players are still alive.
+		// Returns (Boolean): true when primary objective for the opposing side is completed, otherwise false.
+		protected virtual method Boolean PrimaryObjectiveCompletedForOpposing()
+		{
+			return _self.RemainingTime == 0 && (call _self.CountOpposingPlayersAlive) > 0;
 		};
 		
 		// Checks if the secondary objective for the opposing side is completed.
