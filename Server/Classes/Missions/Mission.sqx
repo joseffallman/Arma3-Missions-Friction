@@ -148,7 +148,7 @@ namespace Mission.Server
 		// Acting and Opposing.
 		// _side (MissionSide): The mission side to ask for (acting or opposing).
 		// Returns (Side): The actual side that corresponds to the mission side.
-		protected method Side GetActualSide("_side" as MissionSide)
+		public method Side GetActualSide("_side" as MissionSide)
 		{
 			if (_mActingSide == west) then {
 				if (_side == MissionSide.Acting) then {
