@@ -314,7 +314,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForActing.ShortDescription, call _self.PrimaryObjectiveCompletedForActing, _secondaryObjectiveName, call _self.SecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForActing.ShortDescription, _mPrimaryObjectiveCompletedForActing, _secondaryObjectiveName, _mSecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
 			}
 			else
 			{
@@ -324,7 +324,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForOpposing.ShortDescription, call _self.PrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, call _self.SecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _mPrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, _mSecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
 			};
 		};
 		
@@ -357,7 +357,7 @@ namespace Mission.Server
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
-				if (_mPrimaryObjectiveCompletedForActing || { call _self.PrimaryObjectiveCompletedForActing }) then {
+				if (_mPrimaryObjectiveCompletedForActing || { call _self.PrimaryObjectiveFulfilledForActing }) then {
 					_mPrimaryObjectiveCompletedForActing = true;
 					return true;
 				};
@@ -365,7 +365,7 @@ namespace Mission.Server
 				return false;
 			};
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
-				if (_mSecondaryObjectiveCompletedForActing || { call _self.SecondaryObjectiveCompletedForActing }) then {
+				if (_mSecondaryObjectiveCompletedForActing || { call _self.SecondaryObjectiveFulfilledForActing }) then {
 					_mSecondaryObjectiveCompletedForActing = true;
 					return true;
 				};
@@ -373,7 +373,7 @@ namespace Mission.Server
 				return false;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
-				if (_mPrimaryObjectiveCompletedForOpposing || { call _self.PrimaryObjectiveCompletedForOpposing }) then {
+				if (_mPrimaryObjectiveCompletedForOpposing || { call _self.PrimaryObjectiveFulfilledForOpposing }) then {
 					_mPrimaryObjectiveCompletedForOpposing = true;
 					return true;
 				};
@@ -381,7 +381,7 @@ namespace Mission.Server
 				return false;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
-				if (_mSecondaryObjectiveCompletedForOpposing || { call _self.SecondaryObjectiveCompletedForOpposing }) then {
+				if (_mSecondaryObjectiveCompletedForOpposing || { call _self.SecondaryObjectiveFulfilledForOpposing }) then {
 					_mSecondaryObjectiveCompletedForOpposing = true;
 					return true;
 				};
@@ -504,40 +504,42 @@ namespace Mission.Server
 		{
 		};
 		
-		// Checks if the primary objective for the acting side is completed.
-		// Called continously during the mission.
+		// Checks if the primary objective success condition for the acting side is fulfilled.
+		// Called continously during the mission until it returns true. Then not again.
 		// Override this to specify the condition for when the acting side's primary objective is completed.
 		// Default behavior is to return true when mission time has past and players are still alive.
-		// Returns (Boolean): true when primary objective for the acting side is completed, otherwise false.
-		protected virtual method Boolean PrimaryObjectiveCompletedForActing()
+		// Returns (Boolean): true when primary objective for the acting side should count as success, otherwise false.
+		protected virtual method Boolean PrimaryObjectiveFulfilledForActing()
 		{
 			return _self.RemainingTime == 0 && (call _self.CountActingPlayersAlive) > 0;
 		};
 		
-		// Checks if the secondary objective for the acting side is completed.
-		// Called continously during the mission.
+		// Checks if the secondary objective success condition for the acting side is fulfilled.
+		// Called continously during the mission until it returns true. Then not again.
 		// Override this if the acting side has a secondary objective to specify the condition for when it is completed.
 		// Default behavior is to return false - i.e. secondary objective never completes.
-		// Returns (Boolean): true when secondary objective for the acting side is completed, otherwise false.
-		protected virtual method Boolean SecondaryObjectiveCompletedForActing()
+		// Returns (Boolean): true when secondary objective for the acting side should count as success, otherwise false.
+		protected virtual method Boolean SecondaryObjectiveFulfilledForActing()
 		{
 			return false;
 		};
 		
-		// Checks if the primary objective for the opposing side is completed.
+		// Checks if the primary objective success condition for the opposing side is fulfilled.
+		// Called continously during the mission until it returns true. Then not again.
 		// Override this to specify the condition for when the opposing side's primary objective is completed.
 		// Default behavior is to return true when mission time has past and players are still alive.
-		// Returns (Boolean): true when primary objective for the opposing side is completed, otherwise false.
-		protected virtual method Boolean PrimaryObjectiveCompletedForOpposing()
+		// Returns (Boolean): true when primary objective for the opposing side should count as success, otherwise false.
+		protected virtual method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
 			return _self.RemainingTime == 0 && (call _self.CountOpposingPlayersAlive) > 0;
 		};
 		
-		// Checks if the secondary objective for the opposing side is completed.
+		// Checks if the secondary objective success condition for the opposing side is fulfilled.
+		// Called continously during the mission until it returns true. Then not again.
 		// Override this if the opposing side has a secondary objective to specify the condition for when it is completed.
 		// Default behavior is to return false - i.e. secondary objective never completes.
-		// Returns (Boolean): true when secondary objective for the opposing side is completed, otherwise false.
-		protected virtual method Boolean SecondaryObjectiveCompletedForOpposing()
+		// Returns (Boolean): true when secondary objective for the opposing side should count as success, otherwise false.
+		protected virtual method Boolean SecondaryObjectiveFulfilledForOpposing()
 		{
 			return false;
 		};

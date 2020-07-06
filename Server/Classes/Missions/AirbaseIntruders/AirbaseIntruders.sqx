@@ -43,12 +43,12 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryObjectiveCompletedForActing()
+		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
 			return _self.RemainingTime <= 29;
 		};
 		
-		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
+		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
 			return _self.RemainingTime <= 29;
 		};

@@ -30,7 +30,7 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, west] new LostVehicles,
+				[_mBaseMarkersConfig, east] new LostVehicles,
 				[_mBaseMarkersConfig, west] new HawkDown,
 				[_mBaseMarkersConfig, east] new AirStationAssault
 //				[_mBaseMarkersConfig, west] new AirBaseMadness
@@ -255,9 +255,9 @@ namespace Mission.Server
 				private _remainingTime = _mCurrentMission.RemainingTime;
 				
 				// Override the mission's own remaining time with 30 minutes if it is too long
-				if (_remainingTime > 30) then {
-					_mCurrentMission.RemainingTime = 30;
-					_remainingTime = 30;
+				if (_remainingTime > 1) then {
+					_mCurrentMission.RemainingTime = 1;
+					_remainingTime = 1;
 				};
 				
 				[_mCurrentMission] call _self.NotifyAboutMissionStart;

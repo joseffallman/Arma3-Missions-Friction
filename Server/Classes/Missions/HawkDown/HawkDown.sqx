@@ -86,12 +86,12 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryObjectiveCompletedForActing()
+		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
 			return !alive _mGreyHawk;
 		};
 		
-		protected override method Boolean SecondaryObjectiveCompletedForActing()
+		protected override method Boolean SecondaryObjectiveFulfilledForActing()
 		{
 			private _greyHawkAlive = alive _mGreyHawk;
 			private _playersNearStartMarker = { _x distance getMarkerPos "m05a_StartArea" < 100 } count _self.ActingPlayers;
@@ -100,7 +100,7 @@ namespace Mission.Server
 			return (!_greyHawkAlive || _mOpposingHasIntel) && _playersNearStartMarker == _playersAlive;
 		};
 		
-		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
+		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
 			private _fulfilled = alive _mGreyHawk && ({ _x distance _mGreyHawk < 10 } count _self.OpposingPlayers > 0);
 			
@@ -111,7 +111,7 @@ namespace Mission.Server
 			return _fulfilled;
 		};
 		
-		protected override method Boolean SecondaryObjectiveCompletedForOpposing()
+		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
 		{
 			private _greyHawkAlive = alive _mGreyHawk;
 			private _playersNearStartMarker = { _x distance getMarkerPos "m05o_StartArea" < 100 } count _self.OpposingPlayers;

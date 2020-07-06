@@ -63,17 +63,17 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryObjectiveCompletedForActing()
+		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
 			return { _x distance _mAmmoTruck < 10 } count _self.ActingPlayers > 0;
 		};
 		
-		protected override method Boolean SecondaryObjectiveCompletedForActing()
+		protected override method Boolean SecondaryObjectiveFulfilledForActing()
 		{
 			return { _x distance _mFuelTruck < 10 } count _self.ActingPlayers > 0;
 		};
 		
-		protected override method Boolean PrimaryObjectiveCompletedForOpposing()
+		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
 			return true; //{ _x distance _mTruck < 10 } count _self.OpposingPlayers > 0;
 		};
