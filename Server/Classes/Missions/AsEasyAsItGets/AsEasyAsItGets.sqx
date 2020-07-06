@@ -5,7 +5,7 @@
  * Author:  Engima
  *
  * Description:
- * En 'empty' but working mission - just to show that an empty class deriving from Mission really executes as a mission.
+ * An 'empty' but working mission - just to show that an empty class deriving from Mission really executes as a mission.
  */
 
 using Mission.Common;

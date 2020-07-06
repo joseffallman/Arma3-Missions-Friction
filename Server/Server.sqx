@@ -5,12 +5,12 @@ call compile preprocessFileLineNumbers "Server\Classes\Handlers\VehicleTypeDicti
 call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\MissionEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Campaign.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\Mission.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\AirStationAssault.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\AirBaseMadness.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\EasyKill.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\AsEasyAsItGets.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Services\Missions\GreyHawkDown.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\Mission.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\AirStationAssault\AirStationAssault.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\AirbaseIntruders\AirbaseIntruders.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\LostVehicles\LostVehicles.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\AsEasyAsItGets\AsEasyAsItGets.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\HawkDown\HawkDown.sqx";
 
 using Mission.Server;
 using Mission.Server.Statics;

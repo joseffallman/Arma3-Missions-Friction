@@ -12,7 +12,7 @@ using Mission.Common;
 
 namespace Mission.Server
 {
-	public class EasyKill : Mission
+	public class LostVehicles : Mission
 	{
 		private fields ["_mAmmoTruck" as Object, "_mFuelTruck" as Object];
 		
@@ -24,7 +24,7 @@ namespace Mission.Server
 		
 		protected override method Initialize()
 		{
-			_self.Name = "Easy Kill";
+			_self.Name = "Lost Vehicles";
 			_self.ActingSideStartMarkers = ["m03a_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m03o_StartArea1"];
 		};

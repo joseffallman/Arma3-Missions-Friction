@@ -12,7 +12,7 @@ using Mission.Common;
 
 namespace Mission.Server
 {
-	public class AirBaseMadness : Mission
+	public class AirbaseIntruders : Mission
 	{
 		// Creates a AirBaseMadness object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
@@ -22,7 +22,7 @@ namespace Mission.Server
 		
 		protected override method Initialize()
 		{
-			_self.Name = "Air Base Madness";
+			_self.Name = "Air Base Intruders";
 			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
 			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
 		};
