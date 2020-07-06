@@ -85,7 +85,6 @@ namespace Mission.Client.Statics
 				if (count _markerInfos > 0) then {
 					_marker = _markerInfos select 0;
 					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getMarkerPos _marker]] call Remote.Invoke;
-					[getMarkerPos _marker] call Sqx.Markers.Marker.CreateIconMarker;
 				}
 				else {
 					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getPos _otherSideUnit]] call Remote.Invoke;
