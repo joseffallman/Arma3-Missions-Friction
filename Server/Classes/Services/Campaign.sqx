@@ -218,36 +218,68 @@ namespace Mission.Server
 			{
 				if (!isNull _mission.GainedTokenActing) then
 				{
+					if (_mission.GainedTokenActing in _mLostTokensWest) then {
+						_mLostTokensWest = _mLostTokensWest - [_mission.GainedTokenActing];
+					};
+					
 					_mGainedTokensWest pushBack _mission.GainedTokenActing;
 				};
 				if (!isNull _mission.LostTokenActing) then
 				{
+					if (_mission.LostTokenActing in _mGainedTokensWest) then {
+						_mGainedTokensWest = _mGainedTokensWest - [_mission.LostTokenActing];
+					};
+					
 					_mLostTokensWest pushBack _mission.LostTokenActing;
 				};
 				if (!isNull _mission.GainedTokenOpposing) then
 				{
+					if (_mission.GainedTokenOpposing in _mLostTokensEast) then {
+						_mLostTokensEast = _mLostTokensEast - [_mission.GainedTokenOpposing];
+					};
+					
 					_mGainedTokensEast pushBack _mission.GainedTokenOpposing;
 				};
 				if (!isNull _mission.LostTokenOpposing) then
 				{
+					if (_mission.LostTokenOpposing in _mGainedTokensEast) then {
+						_mGainedTokensEast = _mGainedTokensEast - [_mission.LostTokenOpposing];
+					};
+					
 					_mLostTokensEast pushBack _mission.LostTokenOpposing;
 				};
 			}
 			else {
 				if (!isNull _mission.GainedTokenActing) then
 				{
+					if (_mission.GainedTokenActing in _mLostTokensEast) then {
+						_mLostTokensEast = _mLostTokensEast - [_mission.GainedTokenActing];
+					};
+					
 					_mGainedTokensEast pushBack _mission.GainedTokenActing;
 				};
 				if (!isNull _mission.LostTokenActing) then
 				{
+					if (_mission.LostTokenActing in _mGainedTokensEast) then {
+						_mGainedTokensEast = _mGainedTokensEast - [_mission.LostTokenActing];
+					};
+					
 					_mLostTokensEast pushBack _mission.LostTokenActing;
 				};
 				if (!isNull _mission.GainedTokenOpposing) then
 				{
+					if (_mission.GainedTokenOpposing in _mLostTokensWest) then {
+						_mLostTokensWest = _mLostTokensWest - [_mission.GainedTokenOpposing];
+					};
+					
 					_mGainedTokensWest pushBack _mission.GainedTokenOpposing;
 				};
 				if (!isNull _mission.LostTokenOpposing) then
 				{
+					if (_mission.LostTokenOpposing in _mGainedTokensWest) then {
+						_mGainedTokensWest = _mGainedTokensWest - [_mission.LostTokenOpposing];
+					};
+					
 					_mLostTokensWest pushBack _mission.LostTokenOpposing;
 				};
 			};

@@ -15,7 +15,8 @@ namespace Mission.Common
 	{
 		Fuel,
 		DivingMateriel,
-		GuerillaAlliance
+		GuerillaAlliance,
+		Intel
 	};
 	
 	public class HistoryTokenMeta
@@ -26,6 +27,7 @@ namespace Mission.Common
 				case HistoryToken.Fuel: { return "Fuel"; };
 				case HistoryToken.DivingMateriel: { return "Diving materiel"; };
 				case HistoryToken.GuerillaAlliance: { return "Guerilla alliance"; };
+				case HistoryToken.Intel: { return "Intel"; };
 				default { return "<< History token key not defined >>"; };
 			};
 		};
