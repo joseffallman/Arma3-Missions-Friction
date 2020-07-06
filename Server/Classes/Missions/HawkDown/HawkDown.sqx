@@ -106,6 +106,7 @@ namespace Mission.Server
 			
 			if (_fulfilled) then {
 				_mOpposingHasIntel = true;
+				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
 			};
 			
 			return _fulfilled;
