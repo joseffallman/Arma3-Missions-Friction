@@ -17,7 +17,6 @@ namespace Mission.Server
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
-		private fields ["_mPrimaryObjectiveCompletedForActing" as Boolean, "_mSecondaryObjectiveCompletedForActing" as Boolean, "_mPrimaryObjectiveCompletedForOpposing" as Boolean, "_mSecondaryObjectiveCompletedForOpposing" as Boolean];
 		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
@@ -31,10 +30,10 @@ namespace Mission.Server
 			_mSpawnedVehicles = [];
 			_self.ActingPlayers = [];
 			_self.OpposingPlayers = [];
-			_mPrimaryObjectiveCompletedForActing = false;
-			_mSecondaryObjectiveCompletedForActing = false;
-			_mPrimaryObjectiveCompletedForOpposing = false;
-			_mSecondaryObjectiveCompletedForOpposing = false;
+			_self.PrimaryObjectiveCompletedForActing = false;
+			_self.SecondaryObjectiveCompletedForActing = false;
+			_self.PrimaryObjectiveCompletedForOpposing = false;
+			_self.SecondaryObjectiveCompletedForOpposing = false;
 			
 			_self.Name = "New Mission";
 			_self.StartTimeOfDay = 12;
@@ -259,6 +258,18 @@ namespace Mission.Server
 		// Gets the secondary objective briefing information for the opposing side. classNull if there is no secondary objective.
 		protected property MissionObjective SecondaryObjectiveForOpposing { get; private set; };
 		
+		// Gets wheter the primary objective for the acting side has been completed.
+		protected property Boolean PrimaryObjectiveCompletedForActing { get; private set; };
+
+		// Gets wheter the secondary objective for the acting side has been completed.
+		protected property Boolean SecondaryObjectiveCompletedForActing { get; private set; };
+		
+		// Gets wheter the primary objective for the opposing side has been completed.
+		protected property Boolean PrimaryObjectiveCompletedForOpposing { get; private set; };
+		
+		// Gets wheter the secondary objective for the opposing side has been completed.
+		protected property Boolean SecondaryObjectiveCompletedForOpposing { get; private set; };
+		
 		#endregion
 		
 		#region Public Methods
@@ -314,7 +325,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForActing.ShortDescription, _mPrimaryObjectiveCompletedForActing, _secondaryObjectiveName, _mSecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveCompletedForActing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
 			}
 			else
 			{
@@ -324,7 +335,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _mPrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, _mSecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
 			};
 		};
 		
@@ -374,32 +385,32 @@ namespace Mission.Server
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
-				if (_mPrimaryObjectiveCompletedForActing || { call _self.PrimaryObjectiveFulfilledForActing }) then {
-					_mPrimaryObjectiveCompletedForActing = true;
+				if (_self.PrimaryObjectiveCompletedForActing || { call _self.PrimaryObjectiveFulfilledForActing }) then {
+					_self.PrimaryObjectiveCompletedForActing = true;
 					return true;
 				};
 				
 				return false;
 			};
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
-				if (_mSecondaryObjectiveCompletedForActing || { call _self.SecondaryObjectiveFulfilledForActing }) then {
-					_mSecondaryObjectiveCompletedForActing = true;
+				if (_self.SecondaryObjectiveCompletedForActing || { call _self.SecondaryObjectiveFulfilledForActing }) then {
+					_self.SecondaryObjectiveCompletedForActing = true;
 					return true;
 				};
 				
 				return false;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
-				if (_mPrimaryObjectiveCompletedForOpposing || { call _self.PrimaryObjectiveFulfilledForOpposing }) then {
-					_mPrimaryObjectiveCompletedForOpposing = true;
+				if (_self.PrimaryObjectiveCompletedForOpposing || { call _self.PrimaryObjectiveFulfilledForOpposing }) then {
+					_self.PrimaryObjectiveCompletedForOpposing = true;
 					return true;
 				};
 				
 				return false;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
-				if (_mSecondaryObjectiveCompletedForOpposing || { call _self.SecondaryObjectiveFulfilledForOpposing }) then {
-					_mSecondaryObjectiveCompletedForOpposing = true;
+				if (_self.SecondaryObjectiveCompletedForOpposing || { call _self.SecondaryObjectiveFulfilledForOpposing }) then {
+					_self.SecondaryObjectiveCompletedForOpposing = true;
 					return true;
 				};
 				
@@ -595,13 +606,13 @@ namespace Mission.Server
 				return false;
 			};
 			
-			if (_mPrimaryObjectiveCompletedForActing) then
+			if (_self.PrimaryObjectiveCompletedForActing) then
 			{
 				if (isNull _secondaryObjective) then {
 					return true;
 				}
 				else {
-					return _mSecondaryObjectiveCompletedForActing;
+					return _self.SecondaryObjectiveCompletedForActing;
 				};
 			};
 		};
@@ -622,13 +633,13 @@ namespace Mission.Server
 				return false;
 			};
 			
-			if (_mPrimaryObjectiveCompletedForOpposing) then
+			if (_self.PrimaryObjectiveCompletedForOpposing) then
 			{
 				if (isNull _secondaryObjective) then {
 					return true;
 				}
 				else {
-					return _mSecondaryObjectiveCompletedForOpposing;
+					return _self.SecondaryObjectiveCompletedForOpposing;
 				};
 			};
 		};
