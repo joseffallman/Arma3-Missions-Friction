@@ -1,0 +1,96 @@
+/*
+ * Name:	AsEasyAsItGets
+ * Date:	2020-07-04
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * An 'empty' but working mission - just to show that an empty class deriving from Mission really executes as a mission.
+ */
+
+using Mission.Common;
+
+namespace Mission.Server
+{
+	public class NightTensions : Mission
+	{
+		private fields ["_mBox" as Object, "_mDrawingsAreStolen" as Boolean];
+	
+		// Creates a AsEasyAsItGets object.
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
+		{
+			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+			_mDrawingsAreStolen = false;
+			_mBox = objNull;
+		};
+		
+		protected override method Initialize()
+		{
+			_self.Name = "Night Tensions";
+			_self.StartTimeOfDay = 0;
+			_self.StartMarkersActing = ["m06a_StartArea1", "m06a_StartArea2"];
+			_self.StartMarkersOpposing = ["m06o_StartArea1"];
+			_self.SideMarkersActing = ["m06a_PrimaryObjective1", "m06a_PrimaryObjective2", "m06a_PrimaryObjective3"];
+		};
+		
+		public override method Setup()
+		{
+			private ["_primaryObjectiveMarker" as String];
+			
+			_primaryObjectiveMarker = selectRandom ["m06a_PrimaryObjective1", "m06a_PrimaryObjective2", "m06a_PrimaryObjective3"];
+			_primaryObjectiveMarker setMarkerDir random 360;
+			
+			_mBox = ["WOODEN BOX", MissionSide.Acting, _primaryObjectiveMarker] call _self.CreateSideVehicleOnMarker;
+			
+			call _base.Setup;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			private _shortDescription = "Steal military drawings";
+			private _longDescription = "Find the box with military drawings and steal them.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Prevent theft";
+			private _longDescription = "Keep the airbase safe and prevent intruders from stealing anything.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Kill all intruders";
+			private _longDescription = "Kill all intruders.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		{
+			private _fulfilled = ({ _x distance _mBox < 3 } count _self.ActingPlayers > 0);
+			
+			if (_fulfilled) then {
+				_mDrawingsAreStolen = true;
+			};
+			
+			return _fulfilled;
+		};
+		
+		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		{
+			private _allEnemiesDead = call _self.CountActingPlayersAlive == 0;
+			private _drawingsInEnemyHandsAtMissionEnd = _self.RemainingTime == 0 && (_mDrawingsAreStolen);
+		
+			return _allEnemiesDead || _drawingsInEnemyHandsAtMissionEnd;
+		};
+		
+		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
+		{
+			return call _self.CountActingPlayersAlive == 0;
+		};
+	};
+};

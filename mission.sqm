@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=63;
+		nextID=79;
 	};
 	class MarkerIDProvider
 	{
-		nextID=7;
+		nextID=8;
 	};
 	class Camera
 	{
-		pos[]={5809.8491,91.392349,4129.2788};
-		dir[]={0,-0.70710683,0.70710683};
-		up[]={0,0.70710677,0.70710677};
-		aside[]={0.99999994,0,0};
+		pos[]={2079.7129,107.03667,4941.1592};
+		dir[]={0.065561116,-0.15932919,0.98504877};
+		up[]={0.010580991,0.98722595,0.15897894};
+		aside[]={0.99779356,1.8044375e-008,-0.066409349};
 	};
 };
 binarizationWanted=0;
@@ -84,7 +84,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=23;
+		items=29;
 		class Item0
 		{
 			dataType="Marker";
@@ -868,30 +868,29 @@ class Mission
 		class Item14
 		{
 			dataType="Marker";
-			position[]={2055.771,5.402,5831.9839};
+			position[]={1636.9823,4.911438,5130.0923};
 			name="m02a_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=228.35576;
+			angle=198.98601;
 			id=38;
-			atlOffset=0.0002822876;
+			atlOffset=-0.58856201;
 		};
 		class Item15
 		{
 			dataType="Marker";
-			position[]={2087.239,3.4489999,5349.21};
+			position[]={1589.1742,5.5,4987.0547};
 			name="m02o_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
 			a=150;
 			b=75;
-			angle=159.194;
+			angle=196.80992;
 			id=39;
-			atlOffset=-0.00022125244;
 		};
 		class Item16
 		{
@@ -982,6 +981,73 @@ class Mission
 			angle=217.71066;
 			id=56;
 			atlOffset=-26.997482;
+		};
+		class Item23
+		{
+			dataType="Marker";
+			position[]={2720.408,2.5999999,5786.7891};
+			name="m06a_StartArea1";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=100;
+			b=100;
+			angle=276.69897;
+			id=73;
+		};
+		class Item24
+		{
+			dataType="Marker";
+			position[]={1988.407,5.9169998,5802.4121};
+			name="m06o_StartArea1";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorEAST";
+			a=170;
+			b=170;
+			angle=196.81;
+			id=74;
+			atlOffset=0.00036907196;
+		};
+		class Item25
+		{
+			dataType="Marker";
+			position[]={2003.0347,3,5248.9634};
+			name="m06a_StartArea2";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=120;
+			b=50;
+			angle=105.37099;
+			id=75;
+		};
+		class Item26
+		{
+			dataType="Marker";
+			position[]={2105.1152,4.573946,5850.1963};
+			name="m06a_PrimaryObjective1";
+			text=" 1";
+			type="mil_objective";
+			id=76;
+		};
+		class Item27
+		{
+			dataType="Marker";
+			position[]={1958.6332,5.663166,5706.2085};
+			name="m06a_PrimaryObjective2";
+			text=" 3";
+			type="mil_objective";
+			id=77;
+		};
+		class Item28
+		{
+			dataType="Marker";
+			position[]={1922.6211,5.6838388,5737.5356};
+			name="m06a_PrimaryObjective3";
+			text=" 2";
+			type="mil_objective";
+			id=78;
 		};
 	};
 };

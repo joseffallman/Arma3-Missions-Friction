@@ -252,6 +252,13 @@
                       </ProjectNodeViewModel>
                     </SubNodes>
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="NightTensions" FileName="Server\Classes\Missions\NightTensions">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="NightTensions.sqx" FileName="Server\Classes\Missions\NightTensions\NightTensions.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Server\Classes\Missions\Mission.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

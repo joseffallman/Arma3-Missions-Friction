@@ -28,10 +28,10 @@ namespace Mission.Server
 		protected override method Initialize()
 		{
 			_self.Name = "Hawk Down";
-			_self.ActingSideStartMarkers = ["m05a_StartArea"];
-			_self.OpposingSideStartMarkers = ["m05o_StartArea"];
-			_self.ActingSideMarkers = ["m05_CrashSite"];
-			_self.OpposingSideMarkers = ["m05_CrashSite"];
+			_self.StartMarkersActing = ["m05a_StartArea"];
+			_self.StartMarkersOpposing = ["m05o_StartArea"];
+			_self.SideMarkersActing = ["m05_CrashSite"];
+			_self.SideMarkersOpposing = ["m05_CrashSite"];
 		};
 		
 		public override method Setup()

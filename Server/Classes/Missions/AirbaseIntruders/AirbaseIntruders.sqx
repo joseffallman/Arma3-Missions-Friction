@@ -23,8 +23,8 @@ namespace Mission.Server
 		protected override method Initialize()
 		{
 			_self.Name = "Air Base Intruders";
-			_self.ActingSideStartMarkers = ["m2_acting_StartArea1"];
-			_self.OpposingSideStartMarkers = ["m2_opposing_StartArea1"];
+			_self.StartMarkersActing = ["m2_acting_StartArea1"];
+			_self.StartMarkersOpposing = ["m2_opposing_StartArea1"];
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()

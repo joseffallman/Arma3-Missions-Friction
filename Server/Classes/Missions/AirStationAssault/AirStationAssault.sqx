@@ -29,9 +29,9 @@ namespace Mission.Server
 			
 			_self.Name = "Air Station Assault";
 			_self.StartTimeOfDay = 5;
-			_self.ActingSideStartMarkers = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
-			_self.OpposingSideStartMarkers = ["m01o_startarea1"];
-			_self.ActingSideMarkers = ["m01a_PrimaryTarget"];
+			_self.StartMarkersActing = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
+			_self.StartMarkersOpposing = ["m01o_startarea1"];
+			_self.SideMarkersActing = ["m01a_PrimaryTarget"];
 		};
 		
 		public override method Setup()

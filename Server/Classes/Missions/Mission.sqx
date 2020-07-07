@@ -39,10 +39,10 @@ namespace Mission.Server
 			_self.Name = "New Mission";
 			_self.StartTimeOfDay = 12;
 			_self.RemainingTime = 30;
-			_self.ActingSideStartMarkers = [];
-			_self.OpposingSideStartMarkers = [];
-			_self.ActingSideMarkers = [];
-			_self.OpposingSideMarkers = [];
+			_self.StartMarkersActing = [];
+			_self.StartMarkersOpposing = [];
+			_self.SideMarkersActing = [];
+			_self.SideMarkersOpposing = [];
 			
 			call _self.Initialize;
 		};
@@ -90,20 +90,20 @@ namespace Mission.Server
 		// Gets or sets the insertion map markers for the acting side.
 		// This property must be set in the initialization phase of the mission.
 		// If this array is empty, then the group will be auto inserted in its base.
-		protected property Array ActingSideStartMarkers { get; protected set; };
+		protected property Array StartMarkersActing { get; protected set; };
 		
 		// Gets or sets the insertion map markers for the opposing side.
 		// This property must be set in the initialization phase of the mission.
 		// If this array is empty, then the group will be auto inserted in its base.
- 		protected property Array OpposingSideStartMarkers { get; protected set; };
+ 		protected property Array StartMarkersOpposing { get; protected set; };
 		
 		// Gets or sets general markers that should be visible for the acting side.
 		// This property must be set in the initialization phase of the mission.
-		protected property Array ActingSideMarkers { get; protected set; };
+		protected property Array SideMarkersActing { get; protected set; };
 		
 		// Gets or sets general markers that should be visible for the opposing side.
 		// This property must be set in the initialization phase of the mission.
-		protected property Array OpposingSideMarkers { get; protected set; };
+		protected property Array SideMarkersOpposing { get; protected set; };
 		
 		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
 		// This property may be set in the mission's construtor, and at mission startup, time is skipped ahead 
@@ -274,27 +274,27 @@ namespace Mission.Server
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return _self.ActingSideStartMarkers;
+				return _self.StartMarkersActing;
 			};
 			
-			return _self.OpposingSideStartMarkers;
+			return _self.StartMarkersOpposing;
 		};
 	
 		// Gets general map markers that should be visible for a side.
 		// This method is used by the framework to know which markers to show for each side.
 		// _side (Side): The side to get markers for (east or west).
 		// Returns (Array of String): Start marker names in an array.
-		public method Array GetMarkers("_side" as Side)
+		public method Array GetMarkersBySide("_side" as Side)
 		{
 			private ["_missionSide" as MissionSide];
 			
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return _self.ActingSideMarkers;
+				return _self.SideMarkersActing;
 			};
 			
-			return _self.OpposingSideMarkers;
+			return _self.SideMarkersOpposing;
 		};
 		
 		// Gets the mission result for a side.
@@ -424,12 +424,12 @@ namespace Mission.Server
 		protected override method Initialize()
 		{
 			_self.Name = "New Mission";
-			_self.ActingSideStartMarkers = [];
-			_self.OpposingSideStartMarkers = [];
+			_self.StartMarkersActing = [];
+			_self.StartMarkersOpposing = [];
 			_self.StartTimeOfDay = 12;
 			_self.RemainingTime = 30;
-			_self.ActingSideMarkers = [];
-			_self.OpposingSideMarkers = [];
+			_self.SideMarkersActing = [];
+			_self.SideMarkersOpposing = [];
 		};
 		
 		// Loads the mission with all gained and lost history items.

@@ -25,8 +25,8 @@ namespace Mission.Server
 		protected override method Initialize()
 		{
 			_self.Name = "Lost Vehicles";
-			_self.ActingSideStartMarkers = ["m03a_StartArea1"];
-			_self.OpposingSideStartMarkers = ["m03o_StartArea1"];
+			_self.StartMarkersActing = ["m03a_StartArea1"];
+			_self.StartMarkersOpposing = ["m03o_StartArea1"];
 		};
 		
 		public override method Setup()
