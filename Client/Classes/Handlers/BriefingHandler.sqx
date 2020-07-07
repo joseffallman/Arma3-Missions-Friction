@@ -12,11 +12,9 @@ namespace Mission.Client
 	public class BriefingHandler : IBriefingHandler
 	{
         // Creates the briefing texts for the player.
-        public method CreateBriefing()
+        public method CreateBriefing("_briefingInfo" as String)
         {
-			player createDiaryRecord ["Diary", ["My Mission",
-			"This is a template mission<br />" +
-			"Replace this text with the briefing of your scenario."]];
+			player createDiaryRecord ["Diary", ["My Mission", _briefingInfo]];
 		};
 	};
 };

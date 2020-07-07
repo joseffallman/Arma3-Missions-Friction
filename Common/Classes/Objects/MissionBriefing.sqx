@@ -12,38 +12,53 @@ namespace Mission.Common
 	public class MissionBriefing
 	{
 		// Creates a MissionBriefing object.
-		public constructor("_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective)
+		public constructor("_westBriefingInfo" as String, "_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_eastBriefingInfo" as String, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective)
 		{
-			_self.WestPrimaryObjective = _westPrimaryObjective;
-			_self.WestSecondaryObjective = _westSecondaryObjective;
-			_self.EastPrimaryObjective = _eastPrimaryObjective;
-			_self.EastSecondaryObjective = _eastSecondaryObjective;
+			_self.BriefingInfoWest = _westBriefingInfo;
+			_self.BriefingInfoEast = _eastBriefingInfo;
+			_self.PrimaryObjectiveWest = _westPrimaryObjective;
+			_self.SecondaryObjectiveWest = _westSecondaryObjective;
+			_self.PrimaryObjectiveEast = _eastPrimaryObjective;
+			_self.SecondaryObjectiveEast = _eastSecondaryObjective;
 		};
 		
-		public property MissionObjective WestPrimaryObjective { get; private set; };
+		public property String BriefingInfoWest { get; private set; };
 		
-		public property MissionObjective WestSecondaryObjective { get; private set; };
+		public property MissionObjective PrimaryObjectiveWest { get; private set; };
 		
-		public property MissionObjective EastPrimaryObjective { get; private set; };
+		public property MissionObjective SecondaryObjectiveWest { get; private set; };
 		
-		public property MissionObjective EastSecondaryObjective { get; private set; };
+		public property String BriefingInfoEast { get; private set; };
+		
+		public property MissionObjective PrimaryObjectiveEast { get; private set; };
+		
+		public property MissionObjective SecondaryObjectiveEast { get; private set; };
+		
+		public method String GetBriefingInfo("_side" as Side)
+		{
+			if (_side == west) then {
+				return _self.BriefingInfoWest;
+			};
+			
+			return _self.BriefingInfoEast;
+		};
 		
 		public method MissionObjective GetPrimaryObjective("_side" as Side)
 		{
 			if (_side == west) then {
-				return _self.WestPrimaryObjective;
+				return _self.PrimaryObjectiveWest;
 			};
 			
-			return _self.EastPrimaryObjective;
+			return _self.PrimaryObjectiveEast;
 		};
 		
 		public method MissionObjective GetSecondaryObjective("_side" as Side)
 		{
 			if (_side == west) then {
-				return _self.WestSecondaryObjective;
+				return _self.SecondaryObjectiveWest;
 			};
 			
-			return _self.EastSecondaryObjective;
+			return _self.SecondaryObjectiveEast;
 		};
 	};
 };

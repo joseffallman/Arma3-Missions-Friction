@@ -328,6 +328,23 @@ namespace Mission.Server
 			};
 		};
 		
+		public method String GetBriefingInfo("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return call _self.AddBriefingInfoForActing;
+			};
+			
+			if (_missionSide == MissionSide.Opposing) then {
+				return call _self.AddBriefingInfoForOpposing;
+			};
+			
+			return "";
+		};
+		
 		public method MissionObjective GetMissionObjective("_side" as Side, "_prio" as ObjectivePrio)
 		{
 			private ["_missionSide" as MissionSide];
@@ -452,6 +469,24 @@ namespace Mission.Server
 			skipTime _timeToSkip;
 			
 			call _self.CreateMissionObjectives;
+		};
+		
+		// Adds briefing information that is shown to players of the acting side.
+		// Override this if you want to show the players some briefing information.
+		// Default behavior is to return an empty string.
+		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
+		protected virtual method String AddBriefingInfoForActing()
+		{
+			return "";
+		};
+
+		// Adds briefing information that is shown to players of the opposing side.
+		// Override this if you want to show the players some briefing information.
+		// Default behavior is to return an empty string.
+		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
+		protected virtual method String AddBriefingInfoForOpposing()
+		{
+			return "";
 		};
 
 		// Creates the briefing information regarding the primary objective for the acting side.

@@ -197,10 +197,15 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
 		{
-			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
+			private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
+			_briefingInfo = [playerSide] call _missionBriefing.GetBriefingInfo;
 			_primaryObjective = [playerSide] call _missionBriefing.GetPrimaryObjective;
 			_secondaryObjective = [playerSide] call _missionBriefing.GetSecondaryObjective;
+			
+			if (_briefingInfo != "") then {
+				[_briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
+			};
 			
 			if (!isNull _primaryObjective) then {
 				[_primaryObjective, ObjectivePrio.Primary] call ClientObjects.TaskHandler.CreateTask;

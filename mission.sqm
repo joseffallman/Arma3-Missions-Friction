@@ -875,7 +875,7 @@ class Mission
 			colorName="ColorWEST";
 			a=150;
 			b=75;
-			angle=198.98601;
+			angle=198.98595;
 			id=38;
 			atlOffset=-0.58856201;
 		};
@@ -889,7 +889,7 @@ class Mission
 			colorName="ColorEAST";
 			a=150;
 			b=75;
-			angle=196.80992;
+			angle=196.80988;
 			id=39;
 		};
 		class Item16
@@ -992,7 +992,7 @@ class Mission
 			colorName="ColorWEST";
 			a=100;
 			b=100;
-			angle=276.69897;
+			angle=276.69891;
 			id=73;
 		};
 		class Item24
@@ -1019,7 +1019,7 @@ class Mission
 			colorName="ColorWEST";
 			a=120;
 			b=50;
-			angle=105.37099;
+			angle=105.37094;
 			id=75;
 		};
 		class Item26

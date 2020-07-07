@@ -49,7 +49,7 @@ namespace Mission.Server
 			return _player != objNull && { alive _player && _player getVariable ["IsAlive", false] };
 		};
 		
-		private method NotifyAboutMissionStart("_mission" as Mission)
+		private method NotifyClientsAboutMissionStart("_mission" as Mission)
 		{
 			private ["_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */, "_missionMarkersInfo" as MissionMarkersInfo];
 			
@@ -83,12 +83,14 @@ namespace Mission.Server
 		{
 			private ["_missionBriefing" as MissionBriefing];
 		
+			private _briefingInfoWest = [west] call _mission.GetBriefingInfo;
+			private _briefingInfoEast = [east] call _mission.GetBriefingInfo;
 			private _westPrimaryObjective = [west, ObjectivePrio.Primary] call _mission.GetMissionObjective;
 			private _westSecondaryObjective = [west, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
 			private _eastPrimaryObjective = [east, ObjectivePrio.Primary] call _mission.GetMissionObjective;
 			private _eastSecondaryObjective = [east, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
 			
-			_missionBriefing = [_westPrimaryObjective, _westSecondaryObjective, _eastPrimaryObjective, _eastSecondaryObjective] new MissionBriefing;
+			_missionBriefing = [_briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective] new MissionBriefing;
 			
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
@@ -276,6 +278,16 @@ namespace Mission.Server
 			};
 		};
 		
+		private method SetHistoryTokens("_mission" as Mission)
+		{
+			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
+				[_mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.SetHistoryTokens;
+			}
+			else {
+				[_mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.SetHistoryTokens;
+			};
+		};
+		
 		protected override method Run()
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
@@ -308,15 +320,8 @@ namespace Mission.Server
 					_remainingTime = 30;
 				};
 				
-				[_mCurrentMission] call _self.NotifyAboutMissionStart;
-				
-				if (([MissionSide.Acting] call _mCurrentMission.GetActualSide) == west) then {
-					[_mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mCurrentMission.SetHistoryTokens;
-				}
-				else {
-					[_mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mCurrentMission.SetHistoryTokens;
-				};
-				
+				[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
+				[_mCurrentMission] call _self.SetHistoryTokens;
 				call _mCurrentMission.Setup;
 				
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
