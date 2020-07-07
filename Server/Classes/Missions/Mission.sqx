@@ -17,6 +17,7 @@ namespace Mission.Server
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
+		private fields ["_mSpawnedSoldiers" as Array];
 		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
@@ -25,9 +26,11 @@ namespace Mission.Server
 			call _base.Constructor;
 			
 			_self.VehicleTypeDictionary = new VehicleTypeDictionary;
+			_self.SoldierTypeDictionary = new SoldierTypeDictionary;
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
+			_mSpawnedSoldiers = [];
 			_self.ActingPlayers = [];
 			_self.OpposingPlayers = [];
 			_self.PrimaryObjectiveCompletedForActing = false;
@@ -79,6 +82,28 @@ namespace Mission.Server
 			
 			return _vehicle;
 		};
+		
+		protected method Object CreateAiSoldier("_unitType" as String, "_position" as Array, "_group" as Group)
+		{
+			private _soldier = _group createUnit [_unitType, _position, [], 0, "NONE"];
+			player sideChat str _soldier;
+			_mSpawnedSoldiers pushBack _soldier;
+			
+			return _soldier;
+		};
+		
+		protected method Object CreateAiSoldierBySide("_unitTypeAlias" as String, "_missionSide" as MissionSide, "_position" as Array, ["_group" as Group, grpNull])
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _soldierType = [_unitTypeAlias, _side] call _self.SoldierTypeDictionary.GetSoldierType;
+			
+			if (isNull _group) then {
+				_group = createGroup [_side, true];
+			};
+			
+			return [_soldierType, _position, _group] call _self.CreateAiSoldier;
+		};
+		
 		
 		#endregion
 		
@@ -237,6 +262,8 @@ namespace Mission.Server
 		#region Protected Properties
 		
 		protected property VehicleTypeDictionary VehicleTypeDictionary { get; private set; };
+		
+		protected property SoldierTypeDictionary SoldierTypeDictionary { get; private set; };
 		
 		// Gets the players on the acting side that was inserted to execute the mission.
 		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
@@ -678,6 +705,10 @@ namespace Mission.Server
 		// _base.Cleanup.
 		public virtual method Cleanup()
 		{
+			{
+				deleteVehicle _x;
+			} foreach _mSpawnedSoldiers as Object;
+			
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedVehicles as Object;

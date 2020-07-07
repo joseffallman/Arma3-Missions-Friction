@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=79;
+		nextID=84;
 	};
 	class MarkerIDProvider
 	{
@@ -84,7 +84,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=29;
+		items=32;
 		class Item0
 		{
 			dataType="Marker";
@@ -985,7 +985,7 @@ class Mission
 		class Item23
 		{
 			dataType="Marker";
-			position[]={2720.408,2.5999999,5786.7891};
+			position[]={2720.408,2.3807282,5829.3364};
 			name="m06a_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
@@ -1012,15 +1012,16 @@ class Mission
 		class Item25
 		{
 			dataType="Marker";
-			position[]={2003.0347,3,5248.9634};
+			position[]={2017.774,0,4483.7539};
 			name="m06a_StartArea2";
 			markerType="RECTANGLE";
 			type="rectangle";
 			colorName="ColorWEST";
-			a=120;
+			a=100;
 			b=50;
-			angle=105.37094;
+			angle=183.13692;
 			id=75;
+			atlOffset=1.194703;
 		};
 		class Item26
 		{
@@ -1048,6 +1049,38 @@ class Mission
 			text=" 2";
 			type="mil_objective";
 			id=78;
+		};
+		class Item29
+		{
+			dataType="Marker";
+			position[]={1035.6648,-42.638359,5929.6372};
+			name="m06a_StartArea3";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=250;
+			b=100;
+			angle=105.64106;
+			id=79;
+		};
+		class Item30
+		{
+			dataType="Marker";
+			position[]={7038.4048,0,5980.1118};
+			name="base_west_NavalMarker";
+			type="Empty";
+			id=82;
+			atlOffset=0.43726805;
+		};
+		class Item31
+		{
+			dataType="Marker";
+			position[]={3817.4407,-2.5968018,7957.6147};
+			name="base_east_NavalMarker";
+			type="Empty";
+			angle=147.6069;
+			id=83;
+			atlOffset=2.6553779;
 		};
 	};
 };

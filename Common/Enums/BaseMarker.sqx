@@ -12,6 +12,7 @@ namespace Mission.Common
 	public enum BaseMarker
 	{
 		Respawn,
-		AmmoCrate
+		AmmoCrate,
+		Naval
 	};
 };

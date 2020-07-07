@@ -19,8 +19,10 @@ namespace Mission.Common
 			_mBaseMarkers = [
 				[west, BaseMarker.Respawn, "respawn_west"] new BaseMarkerInfo,
 				[west, BaseMarker.AmmoCrate, "base_west_AmmoCrateMarker"] new BaseMarkerInfo,
+				[west, BaseMarker.Naval, "base_west_NavalMarker"] new BaseMarkerInfo,
 				[east, BaseMarker.Respawn, "respawn_east"] new BaseMarkerInfo,
-				[east, BaseMarker.AmmoCrate, "base_east_AmmoCrateMarker"] new BaseMarkerInfo
+				[east, BaseMarker.AmmoCrate, "base_east_AmmoCrateMarker"] new BaseMarkerInfo,
+				[east, BaseMarker.Naval, "base_east_NavalMarker"] new BaseMarkerInfo
 			];
 		};
 		
