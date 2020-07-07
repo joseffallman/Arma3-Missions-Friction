@@ -598,16 +598,11 @@ namespace Mission.Server
 			};
 		};
 		
-		// Cleans up everything that was created in the Setup method.
-		// Default behavior is to delete all vehicles that are created using the spawn methods of this
-		// mission base class.
-		// Override this if you need to clean up stuff that has been created elsewhere. Remember to call
-		// _base.Cleanup.
-		public virtual method Cleanup()
+		// Called by the Run method once every iteration (like once a second) during the mission.
+		// Override this if you want to monitor something over time - a simpler alternative than overriding
+		// the Run method. If you want to end the mission in this method, call _self.Cancel.
+		protected virtual method OnEachIteration()
 		{
-			{
-				deleteVehicle _x;
-			} foreach _mSpawnedVehicles as Object;
 		};
 		
 		// Runs the mission service.
@@ -623,10 +618,23 @@ namespace Mission.Server
 					call _self.Cancel;
 				};
 				
+				call _self.OnEachIteration;
 				sleep 1;
 			};
 			
 			call _base.Run;
+		};
+		
+		// Cleans up everything that was created in the Setup method.
+		// Default behavior is to delete all vehicles that are created using the spawn methods of this
+		// mission base class.
+		// Override this if you need to clean up stuff that has been created elsewhere. Remember to call
+		// _base.Cleanup.
+		public virtual method Cleanup()
+		{
+			{
+				deleteVehicle _x;
+			} foreach _mSpawnedVehicles as Object;
 		};
 
 		#endregion
