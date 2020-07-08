@@ -10,7 +10,7 @@
 namespace Mission.Common
 {
 	// The key for stuff that may be gained, lost, used and/or missing in missions during a campaign.
-	// NOTE: A new value here need to also be added to HistoryTokenKeyMeta.ToString below!
+	// NOTE: A new value here need to also be added to HistoryTokenMeta.ToString below!
 	public enum HistoryToken
 	{
 		Fuel,

@@ -1,0 +1,61 @@
+/*
+ * Name:	CameraHandler
+ * Date:	2020-07-08
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Handles all about camera views - for dead players.
+ */
+namespace Mission.Client
+{
+	public class CameraHandler
+	{
+		private fields ["_mCameraUnit" as Object];
+	
+		// Creates a CameraHandler object.
+		public constructor()
+		{
+			_mCameraUnit = objNull;
+		};
+		
+		private static method Boolean IsAlive("_unit" as Object)
+		{
+			return (!isNull _unit) && { alive _unit && (_unit getVariable ["IsAlive", false]) };
+		};
+		
+		public method SetDeathCamera()
+		{
+			// If the unit we are currently following has logged out or is dead, then switch camera
+			if (!([_mCameraUnit] call _self.IsAlive)) then
+			{
+				// First, switch to someone in the same group
+				{
+					if (([_x] call _self.IsAlive) && (side group _x == playerSide)) then {
+						switchCamera _x;
+						_mCameraUnit = _x;
+						return;
+					};
+				} foreach call BIS_fnc_listPlayers;
+				
+				// Second, switch to someone in the other team
+				{
+					if ([_x] call _self.IsAlive) then {
+						switchCamera _x;
+						_mCameraUnit = _x;
+						return;
+					};
+				} foreach call BIS_fnc_listPlayers;
+				
+				// Just in case, reset player camera
+				call _self.ResetPlayerCamera;
+			};
+		};
+		
+		public method ResetPlayerCamera()
+		{
+			switchCamera player;
+			_mCameraUnit = objNull;
+		};
+	};
+};

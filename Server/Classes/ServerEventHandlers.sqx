@@ -8,6 +8,8 @@
  * Container for the server's event handlers.
  */
 
+using Mission.Communication;
+
 namespace Mission.Server.Statics
 {
 	public class ServerEventHandlers
@@ -31,6 +33,21 @@ namespace Mission.Server.Statics
 			addMissionEventHandler ["HandleDisconnect", {
 				params ["_unit" as Object, "_id" as Scalar, "_uid" as String, "_name" as String];
 			}];
+			
+			// Add killed event handlers on all playable units
+			
+			{
+				// Triggered when the unit (player or playable AI) is killed.
+				_x addEventHandler ["Killed", {
+					params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
+					
+					if (local _unit) then
+					{
+						_unit setVariable ["IsAlive", false, true];
+						["ClientEventReciever.OnUnitKilled", [_unit, _killer]] call Remote.Invoke;
+					};
+				}];
+			} foreach switchableUnits as Object;
 		};
 	};
 };

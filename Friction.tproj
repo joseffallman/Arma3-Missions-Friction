@@ -21,6 +21,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BriefingHandler.sqx" FileName="Client\Classes\Handlers\BriefingHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CameraHandler.sqx" FileName="Client\Classes\Handlers\CameraHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMessageHandler.sqx" FileName="Client\Classes\Handlers\ClientMessageHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

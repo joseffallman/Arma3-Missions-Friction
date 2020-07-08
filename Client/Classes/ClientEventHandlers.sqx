@@ -8,6 +8,8 @@
  * Static container for the client's event handlers.
  */
 
+using Mission.Communication;
+
 namespace Mission.Client.Statics
 {
 	public class ClientEventHandlers
@@ -42,6 +44,8 @@ namespace Mission.Client.Statics
 				params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
 				
 				_unit setVariable ["IsAlive", false, true];
+				
+				["ClientEventReciever.OnUnitKilled", [_unit, _killer]] call Remote.Invoke;
 			}];
 			
 			player addEventHandler ["HandleRating", {

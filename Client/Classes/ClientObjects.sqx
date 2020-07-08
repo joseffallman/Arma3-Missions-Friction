@@ -26,6 +26,7 @@ namespace Mission.Client.Statics
 			_self.MapMarkerHandler = new MapMarkerHandler;
 			_self.MessageHandler = new ClientMessageHandler;
 			_self.PerformInsertionService = [_self.MessageHandler] new PerformInsertionService;
+			_self.CameraHandler = new CameraHandler;
 		};
 		
 		// [Declare client config and handler classes as static properties here]
@@ -43,5 +44,7 @@ namespace Mission.Client.Statics
 		public static property ClientMessageHandler MessageHandler { get; private set; };
 		
 		public static property PerformInsertionService PerformInsertionService { get; private set; };
+		
+		public static property CameraHandler CameraHandler { get; private set; };
 	};
 };

@@ -86,7 +86,6 @@ namespace Mission.Server
 		protected method Object CreateAiSoldier("_unitType" as String, "_position" as Array, "_group" as Group)
 		{
 			private _soldier = _group createUnit [_unitType, _position, [], 0, "NONE"];
-			player sideChat str _soldier;
 			_mSpawnedSoldiers pushBack _soldier;
 			
 			return _soldier;

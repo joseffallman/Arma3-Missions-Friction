@@ -1066,7 +1066,7 @@ class Mission
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64104;
+			angle=105.64103;
 			id=79;
 		};
 		class Item30
@@ -1516,6 +1516,7 @@ class Mission
 					};
 					id=105;
 					type="O_Soldier_F";
+					atlOffset=9.5367432e-007;
 				};
 				class Item2
 				{
@@ -1547,7 +1548,7 @@ class Mission
 			type="ellipse";
 			a=100;
 			b=60;
-			angle=154.17781;
+			angle=154.1778;
 			id=107;
 			atlOffset=-5.7314606;
 		};

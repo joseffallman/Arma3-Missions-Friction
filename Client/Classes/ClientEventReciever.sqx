@@ -193,6 +193,9 @@ namespace Mission.Client.Statics
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;
+			
+			// "Resurrect" player
+			call ClientObjects.CameraHandler.ResetPlayerCamera;
 		};
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
@@ -230,6 +233,13 @@ namespace Mission.Client.Statics
 			}
 			else {
 				[_eastAccumulatedScore >= _westAccumulatedScore] call ClientObjects.MissionEndHandler.EndGame;
+			};
+		};
+		
+		public static method OnUnitKilled("_unit" as Object, "_killer" as Object)
+		{
+			if ((!alive player) || player getVariable ["IsAlive", false]) then {
+				call ClientObjects.CameraHandler.SetDeathCamera;
 			};
 		};
 	};
