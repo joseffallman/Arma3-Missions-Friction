@@ -16,7 +16,8 @@ namespace Mission.Common
 		Fuel,
 		DivingMateriel,
 		GuerillaAlliance,
-		HawkIntel
+		HawkIntel,
+		Reinforcements
 	};
 	
 	public class HistoryTokenMeta
@@ -28,6 +29,7 @@ namespace Mission.Common
 				case HistoryToken.DivingMateriel: { return "Diving materiel"; };
 				case HistoryToken.GuerillaAlliance: { return "Guerilla alliance"; };
 				case HistoryToken.HawkIntel: { return "Intel found in helicopter"; };
+				case HistoryToken.Reinforcements: { return "Reinforcements"; };
 				default { return "<< History token key not defined >>"; };
 			};
 		};

@@ -42,7 +42,13 @@ namespace Mission.Server
 			
 			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
 			
-			["RIFLEMAN", MissionSide.Acting, getMarkerPos "base_west_AmmoCrateMarker"] call _self.CreateAiSoldierBySide;
+			// Add an AI group defending the area.
+			
+			private _guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_StartArea1"] call _self.CreateAiSoldierBySide;
+			private _guardGroup = group _guard;
+			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_StartArea1", _guardGroup] call _self.CreateAiSoldierBySide;
+			
+			[_guardGroup, "m06o_StartArea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			call _base.Setup;
 		};

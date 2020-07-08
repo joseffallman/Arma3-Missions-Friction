@@ -13,6 +13,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Missions\LostVehicles\Los
 call compile preprocessFileLineNumbers "Server\Classes\Missions\AsEasyAsItGets\AsEasyAsItGets.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\HawkDown\HawkDown.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\NightTensions\NightTensions.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\Establishments\Establishments.sqx";
 
 using Mission.Server;
 using Mission.Server.Statics;
