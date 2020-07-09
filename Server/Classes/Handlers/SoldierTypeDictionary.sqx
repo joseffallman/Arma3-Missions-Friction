@@ -17,13 +17,13 @@ namespace Mission.Server
 		public constructor()
 		{
 			_mSoldierTypes = [
-				["RIFLEMAN", "B_Soldier_F", "O_Soldier_F"] new VehicleSideAlias
+				["RIFLEMAN", "B_Soldier_F", "O_Soldier_F", "I_soldier_F"] new VehicleSideAlias
 			];
 		};
 		
-		public method AddEntry("_alias" as String, "_westVehicleType" as String, "_eastVehicleType" as String)
+		public method AddEntry("_alias" as String, "_westVehicleType" as String, "_eastVehicleType" as String, "_guerillaVehicleType" as String)
 		{
-			_mSoldierTypes pushBack [_alias, _westVehicleType, _eastVehicleType] new VehicleSideAlias;
+			_mSoldierTypes pushBack [_alias, _westVehicleType, _eastVehicleType, _guerillaVehicleType] new VehicleSideAlias;
 		};
 		
 		public method String GetSoldierType("_alias" as String, "_side" as Side)

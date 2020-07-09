@@ -9,11 +9,14 @@
  */
 
 using Mission.Common;
+using Sqx.Markers;
 
 namespace Mission.Server
 {
 	public class Establishments : Mission
 	{
+		private fields ["_mAmmoTruck" as Object, "_mMailBox" as Object, "_mFishyPlaceActingMarker" as String, "_mFishyPlaceOpposingMarker" as String];
+	
 		// Creates a AsEasyAsItGets object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
@@ -24,32 +27,128 @@ namespace Mission.Server
 		{
 			_self.Name = "Establishments";
 			_self.StartTimeOfDay = 7;
+			
+			_self.SideMarkersActing = ["m07a_LimeriBay", "m07a_PointDelta"];
+			_self.SideMarkersOpposing = ["m07o_MilitaryRange", "m07o_PointDelta"];
+			
+			// Move delta markers to random fishy places
+			_mFishyPlaceActingMarker = selectRandom ["m_FishyPlaceCamo", "m_FishyPlaceCamping", "m_FishyPlaceRusty"];
+			"m07a_PointDelta" setMarkerPos getMarkerPos _mFishyPlaceActingMarker;
+			
+			_mFishyPlaceOpposingMarker = selectRandom ["m_FishyPlaceCamo", "m_FishyPlaceCamping", "m_FishyPlaceRusty"];
+			"m07o_PointDelta" setMarkerPos getMarkerPos _mFishyPlaceOpposingMarker;
 		};
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "Deliver supplies to Delta Bravo 4 and check the surroundings.";
+			return "Deliver supplies to Delta Bravo 4 at Limeri Bay and check the surroundings. Stay aware and report any spotted enemy or guerilla movements.";
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "Deliver supplies to Alpha Charlie 2 and check the surroundings.";
+			return "Reach Alpha Charlie 2 at Agia Marina's military range to get the mail, and check the surroundings. Stay aware and report any spotted enemy or guerilla movements.";
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Deliver supplies";
-			private _longDescription = "Drive the truck to Camp Maxwell.";
+			private _longDescription = "Drive the truck to Camp Maxwell and leave it there.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
-			private _shortDescription = "Recon point Delta";
-			private _longDescription = "Point Delta is an abandoned guerilla stronghold. See if you can find something useful. Vehicles can be found in the base and at Camp Maxwell.";
+			private _shortDescription = "Recon Point Delta";
+			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. Just be careful!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Get the mail";
+			private _longDescription = "Go to Agia Marina's military range and recieve the company's weekly mail.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			private _shortDescription = "Recon Point Delta";
+			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. Just be careful!";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		public override method Setup()
+		{
+			// Select a random fishy plase to populate with guerillas.
+			private _populatedFishyPlaceMarker = selectRandom ["m_FishyPlaceCamo", "m_FishyPlaceCamping", "m_FishyPlaceRusty"];
+			
+			// Spawn guereillas at the selected fishy place and make them patrol
+			private _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker] call _self.CreateAiSoldierBySide;
+			private _guardGroup = group _guard;
+			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker, _guardGroup] call _self.CreateAiSoldierBySide;
+			[_guardGroup, _populatedFishyPlaceMarker] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			
+			// Spawn an ammo truck in the base
+			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			
+			// Create mail box at Military Range
+			private _mailBoxPosition = ["m_MilitaryRange"] call MarkerHelper.GetRandomPosInsideMarker;
+			private _mailBoxMarker = createMarkerLocal ["temp_marker_mailbox", _mailBoxPosition];
+			_mMailBox = ["CLOSED PAPERBOX", MissionSide.Acting, _mailBoxMarker] call _self.CreateSideVehicleOnMarker;
+			
+			// Create vehicles at Limeri Bay
+			["MRAP", MissionSide.Acting, "m07a_LimeriBayMrap"] call _self.CreateSideVehicleOnMarker;
+			["QUADBIKE", MissionSide.Acting, "m07a_LimeriBayQuadBike"] call _self.CreateSideVehicleOnMarker;
+			
+			// Create AAF Explosives box that may be found
+			
+			call _base.Setup;
+		};
+		
+		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		{
+			private _fulfilled = (getPos _mAmmoTruck) inArea "m_LimeriBay" && (count crew _mAmmoTruck) == 0;
+			
+			if (_fulfilled) then {
+				_mAmmoTruck lock true;
+			};
+			
+			return _fulfilled;
+		};
+		
+		protected override method Boolean SecondaryObjectiveFulfilledForActing()
+		{
+			// Fulfilled when a unit on the acting side is alive inside the fishy marker.
+			return { ([_x] call Mission.IsAlive) && { _x inArea _mFishyPlaceActingMarker }} count _self.ActingPlayers > 0;
+		};
+		
+		private method Boolean AtLeastOneOpposingOutsideVehicleNearBox()
+		{
+			{
+				if (([_x] call Mission.IsAlive) && vehicle _x == _x && _x distance _mMailBox < 3) then
+				{
+					return true;
+				};
+			} foreach _self.OpposingPlayers as Object;
+			
+			return false;
+		};
+		
+		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		{
+			return call _self.AtLeastOneOpposingOutsideVehicleNearBox;
+		};
+		
+		public override method Cleanup()
+		{
+			deleteMarkerLocal "temp_marker_mailbox";
+			call _base.Cleanup;
 		};
 	};
 };

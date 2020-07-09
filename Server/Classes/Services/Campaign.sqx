@@ -30,6 +30,7 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
+				[_mBaseMarkersConfig, west] new Establishments,
 				[_mBaseMarkersConfig, west] new NightTensions,
 				[_mBaseMarkersConfig, west] new HawkDown,
 				[_mBaseMarkersConfig, east] new AirStationAssault

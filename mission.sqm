@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=136;
+		nextID=159;
 	};
 	class MarkerIDProvider
 	{
-		nextID=12;
+		nextID=17;
 	};
 	class Camera
 	{
-		pos[]={4783.1514,124.48197,4683.4629};
-		dir[]={0.9133063,-0.3641758,0.18241397};
-		up[]={0.35713816,0.93132365,0.071330629};
-		aside[]={0.19586335,-2.7680653e-007,-0.98064476};
+		pos[]={5347.4585,20.555389,3757.575};
+		dir[]={0.2403582,-0.42582953,0.87230486};
+		up[]={0.11312035,0.90480077,0.41053337};
+		aside[]={0.96407843,1.3074896e-007,-0.2656461};
 	};
 };
 binarizationWanted=0;
@@ -133,7 +133,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=60;
+		items=67;
 		class Item0
 		{
 			dataType="Marker";
@@ -209,7 +209,7 @@ class Mission
 			position[]={6427.8789,7.5410938,5417.6172};
 			name="respawn_east";
 			type="Empty";
-			angle=129.93512;
+			angle=129.93507;
 			id=5;
 		};
 		class Item6
@@ -615,6 +615,7 @@ class Mission
 					};
 					id=15;
 					type="O_Soldier_F";
+					atlOffset=8.1062317e-006;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -735,6 +736,7 @@ class Mission
 					};
 					id=17;
 					type="O_Soldier_F";
+					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -870,7 +872,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={6433.98,8.809618,5412.1484};
-				angles[]={-0,2.2773941,0};
+				angles[]={0,2.2773941,0};
 			};
 			side="Empty";
 			flags=4;
@@ -879,6 +881,7 @@ class Mission
 			};
 			id=32;
 			type="MapBoard_stratis_F";
+			atlOffset=-0.0092630386;
 		};
 		class Item11
 		{
@@ -1108,7 +1111,7 @@ class Mission
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64098;
+			angle=105.64095;
 			id=79;
 		};
 		class Item30
@@ -1585,15 +1588,15 @@ class Mission
 		class Item40
 		{
 			dataType="Marker";
-			position[]={3334.9553,225.95972,2942.689};
-			name="m07_DeltaBravo";
+			position[]={5381.3164,0.78424072,3775.9082};
+			name="m_LimeriBay";
 			markerType="RECTANGLE";
 			type="ellipse";
-			a=100;
-			b=60;
-			angle=154.17775;
+			a=80;
+			b=50;
+			angle=154.17799;
 			id=107;
-			atlOffset=-5.7314606;
+			atlOffset=-3.1512425;
 		};
 		class Item41
 		{
@@ -1610,6 +1613,7 @@ class Mission
 			};
 			id=110;
 			type="Land_Tank_rust_F";
+			atlOffset=-7.6293945e-006;
 		};
 		class Item42
 		{
@@ -1642,6 +1646,7 @@ class Mission
 			};
 			id=112;
 			type="Land_Cargo_House_V2_F";
+			atlOffset=-7.6293945e-006;
 		};
 		class Item44
 		{
@@ -1658,6 +1663,7 @@ class Mission
 			};
 			id=115;
 			type="Land_PowerGenerator_F";
+			atlOffset=-7.6293945e-006;
 		};
 		class Item45
 		{
@@ -1689,6 +1695,7 @@ class Mission
 			};
 			id=119;
 			type="Land_Wreck_Ural_F";
+			atlOffset=-7.6293945e-006;
 		};
 		class Item47
 		{
@@ -1722,7 +1729,7 @@ class Mission
 			};
 			id=121;
 			type="Land_Campfire_F";
-			atlOffset=-1.5258789e-005;
+			atlOffset=-0.00010681152;
 		};
 		class Item49
 		{
@@ -1788,6 +1795,7 @@ class Mission
 			};
 			id=126;
 			type="Land_WorkStand_F";
+			atlOffset=-0.00029754639;
 		};
 		class Item53
 		{
@@ -1858,7 +1866,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4791.4858,118.151,4684.9678};
-			name="m_RustyPlace";
+			name="m_FishyPlaceRusty";
 			markerType="ELLIPSE";
 			type="ellipse";
 			a=50;
@@ -1870,7 +1878,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4333.1411,153.548,4662.0361};
-			name="m_CampingPlace";
+			name="m_FishyPlaceCamping";
 			markerType="ELLIPSE";
 			type="ellipse";
 			a=50;
@@ -1882,13 +1890,85 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={3208.1089,61.987,4626.5942};
-			name="m_CamoPlace";
+			name="m_FishyPlaceCamo";
 			markerType="ELLIPSE";
 			type="ellipse";
 			a=50;
 			b=50;
 			id=135;
 			atlOffset=0.00033569336;
+		};
+		class Item60
+		{
+			dataType="Marker";
+			position[]={3251.3684,5.0412903,5805.2441};
+			name="m_MilitaryRange";
+			markerType="RECTANGLE";
+			type="ellipse";
+			a=55;
+			b=35;
+			angle=216.15891;
+			id=142;
+		};
+		class Item61
+		{
+			dataType="Marker";
+			position[]={5353.7949,11.661,3790.48};
+			name="m07a_LimeriBay";
+			text="Limeri Bay";
+			type="mil_objective";
+			id=143;
+			atlOffset=-0.0003080368;
+		};
+		class Item62
+		{
+			dataType="Marker";
+			position[]={3251.71,5.0450001,5805.0698};
+			name="m07o_MilitaryRange";
+			text="Limeri Bay";
+			type="mil_objective";
+			id=144;
+			atlOffset=-0.00017690659;
+		};
+		class Item63
+		{
+			dataType="Marker";
+			position[]={4420.0049,166.129,4666.1401};
+			name="m07a_PointDelta";
+			text="Point Delta";
+			type="mil_objective";
+			id=145;
+			atlOffset=-0.00038146973;
+		};
+		class Item64
+		{
+			dataType="Marker";
+			position[]={4865.127,133.90601,4683.2632};
+			name="m07o_PointDelta";
+			text="Point Delta";
+			type="mil_objective";
+			id=146;
+			atlOffset=-3.0517578e-005;
+		};
+		class Item65
+		{
+			dataType="Marker";
+			position[]={5348.8501,11.121,3771.009};
+			name="m07a_LimeriBayQuadBike";
+			type="Empty";
+			angle=296.73801;
+			id=150;
+			atlOffset=-0.00022792816;
+		};
+		class Item66
+		{
+			dataType="Marker";
+			position[]={5351.9731,11.193,3775.719};
+			name="m07a_LimeriBayMrap";
+			type="Empty";
+			angle=296.86993;
+			id=151;
+			atlOffset=-1.0490417e-005;
 		};
 	};
 };

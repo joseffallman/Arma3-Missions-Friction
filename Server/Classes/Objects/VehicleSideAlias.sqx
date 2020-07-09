@@ -12,11 +12,12 @@ namespace Mission.Server
 	public class VehicleSideAlias
 	{
 		// Creates a VehicleSideAlias object.
-		public constructor("_name" as String, "_westVehicleType" as String, "_eastVehicleType" as String)
+		public constructor("_name" as String, "_westVehicleType" as String, "_eastVehicleType" as String, "_guerillaVehicleType" as String)
 		{
 			_self.Name = _name;
 			_self.WestVehicleType = _westVehicleType;
 			_self.EastVehicleType = _eastVehicleType;
+			_self.GuerillaVehicleType = _guerillaVehicleType;
 		};
 		
 		public property String Name { get; private set; };
@@ -24,6 +25,8 @@ namespace Mission.Server
 		public property String WestVehicleType { get; private set; };
 		
 		public property String EastVehicleType { get; private set; };
+		
+		public property String GuerillaVehicleType { get; private set; };
 		
 		public method String GetVehicleType("_side" as Side)
 		{
