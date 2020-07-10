@@ -48,6 +48,11 @@ namespace Mission.Client
 			[_taskId, [_taskState] call TaskStateMeta.ToString, true] call BIS_fnc_taskSetState;
 		};
 		
+		public method ShowNotification("_text" as String)
+		{
+			["TaskCreated", ["", _text]] call BIS_fnc_showNotification;
+		};
+		
 		public method DeleteAllTasks()
 		{
 			{

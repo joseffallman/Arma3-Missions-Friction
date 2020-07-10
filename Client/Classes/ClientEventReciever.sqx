@@ -242,5 +242,12 @@ namespace Mission.Client.Statics
 				call ClientObjects.CameraHandler.SetDeathCamera;
 			};
 		};
+		
+		public static method OnShowNotification("_side" as Side, "_text" as String)
+		{
+			if (_side == playerSide) then {
+				[_text] call ClientObjects.TaskHandler.ShowNotification;
+			};
+		};
 	};
 };

@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=159;
+		nextID=160;
 	};
 	class MarkerIDProvider
 	{
@@ -1111,7 +1111,7 @@ class Mission
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64095;
+			angle=105.64092;
 			id=79;
 		};
 		class Item30
@@ -1588,15 +1588,15 @@ class Mission
 		class Item40
 		{
 			dataType="Marker";
-			position[]={5381.3164,0.78424072,3775.9082};
-			name="m_LimeriBay";
+			position[]={5381.3159,0.78399998,3775.908};
+			name="m_LimeriBayArea";
 			markerType="RECTANGLE";
 			type="ellipse";
 			a=80;
 			b=50;
 			angle=154.17799;
 			id=107;
-			atlOffset=-3.1512425;
+			atlOffset=-3.1514916;
 		};
 		class Item41
 		{
@@ -1866,7 +1866,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4791.4858,118.151,4684.9678};
-			name="m_FishyPlaceRusty";
+			name="m_FishyPlaceRustyArea";
 			markerType="ELLIPSE";
 			type="ellipse";
 			a=50;
@@ -1878,7 +1878,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4333.1411,153.548,4662.0361};
-			name="m_FishyPlaceCamping";
+			name="m_FishyPlaceCampingArea";
 			markerType="ELLIPSE";
 			type="ellipse";
 			a=50;
@@ -1890,7 +1890,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={3208.1089,61.987,4626.5942};
-			name="m_FishyPlaceCamo";
+			name="m_FishyPlaceCamoArea";
 			markerType="ELLIPSE";
 			type="ellipse";
 			a=50;
@@ -1901,13 +1901,13 @@ class Mission
 		class Item60
 		{
 			dataType="Marker";
-			position[]={3251.3684,5.0412903,5805.2441};
-			name="m_MilitaryRange";
+			position[]={3266.908,5.371623,5792.4937};
+			name="m_MilitaryRangeArea";
 			markerType="RECTANGLE";
 			type="ellipse";
-			a=55;
-			b=35;
-			angle=216.15891;
+			a=35;
+			b=18;
+			angle=216.15894;
 			id=142;
 		};
 		class Item61
@@ -1923,12 +1923,12 @@ class Mission
 		class Item62
 		{
 			dataType="Marker";
-			position[]={3251.71,5.0450001,5805.0698};
+			position[]={3255.2019,5.145,5801.228};
 			name="m07o_MilitaryRange";
-			text="Limeri Bay";
+			text="Military Range";
 			type="mil_objective";
 			id=144;
-			atlOffset=-0.00017690659;
+			atlOffset=-0.00030851364;
 		};
 		class Item63
 		{
@@ -1956,7 +1956,7 @@ class Mission
 			position[]={5348.8501,11.121,3771.009};
 			name="m07a_LimeriBayQuadBike";
 			type="Empty";
-			angle=296.73801;
+			angle=296.73798;
 			id=150;
 			atlOffset=-0.00022792816;
 		};

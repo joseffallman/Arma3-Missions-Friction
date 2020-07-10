@@ -45,7 +45,8 @@ namespace Mission.Server
 				["STATIC AA LAUNCHER", "B_static_AA_F", "O_static_AA_F", "I_static_AA_F"] new VehicleSideAlias,
 								
 				// Neutral objects
-				["CLOSED PAPERBOX", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_empty_F"] new VehicleSideAlias,
+				["CLOSED PAPERBOX", "Land_PaperBox_closed_F", "Land_PaperBox_closed_F", "Land_PaperBox_closed_F"] new VehicleSideAlias,
+				["OPEN PAPERBOX", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_empty_F"] new VehicleSideAlias,
 				["WOODEN BOX", "Land_WoodenBox_F", "Land_WoodenBox_F", "Land_WoodenBox_F"] new VehicleSideAlias
 			];
 		};

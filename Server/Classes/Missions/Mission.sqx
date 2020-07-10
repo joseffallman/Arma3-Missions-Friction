@@ -11,6 +11,7 @@
 
 using Sqx.Services;
 using Mission.Common;
+using Mission.Communication;
 
 namespace Mission.Server
 {
@@ -118,13 +119,38 @@ namespace Mission.Server
 		// _vehicleType (String): The vehicle type to spawn.
 		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
 		// Returns (Object): The vehicle spawned.
-		protected method Object CreateVehicleOnMarker("_vehicleType" as String, "_markerName" as String, ["_withCrew" as Boolean, false])
+		protected method Object CreateVehicleOnMarker("_vehicleType" as String, "_markerName" as String, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
 		{
 			private _position = getMarkerPos _markerName;
 			
-			_position = [_position] call _self.FindSpawnPos;
+			if (_avoidCollision) then {
+				_position = [_position] call _self.FindSpawnPos;
+			};
 			
 			private _direction = markerDir _markerName;
+			
+			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
+			_vehicle setDir _direction;
+			_vehicle setPos _position;
+			
+			_mSpawnedVehicles pushBack _vehicle;
+			
+			if (_withCrew) then {
+				createVehicleCrew _vehicle;
+			};
+			
+			return _vehicle;
+		};
+		
+		// Spawns a vehicle on a marker.
+		// _vehicleType (String): The vehicle type to spawn.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// Returns (Object): The vehicle spawned.
+		protected method Object CreateVehicleOnPosition("_vehicleType" as String, "_position" as Array, "_direction" as Scalar, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
+		{
+			if (_avoidCollision) then {
+				_position = [_position] call _self.FindSpawnPos;
+			};
 			
 			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
 			_vehicle setDir _direction;
@@ -260,6 +286,16 @@ namespace Mission.Server
 			return MissionSide.Opposing;
 		};
 		
+		// Shows a general notification - like a task completed message - to all players on one side.
+		// _missionSide (MissionSide): The side to see the notification.
+		// _text (String): The text to show.
+		protected method ShowNotification("_missionSide" as MissionSide, "_text" as String)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			
+			["ClientEventReciever.OnMissionSetup", [_side, _text]] call Remote.Invoke;
+		};
+		
 		// Checks whether a unit (player) is considered alive or not. Note that a player 
 		// who has respawned may be alive and in the base, but should be considered dead
 		// by the current mission, since it is no longer taking part.
@@ -289,12 +325,12 @@ namespace Mission.Server
 		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
 		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
 		// Returns (Object): The vehicle spawned.
-		protected method Object CreateSideVehicleOnMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_markerName" as String, ["_withCrew" as Boolean, false])
+		protected method Object CreateSideVehicleOnMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_markerName" as String, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
 			private _vehicleType = [_vehicleTypeAlias, _side] call _self.VehicleTypeDictionary.GetVehicleType;
 			
-			return [_vehicleType, _markerName, _withCrew] call _self.CreateVehicleOnMarker;
+			return [_vehicleType, _markerName, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
 		};
 		
 		// Spawns a vehicle in the base.
@@ -303,13 +339,13 @@ namespace Mission.Server
 		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
 		// _baseMarker (BaseMarker): The marker type that will translate to a marker in the base.
 		// Returns (Object): The vehicle spawned.
-		protected method Object CreateSideVehicleOnBaseMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker, ["_withCrew" as Boolean, false])
+		protected method Object CreateSideVehicleOnBaseMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
 			private _vehicleType = [_vehicleTypeAlias, _side] call _self.VehicleTypeDictionary.GetVehicleType;
 			private _spawnMarker = [_side, _baseMarker] call _mBaseMarkersConfig.GetMarkerName;
 			
-			return [_vehicleType, _spawnMarker, _withCrew] call _self.CreateVehicleOnMarker;
+			return [_vehicleType, _spawnMarker, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
 		};
 		
 		#endregion

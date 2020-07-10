@@ -52,6 +52,7 @@ namespace Mission.Communication
 					case "ClientEventReciever.OnTaskStateChanged": { _parameters spawn ClientEventReciever.OnTaskStateChanged; };
 					case "ClientEventReciever.OnCampaignEnded": { _parameters spawn ClientEventReciever.OnCampaignEnded; };
 					case "ClientEventReciever.OnUnitKilled": { _parameters spawn ClientEventReciever.OnUnitKilled; };
+					case "ClientEventReciever.OnShowNotification": { _parameters spawn ClientEventReciever.OnShowNotification; };
 				};
 			};
 		};

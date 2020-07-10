@@ -15,12 +15,17 @@ namespace Mission.Server
 {
 	public class Establishments : Mission
 	{
-		private fields ["_mAmmoTruck" as Object, "_mMailBox" as Object, "_mFishyPlaceActingMarker" as String, "_mFishyPlaceOpposingMarker" as String];
+		private fields ["_mAmmoTruck" as Object, "_mMailBox" as Object, "_mExplosivesBox" as Object, "_mDeltaActingAreaMarker" as String, "_mDeltaOpposingAreaMarker" as String];
+		private fields ["_mActingEnterDeltaAreaTime" as Scalar, "_mOpposingEnterDeltaAreaTime" as Scalar, "_mExplosivesBoxOwnerSide" as MissionSide];
 	
 		// Creates a AsEasyAsItGets object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+			
+			_mActingEnterDeltaAreaTime = -1;
+			_mOpposingEnterDeltaAreaTime = -1;
+			_mExplosivesBoxOwnerSide = MissionSide.Guerilla;
 		};
 		
 		protected override method Initialize()
@@ -32,11 +37,11 @@ namespace Mission.Server
 			_self.SideMarkersOpposing = ["m07o_MilitaryRange", "m07o_PointDelta"];
 			
 			// Move delta markers to random fishy places
-			_mFishyPlaceActingMarker = selectRandom ["m_FishyPlaceCamo", "m_FishyPlaceCamping", "m_FishyPlaceRusty"];
-			"m07a_PointDelta" setMarkerPos getMarkerPos _mFishyPlaceActingMarker;
+			_mDeltaActingAreaMarker = selectRandom ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
+			"m07a_PointDelta" setMarkerPos getMarkerPos _mDeltaActingAreaMarker;
 			
-			_mFishyPlaceOpposingMarker = selectRandom ["m_FishyPlaceCamo", "m_FishyPlaceCamping", "m_FishyPlaceRusty"];
-			"m07o_PointDelta" setMarkerPos getMarkerPos _mFishyPlaceOpposingMarker;
+			_mDeltaOpposingAreaMarker = selectRandom ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
+			"m07o_PointDelta" setMarkerPos getMarkerPos _mDeltaOpposingAreaMarker;
 		};
 		
 		protected override method String AddBriefingInfoForActing()
@@ -59,8 +64,8 @@ namespace Mission.Server
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
-			private _shortDescription = "Recon Point Delta";
-			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. Just be careful!";
+			private _shortDescription = "Investigate Point Delta";
+			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. But be aware, enemy and guerilla units might be in the area.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -73,10 +78,10 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
-			private _shortDescription = "Recon Point Delta";
-			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. Just be careful!";
+			private _shortDescription = "Investigate Point Delta";
+			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. But be aware, enemy and guerilla units might be in the area.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -84,7 +89,7 @@ namespace Mission.Server
 		public override method Setup()
 		{
 			// Select a random fishy plase to populate with guerillas.
-			private _populatedFishyPlaceMarker = selectRandom ["m_FishyPlaceCamo", "m_FishyPlaceCamping", "m_FishyPlaceRusty"];
+			private _populatedFishyPlaceMarker = selectRandom ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
 			
 			// Spawn guereillas at the selected fishy place and make them patrol
 			private _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker] call _self.CreateAiSoldierBySide;
@@ -92,28 +97,35 @@ namespace Mission.Server
 			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker, _guardGroup] call _self.CreateAiSoldierBySide;
 			[_guardGroup, _populatedFishyPlaceMarker] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
-			// Spawn an ammo truck in the base
-			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
-			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
-			["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			// Spawn an ammo truck and vehicles in the acting base
+			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			
+			// Spawn vehicles in the opposing base
+			["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			// Create mail box at Military Range
-			private _mailBoxPosition = ["m_MilitaryRange"] call MarkerHelper.GetRandomPosInsideMarker;
+			private _mailBoxPosition = ["m_MilitaryRangeArea"] call MarkerHelper.GetRandomPosInsideMarker;
 			private _mailBoxMarker = createMarkerLocal ["temp_marker_mailbox", _mailBoxPosition];
-			_mMailBox = ["CLOSED PAPERBOX", MissionSide.Acting, _mailBoxMarker] call _self.CreateSideVehicleOnMarker;
+			_mMailBox = ["CLOSED PAPERBOX", MissionSide.Opposing, _mailBoxMarker] call _self.CreateSideVehicleOnMarker;
 			
 			// Create vehicles at Limeri Bay
 			["MRAP", MissionSide.Acting, "m07a_LimeriBayMrap"] call _self.CreateSideVehicleOnMarker;
 			["QUADBIKE", MissionSide.Acting, "m07a_LimeriBayQuadBike"] call _self.CreateSideVehicleOnMarker;
 			
-			// Create AAF Explosives box that may be found
+			// Create AAF Explosives box that may be found at point Delta
+			private _explosivesBoxAreaMarker = selectRandom [_mDeltaActingAreaMarker, _mDeltaOpposingAreaMarker];
+			
+			_mExplosivesBox = ["AMMOBOX ORDNANCE", [_explosivesBoxAreaMarker] call MarkerHelper.GetRandomPosInsideMarker, random 360] call _self.CreateVehicleOnPosition;
 			
 			call _base.Setup;
 		};
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			private _fulfilled = (getPos _mAmmoTruck) inArea "m_LimeriBay" && (count crew _mAmmoTruck) == 0;
+			private _fulfilled = (getPos _mAmmoTruck) inArea "m_LimeriBayArea" && (count crew _mAmmoTruck) == 0;
 			
 			if (_fulfilled) then {
 				_mAmmoTruck lock true;
@@ -124,8 +136,12 @@ namespace Mission.Server
 		
 		protected override method Boolean SecondaryObjectiveFulfilledForActing()
 		{
-			// Fulfilled when a unit on the acting side is alive inside the fishy marker.
-			return { ([_x] call Mission.IsAlive) && { _x inArea _mFishyPlaceActingMarker }} count _self.ActingPlayers > 0;
+			// Fulfilled when units on the acting side has been inside delta area for more than one minute.
+			
+			private _insideArea = { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingPlayers > 0;
+			private _beenThereOneMinue = _mActingEnterDeltaAreaTime > 0 && time > _mActingEnterDeltaAreaTime + 60;
+			
+			return _insideArea && _beenThereOneMinue;
 		};
 		
 		private method Boolean AtLeastOneOpposingOutsideVehicleNearBox()
@@ -143,6 +159,67 @@ namespace Mission.Server
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
 			return call _self.AtLeastOneOpposingOutsideVehicleNearBox;
+		};
+		
+		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
+		{
+			// Fulfilled when units on the opposing side has been inside delta area for more than one minute.
+			
+			private _insideArea = { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingPlayers > 0;
+			private _beenThereOneMinue = _mOpposingEnterDeltaAreaTime > 0 && time > _mOpposingEnterDeltaAreaTime + 60;
+			
+			return _insideArea && _beenThereOneMinue;
+		};
+		
+		private method GroupInsideDeltaArea("_missionSide" as MissionSide)
+		{
+			if (_missionSide == MissionSide.Acting) then {
+				return { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingPlayers > 0;
+			}
+			else {
+				return { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingPlayers > 0;
+			};
+		};
+		
+		protected override method OnEachIteration()
+		{
+			if ([MissionSide.Acting] call _self.GroupInsideDeltaArea) then {
+				if (_mActingEnterDeltaAreaTime < 0) then {
+					_mActingEnterDeltaAreaTime = time;
+				};
+			}
+			else {
+				_mActingEnterDeltaAreaTime = -1;
+			};
+			
+			if ([MissionSide.Opposing] call _self.GroupInsideDeltaArea) then {
+				if (_mOpposingEnterDeltaAreaTime < 0) then {
+					_mOpposingEnterDeltaAreaTime = time;
+				};
+			}
+			else {
+				_mOpposingEnterDeltaAreaTime = -1;
+			};
+			
+			// Check of someone finds the explosives box
+			
+			if (_mExplosivesBoxOwnerSide == MissionSide.Guerilla) then {
+				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.ActingPlayers > 0) then {
+					_mExplosivesBoxOwnerSide = MissionSide.Acting;
+					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
+					_self.GainedTokenActing = HistoryToken.Explosives;
+					[MissionSide.Acting, "Found a box of explosives."] call _self.ShowNotification;
+				};
+			};
+			
+			if (_mExplosivesBoxOwnerSide == MissionSide.Guerilla) then {
+				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.OpposingPlayers > 0) then {
+					_mExplosivesBoxOwnerSide = MissionSide.Opposing;
+					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
+					_self.GainedTokenActing = HistoryToken.Explosives;
+					[MissionSide.Opposing, "Found a box of explosives."] call _self.ShowNotification;
+				};
+			};
 		};
 		
 		public override method Cleanup()
