@@ -23,8 +23,8 @@ namespace Mission.Server
 		protected override method Initialize()
 		{
 			_self.Name = "Air Base Intruders";
-			_self.StartMarkersActing = ["m2_acting_StartArea1"];
-			_self.StartMarkersOpposing = ["m2_opposing_StartArea1"];
+			_self.StartMarkersActing = ["m02a_StartArea1"];
+			_self.StartMarkersOpposing = ["m02o_StartArea1"];
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -45,12 +45,12 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			return _self.RemainingTime <= 29;
+			return (call _self.CountOpposingPlayersAlive) == 0;
 		};
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			return _self.RemainingTime <= 29;
+			return (call _self.CountActingPlayersAlive) == 0;
 		};
 	};
 };

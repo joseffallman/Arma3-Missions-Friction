@@ -33,6 +33,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx.sqf" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx.sqf">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionEndHandler.sqx" FileName="Client\Classes\Handlers\MissionEndHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
