@@ -1111,7 +1111,7 @@ class Mission
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64091;
+			angle=105.64085;
 			id=79;
 		};
 		class Item30
@@ -1907,7 +1907,7 @@ class Mission
 			type="ellipse";
 			a=35;
 			b=18;
-			angle=216.15887;
+			angle=216.15884;
 			id=142;
 		};
 		class Item61

@@ -30,12 +30,12 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, east] new AirbaseIntruders,
-				[_mBaseMarkersConfig, east] new Establishments,
+				[_mBaseMarkersConfig, west] new LostVehicles,
+				[_mBaseMarkersConfig, west] new AirbaseIntruders,
+				[_mBaseMarkersConfig, west] new Establishments,
 				[_mBaseMarkersConfig, west] new NightTensions,
 				[_mBaseMarkersConfig, west] new HawkDown,
-				[_mBaseMarkersConfig, east] new AirStationAssault
-//				[_mBaseMarkersConfig, west] new AirBaseMadness
+				[_mBaseMarkersConfig, west] new AirStationAssault
 			];
 		};
 		
@@ -132,6 +132,11 @@ namespace Mission.Server
 			};
 		};
 		
+		public method RegisterDeadth("_deadPlayer" as Object)
+		{
+			//[_deadPlayer] call _mCurrentMission.RegisterDeath;
+		};
+		
 		private method Boolean AllUnitsAreDead()
 		{
 			if ((count _mEastlyUnits) + (count _mWestlyUnits) == 0) then {
@@ -188,23 +193,40 @@ namespace Mission.Server
 		
 		private method Boolean EndDueToCompletedObjectivesAndHumanPlayers()
 		{
-			if (_mWestPrimaryObjectiveCompleted && _mWestSecondaryObjectiveCompleted) then {
+			private "_secondaryObjective" as MissionObjective;
+		
+			if (_mWestHasInserted && _mEastHasInserted) then
+			{
+				if (_mWestPrimaryObjectiveCompleted) then
 				{
-					if ([_x] call _self.IsAlive && _x getVariable ["IsPlayer", false]) then {
-						return false;
-					};
-				} foreach _mEastlyUnits as Object;
+					private _eastHasPlayers = { ([_x] call Mission.IsPlayer)} count _mEastlyUnits > 0;
+					
+					if (!_eastHasPlayers) then
+					{
+						_secondaryObjective = [west, ObjectivePrio.Secondary] call _mCurrentMission.GetMissionObjective;
+						
+	 					if (isNull _secondaryObjective || _mWestSecondaryObjectiveCompleted) then {
+							return true;
+	 					};
+	 				};
+				};
+			
+				if (_mEastPrimaryObjectiveCompleted) then
+				{
+					private _westHasPlayers = { ([_x] call Mission.IsPlayer)} count _mWestlyUnits > 0;
+					
+					if (!_westHasPlayers) then
+					{
+						_secondaryObjective = [east, ObjectivePrio.Secondary] call _mCurrentMission.GetMissionObjective;
+						
+	 					if (isNull _secondaryObjective || _mEastSecondaryObjectiveCompleted) then {
+							return true;
+	 					};
+	 				};
+				};
 			};
 			
-			if (_mEastPrimaryObjectiveCompleted && _mEastSecondaryObjectiveCompleted) then {
-				{
-					if ([_x] call _self.IsAlive && _x getVariable ["IsPlayer", false]) then {
-						return false;
-					};
-				} foreach _mWestlyUnits as Object;
-			};
-			
-			return true;
+			return false;
 		};
 		
 		private method SaveHistoryTokens("_mission" as Mission)
@@ -362,11 +384,11 @@ namespace Mission.Server
 					
 					// End mission if one side has completed objectives and there are no humans on the other side
 					// Doesn't work...
-					
-//					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
-//						call _mCurrentMission.Cancel;
-//					};
-					
+
+					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
+						call _mCurrentMission.Cancel;
+					};
+
 					sleep 1;
 				};
 				

@@ -299,10 +299,25 @@ namespace Mission.Server
 		// Checks whether a unit (player) is considered alive or not. Note that a player 
 		// who has respawned may be alive and in the base, but should be considered dead
 		// by the current mission, since it is no longer taking part.
-		// _player (Object): The player unit to check.
-		protected static method Boolean IsAlive("_player" as Object)
+		// _unit (Object): The unit to check.
+		public static method Boolean IsAlive("_unit" as Object)
 		{
-			return _player != objNull && { alive _player && _player getVariable ["IsAlive", false] };
+			return (!isNull _unit) && alive _unit;
+		};
+		
+		// Checks whether a unit is a player or not. 
+		// _unit (Object): The unit to check.
+		public static method Boolean IsPlayer("_unit" as Object)
+		{
+			//return (!isNull _unit) && { _unit getVariable ["IsPlayer", false] };
+			return (!isNull _unit) && isPlayer _unit;
+		};
+		
+		public method RegisterDeadth("_deadPlayer" as Object)
+		{
+			if (_deadPlayer in _self.ActingPlayers) then {
+				_self.ActingPlayers = _self.ActingPlayers - [_deadPlayer];
+			};
 		};
 		
 		// Gets the number of players alive on the acting side.

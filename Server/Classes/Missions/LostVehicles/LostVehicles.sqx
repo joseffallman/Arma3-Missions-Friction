@@ -14,7 +14,7 @@ namespace Mission.Server
 {
 	public class LostVehicles : Mission
 	{
-		private fields ["_mAmmoTruck" as Object, "_mFuelTruck" as Object];
+		private fields ["_mAmmoTruck" as Object];
 		
 		// Creates a AirBaseMadness object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
@@ -32,7 +32,6 @@ namespace Mission.Server
 		public override method Setup()
 		{
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
-			_mFuelTruck = ["FUEL TRUCK", MissionSide.Acting, "m03_FuelTruck"] call _self.CreateSideVehicleOnMarker;
 		
 			_self.GainedTokenActing = HistoryToken.Fuel;
 		
@@ -43,14 +42,6 @@ namespace Mission.Server
 		{
 			private _shortDescription = "Reach the ammo truck.";
 			private _longDescription = "Reach the ammo truck.";
-			
-			return [_shortDescription, _longDescription] new MissionObjective;
-		};
-		
-		protected override method MissionObjective CreateSecondaryObjectiveForActing()
-		{
-			private _shortDescription = "Reach the fuel truck.";
-			private _longDescription = "Reach the fuel truck.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -68,14 +59,9 @@ namespace Mission.Server
 			return { _x distance _mAmmoTruck < 10 } count _self.ActingPlayers > 0;
 		};
 		
-		protected override method Boolean SecondaryObjectiveFulfilledForActing()
-		{
-			return { _x distance _mFuelTruck < 10 } count _self.ActingPlayers > 0;
-		};
-		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			return true; //{ _x distance _mTruck < 10 } count _self.OpposingPlayers > 0;
+			return { _x distance _mAmmoTruck < 10 } count _self.OpposingPlayers > 0;
 		};
 	};
 };
