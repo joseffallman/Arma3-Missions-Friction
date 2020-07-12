@@ -11,10 +11,24 @@ namespace Mission.Client
 {
 	public class BriefingHandler : IBriefingHandler
 	{
+		private fields ["_mDiaryReckords" as Array];
+	
+		public constructor()
+		{
+    		_mDiaryReckords = [];
+		};
+	
         // Creates the briefing texts for the player.
         public method CreateBriefing("_briefingInfo" as String)
         {
-			player createDiaryRecord ["Diary", ["My Mission", _briefingInfo]];
+    		{
+    			player removeDiaryRecord ["Diary", _x];
+    		} foreach _mDiaryReckords;
+    		
+    		_mDiaryReckords = [];
+        
+			private _diaryRecord = player createDiaryRecord ["Diary", ["My Mission", _briefingInfo]];
+			_mDiaryReckords pushBack _diaryRecord;
 		};
 	};
 };
