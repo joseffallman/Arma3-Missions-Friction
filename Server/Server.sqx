@@ -4,6 +4,7 @@ call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Handlers\VehicleTypeDictionary.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Handlers\SoldierTypeDictionary.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\MissionEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\Campaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Mission.sqx";

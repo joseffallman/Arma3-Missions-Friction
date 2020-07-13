@@ -20,10 +20,14 @@ namespace Mission.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
 		private fields ["_mSpawnedSoldiers" as Array];
 		
+		#region Initialization
+		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
+			private ["_missionSettings" as MissionSettings];
+			
 			call _base.Constructor;
 			
 			_self.VehicleTypeDictionary = new VehicleTypeDictionary;
@@ -39,16 +43,27 @@ namespace Mission.Server
 			_self.PrimaryObjectiveCompletedForOpposing = false;
 			_self.SecondaryObjectiveCompletedForOpposing = false;
 			
-			_self.Name = "New Mission";
-			_self.StartTimeOfDay = 12;
-			_self.RemainingTime = 30;
+			_missionSettings = new MissionSettings;
+			[_missionSettings] call _self.InitMission;
+			
+			_self.Name = _missionSettings.Name;
+			_self.StartTimeOfDay = _missionSettings.StartTimeOfDay;
+			_self.RemainingTime = _missionSettings.MaximumMissionTime;
 			_self.StartMarkersActing = [];
 			_self.StartMarkersOpposing = [];
 			_self.SideMarkersActing = [];
 			_self.SideMarkersOpposing = [];
-			
-			call _self.Initialize;
 		};
+		
+		// Initialization the basic meta data for the mission, such as Name, Mission time.
+		// Called from the constructor of the Mission class.
+		// Always override this method in a mission, and at least set the _missionSettings.Name property.
+		// _mission (_missionSettings): An object containing necessary meta data for the mission.
+		protected virtual method InitMission("_mission" as MissionSettings)
+		{
+		};
+		
+		#endregion
 		
 		#region Private Methods
 
@@ -190,48 +205,6 @@ namespace Mission.Server
 		
 		#region Settable Properties
 		
-		public property String Name { get; protected set; };
-		
-		// Gets or sets the insertion map markers for the acting side.
-		// This property must be set in the initialization phase of the mission.
-		// If this array is empty, then the group will be auto inserted in its base.
-		protected property Array StartMarkersActing { get; protected set; };
-		
-		// Gets or sets the insertion map markers for the opposing side.
-		// This property must be set in the initialization phase of the mission.
-		// If this array is empty, then the group will be auto inserted in its base.
- 		protected property Array StartMarkersOpposing { get; protected set; };
-		
-		// Gets or sets general markers that should be visible for the acting side.
-		// This property must be set in the initialization phase of the mission.
-		protected property Array SideMarkersActing { get; protected set; };
-		
-		// Gets or sets general markers that should be visible for the opposing side.
-		// This property must be set in the initialization phase of the mission.
-		protected property Array SideMarkersOpposing { get; protected set; };
-		
-		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
-		// This property may be set in the mission's construtor, and at mission startup, time is skipped ahead 
-		// to this property value.
-		protected property Scalar StartTimeOfDay { get; protected set; };
-		
-		// Gets and sets the remaining time of the mission in minutes. This property may be set in the mission's 
-		// Initialize method, and after that it is updated by the campaign object. After Setup phase, this property
-		// should only be read from.
-		public property Scalar RemainingTime { get; set; };
-		
-		// Gets an array of history token keys gained in earlier missions for the acting side.
-		protected property Array EarlierGainedTokensActing { get; private set; };
-		
-		// Gets an array of history token keys lost in earlier missions for the acting side.
-		protected property Array EarlierLostTokensActing { get; private set; };
-		
-		// Gets an array of history token keys gained in earlier missions for the opposing side.
-		protected property Array EarlierGainedTokensOpposing { get; private set; };
-		
-		// Gets an array of history token keys lost in earlier missions for the opposing side.
-		protected property Array EarlierLostTokensOpposing { get; private set; };
-		
 		// Gets or sets something of free choice that may be of use in future missions for the acting side.
 		public property HistoryToken GainedTokenActing { get; protected set; };
 		
@@ -367,6 +340,41 @@ namespace Mission.Server
 		
 		#region Protected Properties
 		
+		// Gets or sets the insertion map markers for the acting side.
+		// This property must be set in the initialization phase of the mission.
+		// If this array is empty, then the group will be auto inserted in its base.
+		protected property Array StartMarkersActing { get; private set; };
+		
+		// Gets or sets the insertion map markers for the opposing side.
+		// This property must be set in the initialization phase of the mission.
+		// If this array is empty, then the group will be auto inserted in its base.
+ 		protected property Array StartMarkersOpposing { get; private set; };
+		
+		// Gets or sets general markers that should be visible for the acting side.
+		// This property must be set in the initialization phase of the mission.
+		protected property Array SideMarkersActing { get; private set; };
+		
+		// Gets or sets general markers that should be visible for the opposing side.
+		// This property must be set in the initialization phase of the mission.
+		protected property Array SideMarkersOpposing { get; private set; };
+		
+		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
+		// This property may be set in the mission's construtor, and at mission startup, time is skipped ahead 
+		// to this property value.
+		protected property Scalar StartTimeOfDay { get; private set; };
+		
+		// Gets an array of history token keys gained in earlier missions for the acting side.
+		protected property Array EarlierGainedTokensActing { get; private set; };
+		
+		// Gets an array of history token keys lost in earlier missions for the acting side.
+		protected property Array EarlierLostTokensActing { get; private set; };
+		
+		// Gets an array of history token keys gained in earlier missions for the opposing side.
+		protected property Array EarlierGainedTokensOpposing { get; private set; };
+		
+		// Gets an array of history token keys lost in earlier missions for the opposing side.
+		protected property Array EarlierLostTokensOpposing { get; private set; };
+		
 		protected property VehicleTypeDictionary VehicleTypeDictionary { get; private set; };
 		
 		protected property SoldierTypeDictionary SoldierTypeDictionary { get; private set; };
@@ -402,6 +410,17 @@ namespace Mission.Server
 		
 		// Gets wheter the secondary objective for the opposing side has been completed.
 		protected property Boolean SecondaryObjectiveCompletedForOpposing { get; private set; };
+		
+		#endregion
+		
+		#region Public Properties
+		
+		public property String Name { get; private set; };
+		
+		// Gets and sets the remaining time of the mission in minutes. This property may be set in the mission's 
+		// Initialize method, and after that it is updated by the campaign object. After Setup phase, this property
+		// should only be read from.
+		public property Scalar RemainingTime { get; set; };
 		
 		#endregion
 		

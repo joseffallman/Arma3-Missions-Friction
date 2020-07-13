@@ -24,13 +24,13 @@ namespace Mission.Server
 			_mBox = objNull;
 		};
 		
-		protected override method Initialize()
+		protected override method InitMission("_mission" as MissionSettings)
 		{
-			_self.Name = "Night Tensions";
-			_self.StartTimeOfDay = 0;
-			_self.StartMarkersActing = ["m06a_StartArea1", "m06a_StartArea2", "m06a_StartArea3"];
-			_self.StartMarkersOpposing = ["m06o_StartArea1"];
-			_self.SideMarkersActing = ["m06a_PrimaryObjective1", "m06a_PrimaryObjective2", "m06a_PrimaryObjective3"];
+			_mission.Name = "Night Tensions";
+			_mission.StartTimeOfDay = 0;
+			_mission.StartMarkersActing = ["m06a_StartArea1", "m06a_StartArea2", "m06a_StartArea3"];
+			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
+			_mission.SideMarkersActing = ["m06a_PrimaryObjective1", "m06a_PrimaryObjective2", "m06a_PrimaryObjective3"];
 		};
 		
 		public override method Setup()

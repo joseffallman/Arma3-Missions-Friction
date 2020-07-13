@@ -28,13 +28,13 @@ namespace Mission.Server
 			_mExplosivesBoxOwnerSide = MissionSide.Guerilla;
 		};
 		
-		protected override method Initialize()
+		protected override method InitMission("_mission" as MissionSettings)
 		{
-			_self.Name = "Establishments";
-			_self.StartTimeOfDay = 7;
+			_mission.Name = "Establishments";
+			_mission.StartTimeOfDay = 7;
 			
-			_self.SideMarkersActing = ["m07a_LimeriBay", "m07a_PointDelta"];
-			_self.SideMarkersOpposing = ["m07o_MilitaryRange", "m07o_PointDelta"];
+			_mission.SideMarkersActing = ["m07a_LimeriBay", "m07a_PointDelta"];
+			_mission.SideMarkersOpposing = ["m07o_MilitaryRange", "m07o_PointDelta"];
 			
 			// Move delta markers to random fishy places
 			_mDeltaActingAreaMarker = selectRandom ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];

@@ -22,16 +22,16 @@ namespace Mission.Server
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
 		};
 		
-		protected override method Initialize()
+		protected override method InitMission("_mission" as MissionSettings)
 		{
 			// The "acting" side will be the side attacking.
 			// The "opposing" side will be the side defending.
 			
-			_self.Name = "Air Station Assault";
-			_self.StartTimeOfDay = 5;
-			_self.StartMarkersActing = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
-			_self.StartMarkersOpposing = ["m01o_startarea1"];
-			_self.SideMarkersActing = ["m01a_PrimaryTarget"];
+			_mission.Name = "Air Station Assault";
+			_mission.StartTimeOfDay = 5;
+			_mission.StartMarkersActing = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
+			_mission.StartMarkersOpposing = ["m01o_startarea1"];
+			_mission.SideMarkersActing = ["m01a_PrimaryTarget"];
 		};
 		
 		public override method Setup()

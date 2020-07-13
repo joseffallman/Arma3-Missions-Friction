@@ -20,10 +20,10 @@ namespace Mission.Server
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
 		};
 		
-		protected override method Initialize()
+		protected override method InitMission("_mission" as MissionSettings)
 		{
-			_self.Name = "As Easy As It Gets";
-			_self.RemainingTime = 1;
+			_mission.Name = "As Easy As It Gets";
+			_mission.MaximumMissionTime = 1;
 		};
 	};
 };
