@@ -9,6 +9,7 @@
  */
 
 using Mission.Communication;
+using Mission.Client.Statics;
 
 namespace Mission.Client
 {
@@ -24,32 +25,42 @@ namespace Mission.Client
 		
 		public method SetDeathCamera()
 		{
+			private _hasInserted = false;
 			private _missionUnits = (call PublicVariableHandler.GetInsertedWestlyUnits) + (call PublicVariableHandler.GetInsertedEastlyUnits);
 		
-			// If the unit we are currently following has logged out or is dead, then switch camera
-			if (!(alive _mCameraUnit)) then
-			{
-				// First, switch to someone in the same group
-				{
-					if (alive _x && (side group _x == playerSide)) then {
-						switchCamera _x;
-						_mCameraUnit = _x;
-						return;
-					};
-				} foreach _missionUnits;
-				
-				// Second, switch to someone in the other team
-				{
-					if (alive _x) then {
-						switchCamera _x;
-						_mCameraUnit = _x;
-						return;
-					};
-				} foreach call BIS_fnc_listPlayers;
-				
-				// Just in case, reset player camera
-				call _self.ResetPlayerCamera;
+			if (playerSide == west) then {
+				_hasInserted = call PublicVariableHandler.GetWestHasInserted;
+			}
+			else {
+				_hasInserted = call PublicVariableHandler.GetEastHasInserted;
 			};
+		
+			if (_hasInserted && ClientState.IsAlive) then
+			{
+				// If the unit we are currently following has logged out or is dead, then switch camera
+				if (!(alive _mCameraUnit)) then
+				{
+					// First, switch to someone in the same group
+					{
+						if (alive _x && (side group _x == playerSide)) then {
+							switchCamera _x;
+							_mCameraUnit = _x;
+							return;
+						};
+					} foreach _missionUnits;
+					
+					// Second, switch to someone in the other team
+					{
+						if (alive _x) then {
+							switchCamera _x;
+							_mCameraUnit = _x;
+							return;
+						};
+					} foreach _missionUnits;
+				};
+			};
+
+			call _self.ResetPlayerCamera;
 		};
 		
 		public method ResetPlayerCamera()

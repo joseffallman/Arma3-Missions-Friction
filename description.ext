@@ -18,4 +18,3 @@ disabledAI = 0;
 
 respawn = "BASE";
 respawnButton = 0;
-respawnOnStart = 1;
