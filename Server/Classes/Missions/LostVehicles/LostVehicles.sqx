@@ -56,7 +56,6 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			player sideChat "Distance: " + str (player distance _mAmmoTruck) + ". Player Count: " + str count _self.ActingPlayers;
 			return { _x distance _mAmmoTruck < 10 } count _self.ActingPlayers > 0;
 		};
 		

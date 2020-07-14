@@ -55,27 +55,20 @@ namespace Mission.Client.Statics
 				_markerInfos = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
 				
 				if (count _markerInfos == 0) then {
-					["ServerEventReciever.OnPlayerPerformingInsertion", [player, getPos player]] call Remote.Invoke;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, getPos player]] call Remote.Invoke;
 				};
 			};
 			
 			// If noone is on the other side (during development or SP), perform simple insertion for the other side
 
 			private _countPlayersOnTheOtherSide = 0;
-			private _otherSide = if (playerSide == west) then { east } else { west };
-			private _otherSideUnit = objNull;
+			private _otherSide = if (playerSide == west) then { east } else { west };			
 			
 			{
 				if (side group _x == _otherSide) then {
 					_countPlayersOnTheOtherSide = _countPlayersOnTheOtherSide + 1;
 				};
 			} foreach call BIS_fnc_listPlayers;
-			
-			{
-				if (side group _x == _otherSide) then {
-					_otherSideUnit = _x;
-				};
-			} foreach switchableUnits as Object;
 			
 			if (_countPlayersOnTheOtherSide == 0) then
 			{
@@ -84,10 +77,11 @@ namespace Mission.Client.Statics
 				
 				if (count _markerInfos > 0) then {
 					_marker = _markerInfos select 0;
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getMarkerPos _marker]] call Remote.Invoke;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _marker]] call Remote.Invoke;
 				}
 				else {
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSideUnit, getPos _otherSideUnit]] call Remote.Invoke;
+					private _otherSideBaseMarkerName = [_otherSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _otherSideBaseMarkerName]] call Remote.Invoke;
 				};
 			};
 		};
@@ -110,8 +104,6 @@ namespace Mission.Client.Statics
 			
 			if (playerSide == side _group) then
 			{
-				// Teleport to base (if not already there)
-				
 				_teleporter = [_position] new TeleportService;
 				call _teleporter.RunAsync;
 			
@@ -120,14 +112,6 @@ namespace Mission.Client.Statics
 						_x setPos _position;
 					};
 				} foreach units _group;
-			}
-			else // If other group and no more is a player, insert them to - (will work on hosted)
-			{
-				if (!([_group] call _self.AnyMemberIsPlayer)) then {
-					{
-						_x setPos _position;
-					} foreach units _group;
-				};
 			};
 			
 			// Hide insertion menu option

@@ -19,9 +19,12 @@ namespace Mission.Common.Statics
 		{
 			// [Instantiate common config and handler classes here. By that they are reachable from anywhere]
 			_self.BaseMarkersConfig = new BaseMarkersConfig;
+			_self.PlayerUnitsConfig = new PlayerUnitsConfig;
 		};
 		
 		// [Declare common config and handler classes as static properties here]
 		public static property IBaseMarkersConfig BaseMarkersConfig { get; private set; };
+		
+		public static property PlayerUnitsConfig PlayerUnitsConfig { get; private set; };
 	};
 };

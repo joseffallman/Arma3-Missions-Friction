@@ -286,13 +286,6 @@ namespace Mission.Server
 			return (!isNull _unit) && isPlayer _unit;
 		};
 		
-		public method RegisterDeadth("_deadPlayer" as Object)
-		{
-			if (_deadPlayer in _self.ActingPlayers) then {
-				_self.ActingPlayers = _self.ActingPlayers - [_deadPlayer];
-			};
-		};
-		
 		// Gets the number of players alive on the acting side.
 		// Returns (Scalar): Number of alive players on the acting side.
 		protected method Scalar CountActingPlayersAlive()
@@ -574,6 +567,7 @@ namespace Mission.Server
 		
 		// Called one time for each side that performs an insertion to begin carrying out the mission.
 		// Called by the campaign, and should never be called by the sub mission class.
+		// Note that this method is not called if there are no units in the group (e.g. solo player in MP and no AI).
 		// _group (Group): The group that is being inserted.
 		// _position (Array): The position where the group is inserted.
 		public method InsertGroup("_group" as Group, "_position" as Array)

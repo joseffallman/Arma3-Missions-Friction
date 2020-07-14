@@ -14,7 +14,7 @@ overviewTextLocked = "";
 author = "AUTHOR";
 
 OnLoadMissionTime = false;
-disabledAI = 1;
+disabledAI = 0;
 
 respawn = "BASE";
 respawnButton = 0;

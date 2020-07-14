@@ -9,20 +9,49 @@
  */
 
 using Mission.Communication;
+using Mission.Common.Statics;
 
 namespace Mission.Server.Statics
 {
 	public class ServerEventReciever
 	{
-		public static method OnPlayerPerformingInsertion("_player" as Object, "_position" as Array)
+		// Called when a player is performing an insertion.
+		// _side (Side): The side to insert.
+		// _position (Array): The position where to insert all players on the side.
+		public static method OnPlayerPerformingInsertion("_side" as Side, "_position" as Array)
 		{
-			[group _player, _position] call ServerObjects.Campaign.InsertGroup;
-			["ClientEventReciever.OnInsertGroup", [group _player, _position]] call Remote.Invoke;
+			[_side, _position] call ServerObjects.Campaign.InsertGroup;
+			
+			// If the side contains no players, move them as server
+			private _switchableUnits = call CommonObjects.PlayerUnitsConfig.GetSwitchableUnits;
+			
+			if ({ side group _x == _side && isPlayer _x } count _switchableUnits == 0) then {
+				{
+					if (side group _x == _side) then {
+						_x setPos _position;
+					};
+				} foreach _switchableUnits as Object;
+			};
+			
+			{
+				if (side group _x == _side) then
+				{
+					["ClientEventReciever.OnInsertGroup", [group _x, _position]] call Remote.Invoke;
+					return;
+				};
+			} foreach _switchableUnits;
+			
+			{
+				if (side group _x == _side) then
+				{
+					["ClientEventReciever.OnInsertGroup", [group _x, _position]] call Remote.Invoke;
+					return;
+				};
+			} foreach _switchableUnits;
 		};
 		
 		public static method OnPlayerKilled("_player" as Object, "_killer" as Object)
-		{
-		
+		{		
 		};
 	};
 };

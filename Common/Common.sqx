@@ -3,6 +3,7 @@ call compile preprocessFileLineNumbers "Common\Enums\HistoryToken.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\CommonObjects.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\CommonEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Configs\BaseMarkersConfig.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Configs\PlayerUnitsConfig.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\BaseMarkerInfo.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\DictionaryItem.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionInfo.sqx";0

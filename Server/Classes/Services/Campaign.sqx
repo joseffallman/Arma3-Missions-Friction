@@ -16,16 +16,17 @@ namespace Mission.Server
 {
 	public class Campaign : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_playerUnitsConfig" as PlayerUnitsConfig)
 		{
 			call _base.Constructor;
 			_mBaseMarkersConfig = _baseMarkersConfig;
+			_mPlayerUnitsConfig = _playerUnitsConfig;
 			
 			call _self.ClearAllMapMarkers;
 			
@@ -98,18 +99,27 @@ namespace Mission.Server
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
 		};
 
-		public method InsertGroup("_group" as Group, "_position" as Array)
+		public method InsertGroup("_side" as Side, "_position" as Array)
 		{
-			if (side _group == west) then
+			private _group = grpNull;
+			{
+				if (side group _x == _side) then {
+					_group = group _x;
+				};
+			} foreach (call _mPlayerUnitsConfig.GetSwitchableUnits);
+			
+			if (_side == west) then
 			{
 				if (!_mWestHasInserted) then
 				{
-					[_group, _position] call _mCurrentMission.InsertGroup;
-					_mWestlyUnits = units _group;
-					
-					{
-						_x setVariable ["IsAlive", true, true];
-					} foreach units _group as Object;
+					if (!isNull _group) then {
+						[_group, _position] call _mCurrentMission.InsertGroup;
+						_mWestlyUnits = units _group;
+						
+						{
+							_x setVariable ["IsAlive", true, true];
+						} foreach units _group as Object;
+					};
 					
 					_mWestHasInserted = true;
 					[true] call PublicVariableHandler.BroadcastWestHasInserted;
@@ -119,22 +129,19 @@ namespace Mission.Server
 			{
 				if (!_mEastHasInserted) then
 				{
-					[_group, _position] call _mCurrentMission.InsertGroup;
-					_mEastlyUnits = units _group;
-					
-					{
-						_x setVariable ["IsAlive", true, true];
-					} foreach units _group as Object;
+					if (!isNull _group) then {
+						[_group, _position] call _mCurrentMission.InsertGroup;
+						_mEastlyUnits = units _group;
+						
+						{
+							_x setVariable ["IsAlive", true, true];
+						} foreach units _group as Object;
+					};
 					
 					_mEastHasInserted = true;
 					[true] call PublicVariableHandler.BroadcastEastHasInserted;
 				};
 			};
-		};
-		
-		public method RegisterDeadth("_deadPlayer" as Object)
-		{
-			//[_deadPlayer] call _mCurrentMission.RegisterDeath;
 		};
 		
 		private method Boolean AllUnitsAreDead()
@@ -160,7 +167,6 @@ namespace Mission.Server
 		
 		private method CheckAndNotifyObjectives("_mission" as Mission)
 		{
-			player sideChat "checking objectives.";
 			if (_mWestHasInserted) then
 			{
 				if (!_mWestPrimaryObjectiveCompleted && { [west, ObjectivePrio.Primary] call _mission.CheckObjectiveCompleted }) then
@@ -339,35 +345,27 @@ namespace Mission.Server
 				_mEastPrimaryObjectiveCompleted = false;
 				_mEastSecondaryObjectiveCompleted = false;
 				
-				player sideChat "000";
-				
 				private _remainingTime = _mCurrentMission.RemainingTime;
 				
-				player sideChat "111";
-			
 				// Override the mission's own remaining time with 30 minutes if it is too long
 				if (_remainingTime > 30) then {
 					_mCurrentMission.RemainingTime = 30;
 					_remainingTime = 30;
 				};
 				
-				player sideChat "222";
 				[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
 				[_mCurrentMission] call _self.SetHistoryTokens;
 				call _mCurrentMission.Setup;
 				
-				player sideChat "333";
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
 				
-				player sideChat "444";
 				private _startTime = time;
 				private _endTime = time + _remainingTime * 60;
 				
 				call _mCurrentMission.RunAsync;
-				player sideChat "starting mission.";
+				
 				while { _mCurrentMission.IsRunning } do
 				{
-					player sideChat "00";
 					// Calculate remaining time
 					_remainingTime = floor (1 + (_endTime - time) / 60);
 					
@@ -376,7 +374,7 @@ namespace Mission.Server
 						_mCurrentMission.RemainingTime = _remainingTime;
 						["ClientEventReciever.OnMissionTimeTick", [_remainingTime]] call Remote.Invoke;
 					};
-					player sideChat "11";
+
 					// If time is up, cancel the mission.
 					
 					if (time > _endTime) then {
@@ -385,14 +383,12 @@ namespace Mission.Server
 					};
 					
 					// If all players are dead, cancel the mission.
-					player sideChat "22";
 					
 					if (call _self.AllUnitsAreDead) then
 					{
 						call _mCurrentMission.Cancel;
 					};
 					
-					player sideChat "33";
 					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
 					
 					// End mission if one side has completed objectives and there are no humans on the other side

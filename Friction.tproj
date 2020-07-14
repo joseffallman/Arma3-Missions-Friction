@@ -92,6 +92,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseMarkersConfig.sqx" FileName="Common\Classes\Configs\BaseMarkersConfig.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PlayerUnitsConfig.sqx" FileName="Common\Classes\Configs\PlayerUnitsConfig.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Common\Classes\Handlers">
@@ -395,5 +398,11 @@
       </ProjectNodeViewModel>
     </SubNodes>
   </ProjectRootNode>
-  <FilteredAnalyzerResultItems />
+  <FilteredAnalyzerResultItems>
+    <string>Public variable 'p1' may be used before being assigned a value.</string>
+    <string>Public variable 'p2' may be used before being assigned a value.</string>
+    <string>Public variable 'p4' may be used before being assigned a value.</string>
+    <string>Public variable 'p3' may be used before being assigned a value.</string>
+    <string>Public variable 'p5' may be used before being assigned a value.</string>
+  </FilteredAnalyzerResultItems>
 </Project>

@@ -224,19 +224,17 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1968.3933,3.1700084,3535.5425};
+						position[]={1968.3929,3.1699386,3535.542};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
 						name="b1";
-						isPlayer=1;
 						isPlayable=1;
 					};
 					id=8;
 					type="B_Soldier_F";
-					atlOffset=2.3841858e-005;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -529,7 +527,6 @@ class Mission
 			{
 			};
 			id=7;
-			atlOffset=2.3841858e-005;
 		};
 		class Item7
 		{
@@ -543,14 +540,15 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6429.8945,7.7008772,5416.2314};
-						angles[]={0,2.2856081,0};
+						position[]={6429.895,7.7009029,5416.2319};
+						angles[]={0,2.2856133,0};
 					};
 					side="East";
 					flags=7;
 					class Attributes
 					{
 						name="o1";
+						isPlayer=1;
 						isPlayable=1;
 					};
 					id=14;

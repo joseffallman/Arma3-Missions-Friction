@@ -18,7 +18,7 @@ namespace Mission.Client
         // Initializes the Friction Menu for the player and adds the "Open Mission Menu" action.
         public static method Init()
         {
-        	sleep 1;
+        	sleep 3;
         	
         	call _self.UpdateVisibleOptions;
 			call _self.BuildFrictionMenu;
