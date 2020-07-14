@@ -596,21 +596,13 @@ namespace Mission.Server
 		
 		#region Virtual (Overridable) Methods
 		
-		// Initializes mission attributes.
-		// This is a lightweight initialization called from the constructor, with a purpose to set
-		// attributes like markers and start markers as well ass mission time of day and length. 
-		// You should not do anything that alters the world - like creating vehicles or units. As
-		// a good practice, in the method of the sub class, begin with a call to _base.Initialize.
-		protected override method Initialize()
-		{
-			_self.Name = "New Mission";
-			_self.StartMarkersActing = [];
-			_self.StartMarkersOpposing = [];
-			_self.StartTimeOfDay = 12;
-			_self.RemainingTime = 30;
-			_self.SideMarkersActing = [];
-			_self.SideMarkersOpposing = [];
-		};
+		// Initializes the service.
+		// This method is inherited from the service, and initializes the service before the Run
+		// method is called. This method does probably never have a function in a mission.
+		//protected override method Initialize()
+		//{
+		//	call _base.Initialize;
+		//};
 		
 		// Loads the mission with all gained and lost history items.
 		public method SetHistoryTokens("_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
