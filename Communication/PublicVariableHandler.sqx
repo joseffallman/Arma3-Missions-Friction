@@ -167,6 +167,46 @@ namespace Mission.Communication
 		};
 		
 		
+		public static method BroadcastInsertedWestlyUnits("_insertedWestlyUnits" as Array)
+		{
+			PUBVAR_InsertedWestlyUnits = _insertedWestlyUnits;
+			publicVariable "PUBVAR_InsertedWestlyUnits";
+		};
+		
+		public static method Boolean HasValueInsertedWestlyUnits() {
+			return !isNil "PUBVAR_InsertedWestlyUnits";
+		};
+		
+		public static method Array GetInsertedWestlyUnits()
+		{
+			if (call _self.HasValueInsertedWestlyUnits) then {
+				return PUBVAR_InsertedWestlyUnits;
+			};
+
+			return [];
+		};
+		
+		
+		public static method BroadcastInsertedEastlyUnits("_insertedEastlyUnits" as Array)
+		{
+			PUBVAR_InsertedEastlyUnits = _insertedEastlyUnits;
+			publicVariable "PUBVAR_InsertedEastlyUnits";
+		};
+		
+		public static method Boolean HasValueInsertedEastlyUnits() {
+			return !isNil "PUBVAR_InsertedEastlyUnits";
+		};
+		
+		public static method Array GetInsertedEastlyUnits()
+		{
+			if (call _self.HasValueInsertedEastlyUnits) then {
+				return PUBVAR_InsertedEastlyUnits;
+			};
+
+			return [];
+		};
+		
+		
 		#endregion
 	};
 };

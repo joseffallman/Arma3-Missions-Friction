@@ -167,12 +167,6 @@ namespace Mission.Client.Statics
 				call _teleporter.RunAsync;
 			};
 			
-			{
-				if (local _x) then {
-					_x setVariable ["IsAlive", false];
-				};
-			} foreach units group player;
-			
 			// Show insertion menu option
 			call FrictionMenuHandler.UpdateVisibleOptions;
 			
@@ -223,9 +217,6 @@ namespace Mission.Client.Statics
 		
 		public static method OnUnitKilled("_unit" as Object, "_killer" as Object)
 		{
-			if ((!alive player) || player getVariable ["IsAlive", false]) then {
-				call ClientObjects.CameraHandler.SetDeathCamera;
-			};
 		};
 		
 		public static method OnShowNotification("_side" as Side, "_text" as String)

@@ -7,6 +7,9 @@
  * Description:
  * Handles all about camera views - for dead players.
  */
+
+using Mission.Communication;
+
 namespace Mission.Client
 {
 	public class CameraHandler
@@ -19,28 +22,25 @@ namespace Mission.Client
 			_mCameraUnit = objNull;
 		};
 		
-		private static method Boolean IsAlive("_unit" as Object)
-		{
-			return (!isNull _unit) && { alive _unit && (_unit getVariable ["IsAlive", false]) };
-		};
-		
 		public method SetDeathCamera()
 		{
+			private _missionUnits = (call PublicVariableHandler.GetInsertedWestlyUnits) + (call PublicVariableHandler.GetInsertedEastlyUnits);
+		
 			// If the unit we are currently following has logged out or is dead, then switch camera
-			if (!([_mCameraUnit] call _self.IsAlive)) then
+			if (!(alive _mCameraUnit)) then
 			{
 				// First, switch to someone in the same group
 				{
-					if (([_x] call _self.IsAlive) && (side group _x == playerSide)) then {
+					if (alive _x && (side group _x == playerSide)) then {
 						switchCamera _x;
 						_mCameraUnit = _x;
 						return;
 					};
-				} foreach call BIS_fnc_listPlayers;
+				} foreach _missionUnits;
 				
 				// Second, switch to someone in the other team
 				{
-					if ([_x] call _self.IsAlive) then {
+					if (alive _x) then {
 						switchCamera _x;
 						_mCameraUnit = _x;
 						return;

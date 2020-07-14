@@ -19,7 +19,6 @@ namespace Mission.Client.Statics
 			// Fires when preload finishes.
 			["ClientEventHandlerId_01", "onPreloadFinished",
 			{
-				player setVariable ["IsAlive", false, true];
 				player setVariable ["IsPlayer", true, true];
 			}] call BIS_fnc_addStackedEventHandler;
 			
@@ -36,7 +35,8 @@ namespace Mission.Client.Statics
 			player addEventHandler ["Respawn", {
 				params ["_player" as Object, "_corpse"];
 				
-				_player setVariable ["IsAlive", false, true];
+				call ClientObjects.CameraHandler.SetDeathCamera;
+				
 				_player setVariable ["IsPlayer", true, true];
 			}];
 			
@@ -44,8 +44,7 @@ namespace Mission.Client.Statics
 			player addEventHandler ["Killed", {
 				params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
 				
-				_unit setVariable ["IsAlive", false, true];
-				
+				ClientState.IsAlive = false;
 				["ClientEventReciever.OnUnitKilled", [_unit, _killer]] call Remote.Invoke;
 			}];
 			

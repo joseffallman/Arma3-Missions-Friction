@@ -1,3 +1,4 @@
+call compile preprocessFileLineNumbers "Client\Classes\ClientState.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientObjects.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";
@@ -24,6 +25,8 @@ namespace Mission
 			// Make sure the player object exists
 			waitUntil { player == player };
 			
+			call ClientState.Init;
+			
 			// Bootstrap the client singletons.
 			call ClientObjects.Init;
 			
@@ -32,13 +35,6 @@ namespace Mission
 			
 			// Initialize the Friction menu.
 			call FrictionMenuHandler.Init;
-			
-			// Create player's briefing and tasks
-			//call ClientObjects.BriefingHandler.CreateBriefing;
-			//call ClientObjects.TaskHandler.CreatePlayerTasks;
-			
-			// Start the task monitor (i.e. the service that monitors task fulfillments).
-			//call ClientObjects.TaskMonitor.RunAsync;
 		};
 	};
 };

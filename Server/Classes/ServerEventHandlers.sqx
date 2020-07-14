@@ -43,7 +43,6 @@ namespace Mission.Server.Statics
 					
 					if (local _unit) then
 					{
-						_unit setVariable ["IsAlive", false, true];
 						["ClientEventReciever.OnUnitKilled", [_unit, _killer]] call Remote.Invoke;
 					};
 				}];

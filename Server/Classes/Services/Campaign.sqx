@@ -47,9 +47,9 @@ namespace Mission.Server
 			} foreach allMapMarkers as String;
 		};
 		
-		protected static method Boolean IsAlive("_player" as Object)
+		protected static method Boolean IsAlive("_unit" as Object)
 		{
-			return _player != objNull && { alive _player && _player getVariable ["IsAlive", false] };
+			return alive _unit;
 		};
 		
 		private method NotifyClientsAboutMissionStart("_mission" as Mission)
@@ -115,14 +115,11 @@ namespace Mission.Server
 					if (!isNull _group) then {
 						[_group, _position] call _mCurrentMission.InsertGroup;
 						_mWestlyUnits = units _group;
-						
-						{
-							_x setVariable ["IsAlive", true, true];
-						} foreach units _group as Object;
 					};
 					
 					_mWestHasInserted = true;
 					[true] call PublicVariableHandler.BroadcastWestHasInserted;
+					[units _group] call PublicVariableHandler.BroadcastInsertedWestlyUnits;
 				};
 			}
 			else // East
@@ -132,14 +129,11 @@ namespace Mission.Server
 					if (!isNull _group) then {
 						[_group, _position] call _mCurrentMission.InsertGroup;
 						_mEastlyUnits = units _group;
-						
-						{
-							_x setVariable ["IsAlive", true, true];
-						} foreach units _group as Object;
 					};
 					
 					_mEastHasInserted = true;
 					[true] call PublicVariableHandler.BroadcastEastHasInserted;
+					[units _group] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				};
 			};
 		};
@@ -410,6 +404,8 @@ namespace Mission.Server
 				
 				[false] call PublicVariableHandler.BroadcastWestHasInserted;
 				[false] call PublicVariableHandler.BroadcastEastHasInserted;
+				[[]] call PublicVariableHandler.BroadcastInsertedWestlyUnits;
+				[[]] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				
 				sleep 1;
 				

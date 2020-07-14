@@ -7,10 +7,15 @@
  * Description:
  * Handles state properties of the current client.
  */
-namespace Mission.Client
+namespace Mission.Client.Statics
 {
 	public class ClientState
 	{
+		public static method Init()
+		{
+			_self.IsAlive = true;
+		};
+		
+		public static property Boolean IsAlive { get; set; };
 	};
 };
-
