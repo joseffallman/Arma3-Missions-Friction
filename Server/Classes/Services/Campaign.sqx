@@ -316,6 +316,8 @@ namespace Mission.Server
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
 			
+			sleep 3;
+			
 			_mGainedTokensWest = [];
 			_mLostTokensWest = [];
 			_mGainedTokensEast = [];

@@ -49,10 +49,10 @@ namespace Mission.Server
 			_self.Name = _missionSettings.Name;
 			_self.StartTimeOfDay = _missionSettings.StartTimeOfDay;
 			_self.RemainingTime = _missionSettings.MaximumMissionTime;
-			_self.StartMarkersActing = [];
-			_self.StartMarkersOpposing = [];
-			_self.SideMarkersActing = [];
-			_self.SideMarkersOpposing = [];
+			_self.StartMarkersActing = _missionSettings.StartMarkersActing;
+			_self.StartMarkersOpposing = _missionSettings.StartMarkersOpposing;
+			_self.SideMarkersActing = _missionSettings.SideMarkersActing;
+			_self.SideMarkersOpposing = _missionSettings.SideMarkersOpposing;
 		};
 		
 		// Initialization the basic meta data for the mission, such as Name, Mission time.

@@ -17,7 +17,6 @@ namespace Mission.Server.Statics
 		public static method OnPlayerPerformingInsertion("_player" as Object, "_position" as Array)
 		{
 			[group _player, _position] call ServerObjects.Campaign.InsertGroup;
-			//player sideChat "Player: " + str (_player getVariable ["IsPlayer", false]);
 			["ClientEventReciever.OnInsertGroup", [group _player, _position]] call Remote.Invoke;
 		};
 		
