@@ -42,7 +42,7 @@ namespace Mission.Server
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
 			// Spawn opposing side's objects
-			["AMMO TRUCK", MissionSide.Opposing, "m01o_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
+			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Opposing, "m01o_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
 			
 			call _base.Setup;
 		};
@@ -70,11 +70,11 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			private _ammoTruckIntact = alive _mAmmoTruck;
+			private _ammoTruckAlive = alive _mAmmoTruck;
 			private _missionTimeIsOut = _self.RemainingTime == 0;
 			private _allEnemiesDead = call _self.CountActingPlayersAlive;
 			
-			return _ammoTruckIntact && (_allEnemiesDead || _missionTimeIsOut);
+			return _ammoTruckAlive && (_allEnemiesDead || _missionTimeIsOut);
 		};
 	};
 };
