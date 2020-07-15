@@ -122,6 +122,10 @@ namespace Mission.Client.Statics
 		{
 			private ["_teleporter" as TeleportService, "_resultInfo" as MissionResultInfo];
 			
+			// "Resurrect" player
+			ClientState.IsAlive = true;
+			call ClientObjects.CameraHandler.ResetPlayerCamera;
+			
 			// Show mission result
 			
 			if (!(player diarySubjectExists "Results")) then {
@@ -172,10 +176,6 @@ namespace Mission.Client.Statics
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;
-			
-			// "Resurrect" player
-			ClientState.IsAlive = true;
-			call ClientObjects.CameraHandler.ResetPlayerCamera;
 		};
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
@@ -218,6 +218,7 @@ namespace Mission.Client.Statics
 		
 		public static method OnUnitKilled("_unit" as Object, "_killer" as Object)
 		{
+			call ClientObjects.CameraHandler.SetDeathCamera;
 		};
 		
 		public static method OnShowNotification("_side" as Side, "_text" as String)

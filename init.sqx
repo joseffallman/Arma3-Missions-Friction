@@ -1,7 +1,5 @@
 using Mission;
 
-sleep 3;
-
 // Common usages
 call compile preprocessFileLineNumbers "Sqx\Services\Service.sqx";
 call compile preprocessFileLineNumbers "Communication\InitCommunication.sqx";
