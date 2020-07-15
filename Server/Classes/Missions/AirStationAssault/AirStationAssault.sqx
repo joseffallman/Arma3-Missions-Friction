@@ -65,12 +65,16 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			return _self.RemainingTime == 0 && alive _mAmmoTruck;
+			return !alive _mAmmoTruck;
 		};
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			return !alive _mAmmoTruck;
+			private _ammoTruckIntact = alive _mAmmoTruck;
+			private _missionTimeIsOut = _self.RemainingTime == 0;
+			private _allEnemiesDead = call _self.CountActingPlayersAlive;
+			
+			return _ammoTruckIntact && (_allEnemiesDead || _missionTimeIsOut);
 		};
 	};
 };
