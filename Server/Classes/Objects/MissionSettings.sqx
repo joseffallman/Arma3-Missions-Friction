@@ -21,6 +21,8 @@ namespace Mission.Server
 			_self.StartMarkersOpposing = [];
 			_self.SideMarkersActing = [];
 			_self.SideMarkersOpposing = [];
+			_self.AddReturnObjectiveForActing = false;
+			_self.AddReturnObjectiveForOpposing = false;
 		};
 		
 		public property String Name { get; set; };
@@ -36,5 +38,9 @@ namespace Mission.Server
 		public property Array SideMarkersActing { get; set; };
 		
 		public property Array SideMarkersOpposing { get; set; };
+		
+		public property Boolean AddReturnObjectiveForActing { get; set; };
+		
+		public property Boolean AddReturnObjectiveForOpposing { get; set; };
 	};
 };

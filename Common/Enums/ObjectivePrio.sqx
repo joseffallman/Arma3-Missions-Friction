@@ -12,7 +12,8 @@ namespace Mission.Common
 	public enum ObjectivePrio
 	{
 		Primary,
-		Secondary
+		Secondary,
+		Return
 	};
 };
 

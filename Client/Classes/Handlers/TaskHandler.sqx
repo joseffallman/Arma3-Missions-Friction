@@ -26,11 +26,12 @@ namespace Mission.Client
 		// Creates a task for the current player.
 		public method CreateTask("_missionObjective" as MissionObjective, "_prio" as ObjectivePrio)
 		{
-			private ["_taskId" as String];
+			private ["_taskId" as String, "_showNotification" as Boolean];
 			
 			_taskId = _mTaskPrefix + str _prio;
+			_showNotification = _prio == ObjectivePrio.Primary;
 			
-			[player, _taskId, [_missionObjective.FullDescription, _missionObjective.ShortDescription], [], "CREATED", 0, true] call BIS_fnc_taskCreate;
+			[player, _taskId, [_missionObjective.FullDescription, _missionObjective.ShortDescription], [], "CREATED", 0, _showNotification] call BIS_fnc_taskCreate;
 			_mTaskIds pushBack _taskId;
 		};
 		

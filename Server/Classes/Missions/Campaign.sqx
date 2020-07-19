@@ -18,7 +18,7 @@ namespace Mission.Server
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
-		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean];
+		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
@@ -90,11 +90,13 @@ namespace Mission.Server
 			private _briefingInfoEast = [east] call _mission.GetBriefingInfo;
 			private _westPrimaryObjective = [west, ObjectivePrio.Primary] call _mission.GetMissionObjective;
 			private _westSecondaryObjective = [west, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
+			private _westReturnObjective = [west, ObjectivePrio.Return] call _mission.GetMissionObjective;
 			private _eastPrimaryObjective = [east, ObjectivePrio.Primary] call _mission.GetMissionObjective;
 			private _eastSecondaryObjective = [east, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
-			
-			_missionBriefing = [_briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective] new MissionBriefing;
-			
+			private _eastReturnObjective = [east, ObjectivePrio.Return] call _mission.GetMissionObjective;
+
+			_missionBriefing = [_briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
+
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
 		};
@@ -174,6 +176,14 @@ namespace Mission.Server
 					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Secondary, TaskState.Succeeded]] call Remote.Invoke;
 					_mWestSecondaryObjectiveCompleted = true;
 				};
+				
+				if (!_mWestReturnObjectiveCompleted && { [west, ObjectivePrio.Return] call _mission.CheckObjectiveCompleted }) then
+				{
+					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Return, TaskState.Succeeded]] call Remote.Invoke;
+					_mWestReturnObjectiveCompleted = true;
+				};
+				
+				_mEastReturnObjectiveCompleted
 			};
 			
 			if (_mEastHasInserted) then
@@ -189,12 +199,18 @@ namespace Mission.Server
 					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Secondary, TaskState.Succeeded]] call Remote.Invoke;
 					_mEastSecondaryObjectiveCompleted = true;
 				};
+				
+				if (!_mEastReturnObjectiveCompleted && { [east, ObjectivePrio.Return] call _mission.CheckObjectiveCompleted }) then
+				{
+					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Return, TaskState.Succeeded]] call Remote.Invoke;
+					_mEastReturnObjectiveCompleted = true;
+				};
 			};
 		};
 		
 		private method Boolean EndDueToCompletedObjectivesAndHumanPlayers()
 		{
-			private "_secondaryObjective" as MissionObjective;
+			private ["_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
 		
 			if (_mWestHasInserted && _mEastHasInserted) then
 			{
@@ -206,8 +222,12 @@ namespace Mission.Server
 					{
 						_secondaryObjective = [west, ObjectivePrio.Secondary] call _mCurrentMission.GetMissionObjective;
 						
-	 					if (isNull _secondaryObjective || _mWestSecondaryObjectiveCompleted) then {
-							return true;
+	 					if (isNull _secondaryObjective || _mWestSecondaryObjectiveCompleted) then
+	 					{
+	 						_returnObjective = [west, ObjectivePrio.Return] call _mCurrentMission.GetMissionObjective;
+							private _returnObjectiveOk = (!isNull _returnObjective) || _mWestReturnObjectiveCompleted;
+							
+							return _returnObjectiveOk;
 	 					};
 	 				};
 				};
@@ -220,8 +240,12 @@ namespace Mission.Server
 					{
 						_secondaryObjective = [east, ObjectivePrio.Secondary] call _mCurrentMission.GetMissionObjective;
 						
-	 					if (isNull _secondaryObjective || _mEastSecondaryObjectiveCompleted) then {
-							return true;
+	 					if (isNull _secondaryObjective || _mEastSecondaryObjectiveCompleted) then
+	 					{
+	 						_returnObjective = [east, ObjectivePrio.Return] call _mCurrentMission.GetMissionObjective;
+							private _returnObjectiveOk = (!isNull _returnObjective) || _mEastReturnObjectiveCompleted;
+							
+							return _returnObjectiveOk;
 	 					};
 	 				};
 				};

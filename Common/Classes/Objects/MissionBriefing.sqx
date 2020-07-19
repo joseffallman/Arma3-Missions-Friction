@@ -12,14 +12,16 @@ namespace Mission.Common
 	public class MissionBriefing
 	{
 		// Creates a MissionBriefing object.
-		public constructor("_westBriefingInfo" as String, "_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_eastBriefingInfo" as String, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective)
+		public constructor("_westBriefingInfo" as String, "_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_westReturnObjective" as MissionObjective, "_eastBriefingInfo" as String, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective, "_eastReturnObjective" as MissionObjective)
 		{
 			_self.BriefingInfoWest = _westBriefingInfo;
 			_self.BriefingInfoEast = _eastBriefingInfo;
 			_self.PrimaryObjectiveWest = _westPrimaryObjective;
+			_self.ReturnObjectiveWest = _westReturnObjective;
 			_self.SecondaryObjectiveWest = _westSecondaryObjective;
 			_self.PrimaryObjectiveEast = _eastPrimaryObjective;
 			_self.SecondaryObjectiveEast = _eastSecondaryObjective;
+			_self.ReturnObjectiveEast = _eastReturnObjective;
 		};
 		
 		public property String BriefingInfoWest { get; private set; };
@@ -28,11 +30,15 @@ namespace Mission.Common
 		
 		public property MissionObjective SecondaryObjectiveWest { get; private set; };
 		
+		public property MissionObjective ReturnObjectiveWest { get; private set; };
+		
 		public property String BriefingInfoEast { get; private set; };
 		
 		public property MissionObjective PrimaryObjectiveEast { get; private set; };
 		
 		public property MissionObjective SecondaryObjectiveEast { get; private set; };
+		
+		public property MissionObjective ReturnObjectiveEast { get; private set; };
 		
 		public method String GetBriefingInfo("_side" as Side)
 		{
@@ -43,22 +49,33 @@ namespace Mission.Common
 			return _self.BriefingInfoEast;
 		};
 		
-		public method MissionObjective GetPrimaryObjective("_side" as Side)
+		public method MissionObjective GetObjective("_side" as Side, "_prio" as ObjectivePrio)
 		{
 			if (_side == west) then {
-				return _self.PrimaryObjectiveWest;
+				if (_prio == ObjectivePrio.Primary) then {
+					return _self.PrimaryObjectiveWest;
+				};
+				if (_prio == ObjectivePrio.Secondary) then {
+					return _self.SecondaryObjectiveWest;
+				};
+				if (_prio == ObjectivePrio.Return) then {
+					return _self.ReturnObjectiveWest;
+				};
 			};
 			
-			return _self.PrimaryObjectiveEast;
-		};
-		
-		public method MissionObjective GetSecondaryObjective("_side" as Side)
-		{
-			if (_side == west) then {
-				return _self.SecondaryObjectiveWest;
+			if (_side == east) then {
+				if (_prio == ObjectivePrio.Primary) then {
+					return _self.PrimaryObjectiveEast;
+				};
+				if (_prio == ObjectivePrio.Secondary) then {
+					return _self.SecondaryObjectiveEast;
+				};
+				if (_prio == ObjectivePrio.Return) then {
+					return _self.ReturnObjectiveEast;
+				};
 			};
 			
-			return _self.SecondaryObjectiveEast;
+			return classNull;
 		};
 	};
 };

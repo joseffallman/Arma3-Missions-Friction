@@ -154,6 +154,17 @@ namespace Mission.Client.Statics
 				};
 			};
 			
+			if (_resultInfo.UsingReturnObjective) then
+			{
+				_diaryText = _diaryText + "<br />Return to insertion point: ";
+				
+				if (_resultInfo.ReturnObjectiveCompleted) then {
+					_diaryText = _diaryText + "Success";
+				} else {
+					_diaryText = _diaryText + "Fail";
+				};
+			};
+			
 			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
 			_diaryText = _diaryText + "<br /><br />Mission score: " + str _resultInfo.Score;
 			
@@ -180,11 +191,12 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
 		{
-			private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
+			private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
 			
 			_briefingInfo = [playerSide] call _missionBriefing.GetBriefingInfo;
-			_primaryObjective = [playerSide] call _missionBriefing.GetPrimaryObjective;
-			_secondaryObjective = [playerSide] call _missionBriefing.GetSecondaryObjective;
+			_primaryObjective = [playerSide, ObjectivePrio.Primary] call _missionBriefing.GetObjective;
+			_secondaryObjective = [playerSide, ObjectivePrio.Secondary] call _missionBriefing.GetObjective;
+			_returnObjective = [playerSide, ObjectivePrio.Return] call _missionBriefing.GetObjective;
 			
 			if (_briefingInfo != "") then {
 				[_briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
@@ -196,6 +208,10 @@ namespace Mission.Client.Statics
 			
 			if (!isNull _secondaryObjective) then {
 				[_secondaryObjective, ObjectivePrio.Secondary] call ClientObjects.TaskHandler.CreateTask;
+			};
+			
+			if (!isNull _returnObjective) then {
+				[_returnObjective, ObjectivePrio.Return] call ClientObjects.TaskHandler.CreateTask;
 			};
 		};
 		
