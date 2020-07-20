@@ -22,6 +22,15 @@ namespace Mission.Client
 			_mLocalMarkers = [];
 		};
 		
+		public method AddExtractionMarker("_position" as Array)
+		{
+			private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
+			_marker setMarkerShapeLocal "ICON";
+			_marker setMarkerTypeLocal "mil_end";
+			
+			_mLocalMarkers pushBack _marker;
+		};
+		
 		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
 		{
 			// Remove all earlier markers

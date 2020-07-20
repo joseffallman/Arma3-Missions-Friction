@@ -104,6 +104,8 @@ namespace Mission.Client.Statics
 			
 			if (playerSide == side _group) then
 			{
+				[_position] call ClientObjects.MapMarkerHandler.AddExtractionMarker;
+			
 				_teleporter = [_position] new TeleportService;
 				call _teleporter.RunAsync;
 			
