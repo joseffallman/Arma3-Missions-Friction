@@ -225,7 +225,7 @@ namespace Mission.Server
 	 					if (isNull _secondaryObjective || _mWestSecondaryObjectiveCompleted) then
 	 					{
 	 						_returnObjective = [west, ObjectivePrio.Return] call _mCurrentMission.GetMissionObjective;
-							private _returnObjectiveOk = (!isNull _returnObjective) || _mWestReturnObjectiveCompleted;
+							private _returnObjectiveOk = isNull _returnObjective || _mWestReturnObjectiveCompleted;
 							
 							return _returnObjectiveOk;
 	 					};
@@ -243,7 +243,7 @@ namespace Mission.Server
 	 					if (isNull _secondaryObjective || _mEastSecondaryObjectiveCompleted) then
 	 					{
 	 						_returnObjective = [east, ObjectivePrio.Return] call _mCurrentMission.GetMissionObjective;
-							private _returnObjectiveOk = (!isNull _returnObjective) || _mEastReturnObjectiveCompleted;
+							private _returnObjectiveOk = isNull _returnObjective || _mEastReturnObjectiveCompleted;
 							
 							return _returnObjectiveOk;
 	 					};
@@ -360,8 +360,10 @@ namespace Mission.Server
 				_mWestlyUnits = [];
 				_mWestPrimaryObjectiveCompleted = false;
 				_mWestSecondaryObjectiveCompleted = false;
+				_mWestReturnObjectiveCompleted = false;
 				_mEastPrimaryObjectiveCompleted = false;
 				_mEastSecondaryObjectiveCompleted = false;
+				_mEastReturnObjectiveCompleted = false;
 				
 				private _remainingTime = _mCurrentMission.RemainingTime;
 				

@@ -27,8 +27,8 @@ namespace Mission.Server
 			_mission.Name = "Lost Vehicles";
 			_mission.StartMarkersActing = ["m03a_StartArea1"];
 			_mission.StartMarkersOpposing = ["m03o_StartArea1"];
-			_mission.AddReturnObjectiveForActing = true;
-			_mission.AddReturnObjectiveForOpposing = true;
+			_mission.AddReturnObjectiveForActing = false;
+			_mission.AddReturnObjectiveForOpposing = false;
 		};
 		
 		public override method Setup()

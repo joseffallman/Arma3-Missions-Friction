@@ -533,7 +533,7 @@ namespace Mission.Server
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
 				return _self.SecondaryObjectiveForActing;
 			};
-			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return) then {
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveForActing) then {
 				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
 			};
 			
@@ -543,7 +543,7 @@ namespace Mission.Server
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
 				return _self.SecondaryObjectiveForOpposing;
 			};
-			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return) then {
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveForOpposing) then {
 				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
 			};
 			
@@ -723,16 +723,7 @@ namespace Mission.Server
 		// _position (Array): The position where the group is being inserted.
 		protected virtual method OnActingGroupInserted("_side" as Side, "_position" as Array)
 		{
-			private ["_missionSide" as MissionSide];
-			
-			_missionSide = [_side] call _self.GetMissionSide;
-			
-			if (_missionSide == MissionSide.Acting) then {
-				_self.InsertionPointActing = _position;
-			}
-			else {
-				_self.InsertionPointOpposing = _position;
-			};
+			_self.InsertionPointActing = _position;
 		};
 		
 		// Performs mission setup for the opposing side that may be necessary upon insertion.
@@ -740,6 +731,7 @@ namespace Mission.Server
 		// _position (Array): The position where the group is being inserted.
 		protected virtual method OnOpposingGroupInserted("_side" as Side, "_position" as Array)
 		{
+			_self.InsertionPointOpposing = _position;
 		};
 		
 		// Checks if the primary objective success condition for the acting side is fulfilled.
@@ -769,17 +761,20 @@ namespace Mission.Server
 		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
 		protected virtual method Boolean ReturnObjectiveFulfilledForActing()
 		{
-			private _primaryOrSecondaryObjectiveCompleted = false;
-			private _aliveUnitsCount = 0;
-			private _allUnitsPresent = false;
-			
-			if (_self.HasReturnObjectiveForActing) then {
+			if (_self.HasReturnObjectiveForActing) then
+			{
+				private _primaryOrSecondaryObjectiveCompleted = false;
+				private _aliveUnitsCount = 0;
+				private _allUnitsPresent = false;
+				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveCompletedForActing || _self.SecondaryObjectiveCompletedForActing;
 				_aliveUnitsCount = call _self.CountActingPlayersAlive;
 				_allUnitsPresent = ({ _x distance _self.InsertionPointActing < 50 } count _self.ActingPlayers) == _aliveUnitsCount;
+			
+				return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
 			};
 			
-			return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
+			return true;
 		};
 		
 		// Checks if the primary objective success condition for the opposing side is fulfilled.
@@ -809,18 +804,20 @@ namespace Mission.Server
 		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
 		protected virtual method Boolean ReturnObjectiveFulfilledForOpposing()
 		{
-			private _primaryOrSecondaryObjectiveCompleted = false;
-			private _aliveUnitsCount = 0;
-			private _allUnitsPresent = false;
-			
 			if (_self.HasReturnObjectiveForOpposing) then
 			{
+				private _primaryOrSecondaryObjectiveCompleted = false;
+				private _aliveUnitsCount = 0;
+				private _allUnitsPresent = false;
+				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveCompletedForOpposing || _self.SecondaryObjectiveCompletedForOpposing;
 				_aliveUnitsCount = call _self.CountOpposingPlayersAlive;
 				_allUnitsPresent = ({ _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingPlayers) == _aliveUnitsCount;
+			
+				return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
 			};
 			
-			return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
+			return true;
 		};
 		
 		// Checks if mission is fully completed for the acting side, and that there is nothing left for the players to do.

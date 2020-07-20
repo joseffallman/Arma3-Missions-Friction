@@ -296,6 +296,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Server\Classes\Missions\Campaign.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx.sqf" FileName="Server\Classes\Missions\Campaign.sqx.sqf">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Server\Classes\Missions\Mission.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
