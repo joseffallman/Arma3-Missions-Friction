@@ -30,14 +30,18 @@ namespace Mission.Common
 			};
 			
 			if (_self.SecondaryObjectiveCompleted) then {
-				_score = _score + 75;
-			};
-			
-			if (_self.UsingReturnObjective && _self.ReturnObjectiveCompleted) then {
 				_score = _score + 50;
 			};
 			
-			_score = _score - (_menAtStart - _menAtEnd) * 30;
+			if (_self.UsingReturnObjective && _self.ReturnObjectiveCompleted) then {
+				_score = _score + 25;
+			};
+			
+			_score = _score - (_menAtStart - _menAtEnd) * 10;
+			
+			if (_score < 0) then {
+				_score = 0;
+			};
 			
 			_self.Score = _score;
 		};

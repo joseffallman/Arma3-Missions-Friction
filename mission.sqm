@@ -301,6 +301,7 @@ class Mission
 					class Attributes
 					{
 						name="b1";
+						isPlayer=1;
 						isPlayable=1;
 					};
 					id=8;
@@ -618,7 +619,6 @@ class Mission
 					class Attributes
 					{
 						name="o1";
-						isPlayer=1;
 						isPlayable=1;
 					};
 					id=14;

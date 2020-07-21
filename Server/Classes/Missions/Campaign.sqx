@@ -32,11 +32,11 @@ namespace Mission.Server
 			
 			_mMissions = [
 				[_mBaseMarkersConfig, west] new LostVehicles,
+				[_mBaseMarkersConfig, west] new AirStationAssault,
 				[_mBaseMarkersConfig, west] new AirbaseIntruders,
 				[_mBaseMarkersConfig, west] new Establishments,
 				[_mBaseMarkersConfig, west] new NightTensions,
-				[_mBaseMarkersConfig, west] new HawkDown,
-				[_mBaseMarkersConfig, west] new AirStationAssault
+				[_mBaseMarkersConfig, west] new HawkDown
 			];
 		};
 		

@@ -41,6 +41,9 @@ namespace Mission.Server
 				// Ammo boxes
 				["ASSAULT BOAT", "B_Boat_Transport_01_F", "O_Boat_Transport_01_F", ""] new VehicleSideAlias,
 				
+				["UAV BACKPACK", "B_UAV_01_backpack_F", "O_UAV_01_backpack_F", "I_UAV_01_backpack_F"] new VehicleSideAlias,
+				["UAV TERMINAL", "B_UavTerminal", "O_UavTerminal", "I_UavTerminal"] new VehicleSideAlias,
+				
 				// Turrets
 				["STATIC AA LAUNCHER", "B_static_AA_F", "O_static_AA_F", "I_static_AA_F"] new VehicleSideAlias,
 								
