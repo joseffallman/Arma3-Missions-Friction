@@ -138,7 +138,7 @@ namespace Mission.Server
 		{
 			// Fulfilled when units on the acting side has been inside delta area for more than one minute.
 			
-			private _insideArea = { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingPlayers > 0;
+			private _insideArea = { alive _x && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingUnits > 0;
 			private _beenThereOneMinue = _mActingEnterDeltaAreaTime > 0 && time > _mActingEnterDeltaAreaTime + 60;
 			
 			return _insideArea && _beenThereOneMinue;
@@ -147,11 +147,11 @@ namespace Mission.Server
 		private method Boolean AtLeastOneOpposingOutsideVehicleNearBox()
 		{
 			{
-				if (([_x] call Mission.IsAlive) && vehicle _x == _x && _x distance _mMailBox < 3) then
+				if (alive _x && vehicle _x == _x && _x distance _mMailBox < 3) then
 				{
 					return true;
 				};
-			} foreach _self.OpposingPlayers as Object;
+			} foreach _self.OpposingUnits as Object;
 			
 			return false;
 		};
@@ -165,7 +165,7 @@ namespace Mission.Server
 		{
 			// Fulfilled when units on the opposing side has been inside delta area for more than one minute.
 			
-			private _insideArea = { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingPlayers > 0;
+			private _insideArea = { alive _x && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingUnits > 0;
 			private _beenThereOneMinue = _mOpposingEnterDeltaAreaTime > 0 && time > _mOpposingEnterDeltaAreaTime + 60;
 			
 			return _insideArea && _beenThereOneMinue;
@@ -174,10 +174,10 @@ namespace Mission.Server
 		private method GroupInsideDeltaArea("_missionSide" as MissionSide)
 		{
 			if (_missionSide == MissionSide.Acting) then {
-				return { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingPlayers > 0;
+				return { alive _x && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingUnits > 0;
 			}
 			else {
-				return { ([_x] call Mission.IsAlive) && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingPlayers > 0;
+				return { alive _x && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingUnits > 0;
 			};
 		};
 		
@@ -204,7 +204,7 @@ namespace Mission.Server
 			// Check of someone finds the explosives box
 			
 			if (_mExplosivesBoxOwnerSide == MissionSide.Guerilla) then {
-				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.ActingPlayers > 0) then {
+				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.ActingUnits > 0) then {
 					_mExplosivesBoxOwnerSide = MissionSide.Acting;
 					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
 					_self.GainedTokenActing = HistoryToken.Explosives;
@@ -213,7 +213,7 @@ namespace Mission.Server
 			};
 			
 			if (_mExplosivesBoxOwnerSide == MissionSide.Guerilla) then {
-				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.OpposingPlayers > 0) then {
+				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.OpposingUnits > 0) then {
 					_mExplosivesBoxOwnerSide = MissionSide.Opposing;
 					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
 					_self.GainedTokenActing = HistoryToken.Explosives;

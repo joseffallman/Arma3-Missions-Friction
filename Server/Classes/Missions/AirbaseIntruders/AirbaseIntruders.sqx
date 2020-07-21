@@ -45,12 +45,12 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			return (call _self.CountOpposingPlayersAlive) == 0;
+			return (call _self.CountUnitsAliveOpposing) == 0;
 		};
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			return (call _self.CountActingPlayersAlive) == 0;
+			return (call _self.CountUnitsAliveActing) == 0;
 		};
 	};
 };

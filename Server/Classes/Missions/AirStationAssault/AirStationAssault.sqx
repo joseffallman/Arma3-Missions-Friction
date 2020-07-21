@@ -72,7 +72,7 @@ namespace Mission.Server
 		{
 			private _ammoTruckAlive = alive _mAmmoTruck;
 			private _missionTimeIsOut = _self.RemainingTime == 0;
-			private _allEnemiesDead = call _self.CountActingPlayersAlive;
+			private _allEnemiesDead = call _self.CountUnitsAliveActing;
 			
 			return _ammoTruckAlive && (_allEnemiesDead || _missionTimeIsOut);
 		};

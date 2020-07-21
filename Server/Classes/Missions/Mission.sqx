@@ -36,8 +36,8 @@ namespace Mission.Server
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
-			_self.ActingPlayers = [];
-			_self.OpposingPlayers = [];
+			_self.ActingUnits = [];
+			_self.OpposingUnits = [];
 			_self.PrimaryObjectiveCompletedForActing = false;
 			_self.SecondaryObjectiveCompletedForActing = false;
 			_self.ReturnObjectiveCompletedForActing = false;
@@ -273,35 +273,18 @@ namespace Mission.Server
 			["ClientEventReciever.OnMissionSetup", [_side, _text]] call Remote.Invoke;
 		};
 		
-		// Checks whether a unit (player) is considered alive or not. Note that a player 
-		// who has respawned may be alive and in the base, but should be considered dead
-		// by the current mission, since it is no longer taking part.
-		// _unit (Object): The unit to check.
-		public static method Boolean IsAlive("_unit" as Object)
+		// Gets the number of units alive on the acting side.
+		// Returns (Scalar): Number of alive units on the acting side.
+		protected method Scalar CountUnitsAliveActing()
 		{
-			return (!isNull _unit) && alive _unit;
+			return { alive _x } count _self.ActingUnits;
 		};
 		
-		// Checks whether a unit is a player or not. 
-		// _unit (Object): The unit to check.
-		public static method Boolean IsPlayer("_unit" as Object)
+		// Gets the number of units alive on the opposing side.
+		// Returns (Scalar): Number of alive units on the opposing side.
+		protected method Scalar CountUnitsAliveOpposing()
 		{
-			//return (!isNull _unit) && { _unit getVariable ["IsPlayer", false] };
-			return (!isNull _unit) && isPlayer _unit;
-		};
-		
-		// Gets the number of players alive on the acting side.
-		// Returns (Scalar): Number of alive players on the acting side.
-		protected method Scalar CountActingPlayersAlive()
-		{
-			return { [_x] call Mission.IsAlive } count _self.ActingPlayers;
-		};
-		
-		// Gets the number of players alive on the opposing side.
-		// Returns (Scalar): Number of alive players on the opposing side.
-		protected method Scalar CountOpposingPlayersAlive()
-		{
-			return { [_x] call Mission.IsAlive } count _self.OpposingPlayers;
+			return { alive _x } count _self.OpposingUnits;
 		};
 		
 		// Spawns a vehicle on a marker at the scene of the mission.
@@ -376,13 +359,11 @@ namespace Mission.Server
 		
 		protected property SoldierTypeDictionary SoldierTypeDictionary { get; private set; };
 		
-		// Gets the players on the acting side that was inserted to execute the mission.
-		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
-		protected property Array ActingPlayers { get; private set; };
+		// Gets the units on the acting side that was inserted to execute the mission.
+		protected property Array ActingUnits { get; private set; };
 		
-		// Gets the players on the opposing side that was inserted to execute the mission.
-		// Use the IsAlive method to check if a player in this array is to be considered alive or dead.
-		protected property Array OpposingPlayers { get; private set; };
+		// Gets the units on the opposing side that was inserted to execute the mission.
+		protected property Array OpposingUnits { get; private set; };
 
 		// Gets the primary objective briefing information for the acting side.
 		protected property MissionObjective PrimaryObjectiveForActing { get; private set; };
@@ -490,7 +471,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveCompletedForActing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForActing, _self.HasReturnObjectiveForActing, _self.ReturnObjectiveCompletedForActing, count _self.ActingPlayers, { [_x] call Mission.IsAlive } count _self.ActingPlayers] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveCompletedForActing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForActing, _self.HasReturnObjectiveForActing, _self.ReturnObjectiveCompletedForActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
 			}
 			else
 			{
@@ -500,7 +481,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForOpposing, _self.HasReturnObjectiveForOpposing, _self.ReturnObjectiveCompletedForOpposing, count _self.OpposingPlayers, { [_x] call Mission.IsAlive } count _self.OpposingPlayers] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForOpposing, _self.HasReturnObjectiveForOpposing, _self.ReturnObjectiveCompletedForOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
 			};
 		};
 		
@@ -621,11 +602,11 @@ namespace Mission.Server
 			_missionSide = [side _group] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				_self.ActingPlayers = units _group;
+				_self.ActingUnits = units _group;
 				[side _group, _position] call _self.OnActingGroupInserted;
 			}
 			else {
-				_self.OpposingPlayers = units _group;
+				_self.OpposingUnits = units _group;
 				[side _group, _position] call _self.OnOpposingGroupInserted;
 			};
 		};
@@ -737,11 +718,11 @@ namespace Mission.Server
 		// Checks if the primary objective success condition for the acting side is fulfilled.
 		// Called continously during the mission until it returns true. Then not again.
 		// Override this to specify the condition for when the acting side's primary objective is completed.
-		// Default behavior is to return true when mission time has past and players are still alive.
+		// Default behavior is to return true when mission time has past and units are still alive.
 		// Returns (Boolean): true when primary objective for the acting side should count as success, otherwise false.
 		protected virtual method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			return _self.RemainingTime == 0 && (call _self.CountActingPlayersAlive) > 0;
+			return _self.RemainingTime == 0 && (call _self.CountUnitsAliveActing) > 0;
 		};
 		
 		// Checks if the secondary objective success condition for the acting side is fulfilled.
@@ -768,8 +749,8 @@ namespace Mission.Server
 				private _allUnitsPresent = false;
 				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveCompletedForActing || _self.SecondaryObjectiveCompletedForActing;
-				_aliveUnitsCount = call _self.CountActingPlayersAlive;
-				_allUnitsPresent = ({ _x distance _self.InsertionPointActing < 50 } count _self.ActingPlayers) == _aliveUnitsCount;
+				_aliveUnitsCount = call _self.CountUnitsAliveActing;
+				_allUnitsPresent = ({ _x distance _self.InsertionPointActing < 50 } count _self.ActingUnits) == _aliveUnitsCount;
 			
 				return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
 			};
@@ -780,11 +761,11 @@ namespace Mission.Server
 		// Checks if the primary objective success condition for the opposing side is fulfilled.
 		// Called continously during the mission until it returns true. Then not again.
 		// Override this to specify the condition for when the opposing side's primary objective is completed.
-		// Default behavior is to return true when mission time has past and players are still alive.
+		// Default behavior is to return true when mission time has past and units are still alive.
 		// Returns (Boolean): true when primary objective for the opposing side should count as success, otherwise false.
 		protected virtual method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			return _self.RemainingTime == 0 && (call _self.CountOpposingPlayersAlive) > 0;
+			return _self.RemainingTime == 0 && (call _self.CountUnitsAliveOpposing) > 0;
 		};
 		
 		// Checks if the secondary objective success condition for the opposing side is fulfilled.
@@ -799,8 +780,8 @@ namespace Mission.Server
 		
 		// Checks if the return objective success condition for the opposing side is fulfilled.
 		// Called continously during the mission until it returns true. Then not again.
-		// Default behavior is to return true when all in the group has left the insertion area by 100 meters and then 
-		// all alive units in the group returns with 50 meters from the insertion point.
+		// Default behavior is to return true when at least one objective is fulfilled and
+		// all alive units in the group returns within 50 meters from the insertion point.
 		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
 		protected virtual method Boolean ReturnObjectiveFulfilledForOpposing()
 		{
@@ -811,8 +792,8 @@ namespace Mission.Server
 				private _allUnitsPresent = false;
 				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveCompletedForOpposing || _self.SecondaryObjectiveCompletedForOpposing;
-				_aliveUnitsCount = call _self.CountOpposingPlayersAlive;
-				_allUnitsPresent = ({ _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingPlayers) == _aliveUnitsCount;
+				_aliveUnitsCount = call _self.CountUnitsAliveOpposing;
+				_allUnitsPresent = ({ _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingUnits) == _aliveUnitsCount;
 			
 				return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
 			};

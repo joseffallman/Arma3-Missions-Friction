@@ -58,12 +58,12 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			return { _x distance _mAmmoTruck < 10 } count _self.ActingPlayers > 0;
+			return { _x distance _mAmmoTruck < 10 } count _self.ActingUnits > 0;
 		};
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			return { _x distance _mAmmoTruck < 10 } count _self.OpposingPlayers > 0;
+			return { _x distance _mAmmoTruck < 10 } count _self.OpposingUnits > 0;
 		};
 	};
 };

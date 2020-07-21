@@ -216,7 +216,7 @@ namespace Mission.Server
 			{
 				if (_mWestPrimaryObjectiveCompleted) then
 				{
-					private _eastHasPlayers = { ([_x] call Mission.IsPlayer)} count _mEastlyUnits > 0;
+					private _eastHasPlayers = { isPlayer _x } count _mEastlyUnits > 0;
 					
 					if (!_eastHasPlayers) then
 					{
@@ -234,7 +234,7 @@ namespace Mission.Server
 			
 				if (_mEastPrimaryObjectiveCompleted) then
 				{
-					private _westHasPlayers = { ([_x] call Mission.IsPlayer)} count _mWestlyUnits > 0;
+					private _westHasPlayers = { isPlayer _x } count _mWestlyUnits > 0;
 					
 					if (!_westHasPlayers) then
 					{

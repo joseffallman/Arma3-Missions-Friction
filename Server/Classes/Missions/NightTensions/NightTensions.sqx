@@ -95,7 +95,7 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForActing()
 		{
-			private _fulfilled = ({ _x distance _mBox < 3 } count _self.ActingPlayers > 0);
+			private _fulfilled = ({ _x distance _mBox < 3 } count _self.ActingUnits > 0);
 			
 			if (_fulfilled) then {
 				_mDrawingsAreStolen = true;
@@ -106,7 +106,7 @@ namespace Mission.Server
 		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			private _allEnemiesDead = call _self.CountActingPlayersAlive == 0;
+			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
 			private _drawingsInEnemyHandsAtMissionEnd = _self.RemainingTime == 0 && (_mDrawingsAreStolen);
 		
 			return _allEnemiesDead || _drawingsInEnemyHandsAtMissionEnd;
@@ -114,7 +114,7 @@ namespace Mission.Server
 		
 		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
 		{
-			return call _self.CountActingPlayersAlive == 0;
+			return call _self.CountUnitsAliveActing == 0;
 		};
 	};
 };

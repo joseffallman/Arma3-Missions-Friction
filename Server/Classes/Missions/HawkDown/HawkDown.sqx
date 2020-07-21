@@ -15,13 +15,12 @@ namespace Mission.Server
 {
 	public class HawkDown : Mission
 	{
-		private fields ["_mGreyHawk" as Object, "_mOpposingHasIntel" as Boolean, "_mGreyHawkMarker" as String];
+		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String];
 		
 		// Creates a AirBaseMadness object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
 		{
 			[_baseMarkersConfig, _actingSide] call _base.Constructor;
-			_mOpposingHasIntel = false;
 			_mGreyHawkMarker = "";
 		};
 		
@@ -32,6 +31,8 @@ namespace Mission.Server
 			_mission.StartMarkersOpposing = ["m05o_StartArea"];
 			_mission.SideMarkersActing = ["m05_CrashSite"];
 			_mission.SideMarkersOpposing = ["m05_CrashSite"];
+			_mission.AddReturnObjectiveForActing = true;
+			_mission.AddReturnObjectiveForOpposing = true;
 		};
 		
 		public override method Setup()
@@ -62,26 +63,10 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method MissionObjective CreateSecondaryObjectiveForActing()
-		{
-			private _shortDescription = "Return to insertion area";
-			private _longDescription = "Return to the insertion area.";
-			
-			return [_shortDescription, _longDescription] new MissionObjective;
-		};
-		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Steal intel from wreckage";
 			private _longDescription = "Find the downed enemy helicopter before the enemy finds it and steal some intel.";
-			
-			return [_shortDescription, _longDescription] new MissionObjective;
-		};
-		
-		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
-		{
-			private _shortDescription = "Return to insertion area.";
-			private _longDescription = "Return to the insertion area.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -91,34 +76,18 @@ namespace Mission.Server
 			return !alive _mGreyHawk;
 		};
 		
-		protected override method Boolean SecondaryObjectiveFulfilledForActing()
-		{
-			private _greyHawkAlive = alive _mGreyHawk;
-			private _playersNearStartMarker = { _x distance getMarkerPos "m05a_StartArea" < 100 } count _self.ActingPlayers;
-			private _playersAlive = call _self.CountActingPlayersAlive;
-			
-			return (!_greyHawkAlive || _mOpposingHasIntel) && _playersNearStartMarker == _playersAlive;
-		};
-		
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
-			private _fulfilled = alive _mGreyHawk && ({ _x distance _mGreyHawk < 10 } count _self.OpposingPlayers > 0);
+			private _greyHawkAlive = alive _mGreyHawk;
+			private _oneUnitNearHawk = { _x distance _mGreyHawk < 5 } count _self.OpposingUnits > 0;
+			
+			private _fulfilled = _greyHawkAlive && _oneUnitNearHawk;
 			
 			if (_fulfilled) then {
-				_mOpposingHasIntel = true;
 				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
 			};
 			
 			return _fulfilled;
-		};
-		
-		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
-		{
-			private _greyHawkAlive = alive _mGreyHawk;
-			private _playersNearStartMarker = { _x distance getMarkerPos "m05o_StartArea" < 100 } count _self.OpposingPlayers;
-			private _playersAlive = call _self.CountOpposingPlayersAlive;
-			
-			return (!_greyHawkAlive || _mOpposingHasIntel) && _playersNearStartMarker == _playersAlive;
 		};
 	};
 };
