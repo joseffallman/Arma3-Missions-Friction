@@ -14,7 +14,7 @@ namespace Mission.Client
 {
 	public class MapMarkerHandler
 	{
-		private fields ["_mLocalMarkers" as Array];
+		private fields ["_mUseExtractionMarker" as Boolean, "_mLocalMarkers" as Array];
 		
 		// Creates a MapMarkerHandler object.
 		public constructor()
@@ -24,15 +24,20 @@ namespace Mission.Client
 		
 		public method AddExtractionMarker("_position" as Array)
 		{
-			private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
-			_marker setMarkerShapeLocal "ICON";
-			_marker setMarkerTypeLocal "mil_end";
-			
-			_mLocalMarkers pushBack _marker;
+			if (_mUseExtractionMarker) then
+			{
+				private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
+				_marker setMarkerShapeLocal "ICON";
+				_marker setMarkerTypeLocal "mil_end";
+				
+				_mLocalMarkers pushBack _marker;
+			};
 		};
 		
 		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
 		{
+			_mUseExtractionMarker = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
+		
 			// Remove all earlier markers
 			
 			{

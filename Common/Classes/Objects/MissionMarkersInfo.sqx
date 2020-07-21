@@ -12,15 +12,21 @@ namespace Mission.Common
 	public class MissionMarkersInfo
 	{
 		// Creates a MissionMarkersInfo object.
-		public constructor("_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */)
+		public constructor("_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */, "_westUseExtractionMarker" as Boolean, "_eastUseExtractionMarker" as Boolean)
 		{
 			_self.StartMarkers = _startMarkers;
 			_self.Markers = _markers;
+			_self.WestUseExtractionMarker = _westUseExtractionMarker;
+			_self.EastUseExtractionMarker = _eastUseExtractionMarker;
 		};
 		
 		public property Array StartMarkers { get; private set; };
 		
 		public property Array Markers { get; private set; };
+		
+		public property Boolean WestUseExtractionMarker { get; private set; };
+		
+		public property Boolean EastUseExtractionMarker { get; private set; };
 		
 		public method Array GetStartMarkersBySide("_side" as Side)
 		{
@@ -35,6 +41,16 @@ namespace Mission.Common
 			} foreach _self.StartMarkers as MarkerInfo;
 			
 			return _markers;
+		};
+		
+		public method Boolean CheckUseExtractionMarker("_side" as Side)
+		{
+			if (_side == west) then {
+				return _self.WestUseExtractionMarker;
+			}
+			else {
+				return _self.EastUseExtractionMarker;
+			};
 		};
 	};
 };

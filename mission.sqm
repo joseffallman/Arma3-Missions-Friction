@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=160;
+		nextID=166;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={4346.1899,253.18031,3617.8831};
-		dir[]={0.1506342,-0.29108539,0.94490498};
-		up[]={0.04583009,0.95670754,0.28748453};
-		aside[]={0.98765397,-6.4701089e-007,-0.15744218};
+		pos[]={4389.4199,232.31337,3747.5254};
+		dir[]={-0.72300136,-0.23611851,-0.64929026};
+		up[]={-0.17570058,0.9717142,-0.15778892};
+		aside[]={-0.66818517,1.0530348e-006,0.74404019};
 	};
 };
 binarizationWanted=0;
@@ -203,22 +203,22 @@ class Mission
 	};
 	class Entities
 	{
-		items=67;
+		items=73;
 		class Item0
 		{
 			dataType="Marker";
-			position[]={4339.478,225.08501,3808.3701};
+			position[]={4342.3823,225.1629,3809.5322};
 			name="m01o_startarea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
 			fillName="SolidBorder";
-			a=200;
-			b=120;
-			angle=82.406982;
+			a=150;
+			b=70;
+			angle=257.69315;
 			drawBorder=1;
 			id=0;
-			atlOffset=-0.67831421;
+			atlOffset=-0.87602234;
 		};
 		class Item1
 		{
@@ -917,19 +917,18 @@ class Mission
 		class Item8
 		{
 			dataType="Marker";
-			position[]={4361.3062,226.707,3817.8369};
-			name="m01o_AmmoTruck";
+			position[]={4356.4194,226.61137,3816.9355};
+			name="m01o_Vehicle1";
 			type="Empty";
 			angle=174.42299;
 			id=19;
-			atlOffset=-0.00015258789;
 		};
 		class Item9
 		{
 			dataType="Marker";
 			position[]={4347.4189,226.64,3833.46};
 			name="m01a_PrimaryTarget";
-			text="Destroy ammo truck";
+			text="Destroy trucks";
 			type="mil_destroy";
 			id=31;
 			atlOffset=0.00012207031;
@@ -2037,6 +2036,62 @@ class Mission
 			angle=296.86993;
 			id=151;
 			atlOffset=-1.0490417e-005;
+		};
+		class Item67
+		{
+			dataType="Marker";
+			position[]={4338.6689,226.78986,3838.2126};
+			name="m01o_Vehicle2";
+			type="Empty";
+			angle=85.661957;
+			id=160;
+		};
+		class Item68
+		{
+			dataType="Marker";
+			position[]={4347.521,234.22,3870.4592};
+			name="m01o_Vehicle3";
+			type="Empty";
+			angle=91.130424;
+			id=161;
+		};
+		class Item69
+		{
+			dataType="Marker";
+			position[]={4371.3755,224.75917,3747.6362};
+			name="m01o_Vehicle4";
+			type="Empty";
+			angle=320.2659;
+			id=162;
+		};
+		class Item70
+		{
+			dataType="Marker";
+			position[]={4386.9702,227.23599,3819.988};
+			name="m01o_Vehicle5";
+			type="Empty";
+			angle=359.13181;
+			id=163;
+			atlOffset=0.00012207031;
+		};
+		class Item71
+		{
+			dataType="Marker";
+			position[]={4323.8623,225.43452,3817.8115};
+			name="m01o_Vehicle6";
+			type="Empty";
+			angle=173.55997;
+			id=164;
+		};
+		class Item72
+		{
+			dataType="Marker";
+			position[]={4373.978,224.79601,3730.469};
+			name="m01o_Vehicle7";
+			type="Empty";
+			angle=52.071999;
+			id=165;
+			atlOffset=-9.1552734e-005;
 		};
 	};
 };

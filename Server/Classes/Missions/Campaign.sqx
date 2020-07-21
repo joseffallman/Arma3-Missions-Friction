@@ -31,8 +31,8 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, west] new LostVehicles,
 				[_mBaseMarkersConfig, west] new AirStationAssault,
+				[_mBaseMarkersConfig, west] new LostVehicles,
 				[_mBaseMarkersConfig, west] new AirbaseIntruders,
 				[_mBaseMarkersConfig, west] new Establishments,
 				[_mBaseMarkersConfig, west] new NightTensions,
@@ -45,11 +45,6 @@ namespace Mission.Server
 			{
 				_x setMarkerAlpha 0;
 			} foreach allMapMarkers as String;
-		};
-		
-		protected static method Boolean IsAlive("_unit" as Object)
-		{
-			return alive _unit;
 		};
 		
 		private method NotifyClientsAboutMissionStart("_mission" as Mission)
@@ -75,7 +70,7 @@ namespace Mission.Server
 				_markers pushBack [_x, east] new MarkerInfo;
 			} foreach [east] call _mission.GetMarkersBySide as String;
 			
-			_missionMarkersInfo = [_startMarkers, _markers] new MissionMarkersInfo;
+			_missionMarkersInfo = [_startMarkers, _markers, [west] call _mission.CheckSideHasExtractionMarker, [east] call _mission.CheckSideHasExtractionMarker] new MissionMarkersInfo;
 		
 			[_missionMarkersInfo] call PublicVariableHandler.BroadcastMissionMarkersInfo;
 			[CampaignPhase.MissionPlanning] call PublicVariableHandler.BroadcastCampaignPhase;
@@ -147,13 +142,13 @@ namespace Mission.Server
 			};
 		
 			{
-				if ([_x] call _self.IsAlive) then {
+				if (alive _x) then {
 					return false;
 				};
 			} foreach _mWestlyUnits as Object;
 			
 			{
-				if ([_x] call _self.IsAlive) then {
+				if (alive _x) then {
 					return false;
 				};
 			} foreach _mEastlyUnits as Object;
@@ -409,8 +404,6 @@ namespace Mission.Server
 						call _mCurrentMission.Cancel;
 					};
 					
-					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
-					
 					// End mission if one side has completed objectives and there are no humans on the other side
 					// Doesn't work...
 
@@ -419,6 +412,8 @@ namespace Mission.Server
 					};
 
 					sleep 1;
+					
+					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
 				};
 				
 				// Take care of eventual gained and lost tokens

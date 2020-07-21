@@ -454,6 +454,19 @@ namespace Mission.Server
 			return _self.SideMarkersOpposing;
 		};
 		
+		public method Boolean CheckSideHasExtractionMarker("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return _self.HasReturnObjectiveForActing;
+			};
+			
+			return _self.HasReturnObjectiveForOpposing;
+		};
+		
 		// Gets the mission result for a side.
 		// This method is used by the framework to get the result and score for a side after a mission is played.
 		// _side (Side): The side.
@@ -880,6 +893,7 @@ namespace Mission.Server
 				};
 				
 				call _self.OnEachIteration;
+				
 				sleep 1;
 			};
 			
