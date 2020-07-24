@@ -57,7 +57,7 @@ namespace Mission.Server
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Deliver supplies";
-			private _longDescription = "Drive the truck to Camp Maxwell and leave it there.";
+			private _longDescription = "Drive the truck to Limeri Bay and leave it there.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -129,6 +129,7 @@ namespace Mission.Server
 			
 			if (_fulfilled) then {
 				_mAmmoTruck lock true;
+				_self.GainedTokenActing = HistoryToken.Uav;
 			};
 			
 			return _fulfilled;

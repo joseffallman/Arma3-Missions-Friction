@@ -20,7 +20,7 @@ namespace Mission.Client
 		public constructor()
 		{
 			_mTaskIds = [];
-			_mTaskPrefix = "MissionTask_";
+			_mTaskPrefix = "MissionTask_" + (str getPlayerUID player) + "_";
 		};
 		
 		// Creates a task for the current player.

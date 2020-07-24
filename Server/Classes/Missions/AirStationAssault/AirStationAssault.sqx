@@ -37,7 +37,13 @@ namespace Mission.Server
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
+			private _briefing = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
+			
+			if (HistoryToken.Uav in _self.EarlierGainedTokensActing) then {
+				_briefing = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+			};
+			
+			return _briefing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
@@ -64,8 +70,11 @@ namespace Mission.Server
 			// Spawn acting side's base objects
 			
 			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
-			_ammoBox addBackpackCargo ["B_UAV_01_backpack_F", 1];
-			_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
+			
+			if (HistoryToken.Uav in _self.EarlierGainedTokensActing) then {
+				_ammoBox addBackpackCargo ["B_UAV_01_backpack_F", 1];
+				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
+			};
 			
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
@@ -79,20 +88,24 @@ namespace Mission.Server
 			
 			_vehicle = ["AMMO TRUCK", MissionSide.Opposing, _vehicleMarkers select 0] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy ammo truck"];
+			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["DEVICE TRUCK", MissionSide.Opposing, _vehicleMarkers select 1] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy device truck"];
+			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["REPAIR TRUCK", MissionSide.Opposing, _vehicleMarkers select 2] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy repair truck"];
+			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["MEDICAL TRUCK", MissionSide.Opposing, _vehicleMarkers select 3] call _self.CreateSideVehicleOnMarker;
+			_vehicle lock true;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["MRAP", MissionSide.Opposing, _vehicleMarkers select 4] call _self.CreateSideVehicleOnMarker;
@@ -163,8 +176,9 @@ namespace Mission.Server
 		{
 			private _vehiclesAlive = { alive _x } count _mAllVehicles == count _mAllVehicles;
 			private _missionHasEnded = _self.IsCancelling;
+			private _allEnemiesDead = (call _self.CountUnitsAliveActing) == 0;
 			
-			return _vehiclesAlive && _missionHasEnded;
+			return _vehiclesAlive && (_allEnemiesDead || _missionHasEnded);
 		};
 		
 		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()

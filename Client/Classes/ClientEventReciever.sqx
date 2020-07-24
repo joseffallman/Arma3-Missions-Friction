@@ -47,6 +47,8 @@ namespace Mission.Client.Statics
 		{
 			private ["_markerInfos" as Array /* of String */, "_marker" as String];
 			
+			// Update the markers
+			
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
 			
 			if (player == leader group player) then
@@ -86,6 +88,32 @@ namespace Mission.Client.Statics
 			};
 		};
 		
+		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
+		{
+			private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
+			
+			_briefingInfo = [playerSide] call _missionBriefing.GetBriefingInfo;
+			_primaryObjective = [playerSide, ObjectivePrio.Primary] call _missionBriefing.GetObjective;
+			_secondaryObjective = [playerSide, ObjectivePrio.Secondary] call _missionBriefing.GetObjective;
+			_returnObjective = [playerSide, ObjectivePrio.Return] call _missionBriefing.GetObjective;
+			
+			if (_briefingInfo != "") then {
+				[_briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
+			};
+			
+			if (!isNull _primaryObjective) then {
+				[_primaryObjective, ObjectivePrio.Primary] call ClientObjects.TaskHandler.CreateTask;
+			};
+			
+			if (!isNull _secondaryObjective) then {
+				[_secondaryObjective, ObjectivePrio.Secondary] call ClientObjects.TaskHandler.CreateTask;
+			};
+			
+			if (!isNull _returnObjective) then {
+				[_returnObjective, ObjectivePrio.Return] call ClientObjects.TaskHandler.CreateTask;
+			};
+		};
+		
 		private static method Boolean AnyMemberIsPlayer("_group" as Group)
 		{
 			{
@@ -108,12 +136,13 @@ namespace Mission.Client.Statics
 			
 				_teleporter = [_position] new TeleportService;
 				call _teleporter.RunAsync;
-			
+/*
 				{
 					if (local _x && _x != player) then {
 						_x setPos _position;
 					};
 				} foreach units _group;
+*/
 			};
 			
 			// Hide insertion menu option
@@ -198,32 +227,6 @@ namespace Mission.Client.Statics
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;
-		};
-		
-		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
-		{
-			private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
-			
-			_briefingInfo = [playerSide] call _missionBriefing.GetBriefingInfo;
-			_primaryObjective = [playerSide, ObjectivePrio.Primary] call _missionBriefing.GetObjective;
-			_secondaryObjective = [playerSide, ObjectivePrio.Secondary] call _missionBriefing.GetObjective;
-			_returnObjective = [playerSide, ObjectivePrio.Return] call _missionBriefing.GetObjective;
-			
-			if (_briefingInfo != "") then {
-				[_briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
-			};
-			
-			if (!isNull _primaryObjective) then {
-				[_primaryObjective, ObjectivePrio.Primary] call ClientObjects.TaskHandler.CreateTask;
-			};
-			
-			if (!isNull _secondaryObjective) then {
-				[_secondaryObjective, ObjectivePrio.Secondary] call ClientObjects.TaskHandler.CreateTask;
-			};
-			
-			if (!isNull _returnObjective) then {
-				[_returnObjective, ObjectivePrio.Return] call ClientObjects.TaskHandler.CreateTask;
-			};
 		};
 		
 		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_taskState" as TaskState)

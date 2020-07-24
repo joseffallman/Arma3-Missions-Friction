@@ -107,14 +107,15 @@ namespace Mission.Server
 		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
 		{
 			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
-			private _drawingsInEnemyHandsAtMissionEnd = _self.RemainingTime == 0 && (_mDrawingsAreStolen);
+			private _missionHasEnded = _self.RemainingTime == 0;
 		
-			return _allEnemiesDead || _drawingsInEnemyHandsAtMissionEnd;
+			return _allEnemiesDead || (_missionHasEnded && !_mDrawingsAreStolen);
 		};
 		
 		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
 		{
-			return call _self.CountUnitsAliveActing == 0;
+			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
+			return _allEnemiesDead;
 		};
 	};
 };

@@ -23,6 +23,11 @@ namespace Mission.Client
 			_mPosition = _position;
 		};
 		
+		private method TeleportVehicleAndCrew("_vehicle" as Object)
+		{
+			_vehicle setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+		};
+		
 		// Teleports the player instantly to the base.
 		protected override method Run()
 		{
@@ -30,15 +35,60 @@ namespace Mission.Client
 			
 			sleep 1.2;
 			
-			private _vehiclesTeleported = [];
+			private _teleportedUnits = [];
 			
 			{
-				private _vehicle = vehicle _x;
-				
-				if (!(_vehicle in _vehiclesTeleported)) then {
-					_vehicle setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
-					_vehiclesTeleported pushBack _vehicle;
+				private _unit = vehicle _x;
+				private _isVehicle = vehicle _x != _x;
+
+				if (_isVehicle) then
+				{
+					if (local _unit && { !(_unit in _teleportedUnits) }) then
+					{
+						[_unit] call _self.TeleportVehicleAndCrew;
+						_teleportedUnits pushBack _unit;
+					};
+				}
+				else // Is single unit
+				{
+					if (local _unit && { !(_unit in _teleportedUnits) }) then {
+						_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+						_teleportedUnits pushBack _unit;
+					};
 				};
+/*				
+				if (!(_unit in _teleportedUnits)) then
+				{
+					if (_isVehicle) then
+					{
+						if (local _unit) then
+						{
+							_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+							_teleportedUnits pushBack _unit;
+							_teleportedUnits pushBack _x;
+							player sideChat "1";
+						
+							for "_i" from 0 to (count units group player) - 1 do
+							{
+								private _y = units group player select _i;
+							
+								if (vehicle _y == _unit) then {
+									_teleportedUnits pushBack _y;
+								};
+							};
+							
+							player sideChat str _teleportedUnits;
+						};
+					}
+					else { // If infantry unit
+						if (false && local _unit) then {
+							_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+							_teleportedUnits pushBack _x;
+							player sideChat "2";
+						};
+					};
+				};
+*/
 			} foreach units group player;
 			
 			openMap false;

@@ -25,18 +25,17 @@ namespace Mission.Server
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_playerUnitsConfig" as PlayerUnitsConfig)
 		{
 			call _base.Constructor;
+			
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mPlayerUnitsConfig = _playerUnitsConfig;
 			
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, west] new AirStationAssault,
-				[_mBaseMarkersConfig, west] new LostVehicles,
-				[_mBaseMarkersConfig, west] new AirbaseIntruders,
-				[_mBaseMarkersConfig, west] new Establishments,
+				//[_mBaseMarkersConfig, selectRandom [west, east]] new Establishments,
 				[_mBaseMarkersConfig, west] new NightTensions,
-				[_mBaseMarkersConfig, west] new HawkDown
+				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,
+				[_mBaseMarkersConfig, selectRandom [west, east]] new AirStationAssault
 			];
 		};
 		
