@@ -38,12 +38,12 @@ namespace Mission.Server
 			_mSpawnedSoldiers = [];
 			_self.ActingUnits = [];
 			_self.OpposingUnits = [];
-			_self.PrimaryObjectiveCompletedForActing = false;
-			_self.SecondaryObjectiveCompletedForActing = false;
-			_self.ReturnObjectiveCompletedForActing = false;
-			_self.PrimaryObjectiveCompletedForOpposing = false;
-			_self.SecondaryObjectiveCompletedForOpposing = false;
-			_self.ReturnObjectiveCompletedForOpposing = false;
+			_self.PrimaryObjectiveStateActing = ObjectiveState.None;
+			_self.SecondaryObjectiveStateActing = ObjectiveState.None;
+			_self.ReturnObjectiveStateActing = ObjectiveState.None;
+			_self.PrimaryObjectiveStateOpposing = ObjectiveState.None;
+			_self.SecondaryObjectiveStateOpposing = ObjectiveState.None;
+			_self.ReturnObjectiveStateOpposing = ObjectiveState.None;
 			
 			_missionSettings = new MissionSettings;
 			[_missionSettings] call _self.InitMission;
@@ -378,20 +378,20 @@ namespace Mission.Server
 		protected property MissionObjective SecondaryObjectiveForOpposing { get; private set; };
 		
 		// Gets wheter the primary objective for the acting side has been completed.
-		protected property Boolean PrimaryObjectiveCompletedForActing { get; private set; };
+		protected property ObjectiveState PrimaryObjectiveStateActing { get; private set; };
 
 		// Gets wheter the secondary objective for the acting side has been completed.
-		protected property Boolean SecondaryObjectiveCompletedForActing { get; private set; };
+		protected property ObjectiveState SecondaryObjectiveStateActing { get; private set; };
 		
-		protected property Boolean ReturnObjectiveCompletedForActing { get; private set; };
+		protected property ObjectiveState ReturnObjectiveStateActing { get; private set; };
 		
 		// Gets wheter the primary objective for the opposing side has been completed.
-		protected property Boolean PrimaryObjectiveCompletedForOpposing { get; private set; };
+		protected property ObjectiveState PrimaryObjectiveStateOpposing { get; private set; };
 		
 		// Gets wheter the secondary objective for the opposing side has been completed.
-		protected property Boolean SecondaryObjectiveCompletedForOpposing { get; private set; };
+		protected property ObjectiveState SecondaryObjectiveStateOpposing { get; private set; };
 		
-		protected property Boolean ReturnObjectiveCompletedForOpposing { get; private set; };
+		protected property ObjectiveState ReturnObjectiveStateOpposing { get; private set; };
 		
 		protected property Array InsertionPointActing { get; private set; };
 		
@@ -484,7 +484,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveCompletedForActing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForActing, _self.HasReturnObjectiveForActing, _self.ReturnObjectiveCompletedForActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveStateActing, _secondaryObjectiveName, _self.SecondaryObjectiveStateActing, _self.HasReturnObjectiveForActing, _self.ReturnObjectiveStateActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
 			}
 			else
 			{
@@ -494,7 +494,7 @@ namespace Mission.Server
 					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveCompletedForOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveCompletedForOpposing, _self.HasReturnObjectiveForOpposing, _self.ReturnObjectiveCompletedForOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveStateOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveStateOpposing, _self.HasReturnObjectiveForOpposing, _self.ReturnObjectiveStateOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
 			};
 		};
 		
@@ -544,63 +544,104 @@ namespace Mission.Server
 			return classNull;
 		};
 		
-		public method Boolean CheckObjectiveCompleted("_side" as Side, "_prio" as ObjectivePrio)
+		// Checks the state of one of a side's objectives.
+		// _side (Side): The side to check.
+		// _prio (ObjectivePrio): The objective to check.
+		// Returns (ObjectiveState): The state of the sought side's sought objective.
+		public method ObjectiveState CheckObjectiveState("_side" as Side, "_prio" as ObjectivePrio)
 		{
-			private ["_missionSide" as MissionSide];
+			private ["_missionSide" as MissionSide, "_state" as ObjectiveState];
 			
 			_missionSide = [_side] call _self.GetMissionSide;
 			
-			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
-				if (_self.PrimaryObjectiveCompletedForActing || { call _self.PrimaryObjectiveFulfilledForActing }) then {
-					_self.PrimaryObjectiveCompletedForActing = true;
-					return true;
+			if (_missionSide == MissionSide.Acting) then
+			{
+				if (_prio == ObjectivePrio.Primary) then
+				{
+					if (_self.PrimaryObjectiveStateActing == ObjectiveState.None) then {
+						_state = call _self.CheckPrimaryObjectiveStateActing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.PrimaryObjectiveStateActing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.PrimaryObjectiveStateActing;
+					};
 				};
-				
-				return false;
-			};
-			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
-				if (_self.SecondaryObjectiveCompletedForActing || { call _self.SecondaryObjectiveFulfilledForActing }) then {
-					_self.SecondaryObjectiveCompletedForActing = true;
-					return true;
+				if (_prio == ObjectivePrio.Secondary) then {
+					if (_self.SecondaryObjectiveStateActing == ObjectiveState.None) then {
+						_state = call _self.CheckSecondaryObjectiveStateActing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.SecondaryObjectiveStateActing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.SecondaryObjectiveStateActing;
+					};
 				};
-				
-				return false;
-			};
-			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return) then {
-				if (_self.ReturnObjectiveCompletedForActing || { call _self.ReturnObjectiveFulfilledForActing }) then {
-					_self.ReturnObjectiveCompletedForActing = true;
-					return true;
+				if (_prio == ObjectivePrio.Return) then {
+					if (_self.ReturnObjectiveStateActing == ObjectiveState.None) then {
+						_state = call _self.CheckReturnObjectiveStateActing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.ReturnObjectiveStateActing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.ReturnObjectiveStateActing;
+					};
 				};
-				
-				return false;
+			}
+			else // _missionSide == Opposing
+			{
+				if (_prio == ObjectivePrio.Primary) then
+				{
+					if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.None) then {
+						_state = call _self.CheckPrimaryObjectiveStateOpposing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.PrimaryObjectiveStateOpposing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.PrimaryObjectiveStateOpposing;
+					};
+				};
+				if (_prio == ObjectivePrio.Secondary) then {
+					if (_self.SecondaryObjectiveStateOpposing == ObjectiveState.None) then {
+						_state = call _self.CheckSecondaryObjectiveStateOpposing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.SecondaryObjectiveStateOpposing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.SecondaryObjectiveStateOpposing;
+					};
+				};
+				if (_prio == ObjectivePrio.Return) then {
+					if (_self.ReturnObjectiveStateOpposing == ObjectiveState.None) then {
+						_state = call _self.CheckReturnObjectiveStateOpposing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.ReturnObjectiveStateOpposing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.ReturnObjectiveStateOpposing;
+					};
+				};
 			};
 			
-			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
-				if (_self.PrimaryObjectiveCompletedForOpposing || { call _self.PrimaryObjectiveFulfilledForOpposing }) then {
-					_self.PrimaryObjectiveCompletedForOpposing = true;
-					return true;
-				};
-				
-				return false;
-			};
-			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
-				if (_self.SecondaryObjectiveCompletedForOpposing || { call _self.SecondaryObjectiveFulfilledForOpposing }) then {
-					_self.SecondaryObjectiveCompletedForOpposing = true;
-					return true;
-				};
-				
-				return false;
-			};
-			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return) then {
-				if (_self.ReturnObjectiveCompletedForOpposing || { call _self.ReturnObjectiveFulfilledForOpposing }) then {
-					_self.ReturnObjectiveCompletedForOpposing = true;
-					return true;
-				};
-				
-				return false;
-			};
-			
-			return false;
+			return ObjectiveState.None;
 		};
 		
 		// Called one time for each side that performs an insertion to begin carrying out the mission.
@@ -733,9 +774,22 @@ namespace Mission.Server
 		// Override this to specify the condition for when the acting side's primary objective is completed.
 		// Default behavior is to return true when mission time has past and units are still alive.
 		// Returns (Boolean): true when primary objective for the acting side should count as success, otherwise false.
-		protected virtual method Boolean PrimaryObjectiveFulfilledForActing()
+		protected virtual method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			return _self.RemainingTime == 0 && (call _self.CountUnitsAliveActing) > 0;
+			private _missionTimeIsUp = _self.RemainingTime == 0;
+			private _unitsStillAlive = (call _self.CountUnitsAliveActing) > 0;
+			
+			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
+			
+			if (_groupHasSurvived) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
 		// Checks if the secondary objective success condition for the acting side is fulfilled.
@@ -743,9 +797,9 @@ namespace Mission.Server
 		// Override this if the acting side has a secondary objective to specify the condition for when it is completed.
 		// Default behavior is to return false - i.e. secondary objective never completes.
 		// Returns (Boolean): true when secondary objective for the acting side should count as success, otherwise false.
-		protected virtual method Boolean SecondaryObjectiveFulfilledForActing()
+		protected virtual method ObjectiveState CheckSecondaryObjectiveStateActing()
 		{
-			return false;
+			return ObjectiveState.None;
 		};
 		
 		// Checks if the return objective success condition for the acting side is fulfilled.
@@ -753,7 +807,7 @@ namespace Mission.Server
 		// Default behavior is to return true when all in the group has left the insertion area by 100 meters and then 
 		// all alive units in the group returns with 50 meters from the insertion point.
 		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
-		protected virtual method Boolean ReturnObjectiveFulfilledForActing()
+		protected virtual method ObjectiveState CheckReturnObjectiveStateActing()
 		{
 			if (_self.HasReturnObjectiveForActing) then
 			{
@@ -761,14 +815,17 @@ namespace Mission.Server
 				private _aliveUnitsCount = 0;
 				private _allUnitsPresent = false;
 				
-				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveCompletedForActing || _self.SecondaryObjectiveCompletedForActing;
+				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateActing != ObjectiveState.None || _self.SecondaryObjectiveStateActing != ObjectiveState.None;
 				_aliveUnitsCount = call _self.CountUnitsAliveActing;
 				_allUnitsPresent = ({ _x distance _self.InsertionPointActing < 50 } count _self.ActingUnits) == _aliveUnitsCount;
 			
-				return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
+				if (_primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent) then
+				{
+					return ObjectiveState.Succeeded;
+				};
 			};
 			
-			return true;
+			return ObjectiveState.None;
 		};
 		
 		// Checks if the primary objective success condition for the opposing side is fulfilled.
@@ -776,9 +833,22 @@ namespace Mission.Server
 		// Override this to specify the condition for when the opposing side's primary objective is completed.
 		// Default behavior is to return true when mission time has past and units are still alive.
 		// Returns (Boolean): true when primary objective for the opposing side should count as success, otherwise false.
-		protected virtual method Boolean PrimaryObjectiveFulfilledForOpposing()
+		protected virtual method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			return _self.RemainingTime == 0 && (call _self.CountUnitsAliveOpposing) > 0;
+			private _missionTimeIsUp = _self.RemainingTime == 0;
+			private _unitsStillAlive = (call _self.CountUnitsAliveOpposing) > 0;
+			
+			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
+			
+			if (_groupHasSurvived) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
 		// Checks if the secondary objective success condition for the opposing side is fulfilled.
@@ -786,9 +856,9 @@ namespace Mission.Server
 		// Override this if the opposing side has a secondary objective to specify the condition for when it is completed.
 		// Default behavior is to return false - i.e. secondary objective never completes.
 		// Returns (Boolean): true when secondary objective for the opposing side should count as success, otherwise false.
-		protected virtual method Boolean SecondaryObjectiveFulfilledForOpposing()
+		protected virtual method ObjectiveState CheckSecondaryObjectiveStateOpposing()
 		{
-			return false;
+			return ObjectiveState.None;
 		};
 		
 		// Checks if the return objective success condition for the opposing side is fulfilled.
@@ -796,7 +866,7 @@ namespace Mission.Server
 		// Default behavior is to return true when at least one objective is fulfilled and
 		// all alive units in the group returns within 50 meters from the insertion point.
 		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
-		protected virtual method Boolean ReturnObjectiveFulfilledForOpposing()
+		protected virtual method ObjectiveState CheckReturnObjectiveStateOpposing()
 		{
 			if (_self.HasReturnObjectiveForOpposing) then
 			{
@@ -804,14 +874,17 @@ namespace Mission.Server
 				private _aliveUnitsCount = 0;
 				private _allUnitsPresent = false;
 				
-				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveCompletedForOpposing || _self.SecondaryObjectiveCompletedForOpposing;
+				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateOpposing != ObjectiveState.None || _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
 				_aliveUnitsCount = call _self.CountUnitsAliveOpposing;
 				_allUnitsPresent = ({ _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingUnits) == _aliveUnitsCount;
 			
-				return _primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent;
+				if (_primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent) then
+				{
+					return ObjectiveState.Succeeded;
+				};
 			};
 			
-			return true;
+			return ObjectiveState.None;
 		};
 		
 		// Checks if mission is fully completed for the acting side, and that there is nothing left for the players to do.
@@ -830,15 +903,15 @@ namespace Mission.Server
 				return false;
 			};
 			
-			if (_self.PrimaryObjectiveCompletedForActing) then
+			if (_self.PrimaryObjectiveStateActing != ObjectiveState.None) then
 			{
-				private _returnObjectiveOk = (!_self.HasReturnObjectiveForActing || { _self.ReturnObjectiveCompletedForActing });
+				private _returnObjectiveOk = (!_self.HasReturnObjectiveForActing || { _self.ReturnObjectiveStateActing != ObjectiveState.None });
 			
 				if (isNull _secondaryObjective) then {
 					return _returnObjectiveOk;
 				}
 				else {
-					return _self.SecondaryObjectiveCompletedForActing && _returnObjectiveOk;
+					return _self.SecondaryObjectiveStateActing != ObjectiveState.None && _returnObjectiveOk;
 				};
 			};
 		};
@@ -859,15 +932,15 @@ namespace Mission.Server
 				return false;
 			};
 			
-			if (_self.PrimaryObjectiveCompletedForOpposing) then
+			if (_self.PrimaryObjectiveStateOpposing != ObjectiveState.None) then
 			{
-				private _returnObjectiveOk = (!_self.HasReturnObjectiveForOpposing || { _self.ReturnObjectiveCompletedForOpposing });
+				private _returnObjectiveOk = (!_self.HasReturnObjectiveForOpposing || { _self.ReturnObjectiveStateOpposing != ObjectiveState.None });
 			
 				if (isNull _secondaryObjective) then {
 					return _returnObjectiveOk;
 				}
 				else {
-					return _self.SecondaryObjectiveCompletedForOpposing && _returnObjectiveOk;
+					return _self.SecondaryObjectiveStateOpposing != ObjectiveState.None && _returnObjectiveOk;
 				};
 			};
 		};

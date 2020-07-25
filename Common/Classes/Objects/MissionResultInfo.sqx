@@ -12,28 +12,28 @@ namespace Mission.Common
 	public class MissionResultInfo
 	{
 		// Creates a MissionResult object.t
-		public constructor("_primaryObjectiveName" as String, "_primaryObjectiveCompleted" as Boolean, "_secondaryObjectiveName" as String, "_secondaryObjectiveCompleted" as Boolean, "_usingReturnObjective" as Boolean, "_returnObjectiveCompleted" as Boolean, "_menAtStart" as Scalar, "_menAtEnd" as Scalar)
+		public constructor("_primaryObjectiveName" as String, "_primaryObjectiveState" as ObjectiveState, "_secondaryObjectiveName" as String, "_secondaryObjectiveState" as ObjectiveState, "_usingReturnObjective" as Boolean, "_returnObjectiveState" as ObjectiveState, "_menAtStart" as Scalar, "_menAtEnd" as Scalar)
 		{
 			_self.PrimaryObjectiveName = _primaryObjectiveName;
-			_self.PrimaryObjectiveCompleted = _primaryObjectiveCompleted;
+			_self.PrimaryObjectiveState = _primaryObjectiveState;
 			_self.SecondaryObjectiveName = _secondaryObjectiveName;
-			_self.SecondaryObjectiveCompleted = _secondaryObjectiveCompleted;
+			_self.SecondaryObjectiveState = _secondaryObjectiveState;
 			_self.UsingReturnObjective = _usingReturnObjective;
-			_self.ReturnObjectiveCompleted = _returnObjectiveCompleted;
+			_self.ReturnObjectiveState = _returnObjectiveState;
 			_self.MenAtStart = _menAtStart;
 			_self.MenAtEnd = _menAtEnd;
 			
 			private _score = 0;
 			
-			if (_self.PrimaryObjectiveCompleted) then {
+			if (_self.PrimaryObjectiveState == ObjectiveState.Succeeded) then {
 				_score = _score + 100;
 			};
 			
-			if (_self.SecondaryObjectiveCompleted) then {
+			if (_self.SecondaryObjectiveState == ObjectiveState.Succeeded) then {
 				_score = _score + 50;
 			};
 			
-			if (_self.UsingReturnObjective && _self.ReturnObjectiveCompleted) then {
+			if (_self.UsingReturnObjective && _self.ReturnObjectiveState == ObjectiveState.Succeeded) then {
 				_score = _score + 25;
 			};
 			
@@ -48,15 +48,15 @@ namespace Mission.Common
 		
 		public property String PrimaryObjectiveName { get; private set; };
 		
-		public property Boolean PrimaryObjectiveCompleted { get; private set; };
+		public property ObjectiveState PrimaryObjectiveState { get; private set; };
 		
 		public property String SecondaryObjectiveName { get; private set; };
 		
-		public property Boolean SecondaryObjectiveCompleted { get; private set; };
+		public property ObjectiveState SecondaryObjectiveState { get; private set; };
 		
 		public property Boolean UsingReturnObjective { get; private set; };
 		
-		public property Boolean ReturnObjectiveCompleted { get; private set; };
+		public property ObjectiveState ReturnObjectiveState { get; private set; };
 		
 		public property Scalar MenAtStart { get; private set; };
 		

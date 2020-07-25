@@ -43,14 +43,22 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			return (call _self.CountUnitsAliveOpposing) == 0;
+			if ((call _self.CountUnitsAliveOpposing) == 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			return (call _self.CountUnitsAliveActing) == 0;
+			if ((call _self.CountUnitsAliveActing) == 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 	};
 };

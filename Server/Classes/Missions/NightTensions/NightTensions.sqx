@@ -93,29 +93,38 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
 			private _fulfilled = ({ _x distance _mBox < 3 } count _self.ActingUnits > 0);
 			
 			if (_fulfilled) then {
 				_mDrawingsAreStolen = true;
+				return ObjectiveState.Succeeded;
 			};
 			
-			return _fulfilled;
+			return ObjectiveState.None;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
 			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
 			private _missionHasEnded = _self.RemainingTime == 0;
 		
-			return _allEnemiesDead || (_missionHasEnded && !_mDrawingsAreStolen);
+			if (_allEnemiesDead || (_missionHasEnded && !_mDrawingsAreStolen)) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
-		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
+		protected override method ObjectiveState CheckSecondaryObjectiveStateOpposing()
 		{
 			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
-			return _allEnemiesDead;
+			if (_allEnemiesDead) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 	};
 };

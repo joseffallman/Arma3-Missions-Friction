@@ -157,46 +157,62 @@ namespace Mission.Server
 		
 		private method CheckAndNotifyObjectives("_mission" as Mission)
 		{
-			if (_mWestHasInserted) then
-			{
-				if (!_mWestPrimaryObjectiveCompleted && { [west, ObjectivePrio.Primary] call _mission.CheckObjectiveCompleted }) then
-				{
-					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Primary, TaskState.Succeeded]] call Remote.Invoke;
+			private ["_state" as ObjectiveState];
+			
+			// West
+			
+			if (!_mWestPrimaryObjectiveCompleted) then {
+				_state = [west, ObjectivePrio.Primary] call _mission.CheckObjectiveState;
+				
+				if (_state != ObjectiveState.None) then {
+					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Primary, _state]] call Remote.Invoke;
 					_mWestPrimaryObjectiveCompleted = true;
 				};
+			};
+		
+			if (!_mWestSecondaryObjectiveCompleted) then {
+				_state = [west, ObjectivePrio.Secondary] call _mission.CheckObjectiveState;
 				
-				if (!_mWestSecondaryObjectiveCompleted && { [west, ObjectivePrio.Secondary] call _mission.CheckObjectiveCompleted }) then
-				{
-					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Secondary, TaskState.Succeeded]] call Remote.Invoke;
+				if (_state != ObjectiveState.None) then {
+					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Secondary, _state]] call Remote.Invoke;
 					_mWestSecondaryObjectiveCompleted = true;
 				};
+			};
+		
+			if (!_mWestReturnObjectiveCompleted) then {
+				_state = [west, ObjectivePrio.Return] call _mission.CheckObjectiveState;
 				
-				if (!_mWestReturnObjectiveCompleted && { [west, ObjectivePrio.Return] call _mission.CheckObjectiveCompleted }) then
-				{
-					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Return, TaskState.Succeeded]] call Remote.Invoke;
+				if (_state != ObjectiveState.None) then {
+					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Return, _state]] call Remote.Invoke;
 					_mWestReturnObjectiveCompleted = true;
 				};
-				
-				_mEastReturnObjectiveCompleted
 			};
 			
-			if (_mEastHasInserted) then
-			{
-				if (!_mEastPrimaryObjectiveCompleted && { [east, ObjectivePrio.Primary] call _mission.CheckObjectiveCompleted }) then
-				{
-					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Primary, TaskState.Succeeded]] call Remote.Invoke;
+			// East
+			
+			if (!_mEastPrimaryObjectiveCompleted) then {
+				_state = [east, ObjectivePrio.Primary] call _mission.CheckObjectiveState;
+				
+				if (_state != ObjectiveState.None) then {
+					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Primary, _state]] call Remote.Invoke;
 					_mEastPrimaryObjectiveCompleted = true;
 				};
+			};
+		
+			if (!_mEastSecondaryObjectiveCompleted) then {
+				_state = [east, ObjectivePrio.Secondary] call _mission.CheckObjectiveState;
 				
-				if (!_mEastSecondaryObjectiveCompleted && { [east, ObjectivePrio.Secondary] call _mission.CheckObjectiveCompleted }) then
-				{
-					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Secondary, TaskState.Succeeded]] call Remote.Invoke;
+				if (_state != ObjectiveState.None) then {
+					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Secondary, _state]] call Remote.Invoke;
 					_mEastSecondaryObjectiveCompleted = true;
 				};
+			};
+		
+			if (!_mEastReturnObjectiveCompleted) then {
+				_state = [east, ObjectivePrio.Return] call _mission.CheckObjectiveState;
 				
-				if (!_mEastReturnObjectiveCompleted && { [east, ObjectivePrio.Return] call _mission.CheckObjectiveCompleted }) then
-				{
-					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Return, TaskState.Succeeded]] call Remote.Invoke;
+				if (_state != ObjectiveState.None) then {
+					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Return, _state]] call Remote.Invoke;
 					_mEastReturnObjectiveCompleted = true;
 				};
 			};

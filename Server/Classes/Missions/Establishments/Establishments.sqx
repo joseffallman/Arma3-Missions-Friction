@@ -123,7 +123,7 @@ namespace Mission.Server
 			call _base.Setup;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
 			private _fulfilled = (getPos _mAmmoTruck) inArea "m_LimeriBayArea" && (count crew _mAmmoTruck) == 0;
 			
@@ -132,17 +132,25 @@ namespace Mission.Server
 				_self.GainedTokenActing = HistoryToken.Uav;
 			};
 			
-			return _fulfilled;
+			if (_fulfilled) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
-		protected override method Boolean SecondaryObjectiveFulfilledForActing()
+		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
 		{
 			// Fulfilled when units on the acting side has been inside delta area for more than one minute.
 			
 			private _insideArea = { alive _x && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingUnits > 0;
 			private _beenThereOneMinue = _mActingEnterDeltaAreaTime > 0 && time > _mActingEnterDeltaAreaTime + 60;
 			
-			return _insideArea && _beenThereOneMinue;
+			if (_insideArea && _beenThereOneMinue) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
 		private method Boolean AtLeastOneOpposingOutsideVehicleNearBox()
@@ -157,19 +165,27 @@ namespace Mission.Server
 			return false;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			return call _self.AtLeastOneOpposingOutsideVehicleNearBox;
+			if (call _self.AtLeastOneOpposingOutsideVehicleNearBox) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
-		protected override method Boolean SecondaryObjectiveFulfilledForOpposing()
+		protected override method ObjectiveState CheckSecondaryObjectiveStateOpposing()
 		{
 			// Fulfilled when units on the opposing side has been inside delta area for more than one minute.
 			
 			private _insideArea = { alive _x && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingUnits > 0;
 			private _beenThereOneMinue = _mOpposingEnterDeltaAreaTime > 0 && time > _mOpposingEnterDeltaAreaTime + 60;
 			
-			return _insideArea && _beenThereOneMinue;
+			if (_insideArea && _beenThereOneMinue) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
 		private method GroupInsideDeltaArea("_missionSide" as MissionSide)

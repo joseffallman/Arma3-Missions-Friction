@@ -174,7 +174,7 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectivePrio.sqx" FileName="Common\Enums\ObjectivePrio.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskState.sqx" FileName="Common\Enums\TaskState.sqx">
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectiveState.sqx" FileName="Common\Enums\ObjectiveState.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
             </SubNodes>

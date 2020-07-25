@@ -67,23 +67,32 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			return !alive _mGreyHawk;
+			if (!alive _mGreyHawk) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
 		};
 		
-		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
 			private _greyHawkAlive = alive _mGreyHawk;
-			private _oneUnitNearHawk = { _x distance _mGreyHawk < 5 } count _self.OpposingUnits > 0;
 			
+			if (!_greyHawkAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			private _oneUnitNearHawk = { _x distance _mGreyHawk < 5 } count _self.OpposingUnits > 0;			
 			private _fulfilled = _greyHawkAlive && _oneUnitNearHawk;
 			
 			if (_fulfilled) then {
 				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
+				return ObjectiveState.Succeeded;
 			};
 			
-			return _fulfilled;
+			return ObjectiveState.None;
 		};
 	};
 };

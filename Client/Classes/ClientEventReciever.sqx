@@ -136,13 +136,6 @@ namespace Mission.Client.Statics
 			
 				_teleporter = [_position] new TeleportService;
 				call _teleporter.RunAsync;
-/*
-				{
-					if (local _x && _x != player) then {
-						_x setPos _position;
-					};
-				} foreach units _group;
-*/
 			};
 			
 			// Hide insertion menu option
@@ -176,33 +169,18 @@ namespace Mission.Client.Statics
 			
 			private _diaryText = _missionResult.MissionName + "<br />";
 			_diaryText = _diaryText + "<br />" + _resultInfo.PrimaryObjectiveName + ": ";
-
-			if (_resultInfo.PrimaryObjectiveCompleted) then {
-				_diaryText = _diaryText + "Success";
-			} else {
-				_diaryText = _diaryText + "Fail";
-			};
+			_diaryText = _diaryText + ([_resultInfo.PrimaryObjectiveState] call ObjectiveStateMeta.ToLang);
 			
 			if (_resultInfo.SecondaryObjectiveName != "") then
 			{
 				_diaryText = _diaryText + "<br />" + _resultInfo.SecondaryObjectiveName + ": ";
-				
-				if (_resultInfo.SecondaryObjectiveCompleted) then {
-					_diaryText = _diaryText + "Success";
-				} else {
-					_diaryText = _diaryText + "Fail";
-				};
+				_diaryText = _diaryText + ([_resultInfo.SecondaryObjectiveState] call ObjectiveStateMeta.ToLang);
 			};
 			
 			if (_resultInfo.UsingReturnObjective) then
 			{
 				_diaryText = _diaryText + "<br />Return to insertion point: ";
-				
-				if (_resultInfo.ReturnObjectiveCompleted) then {
-					_diaryText = _diaryText + "Success";
-				} else {
-					_diaryText = _diaryText + "Fail";
-				};
+				_diaryText = _diaryText + [_resultInfo.ReturnObjectiveState] call ObjectiveStateMeta.ToLang;
 			};
 			
 			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
@@ -229,10 +207,10 @@ namespace Mission.Client.Statics
 			call ClientObjects.TaskHandler.DeleteAllTasks;
 		};
 		
-		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_taskState" as TaskState)
+		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
 		{
 			if (_side == playerSide) then {
-				[_objectivePrio, _taskState] call ClientObjects.TaskHandler.SetTaskState;
+				[_objectivePrio, _objectiveState] call ClientObjects.TaskHandler.SetTaskState;
 			};
 		};
 		
