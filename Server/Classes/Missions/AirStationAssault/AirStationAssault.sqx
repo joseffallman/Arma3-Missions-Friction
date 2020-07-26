@@ -206,6 +206,11 @@ namespace Mission.Server
 				return ObjectiveState.Succeeded;
 			};
 			
+			// If the acting side has extracted, the opposing side has failed to hunt them down.
+			if (_self.ReturnObjectiveStateOpposing == ObjectiveState.Succeeded) then {
+				return ObjectiveState.Failed;
+			};
+			
 			return ObjectiveState.None;
 		};
 	};

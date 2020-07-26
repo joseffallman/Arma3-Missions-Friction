@@ -420,6 +420,38 @@ namespace Mission.Server
 		
 		#region Public Methods
 		
+		// Initializes the service.
+		// This method is inherited from the service, and initializes the service before the Run
+		// method is called. This method does probably never have a function in a mission.
+		//protected override method Initialize()
+		//{
+		//	call _base.Initialize;
+		//};
+		
+		// Loads the mission with all gained and lost history items.
+		public method Prepare("_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
+		{
+			if (_mActingSide == west) then {
+				_self.ActingUnits = units _westlyGroup;
+				_self.OpposingUnits = units _eastlyGroup;
+			}
+			else {
+				_self.ActingUnits = units _eastlyGroup;
+				_self.OpposingUnits = units _westlyGroup;
+			};
+		
+			_self.EarlierGainedTokensActing = _earlierGainedTokensActing;
+			_self.EarlierLostTokensActing = _earlierLostTokensActing;
+			_self.EarlierGainedTokensOpposing = _earlierGainedTokensOpposing;
+			_self.EarlierLostTokensOpposing = _earlierLostTokensOpposing;
+			
+			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
+			skipTime _timeToSkip;
+			
+			call _self.Setup;
+			call _self.CreateMissionObjectives;
+		};
+		
 		// Gets the start markers for a side.
 		// This method is used by the framework to enable mission insertion.
 		// _side (Side): The side to get start markers for (east or west).
@@ -669,38 +701,6 @@ namespace Mission.Server
 		
 		#region Virtual (Overridable) Methods
 		
-		// Initializes the service.
-		// This method is inherited from the service, and initializes the service before the Run
-		// method is called. This method does probably never have a function in a mission.
-		//protected override method Initialize()
-		//{
-		//	call _base.Initialize;
-		//};
-		
-		// Loads the mission with all gained and lost history items.
-		public method Prepare("_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
-		{
-			if (_mActingSide == west) then {
-				_self.ActingUnits = units _westlyGroup;
-				_self.OpposingUnits = units _eastlyGroup;
-			}
-			else {
-				_self.ActingUnits = units _eastlyGroup;
-				_self.OpposingUnits = units _westlyGroup;
-			};
-		
-			_self.EarlierGainedTokensActing = _earlierGainedTokensActing;
-			_self.EarlierLostTokensActing = _earlierLostTokensActing;
-			_self.EarlierGainedTokensOpposing = _earlierGainedTokensOpposing;
-			_self.EarlierLostTokensOpposing = _earlierLostTokensOpposing;
-			
-			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
-			skipTime _timeToSkip;
-			
-			call _self.Setup;
-			call _self.CreateMissionObjectives;
-		};
-		
 		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
 		// for the game. Called when the mission is started by the campaign. This is where you create units like vehicles and AI soldiers.
 		protected virtual method Setup()
@@ -709,20 +709,36 @@ namespace Mission.Server
 		
 		// Adds briefing information that is shown to players of the acting side.
 		// Override this if you want to show the players some briefing information.
-		// Default behavior is to return an empty string.
+		// Default behavior is to return the full description from the primary objective.
 		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
 		protected virtual method String AddBriefingInfoForActing()
 		{
-			return "";
+			private ["_primaryObjective" as MissionObjective];
+			
+			_primaryObjective = call _self.CreatePrimaryObjectiveForActing;
+			
+			if (!isNull _primaryObjective) then {
+				return _primaryObjective.FullDescription;
+			};
+			
+			return "Carry out the mission.";
 		};
 
 		// Adds briefing information that is shown to players of the opposing side.
 		// Override this if you want to show the players some briefing information.
-		// Default behavior is to return an empty string.
+		// Default behavior is to return the full description from the primary objective.
 		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
 		protected virtual method String AddBriefingInfoForOpposing()
 		{
-			return "";
+			private ["_primaryObjective" as MissionObjective];
+			
+			_primaryObjective = call _self.CreatePrimaryObjectiveForOpposing;
+			
+			if (!isNull _primaryObjective) then {
+				return _primaryObjective.FullDescription;
+			};
+			
+			return "Carry out the mission.";
 		};
 
 		// Creates the briefing information regarding the primary objective for the acting side.
