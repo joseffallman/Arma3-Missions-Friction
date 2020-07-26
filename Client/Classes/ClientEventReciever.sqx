@@ -208,8 +208,19 @@ namespace Mission.Client.Statics
 		
 		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
 		{
-			if (_side == playerSide) then {
+			private ["_teleporter" as TeleportService];
+			
+			if (_side == playerSide) then
+			{
 				[_objectivePrio, _objectiveState] call ClientObjects.TaskHandler.SetTaskState;
+				
+				if (_objectivePrio == ObjectivePrio.Return && _objectiveState == ObjectiveState.Succeeded) then
+				{
+					private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+					
+					_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
+					call _teleporter.RunAsync;
+				};
 			};
 		};
 		

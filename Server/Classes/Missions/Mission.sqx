@@ -940,7 +940,7 @@ namespace Mission.Server
 			private _primaryExists = !isNull _primaryObjective;
 			private _secondaryExists = !isNull _secondaryObjective;
 			private _primaryCompleted = _primaryExists && _self.PrimaryObjectiveStateActing != ObjectiveState.None;
-			private _secondaryCompleted = (!isNull _secondaryObjective) && _self.PrimaryObjectiveStateActing != ObjectiveState.None;
+			private _secondaryCompleted = _secondaryExists && _self.SecondaryObjectiveStateActing != ObjectiveState.None;
 			
 			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
 			
@@ -984,7 +984,7 @@ namespace Mission.Server
 			private _primaryExists = !isNull _primaryObjective;
 			private _secondaryExists = !isNull _secondaryObjective;
 			private _primaryCompleted = _primaryExists && _self.PrimaryObjectiveStateOpposing != ObjectiveState.None;
-			private _secondaryCompleted = (!isNull _secondaryObjective) && _self.PrimaryObjectiveStateOpposing != ObjectiveState.None;
+			private _secondaryCompleted = _secondaryExists && _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
 			
 			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
 			
@@ -1003,6 +1003,9 @@ namespace Mission.Server
 				if (_primaryExists && !_primaryCompleted) then {
 					return false;
 				};
+				
+				diag_log ("GURGEL: _secondaryExists: " + str _secondaryExists + "; _secondaryCompleted: " + str _secondaryCompleted);
+				
 				if (_secondaryExists && !_secondaryCompleted) then {
 					return false;
 				};
@@ -1048,11 +1051,21 @@ namespace Mission.Server
 			if (_completeForActing && _completeForOpposing) then {
 				return true;
 			};
-		
+
+/*
+			if (_completeForActing && (call _self.CountUnitsAliveOpposing) == 0) then {
+				return true;
+			};
+
+			if (_completeForOpposing && (call _self.CountUnitsAliveActing) == 0) then {
+				return true;
+			};
+*/
+			
 			if (_completeForActing && !([MissionSide.Opposing] call _self.AlivePlayersOnSide)) then {
 				return true;
 			};
-		
+
 			if (_completeForOpposing && !([MissionSide.Acting] call _self.AlivePlayersOnSide)) then {
 				return true;
 			};
