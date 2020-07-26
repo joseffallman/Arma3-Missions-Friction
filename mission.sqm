@@ -2099,7 +2099,7 @@ class Mission
 			position[]={5843.25,21.497999,4559.563};
 			name="m05_HawkLocation1";
 			type="Empty";
-			angle=298.09894;
+			angle=298.09888;
 			id=168;
 			atlOffset=-0.00021934509;
 		};
@@ -2109,7 +2109,7 @@ class Mission
 			position[]={5770.6528,46.537998,4463.5029};
 			name="m05_HawkLocation2";
 			type="Empty";
-			angle=25.063995;
+			angle=25.063992;
 			id=169;
 			atlOffset=9.1552734e-005;
 		};
@@ -2139,7 +2139,7 @@ class Mission
 			position[]={6012.5962,18.17,4619.9512};
 			name="m05_HawkLocation5";
 			type="Empty";
-			angle=181.76598;
+			angle=181.76596;
 			id=172;
 			atlOffset=-1.1444092e-005;
 		};
@@ -2179,7 +2179,7 @@ class Mission
 			position[]={5928.5098,45.605999,4635.917};
 			name="m05_HawkLocation9";
 			type="Empty";
-			angle=48.211994;
+			angle=48.211987;
 			id=176;
 			atlOffset=0.00014877319;
 		};
