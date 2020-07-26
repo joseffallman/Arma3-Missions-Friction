@@ -769,11 +769,12 @@ namespace Mission.Server
 			_self.InsertionPointOpposing = _position;
 		};
 		
-		// Checks if the primary objective success condition for the acting side is fulfilled.
-		// Called continously during the mission until it returns true. Then not again.
-		// Override this to specify the condition for when the acting side's primary objective is completed.
-		// Default behavior is to return true when mission time has past and units are still alive.
-		// Returns (Boolean): true when primary objective for the acting side should count as success, otherwise false.
+		// Checks if the primary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the acting side's primary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when mission time is up and at least one unit on the side is still alive.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
 			private _missionTimeIsUp = _self.RemainingTime == 0;
@@ -785,28 +786,26 @@ namespace Mission.Server
 				return ObjectiveState.Succeeded;
 			};
 			
-			if (!_unitsStillAlive) then {
-				return ObjectiveState.Failed;
-			};
-			
 			return ObjectiveState.None;
 		};
 		
-		// Checks if the secondary objective success condition for the acting side is fulfilled.
-		// Called continously during the mission until it returns true. Then not again.
-		// Override this if the acting side has a secondary objective to specify the condition for when it is completed.
-		// Default behavior is to return false - i.e. secondary objective never completes.
-		// Returns (Boolean): true when secondary objective for the acting side should count as success, otherwise false.
+		// Checks if the secondary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the acting side's secondary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return None, i.e. never a state.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckSecondaryObjectiveStateActing()
 		{
 			return ObjectiveState.None;
 		};
 		
-		// Checks if the return objective success condition for the acting side is fulfilled.
-		// Called continously during the mission until it returns true. Then not again.
-		// Default behavior is to return true when all in the group has left the insertion area by 100 meters and then 
-		// all alive units in the group returns with 50 meters from the insertion point.
-		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
+		// Checks if the return objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the acting side's return objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when primary or secondary objective has a state, and all units is back at the insertion point.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckReturnObjectiveStateActing()
 		{
 			if (_self.HasReturnObjectiveForActing) then
@@ -828,11 +827,12 @@ namespace Mission.Server
 			return ObjectiveState.None;
 		};
 		
-		// Checks if the primary objective success condition for the opposing side is fulfilled.
-		// Called continously during the mission until it returns true. Then not again.
-		// Override this to specify the condition for when the opposing side's primary objective is completed.
-		// Default behavior is to return true when mission time has past and units are still alive.
-		// Returns (Boolean): true when primary objective for the opposing side should count as success, otherwise false.
+		// Checks if the primary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the opposing side's primary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when mission time is up and at least one unit on the side is still alive.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
 			private _missionTimeIsUp = _self.RemainingTime == 0;
@@ -851,21 +851,23 @@ namespace Mission.Server
 			return ObjectiveState.None;
 		};
 		
-		// Checks if the secondary objective success condition for the opposing side is fulfilled.
-		// Called continously during the mission until it returns true. Then not again.
-		// Override this if the opposing side has a secondary objective to specify the condition for when it is completed.
-		// Default behavior is to return false - i.e. secondary objective never completes.
-		// Returns (Boolean): true when secondary objective for the opposing side should count as success, otherwise false.
+		// Checks if the secondary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the opposing side's secondary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return None, i.e. never a state.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckSecondaryObjectiveStateOpposing()
 		{
 			return ObjectiveState.None;
 		};
 		
-		// Checks if the return objective success condition for the opposing side is fulfilled.
-		// Called continously during the mission until it returns true. Then not again.
-		// Default behavior is to return true when at least one objective is fulfilled and
-		// all alive units in the group returns within 50 meters from the insertion point.
-		// Returns (Boolean): true when all alive units in the group one again are present at the insertion point.
+		// Checks if the return objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the opposing side's return objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when primary or secondary objective has a state, and all units is back at the insertion point.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckReturnObjectiveStateOpposing()
 		{
 			if (_self.HasReturnObjectiveForOpposing) then

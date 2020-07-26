@@ -33,6 +33,7 @@ namespace Mission.Server
 			
 			_mMissions = [
 				//[_mBaseMarkersConfig, selectRandom [west, east]] new Establishments,
+				[_mBaseMarkersConfig, west] new LostVehicles,
 				[_mBaseMarkersConfig, west] new NightTensions,
 				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,
 				[_mBaseMarkersConfig, selectRandom [west, east]] new AirStationAssault

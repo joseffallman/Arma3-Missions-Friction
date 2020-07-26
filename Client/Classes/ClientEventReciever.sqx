@@ -180,7 +180,7 @@ namespace Mission.Client.Statics
 			if (_resultInfo.UsingReturnObjective) then
 			{
 				_diaryText = _diaryText + "<br />Return to insertion point: ";
-				_diaryText = _diaryText + [_resultInfo.ReturnObjectiveState] call ObjectiveStateMeta.ToLang;
+				_diaryText = _diaryText + ([_resultInfo.ReturnObjectiveState] call ObjectiveStateMeta.ToLang);
 			};
 			
 			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);

@@ -48,6 +48,11 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			return ["Do the impossible"] new MissionObjective;
+		};
+		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Reach the ammo truck.";
@@ -62,6 +67,11 @@ namespace Mission.Server
 				return ObjectiveState.Succeeded;
 			};
 			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
+		{
 			return ObjectiveState.None;
 		};
 		
