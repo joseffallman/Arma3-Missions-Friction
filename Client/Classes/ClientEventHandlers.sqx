@@ -8,6 +8,7 @@
  * Static container for the client's event handlers.
  */
 
+using Mission.Client;
 using Mission.Communication;
 
 namespace Mission.Client.Statics
@@ -20,7 +21,6 @@ namespace Mission.Client.Statics
 			["ClientEventHandlerId_01", "onPreloadFinished",
 			{
 				ClientState.IsAlive = true;
-				player setVariable ["IsPlayer", true, true];
 			}] call BIS_fnc_addStackedEventHandler;
 			
 			// Triggered when player clicks somewhere the map.
@@ -36,6 +36,7 @@ namespace Mission.Client.Statics
 			player addEventHandler ["Respawn", {
 				params ["_player" as Object, "_corpse"];
 				
+				call FrictionMenuHandler.Init;
 				call ClientObjects.CameraHandler.SetDeathCamera;
 			}];
 			

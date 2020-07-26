@@ -117,7 +117,6 @@ namespace Mission.Client.Statics
 		private static method Boolean AnyMemberIsPlayer("_group" as Group)
 		{
 			{
-				//if (_x getVariable ["IsPlayer", false]) then {
 				if (isPlayer _x) then {
 					return true;
 				};
