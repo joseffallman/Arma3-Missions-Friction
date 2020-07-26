@@ -32,7 +32,7 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				[_mBaseMarkersConfig, selectRandom [west, east]] new Establishments,
+				//[_mBaseMarkersConfig, selectRandom [west, east]] new Establishments,
 				//[_mBaseMarkersConfig, west] new LostVehicles,
 				//[_mBaseMarkersConfig, west] new NightTensions,
 				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,

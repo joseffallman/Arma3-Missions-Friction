@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=178;
+		nextID=202;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5928.0103,118.40357,4540.5234};
-		dir[]={-0.9511109,-0.24135122,0.19300637};
-		up[]={-0.23656647,0.97042716,0.048006043};
-		aside[]={0.19888335,2.0469633e-007,0.98007435};
+		pos[]={5787.0645,32.731121,4579.1133};
+		dir[]={-0.40953919,-0.10587119,0.90623128};
+		up[]={-0.043625534,0.99437153,0.096534908};
+		aside[]={0.91134608,7.2002877e-007,0.41185224};
 	};
 };
 binarizationWanted=0;
@@ -2179,7 +2179,7 @@ class Mission
 			position[]={5928.5098,45.605999,4635.917};
 			name="m05_HawkLocation9";
 			type="Empty";
-			angle=48.211987;
+			angle=48.211979;
 			id=176;
 			atlOffset=0.00014877319;
 		};

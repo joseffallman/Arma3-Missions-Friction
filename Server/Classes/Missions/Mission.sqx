@@ -18,7 +18,7 @@ namespace Mission.Server
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
-		private fields ["_mSpawnedSoldiers" as Array];
+		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object];
 		
 		#region Initialization
 		
@@ -36,6 +36,8 @@ namespace Mission.Server
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
+			_mActingInsertionObject = objNull;
+			_mOpposingInsertionObject = objNull;
 			_self.ActingUnits = [];
 			_self.OpposingUnits = [];
 			_self.PrimaryObjectiveStateActing = ObjectiveState.None;
@@ -697,10 +699,12 @@ namespace Mission.Server
 			
 			if (_missionSide == MissionSide.Acting) then {
 				_self.ActingUnits = units _group;
+				_mActingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
 				[side _group, _position] call _self.OnActingGroupInserted;
 			}
 			else {
 				_self.OpposingUnits = units _group;
+				_mOpposingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
 				[side _group, _position] call _self.OnOpposingGroupInserted;
 			};
 		};
@@ -1091,6 +1095,16 @@ namespace Mission.Server
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedVehicles as Object;
+			
+			if (!isNull _mActingInsertionObject) then {
+				deleteVehicle _mActingInsertionObject;
+				_mActingInsertionObject = objNull;
+			};
+			
+			if (!isNull _mOpposingInsertionObject) then {
+				deleteVehicle _mOpposingInsertionObject;
+				_mOpposingInsertionObject = objNull;
+			};
 		};
 
 		#endregion
