@@ -30,7 +30,7 @@ namespace Mission.Server
 			
 			call _base.Constructor;
 			
-			_self.VehicleTypeDictionary = new VehicleTypeDictionary;
+			_self.ObjectTypeDictionary = new ObjectTypeDictionary;
 			_self.SoldierTypeDictionary = new SoldierTypeDictionary;
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mActingSide = _actingSide;
@@ -232,6 +232,10 @@ namespace Mission.Server
 		// Returns (Side): The actual side that corresponds to the mission side.
 		public method Side GetActualSide("_side" as MissionSide)
 		{
+			if (_side == MissionSide.Guerilla) then {
+				return independent;
+			};
+		
 			if (_mActingSide == west) then {
 				if (_side == MissionSide.Acting) then {
 					return west;
@@ -256,6 +260,10 @@ namespace Mission.Server
 		// Returns (MissionSide): The mission side that corresponds to the actual side.
 		protected method MissionSide GetMissionSide("_side" as Side)
 		{
+			if (_side == independent) then {
+				return MissionSide.Guerilla;
+			};
+		
 			if (_side == _mActingSide) then {
 				return MissionSide.Acting;
 			};
@@ -296,7 +304,7 @@ namespace Mission.Server
 		protected method Object CreateSideVehicleOnMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_markerName" as String, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
-			private _vehicleType = [_vehicleTypeAlias, _side] call _self.VehicleTypeDictionary.GetVehicleType;
+			private _vehicleType = [_vehicleTypeAlias, _side] call _self.ObjectTypeDictionary.GetVehicleType;
 			
 			return [_vehicleType, _markerName, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
 		};
@@ -310,7 +318,7 @@ namespace Mission.Server
 		protected method Object CreateSideVehicleOnBaseMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
-			private _vehicleType = [_vehicleTypeAlias, _side] call _self.VehicleTypeDictionary.GetVehicleType;
+			private _vehicleType = [_vehicleTypeAlias, _side] call _self.ObjectTypeDictionary.GetVehicleType;
 			private _spawnMarker = [_side, _baseMarker] call _mBaseMarkersConfig.GetMarkerName;
 			
 			return [_vehicleType, _spawnMarker, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
@@ -355,7 +363,7 @@ namespace Mission.Server
 		// Gets an array of history token keys lost in earlier missions for the opposing side.
 		protected property Array EarlierLostTokensOpposing { get; private set; };
 		
-		protected property VehicleTypeDictionary VehicleTypeDictionary { get; private set; };
+		protected property ObjectTypeDictionary ObjectTypeDictionary { get; private set; };
 		
 		protected property SoldierTypeDictionary SoldierTypeDictionary { get; private set; };
 		

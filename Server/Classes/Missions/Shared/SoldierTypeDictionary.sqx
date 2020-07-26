@@ -17,7 +17,7 @@ namespace Mission.Server
 		public constructor()
 		{
 			_mSoldierTypes = [
-				["RIFLEMAN", "B_Soldier_F", "O_Soldier_F", "I_soldier_F"] new VehicleSideAlias
+				["RIFLEMAN", "B_Soldier_F", "O_Soldier_F", "I_G_Soldier_F"] new VehicleSideAlias
 			];
 		};
 		

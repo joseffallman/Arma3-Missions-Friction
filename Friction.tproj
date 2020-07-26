@@ -234,12 +234,6 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Classes\Handlers\_ReadMe.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="SoldierTypeDictionary.sqx" FileName="Server\Classes\Handlers\SoldierTypeDictionary.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="VehicleTypeDictionary.sqx" FileName="Server\Classes\Handlers\VehicleTypeDictionary.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Missions" FileName="Server\Classes\Missions">
@@ -289,6 +283,16 @@
                   <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="NightTensions" FileName="Server\Classes\Missions\NightTensions">
                     <SubNodes>
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="NightTensions.sqx" FileName="Server\Classes\Missions\NightTensions\NightTensions.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Shared" FileName="Server\Classes\Missions\Shared">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Server\Classes\Missions\Shared\ObjectTypeDictionary.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="SoldierTypeDictionary.sqx" FileName="Server\Classes\Missions\Shared\SoldierTypeDictionary.sqx">
                         <SubNodes />
                       </ProjectNodeViewModel>
                     </SubNodes>
