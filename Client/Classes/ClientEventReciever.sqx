@@ -98,7 +98,7 @@ namespace Mission.Client.Statics
 			_returnObjective = [playerSide, ObjectivePrio.Return] call _missionBriefing.GetObjective;
 			
 			if (_briefingInfo != "") then {
-				[_briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
+				[_missionBriefing.MissionName, _briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
 			};
 			
 			if (!isNull _primaryObjective) then {

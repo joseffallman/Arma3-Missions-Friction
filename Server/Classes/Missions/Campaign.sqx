@@ -90,7 +90,7 @@ namespace Mission.Server
 			private _eastSecondaryObjective = [east, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
 			private _eastReturnObjective = [east, ObjectivePrio.Return] call _mission.GetMissionObjective;
 
-			_missionBriefing = [_briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
+			_missionBriefing = [_mission.Name, _briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
 
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
