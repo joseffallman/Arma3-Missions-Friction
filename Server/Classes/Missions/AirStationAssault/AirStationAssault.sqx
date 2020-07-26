@@ -63,7 +63,7 @@ namespace Mission.Server
 			};
 		};
 		
-		public override method Setup()
+		protected override method Setup()
 		{
 			private ["_targetVehicles" as Array, "_vehicleMarkers" as Array, "_vehicle" as Object];
 		

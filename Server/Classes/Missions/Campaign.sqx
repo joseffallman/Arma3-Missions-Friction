@@ -219,6 +219,7 @@ namespace Mission.Server
 			};
 		};
 		
+/*
 		private method Boolean EndDueToCompletedObjectivesAndHumanPlayers()
 		{
 			private ["_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
@@ -264,6 +265,7 @@ namespace Mission.Server
 			
 			return false;
 		};
+*/
 		
 		private method SaveHistoryTokens("_mission" as Mission)
 		{
@@ -338,13 +340,25 @@ namespace Mission.Server
 			};
 		};
 		
-		private method SetHistoryTokens("_mission" as Mission)
+		private method PrepareMission("_mission" as Mission)
 		{
+			private _westGroup = grpNull;
+			private _eastGroup = grpNull;
+			
+			{
+				if (side group _x == west) then {
+					_westGroup = group _x;
+				};
+				if (side group _x == east) then {
+					_eastGroup = group _x;
+				};
+			} foreach (call _mPlayerUnitsConfig.GetSwitchableUnits);
+		
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
-				[_mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.SetHistoryTokens;
+				[_westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
 			}
 			else {
-				[_mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.SetHistoryTokens;
+				[_westGroup, _eastGroup, _mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.Prepare;
 			};
 		};
 		
@@ -385,8 +399,8 @@ namespace Mission.Server
 				};
 				
 				[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
-				[_mCurrentMission] call _self.SetHistoryTokens;
-				call _mCurrentMission.Setup;
+				
+				[_mCurrentMission] call _self.PrepareMission;
 				
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
 				
@@ -420,12 +434,14 @@ namespace Mission.Server
 						call _mCurrentMission.Cancel;
 					};
 					
+/*
 					// End mission if one side has completed objectives and there are no humans on the other side
 					// Doesn't work...
 
 					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
 						call _mCurrentMission.Cancel;
 					};
+*/
 
 					sleep 1;
 					

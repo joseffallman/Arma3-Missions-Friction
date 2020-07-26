@@ -31,7 +31,7 @@ namespace Mission.Server
 			_mission.AddReturnObjectiveForOpposing = true;
 		};
 		
-		public override method Setup()
+		protected override method Setup()
 		{
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
 		

@@ -86,7 +86,7 @@ namespace Mission.Server
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
-		public override method Setup()
+		protected override method Setup()
 		{
 			// Select a random fishy plase to populate with guerillas.
 			private _populatedFishyPlaceMarker = selectRandom ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
