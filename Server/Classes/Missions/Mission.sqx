@@ -860,7 +860,9 @@ namespace Mission.Server
 				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateActing != ObjectiveState.None || _self.SecondaryObjectiveStateActing != ObjectiveState.None;
 				_aliveUnitsCount = call _self.CountUnitsAliveActing;
-				_allUnitsPresent = ({ _x distance _self.InsertionPointActing < 50 } count _self.ActingUnits) == _aliveUnitsCount;
+				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointActing < 50 } count _self.ActingUnits) == _aliveUnitsCount;
+				
+				diag_log ("GURGEL: _primaryOrSecondaryObjectiveCompleted: " + str _primaryOrSecondaryObjectiveCompleted + "; _aliveUnitsCount: " + str _aliveUnitsCount + "; _allUnitsPresent: " + str _allUnitsPresent);
 			
 				if (_primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent) then
 				{
@@ -922,7 +924,9 @@ namespace Mission.Server
 				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateOpposing != ObjectiveState.None || _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
 				_aliveUnitsCount = call _self.CountUnitsAliveOpposing;
-				_allUnitsPresent = ({ _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingUnits) == _aliveUnitsCount;
+				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingUnits) == _aliveUnitsCount;
+				
+				diag_log ("GURGEL: _primaryOrSecondaryObjectiveCompleted: " + str _primaryOrSecondaryObjectiveCompleted + "; _aliveUnitsCount: " + str _aliveUnitsCount + "; _allUnitsPresent: " + str _allUnitsPresent);
 			
 				if (_primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent) then
 				{
@@ -949,6 +953,9 @@ namespace Mission.Server
 			private _secondaryExists = !isNull _secondaryObjective;
 			private _primaryCompleted = _primaryExists && _self.PrimaryObjectiveStateActing != ObjectiveState.None;
 			private _secondaryCompleted = _secondaryExists && _self.SecondaryObjectiveStateActing != ObjectiveState.None;
+			
+			diag_log ("GURGEL: _primaryExists: " + str _primaryExists + "; _primaryCompleted: " + str _primaryCompleted);
+			diag_log ("GURGEL: _secondaryExists: " + str _secondaryExists + "; _secondaryCompleted: " + str _secondaryCompleted);
 			
 			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
 			
@@ -994,6 +1001,9 @@ namespace Mission.Server
 			private _primaryCompleted = _primaryExists && _self.PrimaryObjectiveStateOpposing != ObjectiveState.None;
 			private _secondaryCompleted = _secondaryExists && _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
 			
+			diag_log ("GURGEL: _primaryExists: " + str _primaryExists + "; _primaryCompleted: " + str _primaryCompleted);
+			diag_log ("GURGEL: _secondaryExists: " + str _secondaryExists + "; _secondaryCompleted: " + str _secondaryCompleted);
+			
 			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
 			
 			if (_self.HasReturnObjectiveForOpposing) then
@@ -1011,8 +1021,6 @@ namespace Mission.Server
 				if (_primaryExists && !_primaryCompleted) then {
 					return false;
 				};
-				
-				diag_log ("GURGEL: _secondaryExists: " + str _secondaryExists + "; _secondaryCompleted: " + str _secondaryCompleted);
 				
 				if (_secondaryExists && !_secondaryCompleted) then {
 					return false;
@@ -1070,11 +1078,15 @@ namespace Mission.Server
 			};
 */
 			
-			if (_completeForActing && !([MissionSide.Opposing] call _self.AlivePlayersOnSide)) then {
+			private _aliveOpposingPlayers = [MissionSide.Opposing] call _self.AlivePlayersOnSide;
+			diag_log ("GURGEL: _aliveOpposingPlayers: " + str _aliveOpposingPlayers);
+			if (_completeForActing && !_aliveOpposingPlayers) then {
 				return true;
 			};
 
-			if (_completeForOpposing && !([MissionSide.Acting] call _self.AlivePlayersOnSide)) then {
+			private _aliveActingPlayers = [MissionSide.Acting] call _self.AlivePlayersOnSide;
+			diag_log ("GURGEL: _aliveActingPlayers: " + str _aliveActingPlayers);
+			if (_completeForOpposing && !_aliveActingPlayers) then {
 				return true;
 			};
 			
