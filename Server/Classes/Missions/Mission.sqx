@@ -699,12 +699,20 @@ namespace Mission.Server
 			
 			if (_missionSide == MissionSide.Acting) then {
 				_self.ActingUnits = units _group;
-				_mActingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
+				
+				if (_self.HasReturnObjectiveForActing) then {
+					_mActingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
+				};
+				
 				[side _group, _position] call _self.OnActingGroupInserted;
 			}
 			else {
 				_self.OpposingUnits = units _group;
-				_mOpposingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
+				
+				if (_self.HasReturnObjectiveForOpposing) then {
+					_mOpposingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
+				};
+				
 				[side _group, _position] call _self.OnOpposingGroupInserted;
 			};
 		};
