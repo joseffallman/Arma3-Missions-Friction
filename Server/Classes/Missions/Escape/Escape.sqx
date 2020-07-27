@@ -1,0 +1,88 @@
+/*
+ * Name:	Escape
+ * Date:	2020-07-11
+ * Version: 1.0
+ * Author:  Josef
+ *
+ * Description:
+ * Escape mission
+ */
+ 
+using Mission.Common;
+ 
+namespace Mission.Server
+{
+	public class Escape : Mission
+	{
+		// Creates a Escape object.
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side) {
+			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+		};
+		
+		protected override method Initialize()
+		{
+			// Random select escape point from markers.
+			_mEscapeAreaMarker = selectRandom ["m08a_EscapePointArea1", "m08a_EscapePointArea3", "m08a_EscapePointArea3"];
+			"m08a_EscapePoint" setMarkerPos getMarkerPos _mEscapeAreaMarker;
+			
+		
+			_self.StartMarkersActing = ["m08a_StartArea"];
+			_self.StartMarkersOpposing = ["m08o_StartArea1", "m08o_StartArea2"];
+			_self.SideMarkersActing = ["m08a_EscapePoint"];
+		};
+		
+		protected override method String AddBriefingInfoForActing()
+		{
+			return "Escape from town and get to the waiting truck.";
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return "Catch the escapers.";
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			private _shortDescription = "Escape";
+			private _longDescription = "Find your way out of town.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Catch escapers";
+			private _longDescription = "Find and kill the escapers.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		public override method Setup()
+		{
+			private _guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m_AgiaMarinaArea"] call _self.CreateAiSoldierBySide;
+			private _guardGroup = group _guard;
+			for "_i" from 0 to random 4 do {
+				["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m_AgiaMarinaArea", _guardGroup] call _self.CreateAiSoldierBySide;
+			};
+			
+			[_guardGroup, "m_AgiaMarinaArea", [0,0,0], True] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			
+			call _base.Setup;
+		};
+		
+		protected override method Boolean PrimaryObjectiveFulfilledForActing()
+		{	
+			private _alivePlayersCount = {alive _x } Count _self.ActingPlayers;
+			return _alivePlayersCount > 0 && _alivePlayersCount == ({_x distance getMarkerPos "m08a_EscapePoint" < 50 } Count _self.ActingPlayers);
+		};
+		
+		protected override method Boolean PrimaryObjectiveFulfilledForOpposing()
+		{
+			private _alivePlayersCount = {alive _x } Count _self.ActingPlayers;
+			return _alivePlayersCount == 0;
+		};
+
+		
+	};
+};
+

@@ -8,18 +8,22 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=168;
+		nextID=481;
 	};
 	class MarkerIDProvider
 	{
-		nextID=17;
+		nextID=20;
+	};
+	class LayerIndexProvider
+	{
+		nextID=10;
 	};
 	class Camera
 	{
-		pos[]={4389.4199,232.31337,3747.5254};
-		dir[]={-0.72300136,-0.23611851,-0.64929026};
-		up[]={-0.17570058,0.9717142,-0.15778892};
-		aside[]={-0.66818517,1.0530348e-006,0.74404019};
+		pos[]={2943.1831,30.815405,5872.7222};
+		dir[]={0.3019926,-0.36114734,0.88229942};
+		up[]={0.11697655,0.93247551,0.34175795};
+		aside[]={0.94614983,5.8149453e-008,-0.32384813};
 	};
 };
 binarizationWanted=0;
@@ -109,76 +113,6 @@ randomSeed=16377955;
 class ScenarioData
 {
 	author="Engima";
-	respawn=3;
-	respawnDelay=5.1502514;
-	class Header
-	{
-		minPlayers=1;
-		maxPlayers=10;
-	};
-};
-class CustomAttributes
-{
-	class Category0
-	{
-		name="Multiplayer";
-		class Attribute0
-		{
-			property="RespawnTemplates";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"ARRAY"
-						};
-					};
-					class value
-					{
-						items=1;
-						class Item0
-						{
-							class data
-							{
-								class type
-								{
-									type[]=
-									{
-										"STRING"
-									};
-								};
-								value="Counter";
-							};
-						};
-					};
-				};
-			};
-		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		nAttributes=2;
-	};
 };
 class Mission
 {
@@ -203,22 +137,22 @@ class Mission
 	};
 	class Entities
 	{
-		items=73;
+		items=75;
 		class Item0
 		{
 			dataType="Marker";
-			position[]={4342.3823,225.1629,3809.5322};
+			position[]={4339.478,225.08501,3808.3701};
 			name="m01o_startarea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
 			fillName="SolidBorder";
-			a=150;
-			b=70;
-			angle=257.69315;
+			a=200;
+			b=120;
+			angle=82.406982;
 			drawBorder=1;
 			id=0;
-			atlOffset=-0.87602234;
+			atlOffset=-0.67831421;
 		};
 		class Item1
 		{
@@ -294,7 +228,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1968.3929,3.1699386,3535.542};
+						position[]={1968.3933,3.1700084,3535.5425};
 					};
 					side="West";
 					flags=7;
@@ -306,6 +240,7 @@ class Mission
 					};
 					id=8;
 					type="B_Soldier_F";
+					atlOffset=2.3841858e-005;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -598,6 +533,7 @@ class Mission
 			{
 			};
 			id=7;
+			atlOffset=2.3841858e-005;
 		};
 		class Item7
 		{
@@ -611,8 +547,8 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6429.895,7.7009029,5416.2319};
-						angles[]={0,2.2856133,0};
+						position[]={6429.8945,7.7008772,5416.2314};
+						angles[]={0,2.2856081,0};
 					};
 					side="East";
 					flags=7;
@@ -917,18 +853,19 @@ class Mission
 		class Item8
 		{
 			dataType="Marker";
-			position[]={4356.4194,226.61137,3816.9355};
-			name="m01o_Vehicle1";
+			position[]={4361.3062,226.707,3817.8369};
+			name="m01o_AmmoTruck";
 			type="Empty";
 			angle=174.42299;
 			id=19;
+			atlOffset=-0.00015258789;
 		};
 		class Item9
 		{
 			dataType="Marker";
 			position[]={4347.4189,226.64,3833.46};
 			name="m01a_PrimaryTarget";
-			text="Destroy trucks";
+			text="Destroy ammo truck";
 			type="mil_destroy";
 			id=31;
 			atlOffset=0.00012207031;
@@ -2040,58 +1977,97 @@ class Mission
 		class Item67
 		{
 			dataType="Marker";
-			position[]={4338.6689,226.78986,3838.2126};
-			name="m01o_Vehicle2";
-			type="Empty";
-			angle=85.661957;
+			position[]={2958.3049,3.49,5952.4888};
+			name="m08a_StartArea";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=15;
+			b=15;
+			angle=159.194;
 			id=160;
 		};
 		class Item68
 		{
 			dataType="Marker";
-			position[]={4347.521,234.22,3870.4592};
-			name="m01o_Vehicle3";
-			type="Empty";
-			angle=91.130424;
+			position[]={2852.45,3.8699999,5908.3018};
+			name="m08o_StartArea1";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorEAST";
+			a=20;
+			b=80;
+			angle=159.194;
 			id=161;
+			atlOffset=-7.0333481e-005;
 		};
 		class Item69
 		{
 			dataType="Marker";
-			position[]={4371.3755,224.75917,3747.6362};
-			name="m01o_Vehicle4";
-			type="Empty";
-			angle=320.2659;
+			position[]={3053.5879,28.18,6196.9258};
+			name="m08o_StartArea2";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorEAST";
+			a=20;
+			b=80;
+			angle=159.194;
 			id=162;
 		};
 		class Item70
 		{
 			dataType="Marker";
-			position[]={4386.9702,227.23599,3819.988};
-			name="m01o_Vehicle5";
-			type="Empty";
-			angle=359.13181;
+			position[]={3399.1045,4.9675512,6058.3574};
+			name="m08a_EscapePoint";
+			type="mil_objective";
 			id=163;
-			atlOffset=0.00012207031;
 		};
 		class Item71
 		{
 			dataType="Marker";
-			position[]={4323.8623,225.43452,3817.8115};
-			name="m01o_Vehicle6";
-			type="Empty";
-			angle=173.55997;
+			position[]={2968.0203,3.3499999,6040.6143};
+			name="m_AgiaMarinaArea";
+			markerType="ELLIPSE";
+			type="ellipse";
+			a=200;
+			b=200;
 			id=164;
 		};
 		class Item72
 		{
 			dataType="Marker";
-			position[]={4373.978,224.79601,3730.469};
-			name="m01o_Vehicle7";
-			type="Empty";
-			angle=52.071999;
+			position[]={3399.1021,5,6055.7368};
+			name="m08a_EscapePointArea1";
+			markerType="ELLIPSE";
+			type="ellipse";
+			a=30;
+			b=30;
 			id=165;
-			atlOffset=-9.1552734e-005;
+			atlOffset=0.0011324883;
+		};
+		class Item73
+		{
+			dataType="Marker";
+			position[]={3281.6411,5.256,5786.6528};
+			name="m08a_EscapePointArea2";
+			markerType="ELLIPSE";
+			type="ellipse";
+			a=30;
+			b=30;
+			id=166;
+			atlOffset=8.4877014e-005;
+		};
+		class Item74
+		{
+			dataType="Marker";
+			position[]={2733.377,2.645,5782.939};
+			name="m08a_EscapePointArea3";
+			markerType="ELLIPSE";
+			type="ellipse";
+			a=30;
+			b=30;
+			id=167;
+			atlOffset=0.0012743473;
 		};
 	};
 };
