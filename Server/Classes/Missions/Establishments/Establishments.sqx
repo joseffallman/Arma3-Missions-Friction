@@ -19,9 +19,9 @@ namespace Mission.Server
 		private fields ["_mActingEnterDeltaAreaTime" as Scalar, "_mOpposingEnterDeltaAreaTime" as Scalar, "_mExplosivesBoxOwnerSide" as MissionSide];
 	
 		// Creates a AsEasyAsItGets object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
+		public constructor("_actingSide" as Side)
 		{
-			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+			[_actingSide] call _base.Constructor;
 			
 			_mActingEnterDeltaAreaTime = -1;
 			_mOpposingEnterDeltaAreaTime = -1;

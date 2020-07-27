@@ -14,25 +14,18 @@ namespace Mission.Server
 {
 	public class Campaign
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig];
-		
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
+		public constructor()
 		{
-			_mBaseMarkersConfig = _baseMarkersConfig;
 			_self.CurrentMissionIndex = -1;
-			
-			call _self.SelectMissions;
+			_self.Missions = [];
+			[_self.Missions] call _self.SelectMissions;
 		};
 		
-		protected virtual method SelectMissions()
+		protected virtual method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_self.Missions = [
-				[_mBaseMarkersConfig, east] new LostVehicles,
-				[_mBaseMarkersConfig, selectRandom [west, east]] new NightTensions,
-				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,
-				[_mBaseMarkersConfig, selectRandom [west, east]] new AirStationAssault
-			];
+			_missions pushBack [east] new LostVehicles;
+			_missions pushBack [east] new AirbaseIntruders;
 		};
 		
 		protected property Scalar CurrentMissionIndex { get; protected set; };

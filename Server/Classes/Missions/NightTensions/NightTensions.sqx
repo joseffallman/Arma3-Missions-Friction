@@ -14,9 +14,9 @@ namespace Mission.Server
 		private fields ["_mBox" as Object, "_mDrawingsAreStolen" as Boolean, "_mPrimaryObjectiveMarker" as String];
 	
 		// Creates a AsEasyAsItGets object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
+		public constructor("_actingSide" as Side)
 		{
-			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+			[_actingSide] call _base.Constructor;
 			_mDrawingsAreStolen = false;
 			_mBox = objNull;
 		};

@@ -24,7 +24,7 @@ namespace Mission.Server
 		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
+		public constructor("_actingSide" as Side)
 		{
 			private ["_missionSettings" as MissionSettings];
 			
@@ -32,7 +32,6 @@ namespace Mission.Server
 			
 			_self.ObjectTypeDictionary = new ObjectTypeDictionary;
 			_self.SoldierTypeDictionary = new SoldierTypeDictionary;
-			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mActingSide = _actingSide;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
@@ -439,8 +438,10 @@ namespace Mission.Server
 		//};
 		
 		// Loads the mission with all gained and lost history items.
-		public method Prepare("_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
+		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
 		{
+			_mBaseMarkersConfig = _baseMarkersConfig;
+		
 			if (_mActingSide == west) then {
 				_self.ActingUnits = units _westlyGroup;
 				_self.OpposingUnits = units _eastlyGroup;

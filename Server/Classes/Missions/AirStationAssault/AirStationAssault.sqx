@@ -17,9 +17,9 @@ namespace Mission.Server
 		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array];
 		
 		// Creates a AirStationAssault object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_actingSide" as Side)
+		public constructor("_actingSide" as Side)
 		{
-			[_baseMarkersConfig, _actingSide] call _base.Constructor;
+			[_actingSide] call _base.Constructor;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)

@@ -227,6 +227,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Server\Classes\Campaigns\Campaign.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="OperationShoeLace.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Server\Classes\Handlers">
@@ -332,9 +335,6 @@
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Server\Classes\Services">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignEngine.sqx" FileName="Server\Classes\Services\CampaignEngine.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionEngine.sqx" FileName="Server\Classes\Services\MissionEngine.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>

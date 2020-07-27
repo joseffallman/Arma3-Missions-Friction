@@ -1,0 +1,31 @@
+/*
+ * Name:	OperationShoeLace
+ * Date:	2020-07-27
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Serious campaign with a story.
+ */
+
+using Mission.Common;
+
+namespace Mission.Server
+{
+	public class OperationShoeLace : Campaign
+	{
+		// Creates a OperationShoeLace object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method SelectMissions("_missions" as Array /* of Mission */)
+		{
+			_missions pushBack [west] new Establishments;
+			_missions pushBack [west] new NightTensions;
+			_missions pushBack [west] new HawkDown;
+			_missions pushBack [west] new AirStationAssault;
+		};
+	};
+};

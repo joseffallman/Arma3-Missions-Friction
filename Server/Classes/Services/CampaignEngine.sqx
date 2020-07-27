@@ -16,18 +16,19 @@ namespace Mission.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mCampaign" as Campaign, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mCampaign" as Campaign, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
-		public constructor("_campaign" as Campaign, "_playerUnitsConfig" as PlayerUnitsConfig)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_playerUnitsConfig" as PlayerUnitsConfig, "_campaign" as Campaign)
 		{
 			call _base.Constructor;
 			
-			_mCampaign = _campaign;
+			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mPlayerUnitsConfig = _playerUnitsConfig;
+			_mCampaign = _campaign;
 			
 			call _self.ClearAllMapMarkers;
 		};
@@ -347,10 +348,10 @@ namespace Mission.Server
 			} foreach (call _mPlayerUnitsConfig.GetSwitchableUnits);
 		
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
-				[_westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
+				[_mBaseMarkersConfig, _westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
 			}
 			else {
-				[_westGroup, _eastGroup, _mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.Prepare;
+				[_mBaseMarkersConfig, _westGroup, _eastGroup, _mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.Prepare;
 			};
 		};
 		
