@@ -4,7 +4,7 @@ call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\MissionEngine.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Missions\Campaign.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Mission.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Shared\ObjectTypeDictionary.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Shared\SoldierTypeDictionary.sqx";
@@ -26,17 +26,14 @@ namespace Mission
 		// Initializes the server.
 		public static method Initialize()
 		{
-			private ["_missionEngine" as MissionEngine];
-			
 			// Bootstrap the server singletons.
 			call ServerObjects.Init;
 			
 			// Initialize all server eventhandlers.
 			call ServerEventHandlers.Init;
 			
-			// Start the mission engine service
-			_missionEngine = new MissionEngine;
-			call _missionEngine.RunAsync;
+			// Start the campaign engine service
+			call ServerObjects.CampaignEngine.RunAsync();
 		};
 	};
 };

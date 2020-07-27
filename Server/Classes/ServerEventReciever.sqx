@@ -20,7 +20,7 @@ namespace Mission.Server.Statics
 		// _position (Array): The position where to insert all players on the side.
 		public static method OnPlayerPerformingInsertion("_side" as Side, "_position" as Array)
 		{
-			[_side, _position] call ServerObjects.Campaign.InsertGroup;
+			[_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
 			
 			// If the side contains no players, move them as server
 			private _switchableUnits = call CommonObjects.PlayerUnitsConfig.GetSwitchableUnits;

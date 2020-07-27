@@ -24,7 +24,7 @@ namespace Mission.Server
         // Runs the mission.
         protected override method Run()
         {
-        	call ServerObjects.Campaign.RunAsync();
+        	call ServerObjects.CampaignEngine.RunAsync();
         	
         	// Always end a service's Run method with a call to its base method.
         	call _base.Run;

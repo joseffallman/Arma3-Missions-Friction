@@ -18,9 +18,9 @@ namespace Mission.Server.Statics
 		// Initializes the ServerObjects object.
 		public static method Init()
 		{
-			_self.Campaign = [CommonObjects.BaseMarkersConfig, CommonObjects.PlayerUnitsConfig] new Campaign;
+			_self.CampaignEngine = [CommonObjects.BaseMarkersConfig, CommonObjects.PlayerUnitsConfig] new CampaignEngine;
 		};
 		
-		public static property Campaign Campaign { get; private set; };
+		public static property CampaignEngine CampaignEngine { get; private set; };
 	};
 };

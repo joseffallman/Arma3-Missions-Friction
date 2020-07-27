@@ -14,7 +14,7 @@ using Mission.Common;
 
 namespace Mission.Server
 {
-	public class Campaign : Service
+	public class CampaignEngine : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
