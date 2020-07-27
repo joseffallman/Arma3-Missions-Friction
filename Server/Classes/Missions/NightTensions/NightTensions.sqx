@@ -1,11 +1,8 @@
 /*
- * Name:	AsEasyAsItGets
+ * Name:	NightTensions
  * Date:	2020-07-04
  * Version: 1.0
  * Author:  Engima
- *
- * Description:
- * An 'empty' but working mission - just to show that an empty class deriving from Mission really executes as a mission.
  */
 
 using Mission.Common;
@@ -31,6 +28,7 @@ namespace Mission.Server
 			_mission.StartMarkersActing = ["m06a_StartArea1", "m06a_StartArea2", "m06a_StartArea3"];
 			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
 			_mission.SideMarkersActing = ["m06a_PrimaryObjective1", "m06a_PrimaryObjective2", "m06a_PrimaryObjective3"];
+			_mission.AddReturnObjectiveForActing = true;
 		};
 		
 		protected override method Setup()

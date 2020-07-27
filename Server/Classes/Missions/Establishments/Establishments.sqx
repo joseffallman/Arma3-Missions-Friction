@@ -57,7 +57,7 @@ namespace Mission.Server
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Deliver supplies";
-			private _longDescription = "Drive the truck to Limeri Bay and leave it there.";
+			private _longDescription = "Drive the truck to Limeri Bay and park it among the other vehicles there.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -65,7 +65,7 @@ namespace Mission.Server
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. But be aware, enemy and guerilla units might be in the area.";
+			private _longDescription = "Alpha Six have reported seing something at Point Delta. Go there and spend some time to investigate the area. But be aware, enemy units have also been spotted in the vincinity.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -73,7 +73,7 @@ namespace Mission.Server
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Get the mail";
-			private _longDescription = "Go to Agia Marina's military range and recieve the company's weekly mail.";
+			private _longDescription = "Go to Agia Marina's military range. Find the pallet with the brigade's mail, and check if there is anything for us.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -81,7 +81,7 @@ namespace Mission.Server
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Alpha Six reported seing something at Point Delta. Go there and investigate the area. But be aware, enemy and guerilla units might be in the area.";
+			private _longDescription = "Alpha Six have reported seing something at Point Delta. Go there and spend some time to investigate the area. But be aware, enemy units have also been spotted in the vincinity.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};

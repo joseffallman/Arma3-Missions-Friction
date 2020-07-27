@@ -12,6 +12,6 @@ namespace Mission.Client
 	public interface IBriefingHandler
 	{
         // Creates the briefing texts for the player.
-        method CreateBriefing("_briefingInfo" as String);
+        method CreateBriefing("_missionName" as String, "_briefingInfo" as String);
 	};
 };

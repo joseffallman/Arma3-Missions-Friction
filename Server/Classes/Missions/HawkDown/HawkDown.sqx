@@ -42,8 +42,7 @@ namespace Mission.Server
 			
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
-			_mGreyHawkMarker = createMarkerLocal ["m05_Wreckage", ["m05_CrashSite"] call MarkerHelper.GetRandomPosInsideMarker];
-			_mGreyHawkMarker setMarkerDirLocal random 360;
+			_mGreyHawkMarker = selectRandom ["m05_HawkLocation1", "m05_HawkLocation2", "m05_HawkLocation3", "m05_HawkLocation4", "m05_HawkLocation5", "m05_HawkLocation6", "m05_HawkLocation7", "m05_HawkLocation8", "m05_HawkLocation9", "m05_HawkLocation10"];
 			
 			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, _mGreyHawkMarker] call _self.CreateSideVehicleOnMarker;
 			_mGreyHawk setDamage [0.8, false];

@@ -19,7 +19,7 @@ namespace Mission.Client
 		};
 	
         // Creates the briefing texts for the player.
-        public method CreateBriefing("_briefingInfo" as String)
+        public method CreateBriefing("_missionName" as String, "_briefingInfo" as String)
         {
     		{
     			player removeDiaryRecord ["Diary", _x];
@@ -27,7 +27,7 @@ namespace Mission.Client
     		
     		_mDiaryReckords = [];
         
-			private _diaryRecord = player createDiaryRecord ["Diary", ["My Mission", _briefingInfo]];
+			private _diaryRecord = player createDiaryRecord ["Diary", [_missionName, _briefingInfo]];
 			_mDiaryReckords pushBack _diaryRecord;
 		};
 	};

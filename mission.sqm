@@ -8,22 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=481;
+		nextID=202;
 	};
 	class MarkerIDProvider
 	{
-		nextID=20;
-	};
-	class LayerIndexProvider
-	{
-		nextID=10;
+		nextID=18;
 	};
 	class Camera
 	{
-		pos[]={2943.1831,30.815405,5872.7222};
-		dir[]={0.3019926,-0.36114734,0.88229942};
-		up[]={0.11697655,0.93247551,0.34175795};
-		aside[]={0.94614983,5.8149453e-008,-0.32384813};
+		pos[]={5787.0645,32.731121,4579.1133};
+		dir[]={-0.40953919,-0.10587119,0.90623128};
+		up[]={-0.043625534,0.99437153,0.096534908};
+		aside[]={0.91134608,7.2002877e-007,0.41185224};
 	};
 };
 binarizationWanted=0;
@@ -137,7 +133,8 @@ class Mission
 	};
 	class Entities
 	{
-		items=75;
+	{
+		items=83;
 		class Item0
 		{
 			dataType="Marker";
@@ -1003,8 +1000,8 @@ class Mission
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorRed";
-			a=175;
-			b=125;
+			a=185;
+			b=130;
 			angle=142.35197;
 			id=54;
 			atlOffset=3.934927;
@@ -2068,6 +2065,106 @@ class Mission
 			b=30;
 			id=167;
 			atlOffset=0.0012743473;
+		};
+		class Item73
+		{
+			dataType="Marker";
+			position[]={5843.25,21.497999,4559.563};
+			name="m05_HawkLocation1";
+			type="Empty";
+			angle=298.09888;
+			id=168;
+			atlOffset=-0.00021934509;
+		};
+		class Item74
+		{
+			dataType="Marker";
+			position[]={5770.6528,46.537998,4463.5029};
+			name="m05_HawkLocation2";
+			type="Empty";
+			angle=25.063992;
+			id=169;
+			atlOffset=9.1552734e-005;
+		};
+		class Item75
+		{
+			dataType="Marker";
+			position[]={5847.6499,57.417999,4682.1992};
+			name="m05_HawkLocation3";
+			type="Empty";
+			angle=229.88695;
+			id=170;
+			atlOffset=0.00038528442;
+		};
+		class Item76
+		{
+			dataType="Marker";
+			position[]={5956.5371,9.0050001,4533.458};
+			name="m05_HawkLocation4";
+			type="Empty";
+			angle=320.444;
+			id=171;
+			atlOffset=3.7193298e-005;
+		};
+		class Item77
+		{
+			dataType="Marker";
+			position[]={6012.5962,18.17,4619.9512};
+			name="m05_HawkLocation5";
+			type="Empty";
+			angle=181.76596;
+			id=172;
+			atlOffset=-1.1444092e-005;
+		};
+		class Item78
+		{
+			dataType="Marker";
+			position[]={5721.0308,31.848,4514.4619};
+			name="m05_HawkLocation6";
+			type="Empty";
+			angle=273.05695;
+			id=173;
+			atlOffset=-0.0002040863;
+		};
+		class Item79
+		{
+			dataType="Marker";
+			position[]={5854.2139,24.992001,4463.5122};
+			name="m05_HawkLocation7";
+			type="Empty";
+			angle=288.92593;
+			id=174;
+			atlOffset=4.9591064e-005;
+		};
+		class Item80
+		{
+			dataType="Marker";
+			position[]={5809.853,33.955002,4604.6919};
+			name="m05_HawkLocation8";
+			type="Empty";
+			angle=37.220001;
+			id=175;
+			atlOffset=0.00010299683;
+		};
+		class Item81
+		{
+			dataType="Marker";
+			position[]={5928.5098,45.605999,4635.917};
+			name="m05_HawkLocation9";
+			type="Empty";
+			angle=48.211979;
+			id=176;
+			atlOffset=0.00014877319;
+		};
+		class Item82
+		{
+			dataType="Marker";
+			position[]={5926.8008,12.588,4540.272};
+			name="m05_HawkLocation10";
+			type="Empty";
+			angle=259.64401;
+			id=177;
+			atlOffset=-3.0517578e-005;
 		};
 	};
 };

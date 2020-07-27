@@ -12,8 +12,9 @@ namespace Mission.Common
 	public class MissionBriefing
 	{
 		// Creates a MissionBriefing object.
-		public constructor("_westBriefingInfo" as String, "_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_westReturnObjective" as MissionObjective, "_eastBriefingInfo" as String, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective, "_eastReturnObjective" as MissionObjective)
+		public constructor("_missionName" as String, "_westBriefingInfo" as String, "_westPrimaryObjective" as MissionObjective, "_westSecondaryObjective" as MissionObjective, "_westReturnObjective" as MissionObjective, "_eastBriefingInfo" as String, "_eastPrimaryObjective" as MissionObjective, "_eastSecondaryObjective" as MissionObjective, "_eastReturnObjective" as MissionObjective)
 		{
+			_self.MissionName = _missionName;
 			_self.BriefingInfoWest = _westBriefingInfo;
 			_self.BriefingInfoEast = _eastBriefingInfo;
 			_self.PrimaryObjectiveWest = _westPrimaryObjective;
@@ -23,6 +24,8 @@ namespace Mission.Common
 			_self.SecondaryObjectiveEast = _eastSecondaryObjective;
 			_self.ReturnObjectiveEast = _eastReturnObjective;
 		};
+		
+		public property String MissionName { get; private set; };
 		
 		public property String BriefingInfoWest { get; private set; };
 		

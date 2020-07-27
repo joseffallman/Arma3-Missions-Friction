@@ -32,9 +32,8 @@ namespace Mission.Server
 			call _self.ClearAllMapMarkers;
 			
 			_mMissions = [
-				//[_mBaseMarkersConfig, selectRandom [west, east]] new Establishments,
-				[_mBaseMarkersConfig, west] new LostVehicles,
-				[_mBaseMarkersConfig, west] new NightTensions,
+				[_mBaseMarkersConfig, east] new LostVehicles,
+				[_mBaseMarkersConfig, selectRandom [west, east]] new NightTensions,
 				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,
 				[_mBaseMarkersConfig, selectRandom [west, east]] new AirStationAssault
 			];
@@ -90,7 +89,7 @@ namespace Mission.Server
 			private _eastSecondaryObjective = [east, ObjectivePrio.Secondary] call _mission.GetMissionObjective;
 			private _eastReturnObjective = [east, ObjectivePrio.Return] call _mission.GetMissionObjective;
 
-			_missionBriefing = [_briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
+			_missionBriefing = [_mission.Name, _briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
 
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
