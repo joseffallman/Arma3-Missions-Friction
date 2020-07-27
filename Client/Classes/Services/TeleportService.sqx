@@ -31,9 +31,10 @@ namespace Mission.Client
 		// Teleports the player instantly to the base.
 		protected override method Run()
 		{
-			cutText ["", "WHITE OUT", 1];
+			//cutText ["", "WHITE OUT", 1];
+			cutText ["", "BLACK OUT", 0.5];
 			
-			sleep 1.2;
+			sleep 0.5;
 			
 			private _teleportedUnits = [];
 			
@@ -93,7 +94,7 @@ namespace Mission.Client
 			
 			openMap false;
 			
-			cutText ["", "WHITE IN", 1];
+			cutText ["", "BLACK IN", 0.5];
 			
 			call _base.Run;
 		};
