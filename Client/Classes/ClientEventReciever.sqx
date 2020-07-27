@@ -219,7 +219,13 @@ namespace Mission.Client.Statics
 					private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
 					
 					_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
-					call _teleporter.RunAsync;
+					
+					[_teleporter] spawn {
+						params ["_teleporter" as TeleportService];
+						
+						sleep 5;
+						call _teleporter.RunAsync;
+					};
 				};
 			};
 		};
