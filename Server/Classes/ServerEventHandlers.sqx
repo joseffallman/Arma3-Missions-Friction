@@ -43,7 +43,7 @@ namespace Mission.Server.Statics
 					
 					if (local _unit) then
 					{
-						["ClientEventReciever.OnUnitKilled", [_unit, _killer]] call Remote.Invoke;
+						["ClientEventReciever.OnUnitKilled", ["", _unit, _killer]] call Remote.Invoke;
 					};
 				}];
 			} foreach switchableUnits as Object;

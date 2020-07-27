@@ -34,6 +34,7 @@ namespace Mission.Client
 			else {
 				_hasInserted = call PublicVariableHandler.GetEastHasInserted;
 			};
+			
 			if (_hasInserted && !ClientState.IsAlive) then
 			{
 				// If the unit we are currently following has logged out or is dead, then switch camera

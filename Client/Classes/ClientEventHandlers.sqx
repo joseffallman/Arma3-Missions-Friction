@@ -36,8 +36,12 @@ namespace Mission.Client.Statics
 			player addEventHandler ["Respawn", {
 				params ["_player" as Object, "_corpse"];
 				
-				call FrictionMenuHandler.Init;
-				call ClientObjects.CameraHandler.SetDeathCamera;
+				[] spawn {
+					waitUntil { player == player };
+					
+					call FrictionMenuHandler.Init;
+					call ClientObjects.CameraHandler.SetDeathCamera;
+				};
 			}];
 			
 			// Triggered when the player is killed.
@@ -45,7 +49,8 @@ namespace Mission.Client.Statics
 				params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
 				
 				ClientState.IsAlive = false;
-				["ClientEventReciever.OnUnitKilled", [_unit, _killer]] call Remote.Invoke;
+				
+				["ClientEventReciever.OnUnitKilled", [getPlayerUID player, _unit, _killer]] call Remote.Invoke;
 			}];
 			
 			player addEventHandler ["HandleRating", {

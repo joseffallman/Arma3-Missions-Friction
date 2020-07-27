@@ -234,9 +234,11 @@ namespace Mission.Client.Statics
 			};
 		};
 		
-		public static method OnUnitKilled("_unit" as Object, "_killer" as Object)
+		public static method OnUnitKilled("_playerUid" as String, "_unit" as Object, "_killer" as Object)
 		{
-			call ClientObjects.CameraHandler.SetDeathCamera;
+			if (_playerUid != getPlayerUID player) then {
+				call ClientObjects.CameraHandler.SetDeathCamera;
+			};
 		};
 		
 		public static method OnShowNotification("_side" as Side, "_text" as String)
