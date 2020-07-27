@@ -15,11 +15,12 @@ namespace Mission.Client
 {
 	public class CameraHandler
 	{
-		private fields ["_mCameraUnit" as Object];
+		private fields ["_mCameraUnit" as Object, "_mClientMessageHandler" as ClientMessageHandler];
 	
 		// Creates a CameraHandler object.
-		public constructor()
+		public constructor("_clientMessageHandler" as ClientMessageHandler)
 		{
+			_mClientMessageHandler = _clientMessageHandler;
 			_mCameraUnit = objNull;
 		};
 		
@@ -40,20 +41,42 @@ namespace Mission.Client
 				// If the unit we are currently following has logged out or is dead, then switch camera
 				if (isNull _mCameraUnit || { !(alive _mCameraUnit) }) then
 				{
-					// First, switch to someone in the same group
+					// First, switch to a player in the same group
 					{
-						if (alive _x && (side group _x == playerSide)) then {
+						if (alive _x && isPlayer _x && (side group _x == playerSide)) then {
 							switchCamera _x;
 							_mCameraUnit = _x;
+							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
 							return;
 						};
 					} foreach _missionUnits;
 					
-					// Second, switch to someone in the other team
+					// Second, switch to a player on the other side
+					{
+						if (alive _x && isPlayer _x) then {
+							switchCamera _x;
+							_mCameraUnit = _x;
+							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
+							return;
+						};
+					} foreach _missionUnits;
+					
+					// Third, switch to AI in the same group
+					{
+						if (alive _x && (side group _x == playerSide)) then {
+							switchCamera _x;
+							_mCameraUnit = _x;
+							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
+							return;
+						};
+					} foreach _missionUnits;
+					
+					// Third, switch to AI in the other group
 					{
 						if (alive _x) then {
 							switchCamera _x;
 							_mCameraUnit = _x;
+							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
 							return;
 						};
 					} foreach _missionUnits;

@@ -11,10 +11,10 @@ onLoadMission = "Combat patrol competition in TvT campaign format.";
 
 overviewText = "Combat patrol competition in TvT campaign format.";
 overviewTextLocked = "";
-author = "AUTHOR";
+author = "ENGIMA";
 
 OnLoadMissionTime = false;
-disabledAI = 0;
+disabledAI = 1;
 
 respawn = "BASE";
 respawnButton = 0;

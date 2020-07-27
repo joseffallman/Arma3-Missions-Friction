@@ -43,6 +43,9 @@
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
                 <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="JipService.sqx" FileName="Client\Classes\Services\JipService.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PerformInsertionService.sqx" FileName="Client\Classes\Services\PerformInsertionService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -265,6 +268,13 @@
                   <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="AsEasyAsItGets" FileName="Server\Classes\Missions\AsEasyAsItGets">
                     <SubNodes>
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="AsEasyAsItGets.sqx" FileName="Server\Classes\Missions\AsEasyAsItGets\AsEasyAsItGets.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="DragRacing" FileName="Server\Classes\Missions\DragRacing">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="DragRacing.sqx" FileName="Server\Classes\Missions\DragRacing\DragRacing.sqx">
                         <SubNodes />
                       </ProjectNodeViewModel>
                     </SubNodes>

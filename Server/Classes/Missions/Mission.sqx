@@ -861,7 +861,7 @@ namespace Mission.Server
 				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateActing != ObjectiveState.None || _self.SecondaryObjectiveStateActing != ObjectiveState.None;
 				_aliveUnitsCount = call _self.CountUnitsAliveActing;
-				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointActing < 50 } count _self.ActingUnits) == _aliveUnitsCount;
+				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointActing < 25 } count _self.ActingUnits) == _aliveUnitsCount;
 				
 				diag_log ("GURGEL: _primaryOrSecondaryObjectiveCompleted: " + str _primaryOrSecondaryObjectiveCompleted + "; _aliveUnitsCount: " + str _aliveUnitsCount + "; _allUnitsPresent: " + str _allUnitsPresent);
 			
@@ -925,7 +925,7 @@ namespace Mission.Server
 				
 				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateOpposing != ObjectiveState.None || _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
 				_aliveUnitsCount = call _self.CountUnitsAliveOpposing;
-				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointOpposing < 50 } count _self.OpposingUnits) == _aliveUnitsCount;
+				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointOpposing < 25 } count _self.OpposingUnits) == _aliveUnitsCount;
 				
 				diag_log ("GURGEL: _primaryOrSecondaryObjectiveCompleted: " + str _primaryOrSecondaryObjectiveCompleted + "; _aliveUnitsCount: " + str _aliveUnitsCount + "; _allUnitsPresent: " + str _allUnitsPresent);
 			

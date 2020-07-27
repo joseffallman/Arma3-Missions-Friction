@@ -20,7 +20,24 @@ namespace Mission.Client.Statics
 			// Fires when preload finishes.
 			["ClientEventHandlerId_01", "onPreloadFinished",
 			{
-				ClientState.IsAlive = true;
+				private _hasInserted = false;
+			
+				if (playerSide == west) then {
+					_hasInserted = call PublicVariableHandler.GetWestHasInserted;
+				}
+				else {
+					_hasInserted = call PublicVariableHandler.GetEastHasInserted;
+				};
+			
+				ClientState.IsAlive = !_hasInserted;
+				
+				if (didJIP) then {
+					// Perform JIP stuff
+					call ClientObjects.JipService.RunAsync;
+				}
+				else {
+			  		cutText ["","BLACK IN", 1];
+				};
 			}] call BIS_fnc_addStackedEventHandler;
 			
 			// Triggered when player clicks somewhere the map.

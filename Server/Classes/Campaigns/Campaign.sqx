@@ -18,14 +18,15 @@ namespace Mission.Server
 		public constructor()
 		{
 			_self.CurrentMissionIndex = -1;
-			_self.Missions = [];
-			[_self.Missions] call _self.SelectMissions;
+			private _missions = [];
+			[_missions] call _self.SelectMissions;
+			_self.Missions = _missions;
 		};
 		
 		protected virtual method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack [east] new LostVehicles;
-			_missions pushBack [east] new AirbaseIntruders;
+			_missions pushBack ([east] new DragRacing);
+			_missions pushBack ([east] new LostVehicles);
 		};
 		
 		protected property Scalar CurrentMissionIndex { get; protected set; };

@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=202;
+		nextID=205;
 	};
 	class MarkerIDProvider
 	{
-		nextID=18;
+		nextID=19;
 	};
 	class Camera
 	{
-		pos[]={5787.0645,32.731121,4579.1133};
-		dir[]={-0.40953919,-0.10587119,0.90623128};
-		up[]={-0.043625534,0.99437153,0.096534908};
-		aside[]={0.91134608,7.2002877e-007,0.41185224};
+		pos[]={1899.3207,20.115561,5702.9922};
+		dir[]={0.50732487,-0.42470786,0.749843};
+		up[]={0.23799467,0.90532988,0.35176361};
+		aside[]={0.82825297,-1.1309749e-007,-0.5603739};
 	};
 };
 binarizationWanted=0;
@@ -124,6 +124,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -158,25 +177,6 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=83;
+		items=86;
 		class Item0
 		{
 			dataType="Marker";
@@ -2192,6 +2192,42 @@ class Mission
 			angle=259.64401;
 			id=177;
 			atlOffset=-3.0517578e-005;
+		};
+		class Item83
+		{
+			dataType="Marker";
+			position[]={2030.1858,5.1633301,5719.9492};
+			name="m08a_StartArea";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=30;
+			b=30;
+			angle=192.50365;
+			id=202;
+			atlOffset=-0.53654289;
+		};
+		class Item84
+		{
+			dataType="Marker";
+			position[]={1795.9551,0,5765.7754};
+			name="m08o_StartArea";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorEAST";
+			a=30;
+			b=30;
+			angle=197.98599;
+			id=203;
+			atlOffset=-5.5;
+		};
+		class Item85
+		{
+			dataType="Marker";
+			position[]={1902.8167,5.5194564,5712.4829};
+			name="m08_GoalLineMarker";
+			type="mil_objective";
+			id=204;
 		};
 	};
 };

@@ -1,0 +1,35 @@
+/*
+ * Name:	JipService
+ * Date:	2018-12-25
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A service that starts up a JIP player.
+ */
+
+using Sqx.Services;
+using Mission.Client.Statics;
+
+namespace Mission.Client
+{
+	public class JipService : Service
+	{
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method Run()
+		{
+			waitUntil { player == player };
+			
+			[] spawn {
+			    sleep 1;
+				call ClientObjects.CameraHandler.SetDeathCamera;
+				sleep 0.5;
+		  		cutText ["","BLACK IN", 1];
+		    };
+		};
+	};
+};

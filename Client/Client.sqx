@@ -11,6 +11,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHan
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\CameraHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Services\JipService.sqx";
 
 using Mission.Client;
 using Mission.Client.Statics;
@@ -23,6 +24,7 @@ namespace Mission
 		public static method Initialize()
 		{
 			// Make sure the player object exists
+			cutText ["", "BLACK FADED"];
 			waitUntil { player == player };
 			
 			call ClientState.Init;
