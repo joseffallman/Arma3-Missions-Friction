@@ -1,0 +1,53 @@
+/*
+ * Name:	Campaign
+ * Date:	2020-07-27
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * The base class for a campaign. Inherit this to create your own campaign.
+ */
+
+using Mission.Common;
+
+namespace Mission.Server
+{
+	public class Campaign
+	{
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig];
+		
+		// Creates a Campaign object.
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
+		{
+			_mBaseMarkersConfig = _baseMarkersConfig;
+			_self.CurrentMissionIndex = -1;
+			
+			call _self.SelectMissions;
+		};
+		
+		protected virtual method SelectMissions()
+		{
+			_self.Missions = [
+				[_mBaseMarkersConfig, east] new LostVehicles,
+				[_mBaseMarkersConfig, selectRandom [west, east]] new NightTensions,
+				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,
+				[_mBaseMarkersConfig, selectRandom [west, east]] new AirStationAssault
+			];
+		};
+		
+		protected property Scalar CurrentMissionIndex { get; protected set; };
+		
+		protected property Array Missions { get; protected set; };
+		
+		public virtual method Mission GetNextMission("_previousMissionEnd" as String)
+		{
+			_self.CurrentMissionIndex = _self.CurrentMissionIndex + 1;
+			
+			if (_self.CurrentMissionIndex < count _self.Missions) then {
+				return _self.Missions select _self.CurrentMissionIndex;
+			};
+			
+			return classNull;
+		};
+	};
+};

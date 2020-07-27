@@ -223,7 +223,11 @@
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Classes" FileName="Server\Classes">
             <SubNodes>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Campaigns" FileName="Server\Classes\Campaigns">
-                <SubNodes />
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Server\Classes\Campaigns\Campaign.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Server\Classes\Handlers">
                 <SubNodes>

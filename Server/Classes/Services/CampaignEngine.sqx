@@ -16,27 +16,20 @@ namespace Mission.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mMissions" as Array /* of Mission */, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
+		private fields ["_mCampaign" as Campaign, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_playerUnitsConfig" as PlayerUnitsConfig)
+		public constructor("_campaign" as Campaign, "_playerUnitsConfig" as PlayerUnitsConfig)
 		{
 			call _base.Constructor;
 			
-			_mBaseMarkersConfig = _baseMarkersConfig;
+			_mCampaign = _campaign;
 			_mPlayerUnitsConfig = _playerUnitsConfig;
 			
 			call _self.ClearAllMapMarkers;
-			
-			_mMissions = [
-				[_mBaseMarkersConfig, east] new LostVehicles,
-				[_mBaseMarkersConfig, selectRandom [west, east]] new NightTensions,
-				[_mBaseMarkersConfig, selectRandom [west, east]] new HawkDown,
-				[_mBaseMarkersConfig, selectRandom [west, east]] new AirStationAssault
-			];
 		};
 		
 		private method ClearAllMapMarkers()
@@ -376,8 +369,10 @@ namespace Mission.Server
 			
 			// Run each mission
 			
+			_mCurrentMission = [""] call _mCampaign.GetNextMission;
+			
+			while {!isNull _mCurrentMission} do
 			{
-				_mCurrentMission = _x;
 				_mEastHasInserted = false;
 				_mWestHasInserted = false;
 				_mEastlyUnits = [];
@@ -469,7 +464,8 @@ namespace Mission.Server
 				sleep 4;
 				
 				call _mCurrentMission.Cleanup;
-			} foreach _mMissions as Mission;
+				_mCurrentMission = [""] call _mCampaign.GetNextMission;
+			};
 
 			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 			
