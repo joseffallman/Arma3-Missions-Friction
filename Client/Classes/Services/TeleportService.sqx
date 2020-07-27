@@ -31,70 +31,38 @@ namespace Mission.Client
 		// Teleports the player instantly to the base.
 		protected override method Run()
 		{
-			//cutText ["", "WHITE OUT", 1];
-			cutText ["", "BLACK OUT", 0.5];
-			
-			sleep 0.5;
-			
-			private _teleportedUnits = [];
-			
+			if (player distance _mPosition > 50) then
 			{
-				private _unit = vehicle _x;
-				private _isVehicle = vehicle _x != _x;
-
-				if (_isVehicle) then
+				cutText ["", "BLACK OUT", 0.5];
+				
+				sleep 0.5;
+				
+				private _teleportedUnits = [];
+				
 				{
-					if (local _unit && { !(_unit in _teleportedUnits) }) then
-					{
-						[_unit] call _self.TeleportVehicleAndCrew;
-						_teleportedUnits pushBack _unit;
-					};
-				}
-				else // Is single unit
-				{
-					if (local _unit && { !(_unit in _teleportedUnits) }) then {
-						_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
-						_teleportedUnits pushBack _unit;
-					};
-				};
-/*				
-				if (!(_unit in _teleportedUnits)) then
-				{
+					private _unit = vehicle _x;
+					private _isVehicle = vehicle _x != _x;
+	
 					if (_isVehicle) then
 					{
-						if (local _unit) then
+						if (local _unit && { !(_unit in _teleportedUnits) }) then
 						{
-							_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+							[_unit] call _self.TeleportVehicleAndCrew;
 							_teleportedUnits pushBack _unit;
-							_teleportedUnits pushBack _x;
-							player sideChat "1";
-						
-							for "_i" from 0 to (count units group player) - 1 do
-							{
-								private _y = units group player select _i;
-							
-								if (vehicle _y == _unit) then {
-									_teleportedUnits pushBack _y;
-								};
-							};
-							
-							player sideChat str _teleportedUnits;
 						};
 					}
-					else { // If infantry unit
-						if (false && local _unit) then {
+					else // Is single unit
+					{
+						if (local _unit && { !(_unit in _teleportedUnits) }) then {
 							_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
-							_teleportedUnits pushBack _x;
-							player sideChat "2";
+							_teleportedUnits pushBack _unit;
 						};
 					};
-				};
-*/
-			} foreach units group player;
-			
-			openMap false;
-			
-			cutText ["", "BLACK IN", 0.5];
+				} foreach units group player;
+				
+				openMap false;
+				cutText ["", "BLACK IN", 0.5];
+			};
 			
 			call _base.Run;
 		};
