@@ -30,6 +30,8 @@ namespace Mission.Client.Statics
 {
 	public class ClientEventReciever
 	{
+		private static fields ["_mMissionMarkersInfo" as MissionMarkersInfo];
+	
 		// Called when the mission engine on the server starts.
 		public static method OnMissionStart()
 		{
@@ -45,9 +47,10 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
 		{
-			private ["_markerInfos" as Array /* of String */, "_marker" as String];
+			private ["_markerInfos" as Array /* of String */];
 			
 			cutText ["", "BLACK OUT", 1];
+			_mMissionMarkersInfo = _missionMarkersInfo;
 				
 			// Update the markers
 			
@@ -60,32 +63,6 @@ namespace Mission.Client.Statics
 				
 				if (count _markerInfos == 0) then {
 					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, getPos player]] call Remote.Invoke;
-				};
-			};
-			
-			// If noone is on the other side (during development or SP), perform simple insertion for the other side
-
-			private _countPlayersOnTheOtherSide = 0;
-			private _otherSide = if (playerSide == west) then { east } else { west };			
-			
-			{
-				if (side group _x == _otherSide) then {
-					_countPlayersOnTheOtherSide = _countPlayersOnTheOtherSide + 1;
-				};
-			} foreach call BIS_fnc_listPlayers;
-			
-			if (_countPlayersOnTheOtherSide == 0) then
-			{
-				// If no insertion markers are specified, perform insertion immediately
-				_markerInfos = [_otherSide] call _missionMarkersInfo.GetStartMarkersBySide;
-				
-				if (count _markerInfos > 0) then {
-					_marker = _markerInfos select 0;
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _marker]] call Remote.Invoke;
-				}
-				else {
-					private _otherSideBaseMarkerName = [_otherSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _otherSideBaseMarkerName]] call Remote.Invoke;
 				};
 			};
 		};
@@ -150,6 +127,35 @@ namespace Mission.Client.Statics
 			
 			// Hide insertion menu option
 			call FrictionMenuHandler.UpdateVisibleOptions;
+			
+			
+			// If noone is on the other side (during development or SP), perform simple insertion for the other side
+
+			private ["_markerInfos" as Array /* of String */, "_marker" as String];
+			
+			private _countPlayersOnTheOtherSide = 0;
+			private _otherSide = if (side _group == west) then { east } else { west };			
+			
+			{
+				if (side group _x == _otherSide) then {
+					_countPlayersOnTheOtherSide = _countPlayersOnTheOtherSide + 1;
+				};
+			} foreach call BIS_fnc_listPlayers;
+			
+			if (_countPlayersOnTheOtherSide == 0) then
+			{
+				// If no insertion markers are specified, perform insertion immediately
+				_markerInfos = [_otherSide] call _mMissionMarkersInfo.GetStartMarkersBySide;
+				
+				if (count _markerInfos > 0) then {
+					_marker = _markerInfos select 0;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _marker]] call Remote.Invoke;
+				}
+				else {
+					private _otherSideBaseMarkerName = [_otherSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _otherSideBaseMarkerName]] call Remote.Invoke;
+				};
+			};
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)

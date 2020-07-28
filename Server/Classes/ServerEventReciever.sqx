@@ -23,7 +23,7 @@ namespace Mission.Server.Statics
 			[_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
 			
 			// If the side contains no players, move them as server
-			private _switchableUnits = call CommonObjects.PlayerUnitsConfig.GetSwitchableUnits;
+			private _switchableUnits = call ServerObjects.MissionUnitsHandler.GetSwitchableUnits;
 			
 			if ({ side group _x == _side && isPlayer _x } count _switchableUnits == 0) then {
 				{

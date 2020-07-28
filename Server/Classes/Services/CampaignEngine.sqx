@@ -16,19 +16,21 @@ namespace Mission.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mCampaign" as Campaign, "_mPlayerUnitsConfig" as PlayerUnitsConfig, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_playerUnitsConfig" as PlayerUnitsConfig, "_campaign" as Campaign)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_campaign" as Campaign, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)
 		{
 			call _base.Constructor;
 			
 			_mBaseMarkersConfig = _baseMarkersConfig;
-			_mPlayerUnitsConfig = _playerUnitsConfig;
+			_mMissionUnitsHandler = _missionUnitsHandler;
 			_mCampaign = _campaign;
+			_mAiUnitsWestCount = _aiUnitsWestCount;
+			_mAiUnitsEastCount = _aiUnitsEastCount;
 			
 			call _self.ClearAllMapMarkers;
 		};
@@ -96,7 +98,7 @@ namespace Mission.Server
 				if (side group _x == _side) then {
 					_group = group _x;
 				};
-			} foreach (call _mPlayerUnitsConfig.GetSwitchableUnits);
+			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
 			
 			if (_side == west) then
 			{
@@ -212,54 +214,6 @@ namespace Mission.Server
 			};
 		};
 		
-/*
-		private method Boolean EndDueToCompletedObjectivesAndHumanPlayers()
-		{
-			private ["_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
-		
-			if (_mWestHasInserted && _mEastHasInserted) then
-			{
-				if (_mWestPrimaryObjectiveCompleted) then
-				{
-					private _eastHasPlayers = { isPlayer _x } count _mEastlyUnits > 0;
-					
-					if (!_eastHasPlayers) then
-					{
-						_secondaryObjective = [west, ObjectivePrio.Secondary] call _mCurrentMission.GetMissionObjective;
-						
-	 					if (isNull _secondaryObjective || _mWestSecondaryObjectiveCompleted) then
-	 					{
-	 						_returnObjective = [west, ObjectivePrio.Return] call _mCurrentMission.GetMissionObjective;
-							private _returnObjectiveOk = isNull _returnObjective || _mWestReturnObjectiveCompleted;
-							
-							return _returnObjectiveOk;
-	 					};
-	 				};
-				};
-			
-				if (_mEastPrimaryObjectiveCompleted) then
-				{
-					private _westHasPlayers = { isPlayer _x } count _mWestlyUnits > 0;
-					
-					if (!_westHasPlayers) then
-					{
-						_secondaryObjective = [east, ObjectivePrio.Secondary] call _mCurrentMission.GetMissionObjective;
-						
-	 					if (isNull _secondaryObjective || _mEastSecondaryObjectiveCompleted) then
-	 					{
-	 						_returnObjective = [east, ObjectivePrio.Return] call _mCurrentMission.GetMissionObjective;
-							private _returnObjectiveOk = isNull _returnObjective || _mEastReturnObjectiveCompleted;
-							
-							return _returnObjectiveOk;
-	 					};
-	 				};
-				};
-			};
-			
-			return false;
-		};
-*/
-		
 		private method SaveHistoryTokens("_mission" as Mission)
 		{
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then
@@ -345,7 +299,7 @@ namespace Mission.Server
 				if (side group _x == east) then {
 					_eastGroup = group _x;
 				};
-			} foreach (call _mPlayerUnitsConfig.GetSwitchableUnits);
+			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
 		
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
 				[_mBaseMarkersConfig, _westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
@@ -395,8 +349,28 @@ namespace Mission.Server
 				
 				[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
 				
-				[_mCurrentMission] call _self.PrepareMission;
+				sleep 1;
 				
+				// Create AI units
+				private _westlyGroup = [west] call _mMissionUnitsHandler.GetGroupBySide;
+				private _westlyAi = [west] call _mMissionUnitsHandler.GetAiUnitsBySide;
+				private _westRespawnPos = getMarkerPos ([west, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName);
+				
+				for "_i" from (count _westlyAi) to _mAiUnitsWestCount - 1 do {
+					private _aiUnit = _westlyGroup createUnit ["B_Soldier_F", _westRespawnPos, [], 0, "NONE"];
+					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
+				};
+				
+				private _eastlyGroup = [east] call _mMissionUnitsHandler.GetGroupBySide;
+				private _eastlyAi = [east] call _mMissionUnitsHandler.GetAiUnitsBySide;
+				private _eastRespawnPos = getMarkerPos ([east, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName);
+				
+				for "_i" from (count _eastlyAi) to _mAiUnitsEastCount - 1 do {
+					private _aiUnit = _eastlyGroup createUnit ["O_Soldier_F", _eastRespawnPos, [], 0, "NONE"];
+					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
+				};
+				
+				[_mCurrentMission] call _self.PrepareMission;
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
 				
 				private _startTime = time;
@@ -429,15 +403,6 @@ namespace Mission.Server
 						call _mCurrentMission.Cancel;
 					};
 					
-/*
-					// End mission if one side has completed objectives and there are no humans on the other side
-					// Doesn't work...
-
-					if (call _self.EndDueToCompletedObjectivesAndHumanPlayers) then {
-						call _mCurrentMission.Cancel;
-					};
-*/
-
 					sleep 1;
 					
 					[_mCurrentMission] call _self.CheckAndNotifyObjectives;

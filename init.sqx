@@ -19,3 +19,23 @@ if (!isDedicated) then {
 	call compile preprocessFileLineNumbers "Client\Client.sqx";
 	call Client.Initialize;
 };
+
+// If in singleplayer, remove all default AI units (since we are spawning new ones.)
+if (!isMultiplayer) then {
+	for "_i" from 1 to 5 do {
+		private _bluforUnitVar = "b" + str _i;
+		private _opforUnitVar = "o" + str _i;
+
+		if (!isNil _bluforUnitVar) then {
+			if (!isPlayer call compile _bluforUnitVar) then {
+				deleteVehicle call compile _bluforUnitVar;
+			};
+		};
+
+		if (!isNil _opforUnitVar) then {
+			if (!isPlayer call compile _opforUnitVar) then {
+				deleteVehicle call compile _opforUnitVar;
+			};
+		};
+	};
+};

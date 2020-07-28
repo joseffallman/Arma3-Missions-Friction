@@ -19,10 +19,12 @@ namespace Mission.Server.Statics
 		public static method Init()
 		{
 			_self.Campaign = new Campaign;
-			_self.CampaignEngine = [CommonObjects.BaseMarkersConfig, CommonObjects.PlayerUnitsConfig, _self.Campaign] new CampaignEngine;
+			_self.MissionUnitsHandler = new MissionUnitsHandler;
+			_self.CampaignEngine = [CommonObjects.BaseMarkersConfig, _self.MissionUnitsHandler, _self.Campaign, CommonObjects.MissionParametersHandler.AiWestFrequency, CommonObjects.MissionParametersHandler.AiEastFrequency] new CampaignEngine;
 		};
 		
 		public static property Campaign Campaign { get; private set; };
 		public static property CampaignEngine CampaignEngine { get; private set; };
+		public static property MissionUnitsHandler MissionUnitsHandler { get; private set; };
 	};
 };

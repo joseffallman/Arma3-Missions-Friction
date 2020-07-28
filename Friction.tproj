@@ -95,9 +95,6 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseMarkersConfig.sqx" FileName="Common\Classes\Configs\BaseMarkersConfig.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PlayerUnitsConfig.sqx" FileName="Common\Classes\Configs\PlayerUnitsConfig.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Handlers" FileName="Common\Classes\Handlers">
@@ -110,6 +107,9 @@
                     </SubNodes>
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Handlers\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionParametersHandler.sqx" FileName="Common\Classes\Handlers\MissionParametersHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>
@@ -245,6 +245,9 @@
                     </SubNodes>
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Server\Classes\Handlers\_ReadMe.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionUnitsHandler.sqx" FileName="Server\Classes\Handlers\MissionUnitsHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>
@@ -412,6 +415,9 @@
         <SubNodes />
       </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="mission.sqm" FileName="mission.sqm">
+        <SubNodes />
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionParameters.ext" FileName="MissionParameters.ext">
         <SubNodes />
       </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="README.sqx" FileName="README.sqx">

@@ -8,6 +8,7 @@
  * Static container for the client's event handlers.
  */
 
+using Mission.Common.Statics;
 using Mission.Client;
 using Mission.Communication;
 

@@ -1,0 +1,20 @@
+class Params
+{
+	class AiWest
+	{
+		// paramsArray[0]
+		title="AI Units West Frequency";
+		values[]={0, 1, 2, 3, 4, 5};
+		texts[]={0, 1, 2, 3, 4, 5};
+		default = 0;
+	};
+	
+	class AiEast
+	{
+		// paramsArray[1]
+		title="AI Units East Frequency";
+		values[]={0, 1, 2, 3, 4, 5};
+		texts[]={0, 1, 2, 3, 4, 5};
+		default = 0;
+	};
+};

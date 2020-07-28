@@ -1,3 +1,5 @@
+#include "MissionParameters.ext"
+
 // Mission Header
 class Header
 {

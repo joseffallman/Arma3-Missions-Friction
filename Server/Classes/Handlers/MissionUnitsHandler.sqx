@@ -1,0 +1,124 @@
+/*
+ * Name:	MissionUnitsHandler
+ * Date:	2020-07-14
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * An attempt to fix the unreliable switchableUnits command.
+ */
+namespace Mission.Server
+{
+	public class MissionUnitsHandler
+	{
+		private fields ["_mWestlyAiUnits" as Array, "_mEastlyAiUnits" as Array];
+	
+		// Creates a MissionUnitsHandler object.
+		public constructor()
+		{
+			_mWestlyAiUnits = [];
+			_mEastlyAiUnits = [];
+		};
+		
+		public method Array GetSwitchableUnits()
+		{
+			private _switchableUnits = [];
+			
+			if (!isNil "b1" && { !isNull b1 }) then {
+				_switchableUnits pushBack b1;
+			};
+			if (!isNil "b2" && { !isNull b2 }) then {
+				_switchableUnits pushBack b2;
+			};
+			if (!isNil "b3" && { !isNull b3 }) then {
+				_switchableUnits pushBack b3;
+			};
+			if (!isNil "b4" && { !isNull b4 }) then {
+				_switchableUnits pushBack b4;
+			};
+			if (!isNil "b5" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			
+			if (!isNil "o1" && { !isNull o1 }) then {
+				_switchableUnits pushBack o1;
+			};
+			if (!isNil "o2" && { !isNull o2 }) then {
+				_switchableUnits pushBack o2;
+			};
+			if (!isNil "o3" && { !isNull o3 }) then {
+				_switchableUnits pushBack o3;
+			};
+			if (!isNil "o4" && { !isNull o4 }) then {
+				_switchableUnits pushBack o4;
+			};
+			if (!isNil "o5" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			
+			{
+				_switchableUnits pushBack _x;
+			} foreach ([west] call _self.GetAiUnitsBySide) as Object;
+			
+			{
+				_switchableUnits pushBack _x;
+			} foreach ([east] call _self.GetAiUnitsBySide) as Object;
+			
+			return _switchableUnits;
+		};
+		
+		public method Group GetGroupBySide("_side" as Side)
+		{
+			{
+				if (side group _x == _side) then {
+					return group _x;
+				};
+			} foreach (call _self.GetSwitchableUnits) as Object;
+			
+			return createGroup [_side, true];
+		};
+		
+		public method AddAiUnit("_unit" as Object)
+		{
+			if (side group _unit == west) then {
+				_mWestlyAiUnits pushBack _unit;
+			}
+			else {
+				_mEastlyAiUnits pushBack _unit;
+			};
+		};
+		
+		private method RemoveDeadFromAiUnits()
+		{
+			private _westlyAiUnitsToKeep = [];
+			private _eastlyAiUnitsToKeep = [];
+			
+			{
+				if (alive _x && canStand _x) then {
+					_westlyAiUnitsToKeep pushBack _x;
+				};
+			} foreach _mWestlyAiUnits as Object;
+			
+			{
+				if (alive _x && canStand _x) then {
+					_eastlyAiUnitsToKeep pushBack _x;
+				};
+			} foreach _mEastlyAiUnits as Object;
+			
+			_mWestlyAiUnits = _westlyAiUnitsToKeep;
+			_mEastlyAiUnits = _eastlyAiUnitsToKeep;
+		};
+		
+		public method GetAiUnitsBySide("_side" as Side)
+		{
+			call _self.RemoveDeadFromAiUnits;
+				
+			if (_side == west) then {
+				return _mWestlyAiUnits;
+			}
+			else {
+				return _mEastlyAiUnits;
+			};
+		};
+	};
+};

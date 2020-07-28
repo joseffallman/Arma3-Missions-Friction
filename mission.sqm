@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={1899.3207,20.115561,5702.9922};
-		dir[]={0.50732487,-0.42470786,0.749843};
-		up[]={0.23799467,0.90532988,0.35176361};
-		aside[]={0.82825297,-1.1309749e-007,-0.5603739};
+		pos[]={1858.1326,53.666756,5659.4888};
+		dir[]={0.7296651,-0.33068219,0.59855896};
+		up[]={0.25567228,0.94374061,0.20973307};
+		aside[]={0.63423991,1.8242281e-007,-0.77316231};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -174,6 +155,25 @@ class CustomAttributes
 							};
 						};
 					};
+				};
+			};
+		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
 				};
 			};
 		};
@@ -276,7 +276,7 @@ class Mission
 		class Item5
 		{
 			dataType="Marker";
-			position[]={6427.8789,7.5410938,5417.6172};
+			position[]={6428.0942,7.5567894,5417.1318};
 			name="respawn_east";
 			type="Empty";
 			angle=129.93507;
@@ -2196,7 +2196,7 @@ class Mission
 		class Item83
 		{
 			dataType="Marker";
-			position[]={2030.1858,5.1633301,5719.9492};
+			position[]={1719.7482,4.9633789,5717.792};
 			name="m08a_StartArea";
 			markerType="RECTANGLE";
 			type="rectangle";
@@ -2205,12 +2205,12 @@ class Mission
 			b=30;
 			angle=192.50365;
 			id=202;
-			atlOffset=-0.53654289;
+			atlOffset=-0.53662109;
 		};
 		class Item84
 		{
 			dataType="Marker";
-			position[]={1795.9551,0,5765.7754};
+			position[]={1736.8848,0,5777.5859};
 			name="m08o_StartArea";
 			markerType="RECTANGLE";
 			type="rectangle";
