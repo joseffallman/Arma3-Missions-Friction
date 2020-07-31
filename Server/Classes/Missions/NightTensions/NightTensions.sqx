@@ -118,6 +118,7 @@ namespace Mission.Server
 		protected override method ObjectiveState CheckSecondaryObjectiveStateOpposing()
 		{
 			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
+			
 			if (_allEnemiesDead) then {
 				return ObjectiveState.Succeeded;
 			};

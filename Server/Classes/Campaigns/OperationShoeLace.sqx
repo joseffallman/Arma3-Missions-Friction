@@ -26,6 +26,7 @@ namespace Mission.Server
 			_missions pushBack [west] new NightTensions;
 			_missions pushBack [west] new HawkDown;
 			_missions pushBack [west] new AirStationAssault;
+			_missions pushBack [west] new CatAndMouse;
 		};
 	};
 };

@@ -275,6 +275,13 @@
                       </ProjectNodeViewModel>
                     </SubNodes>
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CatAndMouse" FileName="Server\Classes\Missions\CatAndMouse">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CatAndMouse.sqx" FileName="Server\Classes\Missions\CatAndMouse\CatAndMouse.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="DragRacing" FileName="Server\Classes\Missions\DragRacing">
                     <SubNodes>
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="DragRacing.sqx" FileName="Server\Classes\Missions\DragRacing\DragRacing.sqx">

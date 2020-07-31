@@ -63,7 +63,7 @@ namespace Mission.Client
 					_marker setMarkerSizeLocal (markerSize _x.Name);
 					_marker setMarkerDirLocal (markerDir _x.Name);
 					_marker setMarkerColorLocal _startMarkerColor;
-					_marker setMarkerBrushLocal "FDiagonal";
+					_marker setMarkerBrushLocal "DiagGrid";
 				};
 			} foreach _missionMarkersInfo.StartMarkers as MarkerInfo;
 			
