@@ -1,0 +1,97 @@
+/*
+ * Name:	Aquirement
+ * Date:	2020-08-03
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * First mission of Operation Shoe Lace, in which the sides select their vehicles and equipment.
+ */
+
+using Mission.Common;
+
+namespace Mission.Server
+{
+	public class Aquirement : ShoeLaceMission
+	{
+		private fields ["_mQuadbikeActing" as Object, "_mMrapActing" as Object, "_mQuadbikeOpposing" as Object, "_mMrapOpposing" as Object];
+	
+		// Creates a Aquirement object.
+		public constructor("_actingSide" as Side)
+		{
+			[_actingSide] call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "Aquirement";
+			_mission.StartTimeOfDay = 16;
+		};
+		
+		protected override method Setup()
+		{
+			_mQuadbikeActing = ["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_mMrapActing = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_mQuadbikeOpposing = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_mMrapOpposing = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			
+			call _base.Setup;
+		};
+		
+		protected override method String AddBriefingInfoForActing()
+		{
+			return "Enter the vehicle that you want to use as your transport vehicle during the campaign.";
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return "Enter the vehicle that you want to use as your transport vehicle during the campaign.";
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			return ["Select a vehicle", "Enter the vehicle that you want to use as your transport vehicle during the campaign."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			return ["Select a vehicle", "Enter the vehicle that you want to use as your transport vehicle during the campaign."] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			private _inQuadbike = { vehicle _x == _mQuadbikeActing } count _self.ActingUnits > 0;
+			private _inMrap = { vehicle _x == _mMrapActing } count _self.ActingUnits > 0;
+			
+			if (_inQuadbike) then {
+				_self.GainedTokenActing = HistoryToken.Quadbike;
+				return ObjectiveState.Succeeded;
+			};
+			
+			if (_inMrap) then {
+				_self.GainedTokenActing = HistoryToken.Mrap;
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			private _inQuadbike = { vehicle _x == _mQuadbikeOpposing } count _self.OpposingUnits > 0;
+			private _inMrap = { vehicle _x == _mMrapOpposing } count _self.OpposingUnits > 0;
+			
+			if (_inQuadbike) then {
+				_self.GainedTokenOpposing = HistoryToken.Quadbike;
+				return ObjectiveState.Succeeded;
+			};
+			
+			if (_inMrap) then {
+				_self.GainedTokenOpposing = HistoryToken.Mrap;
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+	};
+};

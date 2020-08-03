@@ -13,9 +13,9 @@ using Mission.Common;
 
 namespace Mission.Server
 {
-	public class CatAndMouse : Mission
+	public class CatAndMouse : ShoeLaceMission
 	{
-		private fields ["_mBox" as Object];
+		private fields ["_mBox" as Object, "_mBoxIsFound" as Boolean];
 	
 		// Creates a CatAndMouse object.
 		public constructor("_actingSide" as Side)
@@ -93,7 +93,16 @@ namespace Mission.Server
 			
 			if (_foundBox) then {
 				_mBox setPos [0, 0 ,0];
+				_mBoxIsFound = true;
 				return ObjectiveState.Succeeded;
+			};
+			
+			// If the other side found the box, then fail primary objective, so that everyone is returned to the base.
+			
+			private _allEnemiesDead = call _self.CountUnitsAliveOpposing == 0;
+			
+			if (_mBoxIsFound && _allEnemiesDead) then {
+				return ObjectiveState.Failed;
 			};
 			
 			return ObjectiveState.None;
@@ -116,7 +125,16 @@ namespace Mission.Server
 			
 			if (_foundBox) then {
 				_mBox setPos [0, 0 ,0];
+				_mBoxIsFound = true;
 				return ObjectiveState.Succeeded;
+			};
+			
+			// If the other side found the box, then fail primary objective, so that everyone is returned to the base.
+			
+			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
+			
+			if (_mBoxIsFound && _allEnemiesDead) then {
+				return ObjectiveState.Failed;
 			};
 			
 			return ObjectiveState.None;

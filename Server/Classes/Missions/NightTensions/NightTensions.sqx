@@ -9,7 +9,7 @@ using Mission.Common;
 
 namespace Mission.Server
 {
-	public class NightTensions : Mission
+	public class NightTensions : ShoeLaceMission
 	{
 		private fields ["_mBox" as Object, "_mDrawingsAreStolen" as Boolean, "_mPrimaryObjectiveMarker" as String];
 	

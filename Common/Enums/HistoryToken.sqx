@@ -19,7 +19,9 @@ namespace Mission.Common
 		HawkIntel,
 		Reinforcements,
 		Explosives,
-		Uav
+		Uav,
+		Quadbike,
+		Mrap
 	};
 	
 	public class HistoryTokenMeta

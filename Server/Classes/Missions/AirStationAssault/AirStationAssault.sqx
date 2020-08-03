@@ -12,7 +12,7 @@ using Mission.Common;
 
 namespace Mission.Server
 {
-	public class AirStationAssault : Mission
+	public class AirStationAssault : ShoeLaceMission
 	{
 		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array];
 		

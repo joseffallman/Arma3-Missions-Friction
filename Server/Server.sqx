@@ -6,6 +6,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.
 call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Mission.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\ShoeLaceMission.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Shared\ObjectTypeDictionary.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Shared\SoldierTypeDictionary.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\AirStationAssault\AirStationAssault.sqx";
@@ -14,6 +15,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Missions\LostVehicles\Los
 call compile preprocessFileLineNumbers "Server\Classes\Missions\AsEasyAsItGets\AsEasyAsItGets.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\HawkDown\HawkDown.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\NightTensions\NightTensions.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Missions\Aquirement\Aquirement.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\Establishments\Establishments.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\DragRacing\DragRacing.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\CatAndMouse\CatAndMouse.sqx";
