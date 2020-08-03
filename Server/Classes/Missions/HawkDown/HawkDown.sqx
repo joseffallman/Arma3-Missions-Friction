@@ -53,7 +53,7 @@ namespace Mission.Server
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Destroy helicopter";
-			private _longDescription = "Find and destroy the helicopter before it falls into enemy hands.";
+			private _longDescription = "Find and destroy the helicopter before it falls into enemy hands. Do not forget to bring explosives, which can be found in the explosives box in the base.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
