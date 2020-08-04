@@ -15,7 +15,7 @@ namespace Mission.Server
 {
 	public class HawkDown : ShoeLaceMission
 	{
-		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String, "_mIntelCollected" as Boolean];
+		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String, "_mIntelCollected" as Boolean, "_mStealIntelActionId" as Scalar];
 		
 		// Creates a AirBaseMadness object.
 		public constructor("_actingSide" as Side)
@@ -49,7 +49,17 @@ namespace Mission.Server
 			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, _mGreyHawkMarker] call _self.CreateSideVehicleOnMarker;
 			_mGreyHawk setDamage [0.8, false];
 			
+			_mStealIntelActionId = [_mGreyHawk, "Steal intel", MissionSide.Opposing] call _self.AddAction;
+			[getMarkerPos _mGreyHawkMarker] call Sqx.Markers.Marker.CreateIconMarker;
 			call _base.Setup;
+		};
+		
+		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
+		{
+			if (_actionId == _mStealIntelActionId) then {
+				_mIntelCollected = true;
+				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
+			};
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -89,12 +99,7 @@ namespace Mission.Server
 				return ObjectiveState.Failed;
 			};
 			
-			private _oneUnitNearHawk = { _x distance _mGreyHawk < 5 } count _self.OpposingUnits > 0;			
-			private _fulfilled = _greyHawkAlive && _oneUnitNearHawk;
-			
-			if (_fulfilled) then {
-				_mIntelCollected = true;
-				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
+			if (_mIntelCollected) then {
 				return ObjectiveState.Succeeded;
 			};
 			

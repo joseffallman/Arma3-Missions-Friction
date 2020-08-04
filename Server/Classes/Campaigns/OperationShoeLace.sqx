@@ -22,12 +22,12 @@ namespace Mission.Server
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack west new Aquirement;
-			_missions pushBack west new Establishments;
-			_missions pushBack west new HawkDown;
-			_missions pushBack west new CatAndMouse;
-			_missions pushBack west new NightTensions;
-			_missions pushBack west new AirStationAssault;
+			_missions pushBack [west] new Aquirement;
+			//_missions pushBack [west] new Establishments;
+			_missions pushBack [east] new HawkDown;
+			_missions pushBack [west] new CatAndMouse;
+			_missions pushBack [west] new NightTensions;
+			_missions pushBack [west] new AirStationAssault;
 		};
 	};
 };
