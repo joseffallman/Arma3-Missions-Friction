@@ -50,7 +50,7 @@ namespace Mission.Server
 			_mGreyHawk setDamage [0.8, false];
 			
 			_mStealIntelActionId = [_mGreyHawk, "Steal intel", MissionSide.Opposing] call _self.AddAction;
-			[getMarkerPos _mGreyHawkMarker] call Sqx.Markers.Marker.CreateIconMarker;
+
 			call _base.Setup;
 		};
 		
