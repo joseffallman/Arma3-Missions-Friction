@@ -15,13 +15,15 @@ namespace Mission.Server
 {
 	public class HawkDown : ShoeLaceMission
 	{
-		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String];
+		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String, "_mIntelCollected" as Boolean];
 		
 		// Creates a AirBaseMadness object.
 		public constructor("_actingSide" as Side)
 		{
 			[_actingSide] call _base.Constructor;
+			
 			_mGreyHawkMarker = "";
+			_mIntelCollected = false;
 		};
 		
 		protected override method InitMission("_mission" as Mission.Server.MissionSettings)
@@ -68,6 +70,10 @@ namespace Mission.Server
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
+			if (_mIntelCollected) then {
+				return ObjectiveState.Failed;
+			};
+			
 			if (!alive _mGreyHawk) then {
 				return ObjectiveState.Succeeded;
 			};
@@ -87,6 +93,7 @@ namespace Mission.Server
 			private _fulfilled = _greyHawkAlive && _oneUnitNearHawk;
 			
 			if (_fulfilled) then {
+				_mIntelCollected = true;
 				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
 				return ObjectiveState.Succeeded;
 			};
