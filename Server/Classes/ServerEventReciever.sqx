@@ -53,5 +53,10 @@ namespace Mission.Server.Statics
 		public static method OnPlayerKilled("_player" as Object, "_killer" as Object)
 		{		
 		};
+		
+		public static method OnAction("_serverActionId" as Scalar, "_target" as Object, "_caller" as Object)
+		{
+			[_serverActionId, _target, _caller] call ServerObjects.CampaignEngine.OnAction;
+		};
 	};
 };

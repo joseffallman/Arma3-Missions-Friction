@@ -35,6 +35,7 @@ namespace Mission.Communication
 				switch (_methodFullName) do
 				{
 					case "ServerEventReciever.OnPlayerPerformingInsertion": { _parameters spawn ServerEventReciever.OnPlayerPerformingInsertion; };
+					case "ServerEventReciever.OnAction": { _parameters spawn ServerEventReciever.OnAction; };
 				};
 			};
 			
@@ -53,6 +54,7 @@ namespace Mission.Communication
 					case "ClientEventReciever.OnCampaignEnded": { _parameters spawn ClientEventReciever.OnCampaignEnded; };
 					case "ClientEventReciever.OnUnitKilled": { _parameters spawn ClientEventReciever.OnUnitKilled; };
 					case "ClientEventReciever.OnShowNotification": { _parameters spawn ClientEventReciever.OnShowNotification; };
+					case "ClientEventReciever.OnAddAction": { _parameters spawn ClientEventReciever.OnAddAction; };
 				};
 			};
 		};

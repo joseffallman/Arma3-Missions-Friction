@@ -1,0 +1,32 @@
+/*
+ * Name:	ClientActionHandler
+ * Date:	2020-08-04
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Handles all about user action menu items for missions.
+ */
+
+using Mission.Communication;
+
+namespace Mission.Client
+{
+	public class ClientActionHandler
+	{
+		// Creates a ClientActionHandler object.
+		public constructor()
+		{
+		};
+		
+		public static method OnAction("_target" as Object, "_caller" as Object, "_actionId" as Scalar, "_serverActionId" as Scalar)
+		{
+			["ServerEventReciever.OnAction", [_serverActionId, _target, _caller]] call Remote.Invoke;
+		};
+		
+		public method AddAction("_serverActionId" as Scalar, "_object" as Object, "_title" as String)
+		{
+			_object addAction [_title, { call Mission_Client_ClientActionHandler_OnAction }, _serverActionId];
+		};
+	};
+};

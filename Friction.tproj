@@ -24,6 +24,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CameraHandler.sqx" FileName="Client\Classes\Handlers\CameraHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientActionHandler.sqx" FileName="Client\Classes\Handlers\ClientActionHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMessageHandler.sqx" FileName="Client\Classes\Handlers\ClientMessageHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -248,6 +251,9 @@
                     <SubNodes />
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionUnitsHandler.sqx" FileName="Server\Classes\Handlers\MissionUnitsHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ServerActionHandler.sqx" FileName="Server\Classes\Handlers\ServerActionHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>

@@ -16,7 +16,7 @@ namespace Mission.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
@@ -32,7 +32,7 @@ namespace Mission.Server
 			_mAiUnitsWestCount = _aiUnitsWestCount;
 			_mAiUnitsEastCount = _aiUnitsEastCount;
 			
-			
+			_mServerActionHandler = new ServerActionHandler;
 			
 			call _self.ClearAllMapMarkers;
 		};
@@ -130,6 +130,11 @@ namespace Mission.Server
 					[_mEastlyUnits] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				};
 			};
+		};
+		
+		public method OnAction("_serverActionId" as Scalar, "_target" as Object, "_caller" as Object)
+		{
+			[_serverActionId, _target, _caller] call _mCurrentMission.OnAction;
 		};
 		
 		private method Boolean AllUnitsAreDead()
@@ -304,10 +309,10 @@ namespace Mission.Server
 			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
 		
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
-				[_mBaseMarkersConfig, _westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
 			}
 			else {
-				[_mBaseMarkersConfig, _westGroup, _eastGroup, _mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.Prepare;
 			};
 		};
 		

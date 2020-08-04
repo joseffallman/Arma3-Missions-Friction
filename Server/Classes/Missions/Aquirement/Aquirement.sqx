@@ -35,7 +35,32 @@ namespace Mission.Server
 			_mQuadbikeOpposing = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			_mMrapOpposing = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
+			[_mQuadbikeActing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
+			[_mMrapActing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
+			[_mQuadbikeOpposing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
+			[_mMrapOpposing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
+			
 			call _base.Setup;
+		};
+		
+		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
+		{
+			if (_target == _mQuadbikeActing) then {
+				_self.GainedTokenActing = HistoryToken.Quadbike;
+				[MissionSide.Acting, "Quadbike Selected"] call _self.ShowNotification;
+			};
+			if (_target == _mMrapActing) then {
+				_self.GainedTokenActing = HistoryToken.Mrap;
+				[MissionSide.Acting, "MRAP Selected"] call _self.ShowNotification;
+			};
+			if (_target == _mQuadbikeOpposing) then {
+				_self.GainedTokenOpposing = HistoryToken.Quadbike;
+				[MissionSide.Opposing, "Quadbike Selected"] call _self.ShowNotification;
+			};
+			if (_target == _mMrapOpposing) then {
+				_self.GainedTokenOpposing = HistoryToken.Mrap;
+				[MissionSide.Opposing, "MRAP Selected"] call _self.ShowNotification;
+			};
 		};
 		
 		protected override method String AddBriefingInfoForActing()
@@ -60,16 +85,7 @@ namespace Mission.Server
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			private _inQuadbike = { vehicle _x == _mQuadbikeActing } count _self.ActingUnits > 0;
-			private _inMrap = { vehicle _x == _mMrapActing } count _self.ActingUnits > 0;
-			
-			if (_inQuadbike) then {
-				_self.GainedTokenActing = HistoryToken.Quadbike;
-				return ObjectiveState.Succeeded;
-			};
-			
-			if (_inMrap) then {
-				_self.GainedTokenActing = HistoryToken.Mrap;
+			if (!isNull _self.GainedTokenActing) then {
 				return ObjectiveState.Succeeded;
 			};
 			
@@ -78,16 +94,7 @@ namespace Mission.Server
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			private _inQuadbike = { vehicle _x == _mQuadbikeOpposing } count _self.OpposingUnits > 0;
-			private _inMrap = { vehicle _x == _mMrapOpposing } count _self.OpposingUnits > 0;
-			
-			if (_inQuadbike) then {
-				_self.GainedTokenOpposing = HistoryToken.Quadbike;
-				return ObjectiveState.Succeeded;
-			};
-			
-			if (_inMrap) then {
-				_self.GainedTokenOpposing = HistoryToken.Mrap;
+			if (!isNull _self.GainedTokenOpposing) then {
 				return ObjectiveState.Succeeded;
 			};
 			

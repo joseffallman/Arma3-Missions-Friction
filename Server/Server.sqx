@@ -2,6 +2,7 @@ call compile preprocessFileLineNumbers "Server\Classes\ServerEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\ServerEventReciever.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Handlers\MissionUnitsHandler.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Handlers\ServerActionHandler.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.sqx";

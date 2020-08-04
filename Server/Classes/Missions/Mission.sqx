@@ -17,7 +17,7 @@ namespace Mission.Server
 {
 	public class Mission : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
 		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object];
 		
 		#region Initialization
@@ -279,7 +279,7 @@ namespace Mission.Server
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
 			
-			["ClientEventReciever.OnMissionSetup", [_side, _text]] call Remote.Invoke;
+			["ClientEventReciever.OnShowNotification", [_side, _text]] call Remote.Invoke;
 		};
 		
 		// Gets the number of units alive on the acting side.
@@ -323,6 +323,17 @@ namespace Mission.Server
 			private _spawnMarker = [_side, _baseMarker] call _mBaseMarkersConfig.GetMarkerName;
 			
 			return [_vehicleType, _spawnMarker, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
+		};
+		
+		// Adds an action to an object.
+		// _object (Object): The object to have the action.
+		// _title (String): The title visible on the action menu.
+		// _missionSide (MissionSide): Which players that this action is visible to.
+		// Returns (Scalar): The ID of the action. Used in method OnAction to identify which action that fired.
+		protected method Scalar AddAction("_object" as Object, "_title" as String, "_missionSide" as MissionSide)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			[_object, _title, _side] call _mServerActionHandler.AddAction;
 		};
 		
 		#endregion
@@ -438,9 +449,10 @@ namespace Mission.Server
 		//};
 		
 		// Loads the mission with all gained and lost history items.
-		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
+		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
 		{
 			_mBaseMarkersConfig = _baseMarkersConfig;
+			_mServerActionHandler = _serverActionHandler;
 		
 			if (_mActingSide == west) then {
 				_self.ActingUnits = units _westlyGroup;
@@ -716,6 +728,14 @@ namespace Mission.Server
 				
 				[side _group, _position] call _self.OnOpposingGroupInserted;
 			};
+		};
+		
+		// Fired when a player selects an action created with method Mission.AddAction.
+		// _actionId (Scalar): The ID of the action.
+		// _target (Object): The object that has the action.
+		// _actor (Object): The player unit that selected the action.
+		public virtual method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
+		{
 		};
 	
 		#endregion
