@@ -336,6 +336,11 @@ namespace Mission.Server
 			[_object, _title, _side] call _mServerActionHandler.AddAction;
 		};
 		
+		protected method Scalar DeleteActions("_actionIds" as Array /* of Scalar */)
+		{
+			[_actionIds] call _mServerActionHandler.DeleteActions;
+		};
+		
 		#endregion
 		
 		#region Protected Properties

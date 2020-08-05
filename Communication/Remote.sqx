@@ -55,6 +55,7 @@ namespace Mission.Communication
 					case "ClientEventReciever.OnUnitKilled": { _parameters spawn ClientEventReciever.OnUnitKilled; };
 					case "ClientEventReciever.OnShowNotification": { _parameters spawn ClientEventReciever.OnShowNotification; };
 					case "ClientEventReciever.OnAddAction": { _parameters spawn ClientEventReciever.OnAddAction; };
+					case "ClientEventReciever.OnDeleteActions": { _parameters spawn ClientEventReciever.OnDeleteActions; };
 				};
 			};
 		};

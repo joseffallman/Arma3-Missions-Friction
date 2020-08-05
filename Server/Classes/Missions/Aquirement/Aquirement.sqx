@@ -15,6 +15,7 @@ namespace Mission.Server
 	public class Aquirement : ShoeLaceMission
 	{
 		private fields ["_mQuadbikeActing" as Object, "_mMrapActing" as Object, "_mQuadbikeOpposing" as Object, "_mMrapOpposing" as Object];
+		private fields ["_mQuadbikeActingActionId" as Scalar];
 	
 		// Creates a Aquirement object.
 		public constructor("_actingSide" as Side)
@@ -35,7 +36,7 @@ namespace Mission.Server
 			_mQuadbikeOpposing = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			_mMrapOpposing = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
-			[_mQuadbikeActing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
+			_mQuadbikeActingActionId = [_mQuadbikeActing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
 			[_mMrapActing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
 			[_mQuadbikeOpposing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
 			[_mMrapOpposing, "Select this as transport", MissionSide.Acting] call _self.AddAction;
@@ -48,6 +49,7 @@ namespace Mission.Server
 			if (_target == _mQuadbikeActing) then {
 				_self.GainedTokenActing = HistoryToken.Quadbike;
 				[MissionSide.Acting, "Quadbike Selected"] call _self.ShowNotification;
+				[[_mQuadbikeActingActionId]] call _self.DeleteActions;
 			};
 			if (_target == _mMrapActing) then {
 				_self.GainedTokenActing = HistoryToken.Mrap;

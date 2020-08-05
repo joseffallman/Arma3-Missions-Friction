@@ -33,5 +33,10 @@ namespace Mission.Server
 			["ClientEventReciever.OnAddAction", [_mCurrentActionId, _object, _title, _side]] call Remote.Invoke;
 			return _mCurrentActionId;
 		};
+		
+		public method DeleteActions("_actionIds" as Array /* of Scalar */)
+		{
+			["ClientEventReciever.OnDeleteActions", [_actionIds]] call Remote.Invoke;
+		};
 	};
 };

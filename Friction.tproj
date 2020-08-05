@@ -44,6 +44,13 @@
                   </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Objects" FileName="Client\Classes\Objects">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ActionMapping.sqx" FileName="Client\Classes\Objects\ActionMapping.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="JipService.sqx" FileName="Client\Classes\Services\JipService.sqx">

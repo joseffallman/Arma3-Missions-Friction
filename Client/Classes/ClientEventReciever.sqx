@@ -277,5 +277,10 @@ namespace Mission.Client.Statics
 				[_serverActionId, _object, _title] call ClientObjects.ClientActionHandler.AddAction;
 			};
 		};
+		
+		public static method OnDeleteActions("_actionIds" as Array)
+		{
+			[_actionIds] call ClientObjects.ClientActionHandler.DeleteActions;
+		};
 	};
 };
