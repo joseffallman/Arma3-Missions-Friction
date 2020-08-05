@@ -68,7 +68,7 @@ namespace Mission.Client.Statics
 		{
 			private ["_briefingService" as MissionBriefingService];
 			
-			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler] new MissionBriefingService;
+			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, false] new MissionBriefingService;
 			
 			call _briefingService.RunAsync;
 		};

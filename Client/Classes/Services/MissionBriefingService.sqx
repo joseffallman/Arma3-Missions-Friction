@@ -15,26 +15,33 @@ namespace Mission.Client
 {
 	public class MissionBriefingService : Service
 	{
-		private fields ["_mMissionBriefing" as MissionBriefing, "_mBriefingHandler" as IBriefingHandler, "_mTaskHandler" as TaskHandler];
+		private fields ["_mMissionBriefing" as MissionBriefing, "_mBriefingHandler" as IBriefingHandler, "_mTaskHandler" as TaskHandler, "_mJip" as Boolean];
 	
 		// Creates a MissionBriefingService object.
-		public constructor("_missionBriefing" as MissionBriefing, "_briefingHandler" as IBriefingHandler, "_taskHandler" as TaskHandler)
+		public constructor("_missionBriefing" as MissionBriefing, "_briefingHandler" as IBriefingHandler, "_taskHandler" as TaskHandler, "_jip" as Boolean)
 		{
 			call _base.Constructor;
 			_mMissionBriefing = _missionBriefing;
 			_mBriefingHandler = _briefingHandler;
 			_mTaskHandler = _taskHandler;
+			_mJip = _jip;
 		};
 		
 		protected override method Run()
 		{
 			private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
 			
-			sleep 1;
+			if (!_mJip) then {
+				sleep 1;
+			};
+			
             [_mMissionBriefing.MissionName, str (date select 2) + "/" + str (date select 1) + "/" + str (date select 0) + " " + str (date select 3) + ":00"] spawn BIS_fnc_infoText;
-			sleep 3;
-			cutText ["", "BLACK IN", 1];
-			sleep 3;
+            
+            if (!_mJip) then {
+				sleep 3;			
+				cutText ["", "BLACK IN", 1];
+				sleep 3;
+            };
 		
 			_briefingInfo = [playerSide] call _mMissionBriefing.GetBriefingInfo;
 			_primaryObjective = [playerSide, ObjectivePrio.Primary] call _mMissionBriefing.GetObjective;
@@ -46,15 +53,15 @@ namespace Mission.Client
 			};
 			
 			if (!isNull _primaryObjective) then {
-				[_primaryObjective, ObjectivePrio.Primary] call _mTaskHandler.CreateTask;
+				[_primaryObjective, ObjectivePrio.Primary, !_mJip] call _mTaskHandler.CreateTask;
 			};
 			
 			if (!isNull _secondaryObjective) then {
-				[_secondaryObjective, ObjectivePrio.Secondary] call _mTaskHandler.CreateTask;
+				[_secondaryObjective, ObjectivePrio.Secondary, false] call _mTaskHandler.CreateTask;
 			};
 			
 			if (!isNull _returnObjective) then {
-				[_returnObjective, ObjectivePrio.Return] call _mTaskHandler.CreateTask;
+				[_returnObjective, ObjectivePrio.Return, false] call _mTaskHandler.CreateTask;
 			};
 			
 			call _base.Run;

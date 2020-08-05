@@ -18,31 +18,6 @@ namespace Mission.Communication
 {
 	public class PublicVariableHandler
 	{
-		// [Here is an example for how to handle one public variable. Each public variable should have three methods:
-		// one the broadcasts the variable, one to check if the value exists (if it is broadcast at lease once),
-		// and one that gets it.]
-		
-		#region MissionInfo
-		
-		// Sets and broadcasts mission info across the network.
-		// _missionInfo (MissionInfo): The mission info object to be broadcasted.
-		public static method BroadcastMissionInfo("_missionInfo" as MissionInfo)
-		{
-			PUBVAR_MissionInfo = _missionInfo;
-			publicVariable "PUBVAR_MissionInfo";
-		};
-		
-		// Gets whether the variable for mission has started has been public variabled at least once, so it actually has a value.
-		public static method Boolean HasValueMissionInfo {
-			!isNil "PUBVAR_MissionInfo"
-		};
-		
-		// Gets the mission info object from the public network synchronized variable.
-		// Before using this method, always call the corresponding HasValue method, since it might be nil if not yet broadcast.
-		public static method MissionInfo GetMissionInfo { 
-			PUBVAR_MissionInfo
-		};
-		
 		// Sets and broadcasts mission markers info across the network.
 		// _campaignPhase (CampaignPhase): The mission markers info object to be broadcasted.
 		public static method BroadcastMissionMarkersInfo("_missionMarkersInfo" as MissionMarkersInfo)
@@ -182,7 +157,5 @@ namespace Mission.Communication
 			return [];
 		};
 		
-		
-		#endregion
 	};
 };

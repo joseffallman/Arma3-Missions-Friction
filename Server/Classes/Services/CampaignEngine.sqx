@@ -105,7 +105,8 @@ namespace Mission.Server
 						if (side group _x == _side) then {
 							_x setPos getMarkerPos _marker;
 						};
-					} foreach _switchableUnits as Object;				};
+					} foreach _switchableUnits as Object;
+				};
 			} foreach [west, east] as Side;
 		};
 		

@@ -141,9 +141,6 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionBriefing.sqx" FileName="Common\Classes\Objects\MissionBriefing.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionInfo.sqx" FileName="Common\Classes\Objects\MissionInfo.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionMarkersInfo.sqx" FileName="Common\Classes\Objects\MissionMarkersInfo.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

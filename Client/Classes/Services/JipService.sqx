@@ -25,13 +25,26 @@ namespace Mission.Client
 		protected override method Run()
 		{
 			private ["_missionMarkersInfo" as MissionMarkersInfo];
+			private ["_briefingService" as MissionBriefingService, "_missionBriefing" as MissionBriefing];
 			
 			waitUntil { player == player };
+			
+			// Set markers
 			
 			_missionMarkersInfo = call PublicVariableHandler.GetMissionMarkersInfo;
 			if (!isNull _missionMarkersInfo) then {
 				[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
 			};
+			
+			// Set briefing
+			
+			_missionBriefing = call PublicVariableHandler.GetMissionBriefing;
+			if (!isNull _missionBriefing) then {
+				_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, true] new MissionBriefingService;
+				call _briefingService.RunAsync;
+			};
+			
+			// Set camera
 			
 		    sleep 1;
 			call ClientObjects.CameraHandler.SetDeathCamera;
