@@ -17,7 +17,7 @@ namespace Mission.Server
 	public class CampaignEngine : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
-		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean];
+		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
@@ -46,7 +46,7 @@ namespace Mission.Server
 		
 		private method NotifyClientsAboutMissionStart("_mission" as Mission)
 		{
-			private ["_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */, "_missionMarkersInfo" as MissionMarkersInfo];
+			private ["_startMarkers" as Array /* of MarkerInfo */, "_markers" as Array /* of MarkerInfo */];
 			
 			_startMarkers = [];
 			_markers = [];
@@ -67,11 +67,46 @@ namespace Mission.Server
 				_markers pushBack [_x, east] new MarkerInfo;
 			} foreach [east] call _mission.GetMarkersBySide as String;
 			
-			_missionMarkersInfo = [_startMarkers, _markers, [west] call _mission.CheckSideHasExtractionMarker, [east] call _mission.CheckSideHasExtractionMarker] new MissionMarkersInfo;
+			_mMissionMarkersInfo = [_startMarkers, _markers, [west] call _mission.CheckSideHasExtractionMarker, [east] call _mission.CheckSideHasExtractionMarker] new MissionMarkersInfo;
 		
-			[_missionMarkersInfo] call PublicVariableHandler.BroadcastMissionMarkersInfo;
-			[CampaignPhase.MissionPlanning] call PublicVariableHandler.BroadcastCampaignPhase;
-			["ClientEventReciever.OnMissionSetup", [_missionMarkersInfo]] call Remote.Invoke;
+			[_mMissionMarkersInfo] call PublicVariableHandler.BroadcastMissionMarkersInfo;
+			["ClientEventReciever.OnMissionSetup", [_mMissionMarkersInfo]] call Remote.Invoke;
+		};
+		
+		private method InsertSideWithNoPlayers("_missionMarkersInfo" as MissionMarkersInfo)
+		{
+			private ["_markerInfos" as Array, "_marker" as String];
+			
+			{
+				private _side = _x;
+				private _playersCount = 0;
+				
+				{
+					if (side group _x == _side) then {
+						_playersCount = _playersCount + 1;
+					};
+				} foreach call BIS_fnc_listPlayers;
+				
+				if (_playersCount == 0) then
+				{
+					// If no insertion markers are specified, perform insertion immediately
+					_markerInfos = [_side] call _missionMarkersInfo.GetStartMarkersBySide;
+
+					if (count _markerInfos > 0) then {
+						_marker = _markerInfos select 0;
+					}
+					else {
+						_marker = [_side, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName;
+					};
+					
+					private _switchableUnits = call _mMissionUnitsHandler.GetSwitchableUnits;
+					
+					{
+						if (side group _x == _side) then {
+							_x setPos getMarkerPos _marker;
+						};
+					} foreach _switchableUnits as Object;				};
+			} foreach [west, east] as Side;
 		};
 		
 		private method NotifyAboutMissionBriefing("_mission" as Mission)
@@ -379,6 +414,8 @@ namespace Mission.Server
 				
 				[_mCurrentMission] call _self.PrepareMission;
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
+				
+				[_mMissionMarkersInfo] call _self.InsertSideWithNoPlayers;
 				
 				private _startTime = time;
 				private _endTime = time + _remainingTime * 60;

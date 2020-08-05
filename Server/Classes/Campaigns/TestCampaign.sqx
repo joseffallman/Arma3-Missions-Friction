@@ -1,0 +1,26 @@
+/*
+ * Name:	TestCampaign
+ * Date:	2020-08-05
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A campaign used for testing.
+ */
+namespace Mission.Server
+{
+	public class TestCampaign : Campaign
+	{
+		// Creates a Campaign object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method SelectMissions("_missions" as Array /* of Mission */)
+		{
+			_missions pushBack ([west] new DragRacing);
+			_missions pushBack ([west] new LostVehicles);
+		};
+	};
+};

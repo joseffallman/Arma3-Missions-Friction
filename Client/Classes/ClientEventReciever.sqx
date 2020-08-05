@@ -30,8 +30,6 @@ namespace Mission.Client.Statics
 {
 	public class ClientEventReciever
 	{
-		private static fields ["_mMissionMarkersInfo" as MissionMarkersInfo];
-	
 		// Called when the mission engine on the server starts.
 		public static method OnMissionStart()
 		{
@@ -50,7 +48,6 @@ namespace Mission.Client.Statics
 			private ["_markerInfos" as Array /* of String */];
 			
 			cutText ["", "BLACK OUT", 1];
-			_mMissionMarkersInfo = _missionMarkersInfo;
 				
 			// Update the markers
 			
@@ -69,37 +66,11 @@ namespace Mission.Client.Statics
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
 		{
-			[_missionBriefing] spawn {
-				params ["_missionBriefing" as MissionBriefing];
-				private ["_briefingInfo" as String, "_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective, "_returnObjective" as MissionObjective];
-				
-				sleep 1;
-	            [_missionBriefing.MissionName, str (date select 2) + "/" + str (date select 1) + "/" + str (date select 0) + " " + str (date select 3) + ":00"] spawn BIS_fnc_infoText;
-				sleep 3;
-				cutText ["", "BLACK IN", 1];
-				sleep 3;
+			private ["_briefingService" as MissionBriefingService];
 			
-				_briefingInfo = [playerSide] call _missionBriefing.GetBriefingInfo;
-				_primaryObjective = [playerSide, ObjectivePrio.Primary] call _missionBriefing.GetObjective;
-				_secondaryObjective = [playerSide, ObjectivePrio.Secondary] call _missionBriefing.GetObjective;
-				_returnObjective = [playerSide, ObjectivePrio.Return] call _missionBriefing.GetObjective;
-				
-				if (_briefingInfo != "") then {
-					[_missionBriefing.MissionName, _briefingInfo] call ClientObjects.BriefingHandler.CreateBriefing;
-				};
-				
-				if (!isNull _primaryObjective) then {
-					[_primaryObjective, ObjectivePrio.Primary] call ClientObjects.TaskHandler.CreateTask;
-				};
-				
-				if (!isNull _secondaryObjective) then {
-					[_secondaryObjective, ObjectivePrio.Secondary] call ClientObjects.TaskHandler.CreateTask;
-				};
-				
-				if (!isNull _returnObjective) then {
-					[_returnObjective, ObjectivePrio.Return] call ClientObjects.TaskHandler.CreateTask;
-				};
-			};
+			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler] new MissionBriefingService;
+			
+			call _briefingService.RunAsync;
 		};
 		
 		private static method Boolean AnyMemberIsPlayer("_group" as Group)
@@ -127,35 +98,6 @@ namespace Mission.Client.Statics
 			
 			// Hide insertion menu option
 			call FrictionMenuHandler.UpdateVisibleOptions;
-			
-			
-			// If noone is on the other side (during development or SP), perform simple insertion for the other side
-
-			private ["_markerInfos" as Array /* of String */, "_marker" as String];
-			
-			private _countPlayersOnTheOtherSide = 0;
-			private _otherSide = if (side _group == west) then { east } else { west };			
-			
-			{
-				if (side group _x == _otherSide) then {
-					_countPlayersOnTheOtherSide = _countPlayersOnTheOtherSide + 1;
-				};
-			} foreach call BIS_fnc_listPlayers;
-			
-			if (_countPlayersOnTheOtherSide == 0) then
-			{
-				// If no insertion markers are specified, perform insertion immediately
-				_markerInfos = [_otherSide] call _mMissionMarkersInfo.GetStartMarkersBySide;
-				
-				if (count _markerInfos > 0) then {
-					_marker = _markerInfos select 0;
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _marker]] call Remote.Invoke;
-				}
-				else {
-					private _otherSideBaseMarkerName = [_otherSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
-					["ServerEventReciever.OnPlayerPerformingInsertion", [_otherSide, getMarkerPos _otherSideBaseMarkerName]] call Remote.Invoke;
-				};
-			};
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)

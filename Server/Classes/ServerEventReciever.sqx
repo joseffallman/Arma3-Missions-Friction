@@ -22,24 +22,7 @@ namespace Mission.Server.Statics
 		{
 			[_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
 			
-			// If the side contains no players, move them as server
 			private _switchableUnits = call ServerObjects.MissionUnitsHandler.GetSwitchableUnits;
-			
-			if ({ side group _x == _side && isPlayer _x } count _switchableUnits == 0) then {
-				{
-					if (side group _x == _side) then {
-						_x setPos _position;
-					};
-				} foreach _switchableUnits as Object;
-			};
-			
-			{
-				if (side group _x == _side) then
-				{
-					["ClientEventReciever.OnInsertGroup", [group _x, _position]] call Remote.Invoke;
-					return;
-				};
-			} foreach _switchableUnits;
 			
 			{
 				if (side group _x == _side) then

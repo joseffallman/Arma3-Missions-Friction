@@ -17,16 +17,18 @@ namespace Mission.Server
 		// Creates a Campaign object.
 		public constructor()
 		{
-			_self.CurrentMissionIndex = -1;
-			private _missions = [];
+			private ["_missions" as Array /* of Mission */];
+			
+			_missions = [];
+			
 			[_missions] call _self.SelectMissions;
 			_self.Missions = _missions;
+			
+			_self.CurrentMissionIndex = -1;
 		};
 		
 		protected virtual method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack ([east] new DragRacing);
-			_missions pushBack ([east] new LostVehicles);
 		};
 		
 		protected property Scalar CurrentMissionIndex { get; protected set; };

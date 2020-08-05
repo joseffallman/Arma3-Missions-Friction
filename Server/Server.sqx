@@ -21,6 +21,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Missions\Establishments\E
 call compile preprocessFileLineNumbers "Server\Classes\Missions\DragRacing\DragRacing.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Missions\CatAndMouse\CatAndMouse.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Campaign.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\TestCampaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace.sqx";
 
 using Mission.Server;

@@ -56,6 +56,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="JipService.sqx" FileName="Client\Classes\Services\JipService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionBriefingService.sqx" FileName="Client\Classes\Services\MissionBriefingService.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PerformInsertionService.sqx" FileName="Client\Classes\Services\PerformInsertionService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -178,9 +181,6 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseMarker.sqx" FileName="Common\Enums\BaseMarker.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignPhase.sqx" FileName="Common\Enums\CampaignPhase.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="HistoryToken.sqx" FileName="Common\Enums\HistoryToken.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
@@ -241,6 +241,9 @@
                     <SubNodes />
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="OperationShoeLace.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TestCampaign.sqx" FileName="Server\Classes\Campaigns\TestCampaign.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>

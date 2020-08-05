@@ -10,6 +10,8 @@
 
 using Sqx.Services;
 using Mission.Client.Statics;
+using Mission.Common;
+using Mission.Communication;
 
 namespace Mission.Client
 {
@@ -22,14 +24,21 @@ namespace Mission.Client
 		
 		protected override method Run()
 		{
+			private ["_missionMarkersInfo" as MissionMarkersInfo];
+			
 			waitUntil { player == player };
 			
-			[] spawn {
-			    sleep 1;
-				call ClientObjects.CameraHandler.SetDeathCamera;
-				sleep 0.5;
-		  		cutText ["","BLACK IN", 1];
-		    };
+			_missionMarkersInfo = call PublicVariableHandler.GetMissionMarkersInfo;
+			if (!isNull _missionMarkersInfo) then {
+				[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
+			};
+			
+		    sleep 1;
+			call ClientObjects.CameraHandler.SetDeathCamera;
+			sleep 0.5;
+	  		cutText ["","BLACK IN", 1];
+		    
+		    call _base.Run;
 		};
 	};
 };
