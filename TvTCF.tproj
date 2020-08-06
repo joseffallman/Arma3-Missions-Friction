@@ -452,6 +452,9 @@
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="init.sqx" FileName="init.sqx">
         <SubNodes />
       </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="LICENSE" FileName="LICENSE">
+        <SubNodes />
+      </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="mission.sqm" FileName="mission.sqm">
         <SubNodes />
       </ProjectNodeViewModel>
