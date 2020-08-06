@@ -5,7 +5,7 @@
  * Author:  Engima
  *
  * Description:
- * Test mission used during development of Friction.
+ * A mission where both sides are inserted among the housed in Girna and looking for the same equipment.
  */
 
 using Sqx.Markers;

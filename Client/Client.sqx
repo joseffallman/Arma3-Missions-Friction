@@ -6,7 +6,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Handlers\FrictionMenuHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\TvtcfMenuHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\CameraHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientActionHandler.sqx";
@@ -38,9 +38,9 @@ namespace Mission
 			// Initialize all client eventhandlers.
 			call ClientEventHandlers.Init;
 			
-			// Initialize the Friction menu.
+			// Initialize the TvTCF menu.
 			sleep 1;
-			call FrictionMenuHandler.Init;
+			call TvtcfMenuHandler.Init;
 		};
 	};
 };

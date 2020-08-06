@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ProjectRootNode Name="Friction" FileName="">
+  <ProjectRootNode Name="TvTCF" FileName="">
     <SubNodes>
       <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Client" FileName="Client">
         <SubNodes>
@@ -30,9 +30,6 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMessageHandler.sqx" FileName="Client\Classes\Handlers\ClientMessageHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="FrictionMenuHandler.sqx" FileName="Client\Classes\Handlers\FrictionMenuHandler.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -40,6 +37,9 @@
                     <SubNodes />
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskHandler.sqx" FileName="Client\Classes\Handlers\TaskHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TvtcfMenuHandler.sqx" FileName="Client\Classes\Handlers\TvtcfMenuHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>

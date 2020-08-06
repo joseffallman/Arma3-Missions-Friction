@@ -8,12 +8,12 @@ class Header
   maxPlayers = 10;
 };
 
-onLoadName = "Friction";
-onLoadMission = "TvT Campaign.";
+onLoadName = "TvT Campaign Framework";
+onLoadMission = "TvT Campaign Framework";
 
-overviewText = "TvT Campaign.";
+overviewText = "TvT Campaign Framework.";
 overviewTextLocked = "";
-author = "ENGIMA";
+author = "Me";
 
 OnLoadMissionTime = false;
 disabledAI = 1;

@@ -97,7 +97,7 @@ namespace Mission.Client.Statics
 			};
 			
 			// Hide insertion menu option
-			call FrictionMenuHandler.UpdateVisibleOptions;
+			call TvtcfMenuHandler.UpdateVisibleOptions;
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
@@ -159,7 +159,7 @@ namespace Mission.Client.Statics
 			};
 			
 			// Show insertion menu option
-			call FrictionMenuHandler.UpdateVisibleOptions;
+			call TvtcfMenuHandler.UpdateVisibleOptions;
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;

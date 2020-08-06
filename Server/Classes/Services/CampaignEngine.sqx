@@ -5,7 +5,7 @@
  * Author:  Engima
  *
  * Description:
- * A Friction Campaign.
+ * The class that executed a campaign.
  */
 
 using Sqx.Services;

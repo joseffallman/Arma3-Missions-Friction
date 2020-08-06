@@ -57,7 +57,7 @@ namespace Mission.Client.Statics
 				[] spawn {
 					waitUntil { player == player };
 					
-					call FrictionMenuHandler.Init;
+					call TvtcfMenuHandler.Init;
 					call ClientObjects.CameraHandler.SetDeathCamera;
 				};
 			}];
