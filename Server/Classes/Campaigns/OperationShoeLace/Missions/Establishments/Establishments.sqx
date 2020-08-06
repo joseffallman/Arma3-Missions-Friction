@@ -10,8 +10,9 @@
 
 using Mission.Common;
 using Sqx.Markers;
+using Mission.Server;
 
-namespace Mission.Server
+namespace Mission.Server.OperationShoeLace
 {
 	public class Establishments : Mission
 	{

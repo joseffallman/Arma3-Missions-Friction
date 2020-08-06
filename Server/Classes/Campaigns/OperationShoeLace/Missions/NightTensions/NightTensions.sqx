@@ -6,8 +6,9 @@
  */
 
 using Mission.Common;
+using Mission.Server;
 
-namespace Mission.Server
+namespace Mission.Server.OperationShoeLace
 {
 	public class NightTensions : ShoeLaceMission
 	{
