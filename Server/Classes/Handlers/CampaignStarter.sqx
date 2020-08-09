@@ -1,0 +1,28 @@
+/*
+ * Name:	CampaignStarter
+ * Date:	2020-08-06
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * This file/class has a single purpose to select a campaign for the campaign engine.
+ * Organized in this way, and while this file will not be subject to change in future TvTCF CPacks, you can change this file to 
+ * start a custom campaign, without it interfering with new CPack versions of the TvTCF framework.
+ */
+
+using Mission.Common;
+using Mission.Server;
+
+namespace Mission.Server.Statics
+{
+	public class CampaignStarter
+	{
+		public method StartCampaign()
+		{
+			private _campaign = new Mission.Server.OperationShoeLace.OperationShoeLaceCampaign;
+			
+			[_campaign] call ServerObjects.CampaignEngine.SetCampaign;
+			call ServerObjects.CampaignEngine.RunAsync;
+		};
+	};
+};

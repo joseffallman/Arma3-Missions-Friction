@@ -3,28 +3,19 @@ call compile preprocessFileLineNumbers "Server\Classes\ServerEventReciever.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\ServerObjects.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Handlers\MissionUnitsHandler.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Handlers\ServerActionHandler.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Handlers\CampaignStarter.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Campaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Mission.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\OperationShoeLaceMission.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\ObjectTypeDictionary.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\SoldierTypeDictionary.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\DemoCampaign.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\Missions\AirbaseIntruders\AirbaseIntruders.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\Missions\LostVehicles\LostVehicles.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\Missions\AsEasyAsItGets\AsEasyAsItGets.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\Missions\DragRacing\DragRacing.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Shared\ObjectTypeDictionary.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Shared\SoldierTypeDictionary.sqx";
 
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\OperationShoeLaceCampaign.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\AirStationAssault\AirStationAssault.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\HawkDown\HawkDown.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\NightTensions\NightTensions.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\Aquirement\Aquirement.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\Establishments\Establishments.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\InitCampaign.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\InitCampaign.sqx";
 
+using Mission.Common.Statics;
 using Mission.Server;
 using Mission.Server.Statics;
 
@@ -41,8 +32,8 @@ namespace Mission
 			// Initialize all server eventhandlers.
 			call ServerEventHandlers.Init;
 			
-			// Start the campaign engine service
-			call ServerObjects.CampaignEngine.RunAsync();
+			// Start the campaign
+			call ServerObjects.CampaignStarter.StartCampaign;
 		};
 	};
 };

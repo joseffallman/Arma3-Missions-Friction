@@ -22,19 +22,23 @@ namespace Mission.Server
 		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_campaign" as Campaign, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)
 		{
 			call _base.Constructor;
 			
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mMissionUnitsHandler = _missionUnitsHandler;
-			_mCampaign = _campaign;
 			_mAiUnitsWestCount = _aiUnitsWestCount;
 			_mAiUnitsEastCount = _aiUnitsEastCount;
 			
 			_mServerActionHandler = new ServerActionHandler;
 			
 			call _self.ClearAllMapMarkers;
+		};
+		
+		public method SetCampaign("_campaign" as Campaign)
+		{
+			_mCampaign = _campaign;
 		};
 		
 		private method ClearAllMapMarkers()

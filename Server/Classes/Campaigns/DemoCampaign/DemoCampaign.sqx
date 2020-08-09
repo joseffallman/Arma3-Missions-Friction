@@ -22,8 +22,8 @@ namespace Mission.Server.Demo
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack ([west] new DragRacing);
-			_missions pushBack ([west] new LostVehicles);
+			_missions pushBack [west] new DragRacing;
+			_missions pushBack [west] new LostVehicles;
 		};
 	};
 };

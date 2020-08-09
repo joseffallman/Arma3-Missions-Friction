@@ -1,0 +1,32 @@
+/*
+ * Name:	MyCampaign
+ * Date:	2020-08-05
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * This is my own TvT campaign.
+ */
+
+using Mission.Server;
+
+namespace Mission.Server.MyCampaign
+{
+	public class MyCampaign : Campaign
+	{
+		// Creates a MyCampaign object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method SelectMissions("_missions" as Array /* of Mission */)
+		{
+			// TODO: Add missions to the campaign here. Use the following pattern:
+		
+			//_missions pushBack [west] new AfterDark;
+			//_missions pushBack [west] new HuntForTheDead;
+			//...
+		};
+	};
+};

@@ -10,8 +10,6 @@
 
 using Mission.Server;
 using Mission.Common.Statics;
-using Mission.Server.DemoCampaign;
-using Mission.Server.OperationShoeLace;
 
 namespace Mission.Server.Statics
 {
@@ -20,13 +18,21 @@ namespace Mission.Server.Statics
 		// Initializes the ServerObjects object.
 		public static method Init()
 		{
-			_self.Campaign = new OperationShoeLaceCampaign;
 			_self.MissionUnitsHandler = new MissionUnitsHandler;
-			_self.CampaignEngine = [CommonObjects.BaseMarkersConfig, _self.MissionUnitsHandler, _self.Campaign, CommonObjects.MissionParametersHandler.AiWestFrequency, CommonObjects.MissionParametersHandler.AiEastFrequency] new CampaignEngine;
+			
+			_self.CampaignStarter = new CampaignStarter;
+			
+			_self.CampaignEngine = [
+				CommonObjects.BaseMarkersConfig, 
+				ServerObjects.MissionUnitsHandler, 
+				CommonObjects.MissionParametersHandler.AiWestFrequency, 
+				CommonObjects.MissionParametersHandler.AiEastFrequency] new CampaignEngine;
 		};
 		
-		public static property Campaign Campaign { get; private set; };
-		public static property CampaignEngine CampaignEngine { get; private set; };
 		public static property MissionUnitsHandler MissionUnitsHandler { get; private set; };
+		
+		public static property CampaignStarter CampaignStarter { get; private set; };
+		
+		public static property CampaignEngine CampaignEngine { get; private set; };
 	};
 };
