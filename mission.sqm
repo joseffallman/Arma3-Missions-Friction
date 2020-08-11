@@ -16,7 +16,7 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5532.3896,81.186569,4754.7798};
+		pos[]={5557.0161,122.51421,4688.6147};
 		dir[]={-0.042387202,-0.35595226,0.9336791};
 		up[]={-0.016145131,0.93446404,0.35564333};
 		aside[]={0.99910337,5.0035669e-007,0.045354262};
@@ -1150,6 +1150,7 @@ class Mission
 			text=" 1";
 			type="mil_objective";
 			id=76;
+			atlOffset=0.36902428;
 		};
 		class Item27
 		{
@@ -1348,7 +1349,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2039.2197,3.5044167,3541.7256};
+						position[]={2037.2173,3.4105623,3548.8616};
 					};
 					side="West";
 					flags=7;
@@ -1406,7 +1407,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2039.8026,3.4272363,3536.4741};
+						position[]={2036.0585,3.2531188,3540.5112};
 					};
 					side="West";
 					flags=5;
@@ -1415,14 +1416,13 @@ class Mission
 					};
 					id=93;
 					type="B_Soldier_F";
-					atlOffset=-2.3841858e-007;
 				};
 				class Item2
 				{
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2044.2731,3.6476955,3533.7515};
+						position[]={2038.208,3.3210263,3537.0852};
 					};
 					side="West";
 					flags=5;
@@ -2312,6 +2312,7 @@ class Mission
 			a=3;
 			b=3;
 			id=211;
+			atlOffset=0.40145493;
 		};
 		class Item93
 		{
