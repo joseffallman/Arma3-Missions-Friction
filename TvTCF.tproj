@@ -311,6 +311,13 @@
                               </ProjectNodeViewModel>
                             </SubNodes>
                           </ProjectNodeViewModel>
+                          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CannonballRun" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CannonballRun">
+                            <SubNodes>
+                              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CannonballRun.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CannonballRun\CannonballRun.sqx">
+                                <SubNodes />
+                              </ProjectNodeViewModel>
+                            </SubNodes>
+                          </ProjectNodeViewModel>
                           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CatAndMouse" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse">
                             <SubNodes>
                               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CatAndMouse.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx">

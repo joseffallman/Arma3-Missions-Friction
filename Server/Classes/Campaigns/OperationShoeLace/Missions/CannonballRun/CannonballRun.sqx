@@ -1,0 +1,66 @@
+/*
+ * Name:	CannonballRun
+ * Date:	2020-08-11
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A mission in which one side chases the other with a helicopter.
+ */
+
+using Mission.Common;
+
+namespace Mission.Server
+{
+	public class CannonballRun : Mission
+	{
+		// Creates a CannonballRun object.
+		public constructor("_actingSide" as Side)
+		{
+			[_actingSide] call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "Cannonball Run";
+			_mission.StartTimeOfDay = floor random 24;
+			_mission.StartMarkersActing = [];
+			_mission.StartMarkersOpposing = [];
+		};
+		
+		protected override method Setup()
+		{
+			call _base.Setup;
+		};
+		
+		protected override method String AddBriefingInfoForActing()
+		{
+			return "You must immediately transport a hand written message to Alpha Charlie on the other side of the map. But beware of enemy helicopters.";
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return "The enemy has been seen hurrying over the map like mad dogs. Find them and take them out.";
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			return ["Drive to Alpha Charlie.", "Drive to Alpa Charlie at the Southern Lighthouse as fast as you can."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			return ["Kill the messenger.", "Take the helicopter, perform a search for the enemy vehicle and take it out."] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			return ObjectiveState.None;
+		};
+	};
+};

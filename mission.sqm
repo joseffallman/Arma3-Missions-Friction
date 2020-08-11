@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5557.0161,122.51421,4688.6147};
-		dir[]={-0.042387202,-0.35595226,0.9336791};
-		up[]={-0.016145131,0.93446404,0.35564333};
-		aside[]={0.99910337,5.0035669e-007,0.045354262};
+		pos[]={6390.9316,48.55212,5403.6104};
+		dir[]={0.29086336,-0.8449837,0.44883311};
+		up[]={0.45952973,0.53479475,0.70909977};
+		aside[]={0.83920956,7.1344766e-007,-0.54384995};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -174,6 +155,25 @@ class CustomAttributes
 							};
 						};
 					};
+				};
+			};
+		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
 				};
 			};
 		};
@@ -611,11 +611,11 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6429.895,7.7009029,5416.2319};
+						position[]={6429.7734,11.77899,5415.7666};
 						angles[]={0,2.2856133,0};
 					};
 					side="East";
-					flags=7;
+					flags=3;
 					class Attributes
 					{
 						name="o1";
@@ -623,6 +623,7 @@ class Mission
 					};
 					id=14;
 					type="O_Soldier_F";
+					atlOffset=4.0834107;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -671,11 +672,11 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6425.8188,7.5291815,5417.8418};
+						position[]={6425.6973,11.620131,5417.3765};
 						angles[]={0,1.9414327,0};
 					};
 					side="East";
-					flags=5;
+					flags=1;
 					class Attributes
 					{
 						name="o2";
@@ -683,7 +684,7 @@ class Mission
 					};
 					id=15;
 					type="O_Soldier_F";
-					atlOffset=8.1062317e-006;
+					atlOffset=4.0834217;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -732,11 +733,11 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6424.772,7.4918613,5419.6748};
+						position[]={6424.6504,11.582808,5419.2095};
 						angles[]={0,1.9414327,0};
 					};
 					side="East";
-					flags=5;
+					flags=1;
 					class Attributes
 					{
 						name="o3";
@@ -744,6 +745,7 @@ class Mission
 					};
 					id=16;
 					type="O_Soldier_F";
+					atlOffset=4.0834107;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -792,11 +794,11 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6424.1196,7.4706993,5420.8057};
+						position[]={6423.998,11.560495,5420.3403};
 						angles[]={0,1.9414327,0};
 					};
 					side="East";
-					flags=5;
+					flags=1;
 					class Attributes
 					{
 						name="o4";
@@ -804,7 +806,7 @@ class Mission
 					};
 					id=17;
 					type="O_Soldier_F";
-					atlOffset=4.7683716e-007;
+					atlOffset=4.0834141;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -853,11 +855,11 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6427.1909,7.5103989,5419.3066};
+						position[]={6427.0693,11.601347,5418.8413};
 						angles[]={0,1.9414327,0};
 					};
 					side="East";
-					flags=5;
+					flags=1;
 					class Attributes
 					{
 						name="o5";
@@ -865,6 +867,7 @@ class Mission
 					};
 					id=18;
 					type="O_Soldier_F";
+					atlOffset=4.0834126;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -913,6 +916,7 @@ class Mission
 			{
 			};
 			id=13;
+			atlOffset=4.0834107;
 		};
 		class Item8
 		{
@@ -1150,7 +1154,6 @@ class Mission
 			text=" 1";
 			type="mil_objective";
 			id=76;
-			atlOffset=0.36902428;
 		};
 		class Item27
 		{
@@ -2312,7 +2315,6 @@ class Mission
 			a=3;
 			b=3;
 			id=211;
-			atlOffset=0.40145493;
 		};
 		class Item93
 		{
