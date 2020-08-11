@@ -850,6 +850,10 @@ namespace Mission.Server
 			private _missionTimeIsUp = _self.RemainingTime == 0;
 			private _unitsStillAlive = (call _self.CountUnitsAliveActing) > 0;
 			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
 			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
 			
 			if (_groupHasSurvived) then {
@@ -909,6 +913,10 @@ namespace Mission.Server
 		{
 			private _missionTimeIsUp = _self.RemainingTime == 0;
 			private _unitsStillAlive = (call _self.CountUnitsAliveOpposing) > 0;
+			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
 			
 			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
 			

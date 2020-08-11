@@ -12,6 +12,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Mission.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Shared\ObjectTypeDictionary.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Shared\SoldierTypeDictionary.sqx";
 
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\MyCampaign\InitCampaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\InitCampaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\InitCampaign.sqx";
 

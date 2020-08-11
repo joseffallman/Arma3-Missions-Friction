@@ -1,5 +1,5 @@
 /*
- * Name:	MyCampaign
+ * Name:	MyOperation
  * Date:	2020-08-05
  * Version: 1.0
  * Author:  Engima
@@ -12,9 +12,9 @@ using Mission.Server;
 
 namespace Mission.Server.MyCampaign
 {
-	public class MyCampaign : Campaign
+	public class MyOperation : Campaign
 	{
-		// Creates a MyCampaign object.
+		// Creates a MyOperation object.
 		public constructor()
 		{
 			call _base.Constructor;
@@ -22,9 +22,11 @@ namespace Mission.Server.MyCampaign
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			// TODO: Add missions to the campaign here. Use the following pattern:
+			_missions pushBack [west] new Intro;
+			
+			// TODO: Add more missions to the campaign here. Use the following pattern:
 		
-			//_missions pushBack [west] new AfterDark;
+			//_missions pushBack [west] new FlyMySpy;
 			//_missions pushBack [west] new HuntForTheDead;
 			//...
 		};

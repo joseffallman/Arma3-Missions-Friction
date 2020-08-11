@@ -1,0 +1,2 @@
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\MyCampaign\MyOperation.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\MyCampaign\Missions\Intro.sqx";
