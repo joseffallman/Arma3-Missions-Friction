@@ -709,9 +709,10 @@ namespace Mission.Server
 		// Note that this method is not called if there are no units in the group (e.g. solo player in MP and no AI).
 		// _group (Group): The group that is being inserted.
 		// _position (Array): The position where the group is inserted.
-		public method InsertGroup("_group" as Group, "_position" as Array)
+		// Returns (Array): The insertion position (possibly altered by the mission).
+		public method Array InsertGroup("_group" as Group, "_position" as Array)
 		{
-			private ["_missionSide" as MissionSide];
+			private ["_missionSide" as MissionSide, "_e" as InsertionEventArgs];
 			
 			_missionSide = [side _group] call _self.GetMissionSide;
 			
@@ -722,7 +723,9 @@ namespace Mission.Server
 					_mActingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
 				};
 				
-				[side _group, _position] call _self.OnActingGroupInserted;
+				_e = [side _group, _position] new InsertionEventArgs;
+				
+				[_e] call _self.OnActingGroupInserted;
 			}
 			else {
 				_self.OpposingUnits = units _group;
@@ -731,8 +734,12 @@ namespace Mission.Server
 					_mOpposingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
 				};
 				
-				[side _group, _position] call _self.OnOpposingGroupInserted;
+				_e = [side _group, _position] new InsertionEventArgs;
+				
+				[_e] call _self.OnOpposingGroupInserted;
 			};
+			
+			return _e.Position;
 		};
 		
 		// Fired when a player selects an action created with method Mission.AddAction.
@@ -826,17 +833,17 @@ namespace Mission.Server
 		// Performs mission setup for the acting side that may be necessary upon insertion.
 		// _side (Side): The side that is inserted.
 		// _position (Array): The position where the group is being inserted.
-		protected virtual method OnActingGroupInserted("_side" as Side, "_position" as Array)
+		protected virtual method OnActingGroupInserted("_e" as InsertionEventArgs)
 		{
-			_self.InsertionPointActing = _position;
+			_self.InsertionPointActing = _e.Position;
 		};
 		
 		// Performs mission setup for the opposing side that may be necessary upon insertion.
 		// _side (Side): The side that is inserted.
 		// _position (Array): The position where the group is being inserted.
-		protected virtual method OnOpposingGroupInserted("_side" as Side, "_position" as Array)
+		protected virtual method OnOpposingGroupInserted("_e" as InsertionEventArgs)
 		{
-			_self.InsertionPointOpposing = _position;
+			_self.InsertionPointOpposing = _e.Position;
 		};
 		
 		// Checks if the primary objective has fulfilled a condition for a final state.

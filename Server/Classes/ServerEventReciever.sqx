@@ -20,14 +20,14 @@ namespace Mission.Server.Statics
 		// _position (Array): The position where to insert all players on the side.
 		public static method OnPlayerPerformingInsertion("_side" as Side, "_position" as Array)
 		{
-			[_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
+			private _actualPos = [_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
 			
 			private _switchableUnits = call ServerObjects.MissionUnitsHandler.GetSwitchableUnits;
 			
 			{
 				if (side group _x == _side) then
 				{
-					["ClientEventReciever.OnInsertGroup", [group _x, _position]] call Remote.Invoke;
+					["ClientEventReciever.OnInsertGroup", [group _x, _actualPos]] call Remote.Invoke;
 					return;
 				};
 			} foreach _switchableUnits;

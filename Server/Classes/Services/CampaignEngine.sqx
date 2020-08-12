@@ -133,9 +133,11 @@ namespace Mission.Server
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
 		};
 
-		public method InsertGroup("_side" as Side, "_position" as Array)
+		public method Array InsertGroup("_side" as Side, "_position" as Array)
 		{
 			private _group = grpNull;
+			private _actualPos = _position;
+			
 			{
 				if (side group _x == _side) then {
 					_group = group _x;
@@ -147,7 +149,7 @@ namespace Mission.Server
 				if (!_mWestHasInserted) then
 				{
 					if (!isNull _group) then {
-						[_group, _position] call _mCurrentMission.InsertGroup;
+						_actualPos = [_group, _position] call _mCurrentMission.InsertGroup;
 						_mWestlyUnits = units _group;
 					};
 					
@@ -161,7 +163,7 @@ namespace Mission.Server
 				if (!_mEastHasInserted) then
 				{
 					if (!isNull _group) then {
-						[_group, _position] call _mCurrentMission.InsertGroup;
+						_actualPos = [_group, _position] call _mCurrentMission.InsertGroup;
 						_mEastlyUnits = units _group;
 					};
 					
@@ -170,6 +172,8 @@ namespace Mission.Server
 					[_mEastlyUnits] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				};
 			};
+			
+			return _actualPos;
 		};
 		
 		public method OnAction("_serverActionId" as Scalar, "_target" as Object, "_caller" as Object)

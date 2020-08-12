@@ -19,7 +19,7 @@ namespace Mission.Server.Statics
 	{
 		public method StartCampaign()
 		{
-			private _campaign = new Mission.Server.MyCampaign.MyOperation;
+			private _campaign = new Mission.Server.Demo.DemoCampaign;
 			
 			[_campaign] call ServerObjects.CampaignEngine.SetCampaign;
 			call ServerObjects.CampaignEngine.RunAsync;

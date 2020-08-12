@@ -6,6 +6,7 @@ call compile preprocessFileLineNumbers "Server\Classes\Handlers\ServerActionHand
 call compile preprocessFileLineNumbers "Server\Classes\Handlers\CampaignStarter.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Objects\InsertionEventArgs.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Campaign.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Mission.sqx";
