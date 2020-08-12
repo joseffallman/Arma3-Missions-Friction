@@ -89,14 +89,22 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method Setup()
 		{
-			// Select a random fishy plase to populate with guerillas.
-			private _populatedFishyPlaceMarker = selectRandom ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
+			// Select two random fishy places to populate with guerillas (it might be different, it might be the same).
+			private _fishyPlaceMarkers = ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
+			private _populatedFishyPlaceMarker1 = selectRandom _fishyPlaceMarkers;
+			private _populatedFishyPlaceMarker2 = selectRandom _fishyPlaceMarkers;
 			
 			// Spawn guereillas at the selected fishy place and make them patrol
-			private _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker] call _self.CreateAiSoldierBySide;
+			private _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1] call _self.CreateAiSoldierBySide;
 			private _guardGroup = group _guard;
-			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker, _guardGroup] call _self.CreateAiSoldierBySide;
-			[_guardGroup, _populatedFishyPlaceMarker] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1, _guardGroup] call _self.CreateAiSoldierBySide;
+			[_guardGroup, _populatedFishyPlaceMarker1] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			
+			// Spawn guereillas at the other selected fishy place and make them patrol
+			private _guard2 = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2] call _self.CreateAiSoldierBySide;
+			private _guardGroup2 = group _guard2;
+			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2, _guardGroup2] call _self.CreateAiSoldierBySide;
+			[_guardGroup2, _populatedFishyPlaceMarker2] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			// Spawn an ammo truck and vehicles in the acting base
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;

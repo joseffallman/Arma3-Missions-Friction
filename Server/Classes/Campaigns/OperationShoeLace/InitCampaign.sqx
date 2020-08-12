@@ -4,6 +4,5 @@ call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLa
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\AirStationAssault\AirStationAssault.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\HawkDown\HawkDown.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\NightTensions\NightTensions.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\Aquirement\Aquirement.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\Establishments\Establishments.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx";

@@ -26,23 +26,20 @@ namespace Mission.Server.OperationShoeLace
 			_mission.Name = "A Shoe Lace Mission";
 		};
 		
+		protected property Object ActorsMrap { get; private set; };
+		
+		protected property Object ActorsQuadbike { get; private set; };
+		
+		protected property Object OpposingsMrap { get; private set; };
+		
+		protected property Object OpposingsQuadbike { get; private set; };
+		
 		protected override method Setup()
 		{
-			if (HistoryToken.Quadbike in _self.EarlierGainedTokensActing) then {
-				["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			};
-			
-			if (HistoryToken.Mrap in _self.EarlierGainedTokensActing) then {
-				["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			};
-		
-			if (HistoryToken.Quadbike in _self.EarlierGainedTokensOpposing) then {
-				["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			};
-			
-			if (HistoryToken.Mrap in _self.EarlierGainedTokensOpposing) then {
-				["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			};
+			_self.ActorsQuadbike = ["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.ActorsMrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.OpposingsQuadbike = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.OpposingsMrap = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 		
 			call _base.Setup;
 		};
