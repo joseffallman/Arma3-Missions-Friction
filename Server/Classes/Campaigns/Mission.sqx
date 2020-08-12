@@ -831,16 +831,14 @@ namespace Mission.Server
 		};
 		
 		// Performs mission setup for the acting side that may be necessary upon insertion.
-		// _side (Side): The side that is inserted.
-		// _position (Array): The position where the group is being inserted.
+		// _e (InsertionEventArgs): Arguments for the insertion. E.g. it contains a property Position that can be both read and altered.
 		protected virtual method OnActingGroupInserted("_e" as InsertionEventArgs)
 		{
 			_self.InsertionPointActing = _e.Position;
 		};
 		
 		// Performs mission setup for the opposing side that may be necessary upon insertion.
-		// _side (Side): The side that is inserted.
-		// _position (Array): The position where the group is being inserted.
+		// _e (InsertionEventArgs): Arguments for the insertion. E.g. it contains a property Position that can be both read and altered.
 		protected virtual method OnOpposingGroupInserted("_e" as InsertionEventArgs)
 		{
 			_self.InsertionPointOpposing = _e.Position;
