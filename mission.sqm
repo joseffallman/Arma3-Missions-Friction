@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=225;
+		nextID=239;
 	};
 	class MarkerIDProvider
 	{
-		nextID=21;
+		nextID=25;
 	};
 	class Camera
 	{
-		pos[]={6410.7734,23.89459,5410.7715};
-		dir[]={0.76771498,-0.31905946,0.55579102};
-		up[]={0.25847268,0.94771951,0.18711971};
-		aside[]={0.5864318,-2.5999179e-006,-0.81004649};
+		pos[]={5024.2075,227.25085,5937.8887};
+		dir[]={-0.10799754,-0.72212553,-0.68332249};
+		up[]={-0.11273072,0.69176203,-0.71327281};
+		aside[]={-0.98777097,-4.2706051e-007,0.15611567};
 	};
 };
 binarizationWanted=0;
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=104;
+		items=110;
 		class Item0
 		{
 			dataType="Marker";
@@ -1105,7 +1105,7 @@ class Mission
 		class Item23
 		{
 			dataType="Marker";
-			position[]={2720.408,2.3807282,5829.3364};
+			position[]={2554.9626,0,6106.9175};
 			name="m06a_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
@@ -1114,6 +1114,7 @@ class Mission
 			b=100;
 			angle=276.69891;
 			id=73;
+			atlOffset=24.78747;
 		};
 		class Item24
 		{
@@ -1132,16 +1133,16 @@ class Mission
 		class Item25
 		{
 			dataType="Marker";
-			position[]={2017.774,0,4483.7539};
+			position[]={1650.0072,0,4470.853};
 			name="m06a_StartArea2";
-			markerType="RECTANGLE";
+			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
 			a=100;
-			b=50;
-			angle=183.13692;
+			b=100;
+			angle=183.13698;
 			id=75;
-			atlOffset=1.194703;
+			atlOffset=26.985439;
 		};
 		class Item26
 		{
@@ -1173,15 +1174,16 @@ class Mission
 		class Item29
 		{
 			dataType="Marker";
-			position[]={1035.6648,-42.638359,5929.6372};
+			position[]={1122.7676,-42.424927,5800.6333};
 			name="m06a_StartArea3";
-			markerType="RECTANGLE";
+			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64085;
+			angle=105.64099;
 			id=79;
+			atlOffset=2.9199295;
 		};
 		class Item30
 		{
@@ -2439,6 +2441,73 @@ class Mission
 			angle=313.41495;
 			id=224;
 			atlOffset=0.00017166138;
+		};
+		class Item104
+		{
+			dataType="Marker";
+			position[]={1895.063,2.3492432,5758.2407};
+			name="m10a_Helicopter";
+			type="Empty";
+			angle=107.64567;
+			id=229;
+			atlOffset=-3.3407569;
+		};
+		class Item105
+		{
+			dataType="Marker";
+			position[]={1850.906,4.9879999,5765.3008};
+			name="m10o_StartArea";
+			markerType="RECTANGLE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=60;
+			b=30;
+			angle=105.94098;
+			id=230;
+			atlOffset=-0.52926493;
+		};
+		class Item106
+		{
+			dataType="Marker";
+			position[]={5008.02,208.46576,5911.0381};
+			name="m10a_StartArea1";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorWEST";
+			a=60;
+			b=60;
+			angle=180.506;
+			id=231;
+		};
+		class Item107
+		{
+			dataType="Marker";
+			position[]={5030.292,208.789,5906.7139};
+			name="m10a_TruckStartMarker";
+			type="Empty";
+			angle=177.94797;
+			id=232;
+			atlOffset=0.00035095215;
+		};
+		class Item108
+		{
+			dataType="Marker";
+			position[]={5039.1479,208.961,5906.769};
+			name="m10a_EscortStartMarker";
+			type="Empty";
+			angle=177.94797;
+			id=233;
+			atlOffset=-0.00042724609;
+		};
+		class Item109
+		{
+			dataType="Marker";
+			position[]={2716.144,83.344002,951};
+			name="m10_SouthernLighthouse";
+			text="Southern Lighthouse";
+			type="mil_marker";
+			id=238;
+			atlOffset=0.0002822876;
 		};
 	};
 };

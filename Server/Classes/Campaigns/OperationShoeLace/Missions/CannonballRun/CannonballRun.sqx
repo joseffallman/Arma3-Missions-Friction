@@ -14,6 +14,8 @@ namespace Mission.Server
 {
 	public class CannonballRun : Mission
 	{
+		private fields ["_mTruck" as Object];
+	
 		// Creates a CannonballRun object.
 		public constructor("_actingSide" as Side)
 		{
@@ -24,12 +26,16 @@ namespace Mission.Server
 		{
 			_mission.Name = "Cannonball Run";
 			_mission.StartTimeOfDay = floor random 24;
-			_mission.StartMarkersActing = [];
-			_mission.StartMarkersOpposing = [];
+			_mission.StartMarkersActing = ["m10a_StartArea1"];
+			_mission.StartMarkersOpposing = ["m10o_StartArea"];
 		};
 		
 		protected override method Setup()
 		{
+			_mTruck = ["DEVICE TRUCK", MissionSide.Acting, "m10a_TruckStartMarker"] call _self.CreateSideVehicleOnMarker;
+			["MRAP HMG", MissionSide.Acting, "m10a_EscortStartMarker"] call _self.CreateSideVehicleOnMarker;
+			["HEAVY ATTACK HELICOPTER", MissionSide.Opposing, "m10a_Helicopter"] call _self.CreateSideVehicleOnMarker;
+		
 			call _base.Setup;
 		};
 		
@@ -55,11 +61,27 @@ namespace Mission.Server
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
+			if (!canMove _mTruck) then {
+				return ObjectiveState.Failed;
+			};
+			
+			if (_mTruck distance getMarkerPos "m10_SouthernLighthouse" < 50) then {
+				return ObjectiveState.Succeeded;
+			};
+			
 			return ObjectiveState.None;
 		};
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
+			if (_mTruck distance getMarkerPos "m10_SouthernLighthouse" < 50) then {
+				return ObjectiveState.Failed;
+			};
+			
+			if (!canMove _mTruck) then {
+				return ObjectiveState.Succeeded;
+			};
+			
 			return ObjectiveState.None;
 		};
 	};
