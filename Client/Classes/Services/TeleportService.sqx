@@ -14,13 +14,15 @@ namespace Mission.Client
 {
 	public class TeleportService : Service
 	{
-		private fields ["_mPosition" as Array];
+		private fields ["_mPosition" as Array, "_mTeleportVehicles" as Boolean, "_mDoBlackOut" as Boolean];
 		
 		// Creates a TeleportService object.
-		public constructor("_position" as Array)
+		public constructor("_position" as Array, ["_teleportVehicles" as Boolean, true], ["_doBlackOut" as Boolean, true])
 		{
 			call _base.Constructor;
 			_mPosition = _position;
+			_mDoBlackOut = _doBlackOut;
+			_mTeleportVehicles = _teleportVehicles;
 		};
 		
 		private method TeleportVehicleAndCrew("_vehicle" as Object)
@@ -33,35 +35,50 @@ namespace Mission.Client
 		{
 			if (player distance _mPosition > 50) then
 			{
-				cutText ["", "BLACK OUT", 0.5];
+				if (_mDoBlackOut) then {
+					cutText ["", "BLACK OUT", 0.5];
+				};
 				
 				sleep 0.5;
 				
-				private _teleportedUnits = [];
-				
+				if (_mTeleportVehicles) then
 				{
-					private _unit = vehicle _x;
-					private _isVehicle = vehicle _x != _x;
-	
-					if (_isVehicle) then
+					private _teleportedUnits = [];
+					
 					{
-						if (local _unit && { !(_unit in _teleportedUnits) }) then
+						private _unit = vehicle _x;
+						private _isVehicle = vehicle _x != _x;
+		
+						if (_isVehicle) then
 						{
-							[_unit] call _self.TeleportVehicleAndCrew;
-							_teleportedUnits pushBack _unit;
+							if (local _unit && { !(_unit in _teleportedUnits) }) then
+							{
+								[_unit] call _self.TeleportVehicleAndCrew;
+								_teleportedUnits pushBack _unit;
+							};
+						}
+						else // Is single unit
+						{
+							if (local _unit && { !(_unit in _teleportedUnits) }) then {
+								_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+								_teleportedUnits pushBack _unit;
+							};
 						};
-					}
-					else // Is single unit
+					} foreach units group player;
+				}
+				else {
 					{
-						if (local _unit && { !(_unit in _teleportedUnits) }) then {
-							_unit setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
-							_teleportedUnits pushBack _unit;
+						if (local _x) then {
+							_x setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
 						};
-					};
-				} foreach units group player;
+					} foreach units group player;
+				};
 				
 				openMap false;
-				cutText ["", "BLACK IN", 0.5];
+				
+				if (_mDoBlackOut) then {
+					cutText ["", "BLACK IN", 0.5];
+				};
 			};
 			
 			call _base.Run;

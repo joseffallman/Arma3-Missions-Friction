@@ -468,21 +468,24 @@ namespace Mission.Server
 				_missionResultWest = [west] call _mCurrentMission.GetMissionResult;
 				_missionResultEast = [east] call _mCurrentMission.GetMissionResult;
 				
+				_accumulatedScoreWest = _accumulatedScoreWest + _missionResultWest.Score;
+				_accumulatedScoreEast = _accumulatedScoreEast + _missionResultEast.Score;
+				
+				["ClientEventReciever.OnMissionEnding", []] call Remote.Invoke;
+				
+				sleep 5;
+				
 				[false] call PublicVariableHandler.BroadcastWestHasInserted;
 				[false] call PublicVariableHandler.BroadcastEastHasInserted;
 				[[]] call PublicVariableHandler.BroadcastInsertedWestlyUnits;
 				[[]] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				
-				sleep 1;
-				
-				_accumulatedScoreWest = _accumulatedScoreWest + _missionResultWest.Score;
-				_accumulatedScoreEast = _accumulatedScoreEast + _missionResultEast.Score;
+				call _mCurrentMission.Cleanup;
 				
 				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 				
-				sleep 4;
+				sleep 1;
 				
-				call _mCurrentMission.Cleanup;
 				_mCurrentMission = [""] call _mCampaign.GetNextMission;
 			};
 

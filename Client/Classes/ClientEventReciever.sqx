@@ -46,8 +46,6 @@ namespace Mission.Client.Statics
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
 		{
 			private ["_markerInfos" as Array /* of String */];
-			
-			cutText ["", "BLACK OUT", 1];
 				
 			// Update the markers
 			
@@ -100,22 +98,43 @@ namespace Mission.Client.Statics
 			call TvtcfMenuHandler.UpdateVisibleOptions;
 		};
 		
+		public static method OnMissionEnding()
+		{
+			[] spawn
+			{
+				private ["_teleporter" as TeleportService];
+				
+				cutText ["", "BLACK OUT", 2];
+				
+				sleep 2;
+				
+				// Teleport to base (if not already there)
+				
+				private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+				
+				if (player distance getMarkerPos _baseMarkerName > 50) then {
+					_teleporter = [getMarkerPos _baseMarkerName, false, false] new TeleportService;
+					call _teleporter.RunAsync;
+				};
+				
+				// Reset loadout
+				
+				if (playerSide == west) then {
+					player setUnitLoadout "B_Soldier_F";
+				}
+				else {
+					player setUnitLoadout "O_Soldier_F";
+				};
+			};
+		};
+		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
 		{
-			private ["_teleporter" as TeleportService, "_resultInfo" as MissionResultInfo];
+			private ["_resultInfo" as MissionResultInfo];
 			
 			// "Resurrect" player
 			ClientState.IsAlive = true;
 			call ClientObjects.CameraHandler.ResetPlayerCamera;
-			
-			// Reset loadout
-			
-			if (playerSide == west) then {
-				player setUnitLoadout "B_Soldier_F";
-			}
-			else {
-				player setUnitLoadout "O_Soldier_F";
-			};
 			
 			// Show mission result
 			
@@ -149,15 +168,6 @@ namespace Mission.Client.Statics
 
 			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
 
-			// Teleport to base (if not already there)
-			
-			private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
-			
-			if (player distance getMarkerPos _baseMarkerName > 50) then {
-				_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
-				call _teleporter.RunAsync;
-			};
-			
 			// Show insertion menu option
 			call TvtcfMenuHandler.UpdateVisibleOptions;
 			

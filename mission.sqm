@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -174,6 +155,25 @@ class CustomAttributes
 							};
 						};
 					};
+				};
+			};
+		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
 				};
 			};
 		};
@@ -1140,7 +1140,7 @@ class Mission
 			colorName="ColorWEST";
 			a=100;
 			b=100;
-			angle=183.13698;
+			angle=183.13692;
 			id=75;
 			atlOffset=26.985439;
 		};
@@ -1181,7 +1181,7 @@ class Mission
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64099;
+			angle=105.64091;
 			id=79;
 			atlOffset=2.9199295;
 		};
@@ -2448,7 +2448,7 @@ class Mission
 			position[]={1895.063,2.3492432,5758.2407};
 			name="m10a_Helicopter";
 			type="Empty";
-			angle=107.64567;
+			angle=107.64563;
 			id=229;
 			atlOffset=-3.3407569;
 		};
