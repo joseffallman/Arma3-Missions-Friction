@@ -1,0 +1,20 @@
+/*
+ * Name:	ChopperState
+ * Date:	2020-08-13
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * The different states that a transport chopper takes when transporting players.
+ */
+namespace Mission.Server.OperationShoeLace
+{
+	public enum ChopperState
+	{
+		Waiting,
+		Transporting,
+		Landing,
+		Returning
+	};
+};
+

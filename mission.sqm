@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=239;
+		nextID=243;
 	};
 	class MarkerIDProvider
 	{
-		nextID=25;
+		nextID=28;
 	};
 	class Camera
 	{
-		pos[]={5024.2075,227.25085,5937.8887};
-		dir[]={-0.10799754,-0.72212553,-0.68332249};
-		up[]={-0.11273072,0.69176203,-0.71327281};
-		aside[]={-0.98777097,-4.2706051e-007,0.15611567};
+		pos[]={3325.5984,247.69061,2897.4744};
+		dir[]={0.84312034,-0.45265502,0.29034242};
+		up[]={0.42802441,0.89166498,0.14739746};
+		aside[]={0.32560891,-3.190944e-007,-0.94552529};
 	};
 };
 binarizationWanted=0;
@@ -124,6 +124,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -158,25 +177,6 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=110;
+		items=113;
 		class Item0
 		{
 			dataType="Marker";
@@ -1181,7 +1181,7 @@ class Mission
 			colorName="ColorWEST";
 			a=250;
 			b=100;
-			angle=105.64091;
+			angle=105.64085;
 			id=79;
 			atlOffset=2.9199295;
 		};
@@ -2508,6 +2508,37 @@ class Mission
 			type="mil_marker";
 			id=238;
 			atlOffset=0.0002822876;
+		};
+		class Item110
+		{
+			dataType="Marker";
+			position[]={3353.043,234.483,2908.323};
+			name="m11a_Helicopter";
+			type="Empty";
+			id=239;
+			atlOffset=-0.00022888184;
+		};
+		class Item111
+		{
+			dataType="Marker";
+			position[]={3295.4729,229.242,2900.8279};
+			name="m11a_StartMarker";
+			markerType="ELLIPSE";
+			type="ellipse";
+			colorName="ColorWEST";
+			a=50;
+			b=50;
+			id=240;
+			atlOffset=-7.6293945e-005;
+		};
+		class Item112
+		{
+			dataType="Marker";
+			position[]={1564.25,5.632,4977.9058};
+			name="m11a_LandingZone";
+			type="Empty";
+			id=241;
+			atlOffset=0.00020694733;
 		};
 	};
 };

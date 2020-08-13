@@ -23,6 +23,7 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
+			_missions pushBack new CaptureTheAirbase;
 			_missions pushBack new CannonballRun;
 			_missions pushBack new Establishments;
 			_missions pushBack new HawkDown;
@@ -31,6 +32,7 @@ namespace Mission.Server.OperationShoeLace
 			_missions pushBack new AirStationAssault;
 		};
 		
+/*
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
 			private ["_mission" as Mission];
@@ -43,5 +45,6 @@ namespace Mission.Server.OperationShoeLace
 			
 			return _mission;
 		};
+*/
 	};
 };

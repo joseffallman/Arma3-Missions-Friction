@@ -7,3 +7,4 @@ call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLa
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\NightTensions\NightTensions.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\Establishments\Establishments.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx";
+call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\CaptureTheAirbase.sqx";

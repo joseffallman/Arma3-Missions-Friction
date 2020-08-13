@@ -351,7 +351,7 @@ namespace Mission.Server
 					_eastGroup = group _x;
 				};
 			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
-		
+			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
 				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
 			}

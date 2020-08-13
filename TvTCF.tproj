@@ -311,6 +311,16 @@
                               </ProjectNodeViewModel>
                             </SubNodes>
                           </ProjectNodeViewModel>
+                          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CaptureTheAirbase" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase">
+                            <SubNodes>
+                              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CaptureTheAirbase.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\CaptureTheAirbase.sqx">
+                                <SubNodes />
+                              </ProjectNodeViewModel>
+                              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ChopperState.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\ChopperState.sqx">
+                                <SubNodes />
+                              </ProjectNodeViewModel>
+                            </SubNodes>
+                          </ProjectNodeViewModel>
                           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CatAndMouse" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse">
                             <SubNodes>
                               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CatAndMouse.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx">

@@ -158,7 +158,8 @@ namespace Mission.Server
 			_mSpawnedVehicles pushBack _vehicle;
 			
 			if (_withCrew) then {
-				createVehicleCrew _vehicle;
+				private _crewGroup = createVehicleCrew _vehicle;
+				_mSpawnedSoldiers = _mSpawnedSoldiers + units _crewGroup;
 			};
 			
 			return _vehicle;
@@ -181,7 +182,8 @@ namespace Mission.Server
 			_mSpawnedVehicles pushBack _vehicle;
 			
 			if (_withCrew) then {
-				createVehicleCrew _vehicle;
+				private _crewGroup = createVehicleCrew _vehicle;
+				_mSpawnedSoldiers = _mSpawnedSoldiers + units _crewGroup;
 			};
 			
 			return _vehicle;

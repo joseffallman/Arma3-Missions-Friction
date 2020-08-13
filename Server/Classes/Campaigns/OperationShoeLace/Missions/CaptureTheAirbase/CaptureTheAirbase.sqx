@@ -1,0 +1,103 @@
+/*
+ * Name:	CaptureTheAirbase
+ * Date:	2020-08-13
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A mission in which the acting and opposing side will try to capture the airbase.
+ */
+
+using Mission.Common;
+using Mission.Server;
+
+namespace Mission.Server.OperationShoeLace
+{
+	public class CaptureTheAirbase : Mission
+	{
+		private fields ["_mActingsChopper" as Object, "_mChopperState" as ChopperState, "_mInvisibleHelipad" as Object];
+		
+		// Creates a CaptureTheAirbase object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "Capture The Airbase";
+			_mission.StartTimeOfDay = 6;
+			_mission.StartMarkersActing = ["m11a_StartMarker"];
+			_mission.StartMarkersOpposing = ["m11a_StartMarker"]; // Wrong...
+		};
+		
+		protected override method Setup()
+		{
+			_mActingsChopper = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter", false, true] call _self.CreateSideVehicleOnMarker;
+			_mActingsChopper engineOn true;
+			_mChopperState = ChopperState.Waiting;
+			
+			_mInvisibleHelipad = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone";
+		
+			call _base.Setup;
+		};
+		
+		protected override method String AddBriefingInfoForActing()
+		{
+			return "Capture the airbase.";
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return "Capture the airbase.";
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			return ["Capture the airbase."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			return ["Capture the airbase."] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			return ObjectiveState.None;
+		};
+		
+		protected override method OnEachIteration()
+		{
+			if (_mChopperState == ChopperState.Waiting) then {
+				private _allPlayersInChopper = { alive _x && vehicle _x == _mActingsChopper } count _self.ActingUnits == call _self.CountUnitsAliveActing;
+
+				if (_allPlayersInChopper) then {
+					private _waypoint = (group driver _mActingsChopper) addWaypoint [getMarkerPos "m11a_LandingZone", 25];
+					_waypoint setWaypointBehaviour "SAFE";
+					_mChopperState = ChopperState.Transporting;
+					player sideChat "TRANSPORTING";
+				};
+			};
+			
+			if (_mChopperState == ChopperState.Transporting) then {
+				if (_mActingsChopper distance2D getMarkerPos "m11a_LandingZone" < 100 && unitReady _mActingsChopper) then {
+					_mActingsChopper land "LAND";
+					_mChopperState = ChopperState.Landing;
+					player sideChat "LANDING";
+				};
+			};
+		};
+		
+		public override method Cleanup()
+		{
+			call _base.Cleanup;
+			deleteVehicle _mInvisibleHelipad;
+		};
+	};
+};
