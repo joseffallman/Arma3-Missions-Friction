@@ -376,6 +376,7 @@ namespace Mission.Server
 			// Run each mission
 			
 			_mCurrentMission = [""] call _mCampaign.GetNextMission;
+			private _isFirstMission = true;
 			
 			while {!isNull _mCurrentMission} do
 			{
@@ -399,8 +400,9 @@ namespace Mission.Server
 				};
 				
 				//[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
+				["ClientEventReciever.OnMissionStarting", [_isFirstMission]] call Remote.Invoke;
 				
-				sleep 1;
+				sleep 2;
 				
 				// Create AI units
 				private _westlyGroup = [west] call _mMissionUnitsHandler.GetGroupBySide;
@@ -460,6 +462,7 @@ namespace Mission.Server
 					
 					sleep 1;
 					
+					_isFirstMission = false;
 					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
 				};
 				

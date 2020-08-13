@@ -43,6 +43,13 @@ namespace Mission.Client.Statics
 			hint ("Mission ends in " + (str _missionTimeRemaining) + " minutes.");
 		};
 		
+		public static method OnMissionStarting("_isFirstMission" as Boolean)
+		{
+			if (_isFirstMission) then {
+				cutText ["", "BLACK OUT", 2];
+			};
+		};
+		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
 		{
 			private ["_markerInfos" as Array /* of String */];

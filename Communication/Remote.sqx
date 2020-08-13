@@ -46,6 +46,7 @@ namespace Mission.Communication
 				switch (_methodFullName) do
 				{
 					case "ClientEventReciever.OnMissionTimeTick": { _parameters spawn ClientEventReciever.OnMissionTimeTick; };
+					case "ClientEventReciever.OnMissionStarting": { _parameters spawn ClientEventReciever.OnMissionStarting; };
 					case "ClientEventReciever.OnMissionSetup": { _parameters spawn ClientEventReciever.OnMissionSetup; };
 					case "ClientEventReciever.OnInsertGroup": { _parameters spawn ClientEventReciever.OnInsertGroup; };
 					case "ClientEventReciever.OnMissionEnding": { _parameters spawn ClientEventReciever.OnMissionEnding; };
