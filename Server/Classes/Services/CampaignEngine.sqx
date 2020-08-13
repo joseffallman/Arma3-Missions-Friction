@@ -488,7 +488,7 @@ namespace Mission.Server
 				
 				sleep 1;
 				
-				_mCurrentMission = [""] call _mCampaign.GetNextMission;
+				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
 			};
 
 			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;

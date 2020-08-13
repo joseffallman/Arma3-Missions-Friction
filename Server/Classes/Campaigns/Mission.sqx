@@ -46,6 +46,7 @@ namespace Mission.Server
 			_self.PrimaryObjectiveStateOpposing = ObjectiveState.None;
 			_self.SecondaryObjectiveStateOpposing = ObjectiveState.None;
 			_self.ReturnObjectiveStateOpposing = ObjectiveState.None;
+			_self.EndNarrative = "";
 			
 			_missionSettings = new MissionSettings;
 			[_missionSettings] call _self.InitMission;
@@ -59,16 +60,6 @@ namespace Mission.Server
 			_self.SideMarkersOpposing = _missionSettings.SideMarkersOpposing;
 			_self.HasReturnObjectiveForActing = _missionSettings.AddReturnObjectiveForActing;
 			_self.HasReturnObjectiveForOpposing = _missionSettings.AddReturnObjectiveForOpposing;
-		};
-		
-		// Sets whether the acting side will be west or east.
-		// Remarks: This method has no effect if it is called after the mission's preparation phase (i.e. the Prepare method has been called).
-		// _actingSide (Side): The side that will be the acting side (thus the other side will be the opposing side).
-		public method SetActingSide("_actingSide" as Side)
-		{
-			if (!_mMissionIsPrepared) then {
-				_mActingSide = _actingSide;
-			};
 		};
 		
 		// Initialization the basic meta data for the mission, such as Name, Mission time.
@@ -452,9 +443,23 @@ namespace Mission.Server
 		// other objectives.
 		public property Boolean HasReturnObjectiveForOpposing { get; private set; };
 		
+		// Gets (or sets) the mission's end narrative. This value is set by the mission, and can be used in the Campaign 
+		// object to alter mission order or acting sides of future missions.
+		public property String EndNarrative { get; protected set; };
+		
 		#endregion
 		
 		#region Public Methods
+		
+		// Sets whether the acting side will be west or east.
+		// Remarks: This method has no effect if it is called after the mission's preparation phase (i.e. the Prepare method has been called).
+		// _actingSide (Side): The side that will be the acting side (thus the other side will be the opposing side).
+		public method SetActingSide("_actingSide" as Side)
+		{
+			if (!_mMissionIsPrepared) then {
+				_mActingSide = _actingSide;
+			};
+		};
 		
 		// Loads the mission with all gained and lost history items.
 		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)

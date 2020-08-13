@@ -35,7 +35,11 @@ namespace Mission.Server
 		
 		protected property Array Missions { get; protected set; };
 		
-		public virtual method Mission GetNextMission("_previousMissionEnd" as String)
+		// Gets the next mission in the campaign. Used when a mission has ended and a new is about to start.
+		// Default behavior is to simply return the next mission in the mission array.
+		// _lastMissionEndNarrative (String): The end narrative of the last mission played (that was set by the mission itself).
+		// Returns (Mission): The next mission to play. classNull if the campaign is over.
+		public virtual method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
 			_self.CurrentMissionIndex = _self.CurrentMissionIndex + 1;
 			

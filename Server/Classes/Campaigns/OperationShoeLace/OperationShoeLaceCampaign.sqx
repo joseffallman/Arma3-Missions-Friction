@@ -31,11 +31,11 @@ namespace Mission.Server.OperationShoeLace
 			_missions pushBack new AirStationAssault;
 		};
 		
-		public override method Mission GetNextMission("_previousMissionEnd" as String)
+		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
 			private ["_mission" as Mission];
 		
-			_mission = [_previousMissionEnd] call _base.GetNextMission;
+			_mission = [_lastMissionEndNarrative] call _base.GetNextMission;
 			
 			if (!isNull _mission) then {
 				[east] call _mission.SetActingSide;
