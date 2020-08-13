@@ -18,9 +18,9 @@ namespace Mission.Server.Demo
 		private fields ["_mAmmoTruck" as Object];
 		
 		// Creates a AirBaseMadness object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)

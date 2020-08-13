@@ -20,9 +20,9 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mActingEnterDeltaAreaTime" as Scalar, "_mOpposingEnterDeltaAreaTime" as Scalar, "_mExplosivesBoxOwnerSide" as MissionSide];
 	
 		// Creates a AsEasyAsItGets object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 			
 			_mActingEnterDeltaAreaTime = -1;
 			_mOpposingEnterDeltaAreaTime = -1;

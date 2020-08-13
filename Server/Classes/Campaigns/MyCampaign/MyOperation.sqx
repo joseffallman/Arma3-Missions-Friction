@@ -22,7 +22,7 @@ namespace Mission.Server.MyCampaign
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack [west] new Intro;
+			_missions pushBack new Intro;
 			
 			// TODO: Add more missions to the campaign here. Use the following pattern:
 		

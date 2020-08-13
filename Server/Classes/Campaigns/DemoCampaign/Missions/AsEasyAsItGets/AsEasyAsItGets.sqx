@@ -16,9 +16,9 @@ namespace Mission.Server.Demo
 	public class AsEasyAsItGets : Mission
 	{
 		// Creates a AsEasyAsItGets object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)

@@ -18,13 +18,13 @@ namespace Mission.Server
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
-		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object];
+		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object, "_mMissionIsPrepared" as Boolean];
 		
 		#region Initialization
 		
 		// Creates a mission and sets primitive properties like start time of day and start markers.
 		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
 			private ["_missionSettings" as MissionSettings];
 			
@@ -32,11 +32,12 @@ namespace Mission.Server
 			
 			_self.ObjectTypeDictionary = new ObjectTypeDictionary;
 			_self.SoldierTypeDictionary = new SoldierTypeDictionary;
-			_mActingSide = _actingSide;
+			_mActingSide = west;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
 			_mActingInsertionObject = objNull;
 			_mOpposingInsertionObject = objNull;
+			_mMissionIsPrepared = false;
 			_self.ActingUnits = [];
 			_self.OpposingUnits = [];
 			_self.PrimaryObjectiveStateActing = ObjectiveState.None;
@@ -58,6 +59,16 @@ namespace Mission.Server
 			_self.SideMarkersOpposing = _missionSettings.SideMarkersOpposing;
 			_self.HasReturnObjectiveForActing = _missionSettings.AddReturnObjectiveForActing;
 			_self.HasReturnObjectiveForOpposing = _missionSettings.AddReturnObjectiveForOpposing;
+		};
+		
+		// Sets whether the acting side will be west or east.
+		// Remarks: This method has no effect if it is called after the mission's preparation phase (i.e. the Prepare method has been called).
+		// _actingSide (Side): The side that will be the acting side (thus the other side will be the opposing side).
+		public method SetActingSide("_actingSide" as Side)
+		{
+			if (!_mMissionIsPrepared) then {
+				_mActingSide = _actingSide;
+			};
 		};
 		
 		// Initialization the basic meta data for the mission, such as Name, Mission time.
@@ -445,14 +456,6 @@ namespace Mission.Server
 		
 		#region Public Methods
 		
-		// Initializes the service.
-		// This method is inherited from the service, and initializes the service before the Run
-		// method is called. This method does probably never have a function in a mission.
-		//protected override method Initialize()
-		//{
-		//	call _base.Initialize;
-		//};
-		
 		// Loads the mission with all gained and lost history items.
 		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
 		{
@@ -478,6 +481,7 @@ namespace Mission.Server
 			
 			call _self.Setup;
 			call _self.CreateMissionObjectives;
+			_mMissionIsPrepared = true;
 		};
 		
 		// Gets the start markers for a side.

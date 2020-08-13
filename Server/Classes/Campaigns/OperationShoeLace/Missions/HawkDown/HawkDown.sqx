@@ -19,9 +19,9 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String, "_mIntelCollected" as Boolean, "_mStealIntelActionId" as Scalar];
 		
 		// Creates a AirBaseMadness object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 			
 			_mGreyHawkMarker = "";
 			_mIntelCollected = false;

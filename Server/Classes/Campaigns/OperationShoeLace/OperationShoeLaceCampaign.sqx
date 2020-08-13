@@ -23,12 +23,25 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack [east] new CannonballRun;
-			_missions pushBack [west] new Establishments;
-			_missions pushBack [east] new HawkDown;
-			_missions pushBack [west] new CatAndMouse;
-			_missions pushBack [west] new NightTensions;
-			_missions pushBack [west] new AirStationAssault;
+			_missions pushBack new CannonballRun;
+			_missions pushBack new Establishments;
+			_missions pushBack new HawkDown;
+			_missions pushBack new CatAndMouse;
+			_missions pushBack new NightTensions;
+			_missions pushBack new AirStationAssault;
+		};
+		
+		public override method Mission GetNextMission("_previousMissionEnd" as String)
+		{
+			private ["_mission" as Mission];
+		
+			_mission = [_previousMissionEnd] call _base.GetNextMission;
+			
+			if (!isNull _mission) then {
+				[east] call _mission.SetActingSide;
+			};
+			
+			return _mission;
 		};
 	};
 };

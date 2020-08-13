@@ -19,9 +19,9 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mBox" as Object, "_mBoxIsFound" as Boolean];
 	
 		// Creates a CatAndMouse object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 		};
 		
 		private static method ShuffleArray("_array" as Array)

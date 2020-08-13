@@ -16,9 +16,9 @@ namespace Mission.Server.Demo
 	public class AirbaseIntruders : Mission
 	{
 		// Creates a AirBaseMadness object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 		};
 		
 		protected override method InitMission("_mission" as Mission.Server.MissionSettings)

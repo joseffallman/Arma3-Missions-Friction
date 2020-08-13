@@ -17,9 +17,9 @@ namespace Mission.Server
 		private fields ["_mTruck" as Object];
 	
 		// Creates a CannonballRun object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)

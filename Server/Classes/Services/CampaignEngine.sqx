@@ -398,7 +398,7 @@ namespace Mission.Server
 					_remainingTime = 30;
 				};
 				
-				[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
+				//[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
 				
 				sleep 1;
 				
@@ -422,6 +422,8 @@ namespace Mission.Server
 				};
 				
 				[_mCurrentMission] call _self.PrepareMission;
+				
+				[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
 				[_mCurrentMission] call _self.NotifyAboutMissionBriefing;
 				
 				[_mMissionMarkersInfo] call _self.InsertSideWithNoPlayers;

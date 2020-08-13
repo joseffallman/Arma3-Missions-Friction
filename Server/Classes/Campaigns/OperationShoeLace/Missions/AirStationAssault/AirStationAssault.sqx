@@ -18,9 +18,9 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array];
 		
 		// Creates a AirStationAssault object.
-		public constructor("_actingSide" as Side)
+		public constructor()
 		{
-			[_actingSide] call _base.Constructor;
+			call _base.Constructor;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
