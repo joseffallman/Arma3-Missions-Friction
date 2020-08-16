@@ -23,7 +23,12 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack new CaptureTheAirbase;
+			private ["_mission" as Mission];
+			
+			_mission = new CaptureTheAirbase;
+			[west] call _mission.SetActingSide;
+			
+			_missions pushBack _mission;
 			_missions pushBack new CannonballRun;
 			_missions pushBack new Establishments;
 			_missions pushBack new HawkDown;
