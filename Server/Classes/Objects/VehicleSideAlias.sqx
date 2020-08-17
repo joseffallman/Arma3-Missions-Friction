@@ -30,6 +30,10 @@ namespace Mission.Server
 		
 		public method String GetVehicleType("_side" as Side)
 		{
+			if (_side == independent) then {
+				return _self.GuerillaVehicleType;
+			};
+			
 			if (_side == west) then {
 				return _self.WestVehicleType;
 			};

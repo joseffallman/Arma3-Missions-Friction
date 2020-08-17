@@ -299,6 +299,13 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method OnEachIteration()
 		{
+			private _actingCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			private _opposingCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_self.OpposingUnits] call _self.CountUnitsNearTower);
+			private _indepentendCloseToTowerCount = [_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower;
+			private _total = ({alive _x} count _mSpawnedActingSoldiers) + ({alive _x} count _mSpawnedOpposingSoldiers) + ({alive _x} count _mSpawnedIndepententSoldiers) + (call _self.CountUnitsAliveActing) + (call _self.CountUnitsAliveOpposing);
+		
+			hint ("A: " + str _actingCloseToTowerCount + ", O: " + str _opposingCloseToTowerCount + ", I: " + str _indepentendCloseToTowerCount + ", T: " + str _total);
+		
 			// Acting
 
 			// Chopper 1
@@ -328,6 +335,7 @@ namespace Mission.Server.OperationShoeLace
 					_mActingGroup1 leaveVehicle _mChopper1;
 					_mActingGroup2 leaveVehicle _mChopper1;
 					[_mActingGroup1] call _self.AddInfantrySadWaypoints;
+					[_mActingGroup2] call _self.AddInfantrySadWaypoints;
 					(group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
 					_mChopper1State = TransportState.Returning;
 				};
@@ -355,7 +363,8 @@ namespace Mission.Server.OperationShoeLace
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup3 leaveVehicle _mChopper2;
 					_mActingGroup4 leaveVehicle _mChopper2;
-					[_mActingGroup2] call _self.AddInfantrySadWaypoints;
+					[_mActingGroup3] call _self.AddInfantrySadWaypoints;
+					[_mActingGroup4] call _self.AddInfantrySadWaypoints;
 					(group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
 					_mChopper2State = TransportState.Returning;
 				};
