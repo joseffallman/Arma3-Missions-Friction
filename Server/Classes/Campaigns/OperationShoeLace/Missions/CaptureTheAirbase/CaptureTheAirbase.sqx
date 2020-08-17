@@ -19,13 +19,19 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mChopper2" as Object, "_mChopper2State" as ChopperState, "_mHelipad2" as Object, "_mChopper2LiftOffTime" as Scalar];
 		private fields ["_mChopper3" as Object, "_mChopper3State" as ChopperState, "_mHelipad3" as Object];
 		private fields ["_mArmoredTransport1" as Object, "_mArmoredTransportState" as ChopperState];
+		private fields ["_mTruckTransport1" as Object, "_mTruckTransportState" as ChopperState];
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group];
+		private fields ["_mOpposingGroup1" as Group];
+		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
 		
 		// Creates a CaptureTheAirbase object.
 		public constructor()
 		{
 			call _base.Constructor;
 			_mChopper1LiftOffTime = 0;
+			_mSpawnedIndepententSoldiers = [];
+			_mSpawnedActingSoldiers = [];
+			_mSpawnedOpposingSoldiers = [];
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -46,112 +52,185 @@ namespace Mission.Server.OperationShoeLace
 			_mChopper1 engineOn true;
 			_mChopper1 lock true;
 			_mChopper1State = ChopperState.Waiting;
+			{ _x setCaptive true; } foreach crew _mChopper1;
 			
 			_mChopper2 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter2", false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper2 engineOn true;
 			_mChopper2 lock true;
 			_mChopper2State = ChopperState.Waiting;
+			{ _x setCaptive true; } foreach crew _mChopper2;
 			
 			_mChopper3 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter3", false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper3 engineOn true;
 			_mChopper3State = ChopperState.Waiting;
+			{ _x setCaptive true; } foreach crew _mChopper3;
 			
 			// Soldiers
 			
-			private _rifleman = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
-			_mActingGroup1 = group _rifleman;
-			["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup1] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup1] call _self.CreateAiSoldierBySide;
+			private _rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mActingGroup1 = group _rifleman1;
+			private _rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup1] call _self.CreateAiSoldierBySide;
+			private _rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup1] call _self.CreateAiSoldierBySide;
+			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
 				_x moveInCargo _mChopper1;
 				_x assignAsCargo _mChopper1;
 			} foreach units _mActingGroup1 as Object;
 			
-			_rifleman = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
-			_mActingGroup2 = group _rifleman;
-			["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup2] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup2] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mActingGroup2 = group _rifleman1;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup2] call _self.CreateAiSoldierBySide;
+			_rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup2] call _self.CreateAiSoldierBySide;
+			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
 				_x moveInCargo _mChopper2;
 				_x assignAsCargo _mChopper2;
 			} foreach units _mActingGroup2 as Object;
 			
-			// Opposing
-			
-			_mArmoredTransport1 = ["APC TRANSPORT CANNON", MissionSide.Opposing, "m11o_ArmoredTransport1", false, true] call _self.CreateSideVehicleOnMarker;
-			_mArmoredTransportState = ChopperState.Waiting;
-			
 			_mHelipad1 = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone1";
 			_mHelipad2 = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone2";
 			_mHelipad3 = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone3";
 			
+			// Opposing
+			
+			_mArmoredTransport1 = ["APC TRANSPORT CANNON", MissionSide.Opposing, "m11o_ArmoredTransport1", false, true] call _self.CreateSideVehicleOnMarker;
+			_mArmoredTransportState = ChopperState.Waiting;
+			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mArmoredTransport1;
+			
+			_mTruckTransport1 = ["TRANSPORT TRUCK", MissionSide.Opposing, "m11o_TransportTruck", false, true] call _self.CreateSideVehicleOnMarker;
+			_mTruckTransportState = ChopperState.Waiting;
+			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mTruckTransport1;
+			
+			// Soldiers
+			
+			_rifleman1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mOpposingGroup1 = group _rifleman1;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup1] call _self.CreateAiSoldierBySide;
+			_rifleman3 = ["RIFLEMAN AT", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup1] call _self.CreateAiSoldierBySide;
+			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
+			
+			{
+				_x moveInCargo _mTruckTransport1;
+				_x assignAsCargo _mTruckTransport1;
+			} foreach units _mOpposingGroup1 as Object;
+			
 			// Independent
 			
 			private _pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
-			[group _rifleman, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman] call _self.CreateAiSoldierBySide;
-		
+			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
+			
 			call _base.Setup;
 		};
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "Capture the airbase.";
+			return "The Stratis Airbase is one of the keys to our force's current operation. We need to sieze it to enable an easier resupply from our main forces, and so that it and so that it does not fall into enemy hands.";
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "Capture the airbase.";
+			return "The Stratis Airbase is one of the keys to our force's current operation. We need to sieze it to enable an easier resupply from our main forces, and so that it and so that it does not fall into enemy hands.";
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			return ["Capture the airbase."] new MissionObjective;
+			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (200 meters) of enemy forces."] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Capture the airbase."] new MissionObjective;
+			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (200 meters) of enemy forces."] new MissionObjective;
+		};
+		
+		private method Scalar CountUnitsNearTower("_units" as Array)
+		{
+			private _count = 0;
+			
+			{
+				if (alive _x && _x distance getMarkerPos "m11_AirbaseTowerVincinity" < 200) then {
+					_count = _count + 1;
+				};
+			} foreach _units as Object;
+			
+			return _count;
 		};
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
+			private _enemiesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
+			private _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			
+			if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.Succeeded) then {
+				return ObjectiveState.Failed;
+			};
+			
+			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
+				return ObjectiveState.Succeeded;
+			};
+		
 			return ObjectiveState.None;
 		};
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
+			private _enemiesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
+			private _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			
+			if (_self.PrimaryObjectiveStateActing == ObjectiveState.Succeeded) then {
+				return ObjectiveState.Failed;
+			};
+			
+			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
+				return ObjectiveState.Succeeded;
+			};
+		
 			return ObjectiveState.None;
 		};
 		
@@ -197,7 +276,7 @@ namespace Mission.Server.OperationShoeLace
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup1 leaveVehicle _mChopper1;
 					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
-					[_mActingGroup1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+					[_mActingGroup1, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
 					_mChopper1State = ChopperState.Returning;
 				};
@@ -225,7 +304,7 @@ namespace Mission.Server.OperationShoeLace
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup2 leaveVehicle _mChopper2;
 					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
-					[_mActingGroup2, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+					[_mActingGroup2, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
 					_mChopper2State = ChopperState.Returning;
 				};
@@ -287,14 +366,33 @@ namespace Mission.Server.OperationShoeLace
 				private _allPlayersOut = { alive _x && vehicle _x == _mArmoredTransport1 } count _self.OpposingUnits == 0;
 
 				if (_allPlayersOut) then {
-					private _waypoint = (group driver _mArmoredTransport1) addWaypoint [getMarkerPos "m11o_ArmorDestination", 25];
-					_mArmoredTransport1 limitSpeed 10;
+					private _waypoint = (group driver _mArmoredTransport1) addWaypoint [["m11_AirbaseTowerVincinity"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker, 25];
+					_mArmoredTransport1 limitSpeed 12;
 					_waypoint setWaypointBehaviour "COMBAT";
 					_waypoint setWaypointType "SAD";
 					_waypoint setWaypointCombatMode "RED";
 					_mArmoredTransportState = ChopperState.Returning;
 					player sideChat "OPPOSING ENGAGING";
 				};
+			};
+			
+			if (_mTruckTransportState == ChopperState.Waiting) then {
+				if (_mArmoredTransportState == ChopperState.Transporting) then {
+					private _waypoint = (group driver _mTruckTransport1) addWaypoint [getMarkerPos "m11o_UnloadMarker", 25];
+					_waypoint setWaypointBehaviour "SAFE";
+					_mTruckTransportState = ChopperState.Transporting;
+				};
+			};
+			
+			if (_mTruckTransportState == ChopperState.Transporting) then {
+				if (_mTruckTransport1 distance2D getMarkerPos "m11o_UnloadMarker" < 150 && unitReady _mTruckTransport1) then {
+					_mTruckTransportState = ChopperState.Landing;
+					_mTruckTransport1 limitSpeed 0;
+				};
+			};
+			
+			if (_mTruckTransportState == ChopperState.Landing) then {
+				
 			};
 		};
 		

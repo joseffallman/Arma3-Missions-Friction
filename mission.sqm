@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=260;
+		nextID=273;
 	};
 	class MarkerIDProvider
 	{
-		nextID=33;
+		nextID=36;
 	};
 	class Camera
 	{
-		pos[]={2160.5037,49.858521,5217.915};
-		dir[]={-0.13375881,-0.34970039,0.92739141};
-		up[]={-0.049924213,0.93684447,0.34614715};
-		aside[]={0.98986274,8.6663931e-008,0.14276555};
+		pos[]={3285.7512,19.047119,5761.2329};
+		dir[]={-0.3190704,-0.44081095,0.83899623};
+		up[]={-0.15669377,0.89759928,0.41202664};
+		aside[]={0.93470842,-3.4517143e-008,0.35546839};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -177,6 +158,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=124;
+		items=127;
 		class Item0
 		{
 			dataType="Marker";
@@ -2542,17 +2542,16 @@ class Mission
 		class Item113
 		{
 			dataType="Marker";
-			position[]={2839.2351,2.3659999,5933.6021};
+			position[]={3251.7937,4.9838505,5811.2803};
 			name="m11o_ArmoredTransport1";
 			type="Empty";
-			angle=229.56;
+			angle=311.12479;
 			id=243;
-			atlOffset=-0.00027871132;
 		};
 		class Item114
 		{
 			dataType="Marker";
-			position[]={2857.6697,3.2582612,5918.5049};
+			position[]={3259.9377,3.8842773,5802.7603};
 			name="m11o_StartMarker";
 			markerType="ELLIPSE";
 			type="ellipse";
@@ -2560,6 +2559,7 @@ class Mission
 			a=50;
 			b=50;
 			id=246;
+			atlOffset=-1.226716;
 		};
 		class Item115
 		{
@@ -2641,11 +2641,43 @@ class Mission
 		class Item123
 		{
 			dataType="Marker";
-			position[]={1627.4304,0,4256.7773};
+			position[]={1865.0117,0,4094.8364};
 			name="m11a_FirstChopperWaypoint";
 			type="Empty";
 			id=259;
-			atlOffset=28.959438;
+			atlOffset=7.6152272;
+		};
+		class Item124
+		{
+			dataType="Marker";
+			position[]={1910.5925,5.5352683,5713.7573};
+			name="m11_AirbaseTowerVincinity";
+			markerType="ELLIPSE";
+			type="ellipse";
+			colorName="ColorOrange";
+			fillName="Border";
+			a=200;
+			b=200;
+			drawBorder=1;
+			id=264;
+		};
+		class Item125
+		{
+			dataType="Marker";
+			position[]={3276.5549,5.276,5792.4292};
+			name="m11o_TransportTruck";
+			type="Empty";
+			angle=311.125;
+			id=271;
+			atlOffset=-0.0004696846;
+		};
+		class Item126
+		{
+			dataType="Marker";
+			position[]={3273.616,5.3400002,5774.2402};
+			name="m11o_SoldierSpawnPoint";
+			type="Empty";
+			id=272;
 		};
 	};
 };
