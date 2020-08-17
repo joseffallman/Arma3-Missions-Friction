@@ -55,6 +55,7 @@ namespace Mission.Server
 				
 				// Ammo boxes
 				["AMMOBOX ORDNANCE", "Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F", "Box_IND_AmmoOrd_F"] new VehicleSideAlias,
+				["AMMOBOX LAUNCHERS", "Box_NATO_WpsLaunch_F", "Box_East_WpsLaunch_F", "Box_IND_WpsLaunch_F"] new VehicleSideAlias,
 				
 				// Ammo boxes
 				["ASSAULT BOAT", "B_Boat_Transport_01_F", "O_Boat_Transport_01_F", ""] new VehicleSideAlias,

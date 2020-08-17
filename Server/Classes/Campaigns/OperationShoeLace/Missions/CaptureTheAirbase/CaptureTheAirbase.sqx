@@ -20,7 +20,7 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mChopper3" as Object, "_mChopper3State" as TransportState, "_mHelipad3" as Object];
 		private fields ["_mArmoredTransport1" as Object, "_mArmoredTransportState" as TransportState];
 		private fields ["_mTruckTransport1" as Object, "_mTruckTransportState" as TransportState];
-		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group];
+		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group, "_mActingGroup3" as Group, "_mActingGroup4" as Group];
 		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
 		
@@ -85,13 +85,39 @@ namespace Mission.Server.OperationShoeLace
 			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
+				_x moveInCargo _mChopper1;
+				_x assignAsCargo _mChopper1;
+			} foreach units _mActingGroup2 as Object;
+			
+			_rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mActingGroup3 = group _rifleman1;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup3] call _self.CreateAiSoldierBySide;
+			_rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup3] call _self.CreateAiSoldierBySide;
+			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
+			
+			{
 				_x moveInCargo _mChopper2;
 				_x assignAsCargo _mChopper2;
-			} foreach units _mActingGroup2 as Object;
+			} foreach units _mActingGroup3 as Object;
+			
+			_rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mActingGroup4 = group _rifleman1;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup4] call _self.CreateAiSoldierBySide;
+			_rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup4] call _self.CreateAiSoldierBySide;
+			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
+			
+			{
+				_x moveInCargo _mChopper2;
+				_x assignAsCargo _mChopper2;
+			} foreach units _mActingGroup4 as Object;
 			
 			_mHelipad1 = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone1";
 			_mHelipad2 = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone2";
 			_mHelipad3 = "Land_HelipadEmpty_F" createVehicle getMarkerPos "m11a_LandingZone3";
+			
+			// Other
+			
+			["AMMOBOX LAUNCHERS", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
 			// Opposing
 			
@@ -196,7 +222,7 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "The Stratis Airbase is one of the keys to our force's current operation. We need to sieze it to enable an easier resupply from our main forces, and so that it and so that it does not fall into enemy hands.";
+			return "The Stratis Airbase is one of the keys to our force's current operation. We need to sieze it to enable an easier resupply from our main forces, and so that it and so that it does not fall into enemy hands.<br /><br />Before you insert, make sure you bring AT launchers.";
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
@@ -300,9 +326,8 @@ namespace Mission.Server.OperationShoeLace
 			if (_mChopper1State == TransportState.Landing) then {
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup1 leaveVehicle _mChopper1;
-					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
+					_mActingGroup2 leaveVehicle _mChopper1;
 					[_mActingGroup1] call _self.AddInfantrySadWaypoints;
-					//[_mActingGroup1, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
 					_mChopper1State = TransportState.Returning;
 				};
@@ -328,10 +353,9 @@ namespace Mission.Server.OperationShoeLace
 			
 			if (_mChopper2State == TransportState.Landing) then {
 				if ((getPosATL _mChopper1) select 2 < 1) then {
-					_mActingGroup2 leaveVehicle _mChopper2;
-					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
+					_mActingGroup3 leaveVehicle _mChopper2;
+					_mActingGroup4 leaveVehicle _mChopper2;
 					[_mActingGroup2] call _self.AddInfantrySadWaypoints;
-					//[_mActingGroup2, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
 					_mChopper2State = TransportState.Returning;
 				};

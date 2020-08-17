@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=273;
+		nextID=276;
 	};
 	class MarkerIDProvider
 	{
@@ -2315,6 +2315,7 @@ class Mission
 			a=3;
 			b=3;
 			id=211;
+			atlOffset=0.40145493;
 		};
 		class Item93
 		{

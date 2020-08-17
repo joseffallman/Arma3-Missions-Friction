@@ -60,6 +60,8 @@ namespace Mission.Server.OperationShoeLace
 				_briefingText = "Earlier collected intel reveals that the drawings are in building no" + markerText _mPrimaryObjectiveMarker;
 			};
 			
+			_briefingText = _briefingText + "<br /><br />Before insertion, make sure you squad is in the assault boat.";
+			
 			return _briefingText;
 		};
 		
