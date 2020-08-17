@@ -21,7 +21,7 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mArmoredTransport1" as Object, "_mArmoredTransportState" as TransportState];
 		private fields ["_mTruckTransport1" as Object, "_mTruckTransportState" as TransportState];
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group];
-		private fields ["_mOpposingGroup1" as Group];
+		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
 		
 		// Creates a CaptureTheAirbase object.
@@ -112,9 +112,34 @@ namespace Mission.Server.OperationShoeLace
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
-				_x moveInCargo _mTruckTransport1;
+				//_x moveInCargo _mTruckTransport1;
 				_x assignAsCargo _mTruckTransport1;
 			} foreach units _mOpposingGroup1 as Object;
+			(units _mOpposingGroup1) orderGetIn true;
+			
+			_rifleman1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mOpposingGroup2 = group _rifleman1;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup2] call _self.CreateAiSoldierBySide;
+			_rifleman3 = ["RIFLEMAN AT", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup2] call _self.CreateAiSoldierBySide;
+			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
+			
+			{
+				//_x moveInCargo _mTruckTransport1;
+				_x assignAsCargo _mTruckTransport1;
+			} foreach units _mOpposingGroup2 as Object;
+			(units _mOpposingGroup2) orderGetIn true;
+			
+			_rifleman1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_mOpposingGroup3 = group _rifleman1;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup3] call _self.CreateAiSoldierBySide;
+			_rifleman3 = ["RIFLEMAN AT", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup3] call _self.CreateAiSoldierBySide;
+			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
+			
+			{
+				//_x moveInCargo _mTruckTransport1;
+				_x assignAsCargo _mTruckTransport1;
+			} foreach units _mOpposingGroup3 as Object;
+			(units _mOpposingGroup3) orderGetIn true;
 			
 			// Independent
 			
@@ -181,12 +206,12 @@ namespace Mission.Server.OperationShoeLace
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (200 meters) of enemy forces."] new MissionObjective;
+			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (250 meters) of enemy forces."] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (200 meters) of enemy forces."] new MissionObjective;
+			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (250 meters) of enemy forces."] new MissionObjective;
 		};
 		
 		private method Scalar CountUnitsNearTower("_units" as Array)
@@ -194,7 +219,7 @@ namespace Mission.Server.OperationShoeLace
 			private _count = 0;
 			
 			{
-				if (alive _x && _x distance getMarkerPos "m11_AirbaseTowerVincinity" < 200) then {
+				if (alive _x && _x distance getMarkerPos "m11_AirbaseTowerVincinity" < 250) then {
 					_count = _count + 1;
 				};
 			} foreach _units as Object;
@@ -276,7 +301,8 @@ namespace Mission.Server.OperationShoeLace
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup1 leaveVehicle _mChopper1;
 					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
-					[_mActingGroup1, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+					[_mActingGroup1] call _self.AddInfantrySadWaypoints;
+					//[_mActingGroup1, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
 					_mChopper1State = TransportState.Returning;
 				};
@@ -304,7 +330,8 @@ namespace Mission.Server.OperationShoeLace
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup2 leaveVehicle _mChopper2;
 					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
-					[_mActingGroup2, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+					[_mActingGroup2] call _self.AddInfantrySadWaypoints;
+					//[_mActingGroup2, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
 					_mChopper2State = TransportState.Returning;
 				};
@@ -366,13 +393,9 @@ namespace Mission.Server.OperationShoeLace
 				private _allPlayersOut = { alive _x && vehicle _x == _mArmoredTransport1 } count _self.OpposingUnits == 0;
 
 				if (_allPlayersOut) then {
-					private _waypoint = (group driver _mArmoredTransport1) addWaypoint [["m11_AirbaseTowerVincinity"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker, 25];
+					[group driver _mArmoredTransport1] call _self.AddInfantrySadWaypoints;
 					_mArmoredTransport1 limitSpeed 12;
-					_waypoint setWaypointBehaviour "COMBAT";
-					_waypoint setWaypointType "SAD";
-					_waypoint setWaypointCombatMode "RED";
 					_mArmoredTransportState = TransportState.Returning;
-					player sideChat "OPPOSING ENGAGING";
 				};
 			};
 			
@@ -392,7 +415,24 @@ namespace Mission.Server.OperationShoeLace
 			};
 			
 			if (_mTruckTransportState == TransportState.Unloading) then {
-				
+				_mOpposingGroup1 leaveVehicle _mTruckTransport1;
+				_mOpposingGroup2 leaveVehicle _mTruckTransport1;
+				_mOpposingGroup3 leaveVehicle _mTruckTransport1;
+				[_mOpposingGroup1] call _self.AddInfantrySadWaypoints;
+				[_mOpposingGroup2] call _self.AddInfantrySadWaypoints;
+				[_mOpposingGroup3] call _self.AddInfantrySadWaypoints;
+				_mTruckTransportState = TransportState.Returning;
+			};
+		};
+		
+		private method AddInfantrySadWaypoints("_group" as Group)
+		{
+			for "_i" from 0 to 10 do {
+				private _waypoint = _group addWaypoint [["m11_AirbaseTowerVincinity"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker, 20];
+				_waypoint setWaypointType "SAD";
+				_waypoint setWaypointBehaviour "AWARE";
+				_waypoint setWaypointCombatMode "YELLOW";
+				_waypoint setWaypointSpeed "FULL";
 			};
 		};
 		

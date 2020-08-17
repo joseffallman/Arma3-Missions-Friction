@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={3285.7512,19.047119,5761.2329};
-		dir[]={-0.3190704,-0.44081095,0.83899623};
-		up[]={-0.15669377,0.89759928,0.41202664};
-		aside[]={0.93470842,-3.4517143e-008,0.35546839};
+		pos[]={2303.49,36.675407,5655.811};
+		dir[]={-0.31909543,-0.44081095,0.83898622};
+		up[]={-0.15670629,0.89759928,0.41202164};
+		aside[]={0.9346984,-3.4517143e-008,0.35549343};
 	};
 };
 binarizationWanted=0;
@@ -124,6 +124,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -155,25 +174,6 @@ class CustomAttributes
 							};
 						};
 					};
-				};
-			};
-		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
 				};
 			};
 		};
@@ -2542,16 +2542,17 @@ class Mission
 		class Item113
 		{
 			dataType="Marker";
-			position[]={3251.7937,4.9838505,5811.2803};
+			position[]={3025.1731,9.2649536,5825.0156};
 			name="m11o_ArmoredTransport1";
 			type="Empty";
 			angle=311.12479;
 			id=243;
+			atlOffset=-0.64885902;
 		};
 		class Item114
 		{
 			dataType="Marker";
-			position[]={3259.9377,3.8842773,5802.7603};
+			position[]={3012.1873,4.9805455,5855.5854};
 			name="m11o_StartMarker";
 			markerType="ELLIPSE";
 			type="ellipse";
@@ -2559,7 +2560,6 @@ class Mission
 			a=50;
 			b=50;
 			id=246;
-			atlOffset=-1.226716;
 		};
 		class Item115
 		{
@@ -2650,34 +2650,36 @@ class Mission
 		class Item124
 		{
 			dataType="Marker";
-			position[]={1910.5925,5.5352683,5713.7573};
+			position[]={1910.593,5.5349998,5713.7568};
 			name="m11_AirbaseTowerVincinity";
 			markerType="ELLIPSE";
 			type="ellipse";
 			colorName="ColorOrange";
 			fillName="Border";
-			a=200;
-			b=200;
+			a=250;
+			b=250;
 			drawBorder=1;
 			id=264;
+			atlOffset=-0.00026702881;
 		};
 		class Item125
 		{
 			dataType="Marker";
-			position[]={3276.5549,5.276,5792.4292};
+			position[]={3048.6372,14.299286,5810.2388};
 			name="m11o_TransportTruck";
 			type="Empty";
 			angle=311.125;
 			id=271;
-			atlOffset=-0.0004696846;
+			atlOffset=0.63831806;
 		};
 		class Item126
 		{
 			dataType="Marker";
-			position[]={3273.616,5.3400002,5774.2402};
+			position[]={3055.7009,3.3652344,5804.4619};
 			name="m11o_SoldierSpawnPoint";
 			type="Empty";
 			id=272;
+			atlOffset=-11.509192;
 		};
 	};
 };
