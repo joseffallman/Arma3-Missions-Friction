@@ -316,7 +316,7 @@
                               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CaptureTheAirbase.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\CaptureTheAirbase.sqx">
                                 <SubNodes />
                               </ProjectNodeViewModel>
-                              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ChopperState.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\ChopperState.sqx">
+                              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TransportState.sqx" FileName="Server\Classes\Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\TransportState.sqx">
                                 <SubNodes />
                               </ProjectNodeViewModel>
                             </SubNodes>

@@ -15,11 +15,11 @@ namespace Mission.Server.OperationShoeLace
 {
 	public class CaptureTheAirbase : Mission
 	{
-		private fields ["_mChopper1" as Object, "_mChopper1State" as ChopperState, "_mHelipad1" as Object, "_mChopper1LiftOffTime" as Scalar];
-		private fields ["_mChopper2" as Object, "_mChopper2State" as ChopperState, "_mHelipad2" as Object, "_mChopper2LiftOffTime" as Scalar];
-		private fields ["_mChopper3" as Object, "_mChopper3State" as ChopperState, "_mHelipad3" as Object];
-		private fields ["_mArmoredTransport1" as Object, "_mArmoredTransportState" as ChopperState];
-		private fields ["_mTruckTransport1" as Object, "_mTruckTransportState" as ChopperState];
+		private fields ["_mChopper1" as Object, "_mChopper1State" as TransportState, "_mHelipad1" as Object, "_mChopper1LiftOffTime" as Scalar];
+		private fields ["_mChopper2" as Object, "_mChopper2State" as TransportState, "_mHelipad2" as Object, "_mChopper2LiftOffTime" as Scalar];
+		private fields ["_mChopper3" as Object, "_mChopper3State" as TransportState, "_mHelipad3" as Object];
+		private fields ["_mArmoredTransport1" as Object, "_mArmoredTransportState" as TransportState];
+		private fields ["_mTruckTransport1" as Object, "_mTruckTransportState" as TransportState];
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group];
 		private fields ["_mOpposingGroup1" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
@@ -51,18 +51,18 @@ namespace Mission.Server.OperationShoeLace
 			_mChopper1 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter1", false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper1 engineOn true;
 			_mChopper1 lock true;
-			_mChopper1State = ChopperState.Waiting;
+			_mChopper1State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper1;
 			
 			_mChopper2 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter2", false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper2 engineOn true;
 			_mChopper2 lock true;
-			_mChopper2State = ChopperState.Waiting;
+			_mChopper2State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper2;
 			
 			_mChopper3 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter3", false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper3 engineOn true;
-			_mChopper3State = ChopperState.Waiting;
+			_mChopper3State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper3;
 			
 			// Soldiers
@@ -96,11 +96,11 @@ namespace Mission.Server.OperationShoeLace
 			// Opposing
 			
 			_mArmoredTransport1 = ["APC TRANSPORT CANNON", MissionSide.Opposing, "m11o_ArmoredTransport1", false, true] call _self.CreateSideVehicleOnMarker;
-			_mArmoredTransportState = ChopperState.Waiting;
+			_mArmoredTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mArmoredTransport1;
 			
 			_mTruckTransport1 = ["TRANSPORT TRUCK", MissionSide.Opposing, "m11o_TransportTruck", false, true] call _self.CreateSideVehicleOnMarker;
-			_mTruckTransportState = ChopperState.Waiting;
+			_mTruckTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mTruckTransport1;
 			
 			// Soldiers
@@ -252,7 +252,7 @@ namespace Mission.Server.OperationShoeLace
 
 			// Chopper 1
 			
-			if (_mChopper1State == ChopperState.Waiting) then
+			if (_mChopper1State == TransportState.Waiting) then
 			{
 				private _allPlayersInChopper = { alive _x && vehicle _x == _mChopper3 } count _self.ActingUnits == call _self.CountUnitsAliveActing;
 
@@ -261,58 +261,58 @@ namespace Mission.Server.OperationShoeLace
 					_waypoint setWaypointBehaviour "CARELESS";
 					_waypoint = (group driver _mChopper1) addWaypoint [getMarkerPos "m11a_LandingZone1", 0];
 					_mChopper1LiftOffTime = time;
-					_mChopper1State = ChopperState.Transporting;
+					_mChopper1State = TransportState.Transporting;
 				};
 			};
 
-			if (_mChopper1State == ChopperState.Transporting) then {
+			if (_mChopper1State == TransportState.Transporting) then {
 				if (_mChopper1 distance2D getMarkerPos "m11a_LandingZone1" < 150 && unitReady _mChopper1) then {
 					_mChopper1 land "LAND";
-					_mChopper1State = ChopperState.Landing;
+					_mChopper1State = TransportState.Landing;
 				};
 			};
 			
-			if (_mChopper1State == ChopperState.Landing) then {
+			if (_mChopper1State == TransportState.Landing) then {
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup1 leaveVehicle _mChopper1;
 					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
 					[_mActingGroup1, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
-					_mChopper1State = ChopperState.Returning;
+					_mChopper1State = TransportState.Returning;
 				};
 			};
 
 			// Chopper 2
 			
-			if (_mChopper2State == ChopperState.Waiting && _mChopper1State == ChopperState.Transporting && time > _mChopper1LiftOffTime + 5) then
+			if (_mChopper2State == TransportState.Waiting && _mChopper1State == TransportState.Transporting && time > _mChopper1LiftOffTime + 5) then
 			{
 				private _waypoint = (group driver _mChopper2) addWaypoint [getMarkerPos "m11a_FirstChopperWaypoint", 0];
 				_waypoint setWaypointBehaviour "CARELESS";
 				_waypoint = (group driver _mChopper2) addWaypoint [getMarkerPos "m11a_LandingZone2", 0];
 				_mChopper2LiftOffTime = time;
-				_mChopper2State = ChopperState.Transporting;
+				_mChopper2State = TransportState.Transporting;
 			};
 
-			if (_mChopper2State == ChopperState.Transporting) then {
+			if (_mChopper2State == TransportState.Transporting) then {
 				if (_mChopper2 distance2D getMarkerPos "m11a_LandingZone2" < 150 && unitReady _mChopper2) then {
 					_mChopper2 land "LAND";
-					_mChopper2State = ChopperState.Landing;
+					_mChopper2State = TransportState.Landing;
 				};
 			};
 			
-			if (_mChopper2State == ChopperState.Landing) then {
+			if (_mChopper2State == TransportState.Landing) then {
 				if ((getPosATL _mChopper1) select 2 < 1) then {
 					_mActingGroup2 leaveVehicle _mChopper2;
 					{ _mActingGroup1 reveal [_x, 4]; } foreach allUnits;
 					[_mActingGroup2, "m11_AirbaseTowerVincinity"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 					(group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
-					_mChopper2State = ChopperState.Returning;
+					_mChopper2State = TransportState.Returning;
 				};
 			};
 
 			// Chopper 3 (players' chopper)
 			
-			if (_mChopper3State == ChopperState.Waiting && _mChopper2State == ChopperState.Transporting && time > _mChopper2LiftOffTime + 5) then
+			if (_mChopper3State == TransportState.Waiting && _mChopper2State == TransportState.Transporting && time > _mChopper2LiftOffTime + 5) then
 			{
 				private _allPlayersInChopper = { alive _x && vehicle _x == _mChopper3 } count _self.ActingUnits == call _self.CountUnitsAliveActing;
 
@@ -320,20 +320,20 @@ namespace Mission.Server.OperationShoeLace
 					private _waypoint = (group driver _mChopper3) addWaypoint [getMarkerPos "m11a_FirstChopperWaypoint", 0];
 					_waypoint setWaypointBehaviour "CARELESS";
 					_waypoint = (group driver _mChopper3) addWaypoint [getMarkerPos "m11a_LandingZone3", 0];
-					_mChopper3State = ChopperState.Transporting;
+					_mChopper3State = TransportState.Transporting;
 					player sideChat "ACTING TRANSPORTING";
 				};
 			};
 
-			if (_mChopper3State == ChopperState.Transporting) then {
+			if (_mChopper3State == TransportState.Transporting) then {
 				if (_mChopper3 distance2D getMarkerPos "m11a_LandingZone3" < 150 && unitReady _mChopper3) then {
 					_mChopper3 land "LAND";
-					_mChopper3State = ChopperState.Landing;
+					_mChopper3State = TransportState.Landing;
 					player sideChat "ACTING LANDING";
 				};
 			};
 			
-			if (_mChopper3State == ChopperState.Landing) then {
+			if (_mChopper3State == TransportState.Landing) then {
 				private _allUnitsHasExited = { alive _x && vehicle _x == _mChopper3 } count _self.ActingUnits == 0;
 			
 				if (_allUnitsHasExited) then {
@@ -343,26 +343,26 @@ namespace Mission.Server.OperationShoeLace
 
 			// Opposing
 			
-			if (_mArmoredTransportState == ChopperState.Waiting) then {
+			if (_mArmoredTransportState == TransportState.Waiting) then {
 				private _allPlayersIn = { alive _x && vehicle _x == _mArmoredTransport1 } count _self.OpposingUnits == call _self.CountUnitsAliveOpposing;
 
 				if (_allPlayersIn) then {
 					private _waypoint = (group driver _mArmoredTransport1) addWaypoint [getMarkerPos "m11o_UnloadMarker", 25];
 					_waypoint setWaypointBehaviour "AWARE";
-					_mArmoredTransportState = ChopperState.Transporting;
+					_mArmoredTransportState = TransportState.Transporting;
 					player sideChat "OPPOSING TRANSPORTING";
 				};
 			};
 			
-			if (_mArmoredTransportState == ChopperState.Transporting) then {
+			if (_mArmoredTransportState == TransportState.Transporting) then {
 				if (_mArmoredTransport1 distance2D getMarkerPos "m11o_UnloadMarker" < 25 && unitReady _mArmoredTransport1) then {
-					_mArmoredTransportState = ChopperState.Landing;
+					_mArmoredTransportState = TransportState.Landing;
 					_mArmoredTransport1 limitSpeed 0;
 					player sideChat "OPPOSING UNLOADING";
 				};
 			};
 			
-			if (_mArmoredTransportState == ChopperState.Landing) then {
+			if (_mArmoredTransportState == TransportState.Landing) then {
 				private _allPlayersOut = { alive _x && vehicle _x == _mArmoredTransport1 } count _self.OpposingUnits == 0;
 
 				if (_allPlayersOut) then {
@@ -371,27 +371,27 @@ namespace Mission.Server.OperationShoeLace
 					_waypoint setWaypointBehaviour "COMBAT";
 					_waypoint setWaypointType "SAD";
 					_waypoint setWaypointCombatMode "RED";
-					_mArmoredTransportState = ChopperState.Returning;
+					_mArmoredTransportState = TransportState.Returning;
 					player sideChat "OPPOSING ENGAGING";
 				};
 			};
 			
-			if (_mTruckTransportState == ChopperState.Waiting) then {
-				if (_mArmoredTransportState == ChopperState.Transporting) then {
+			if (_mTruckTransportState == TransportState.Waiting) then {
+				if (_mArmoredTransportState == TransportState.Transporting) then {
 					private _waypoint = (group driver _mTruckTransport1) addWaypoint [getMarkerPos "m11o_UnloadMarker", 25];
 					_waypoint setWaypointBehaviour "SAFE";
-					_mTruckTransportState = ChopperState.Transporting;
+					_mTruckTransportState = TransportState.Transporting;
 				};
 			};
 			
-			if (_mTruckTransportState == ChopperState.Transporting) then {
+			if (_mTruckTransportState == TransportState.Transporting) then {
 				if (_mTruckTransport1 distance2D getMarkerPos "m11o_UnloadMarker" < 150 && unitReady _mTruckTransport1) then {
-					_mTruckTransportState = ChopperState.Landing;
+					_mTruckTransportState = TransportState.Unloading;
 					_mTruckTransport1 limitSpeed 0;
 				};
 			};
 			
-			if (_mTruckTransportState == ChopperState.Landing) then {
+			if (_mTruckTransportState == TransportState.Unloading) then {
 				
 			};
 		};
