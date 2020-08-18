@@ -23,6 +23,7 @@ namespace Mission.Server.OperationShoeLace
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group, "_mActingGroup3" as Group, "_mActingGroup4" as Group];
 		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
+		private fields ["_mLeaningToSide" as MissionSide];
 		
 		// Creates a CaptureTheAirbase object.
 		public constructor()
@@ -32,12 +33,13 @@ namespace Mission.Server.OperationShoeLace
 			_mSpawnedIndepententSoldiers = [];
 			_mSpawnedActingSoldiers = [];
 			_mSpawnedOpposingSoldiers = [];
+			_mLeaningToSide = MissionSide.Guerilla;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Capture The Airbase";
-			_mission.StartTimeOfDay = 6;
+			_mission.StartTimeOfDay = 5;
 			_mission.StartMarkersActing = ["m11a_StartMarker"];
 			_mission.StartMarkersOpposing = ["m11o_StartMarker"];
 		};
@@ -177,7 +179,7 @@ namespace Mission.Server.OperationShoeLace
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
 			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
@@ -189,7 +191,7 @@ namespace Mission.Server.OperationShoeLace
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
 			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
@@ -201,7 +203,7 @@ namespace Mission.Server.OperationShoeLace
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
 			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
@@ -213,7 +215,7 @@ namespace Mission.Server.OperationShoeLace
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
 			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 			
@@ -304,7 +306,19 @@ namespace Mission.Server.OperationShoeLace
 			private _indepentendCloseToTowerCount = [_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower;
 			private _total = ({alive _x} count _mSpawnedActingSoldiers) + ({alive _x} count _mSpawnedOpposingSoldiers) + ({alive _x} count _mSpawnedIndepententSoldiers) + (call _self.CountUnitsAliveActing) + (call _self.CountUnitsAliveOpposing);
 		
-			hint ("A: " + str _actingCloseToTowerCount + ", O: " + str _opposingCloseToTowerCount + ", I: " + str _indepentendCloseToTowerCount + ", T: " + str _total);
+			//hint ("A: " + str _actingCloseToTowerCount + ", O: " + str _opposingCloseToTowerCount + ", I: " + str _indepentendCloseToTowerCount + ", T: " + str _total);
+		
+			// Check if one of the sides are about to win
+			if (_actingCloseToTowerCount > (_opposingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && _mLeaningToSide != MissionSide.Acting) then {
+				[MissionSide.Acting, "Winning momentum."] call _self.ShowNotification;
+				[MissionSide.Opposing, "Loosing momentum."] call _self.ShowNotification;
+				_mLeaningToSide = MissionSide.Acting;
+			};
+			if (_opposingCloseToTowerCount > (_actingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && _mLeaningToSide != MissionSide.Opposing) then {
+				[MissionSide.Acting, "Loosing momentum."] call _self.ShowNotification;
+				[MissionSide.Opposing, "Winning momentum."] call _self.ShowNotification;
+				_mLeaningToSide = MissionSide.Opposing;
+			};
 		
 			// Acting
 
@@ -416,18 +430,18 @@ namespace Mission.Server.OperationShoeLace
 			
 			if (_mArmoredTransportState == TransportState.Transporting) then {
 				if (_mArmoredTransport1 distance2D getMarkerPos "m11o_UnloadMarker" < 25 && unitReady _mArmoredTransport1) then {
-					_mArmoredTransportState = TransportState.Landing;
+					_mArmoredTransportState = TransportState.Unloading;
 					_mArmoredTransport1 limitSpeed 0;
 					player sideChat "OPPOSING UNLOADING";
 				};
 			};
 			
-			if (_mArmoredTransportState == TransportState.Landing) then {
+			if (_mArmoredTransportState == TransportState.Unloading) then {
 				private _allPlayersOut = { alive _x && vehicle _x == _mArmoredTransport1 } count _self.OpposingUnits == 0;
 
 				if (_allPlayersOut) then {
 					[group driver _mArmoredTransport1] call _self.AddInfantrySadWaypoints;
-					_mArmoredTransport1 limitSpeed 12;
+					_mArmoredTransport1 limitSpeed 20;
 					_mArmoredTransportState = TransportState.Returning;
 				};
 			};
