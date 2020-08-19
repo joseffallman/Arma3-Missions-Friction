@@ -7,7 +7,7 @@
  * Description:
  * The different states that a transport chopper takes when transporting players.
  */
-namespace Campaigns.OperationShoeLace
+namespace Campaigns.ShoeLace
 {
 	public enum TransportState
 	{

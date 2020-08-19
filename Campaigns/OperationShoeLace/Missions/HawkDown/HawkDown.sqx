@@ -12,7 +12,7 @@ using Mission.Common;
 using Sqx.Markers;
 using Mission.Server;
 
-namespace Campaigns.OperationShoeLace
+namespace Campaigns.ShoeLace
 {
 	public class HawkDown : ShoeLaceMission
 	{

@@ -12,7 +12,7 @@ using Mission.Common;
 using Mission.Server;
 using Campaigns;
 
-namespace Campaigns.OperationShoeLace
+namespace Campaigns.ShoeLace
 {
 	public class OperationShoeLaceCampaign : Campaign
 	{

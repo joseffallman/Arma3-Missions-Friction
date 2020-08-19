@@ -8,7 +8,7 @@
 using Mission.Common;
 using Mission.Server;
 
-namespace Campaigns.OperationShoeLace
+namespace Campaigns.ShoeLace
 {
 	public class NightTensions : ShoeLaceMission
 	{

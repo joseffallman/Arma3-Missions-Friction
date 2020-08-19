@@ -13,7 +13,7 @@ using Sqx.Markers;
 using Mission.Server;
 using Campaigns;
 
-namespace Campaigns.OperationShoeLace
+namespace Campaigns.ShoeLace
 {
 	public class Establishments : Mission
 	{
