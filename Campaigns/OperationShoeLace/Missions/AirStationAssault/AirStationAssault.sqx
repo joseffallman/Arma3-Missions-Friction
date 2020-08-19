@@ -1,0 +1,219 @@
+/*
+ * Name:	AirStationAssault
+ * Date:	2020-06-24
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A mission where players assault and defend Air Station Mike.
+ */
+
+using Mission.Common;
+using Mission.Server;
+using Campaigns;
+
+namespace Campaigns.OperationShoeLace
+{
+	public class AirStationAssault : ShoeLaceMission
+	{
+		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array];
+		
+		// Creates a AirStationAssault object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			// The "acting" side will be the side attacking.
+			// The "opposing" side will be the side defending.
+			
+			_mission.Name = "Air Station Assault";
+			_mission.StartTimeOfDay = 1;
+			_mission.StartMarkersActing = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
+			_mission.StartMarkersOpposing = ["m01o_startarea1"];
+			_mission.SideMarkersActing = ["m01a_PrimaryTarget"];
+			_mission.AddReturnObjectiveForActing = true;
+		};
+		
+		protected override method String AddBriefingInfoForActing()
+		{
+			private _briefing = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
+			
+			if ("Uav" in _self.EarlierGainedTokensActing) then {
+				_briefing = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+			};
+			
+			return _briefing;
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
+		};
+		
+		private static method ShuffleArray("_array" as Array)
+		{
+			for "_i" from 0 to 20 do {
+				private _index1 = floor random count _array;
+				private _index2 = floor random count _array;
+				
+				private _item = _array select _index1;
+				_array set [_index1, _array select _index2];
+				_array set [_index2, _item];
+			};
+		};
+		
+		protected override method Setup()
+		{
+			private ["_targetVehicles" as Array, "_vehicleMarkers" as Array, "_vehicle" as Object];
+		
+			// Spawn acting side's base objects
+			
+			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			
+			if ("Uav" in _self.EarlierGainedTokensActing) then {
+				_ammoBox addBackpackCargo ["B_UAV_01_backpack_F", 1];
+				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
+			};
+			
+			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			
+			// Spawn opposing side's objects
+			
+			_mAllVehicles = [];
+			_targetVehicles = [];
+			_vehicleMarkers = ["m01o_Vehicle1", "m01o_Vehicle2", "m01o_Vehicle3", "m01o_Vehicle4", "m01o_Vehicle5", "m01o_Vehicle6", "m01o_Vehicle7"];
+			
+			[_vehicleMarkers] call _self.ShuffleArray;
+			
+			_vehicle = ["AMMO TRUCK", MissionSide.Opposing, _vehicleMarkers select 0] call _self.CreateSideVehicleOnMarker;
+			_vehicle setVariable ["ObjectiveText", "Destroy ammo truck"];
+			_vehicle lock true;
+			_targetVehicles pushBack _vehicle;
+			_mAllVehicles pushBack _vehicle;
+			
+			_vehicle = ["DEVICE TRUCK", MissionSide.Opposing, _vehicleMarkers select 1] call _self.CreateSideVehicleOnMarker;
+			_vehicle setVariable ["ObjectiveText", "Destroy device truck"];
+			_vehicle lock true;
+			_targetVehicles pushBack _vehicle;
+			_mAllVehicles pushBack _vehicle;
+			
+			_vehicle = ["REPAIR TRUCK", MissionSide.Opposing, _vehicleMarkers select 2] call _self.CreateSideVehicleOnMarker;
+			_vehicle setVariable ["ObjectiveText", "Destroy repair truck"];
+			_vehicle lock true;
+			_targetVehicles pushBack _vehicle;
+			_mAllVehicles pushBack _vehicle;
+			
+			_vehicle = ["MEDICAL TRUCK", MissionSide.Opposing, _vehicleMarkers select 3] call _self.CreateSideVehicleOnMarker;
+			_vehicle lock true;
+			_mAllVehicles pushBack _vehicle;
+			
+			_vehicle = ["MRAP", MissionSide.Opposing, _vehicleMarkers select 4] call _self.CreateSideVehicleOnMarker;
+			_mAllVehicles pushBack _vehicle;
+			
+			_vehicle = ["QUADBIKE", MissionSide.Opposing, _vehicleMarkers select 5] call _self.CreateSideVehicleOnMarker;
+			_mAllVehicles pushBack _vehicle;
+			
+			[_targetVehicles] call _self.ShuffleArray;
+
+			_mPrimaryTargetVehicle = _targetVehicles select 0;
+			_mSecondaryTargetVehicle = _targetVehicles select 1;
+
+			// Add an AI group defending the area.
+			
+			private _guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m01o_startarea1"] call _self.CreateAiSoldierBySide;
+			private _guardGroup = group _guard;
+			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m01o_startarea1", _guardGroup] call _self.CreateAiSoldierBySide;
+			
+			[_guardGroup, "m01o_startarea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			
+			call _base.Setup;
+		};
+
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			private _shortDescription = _mPrimaryTargetVehicle getVariable "ObjectiveText";
+			private _longDescription = _shortDescription + ". The truck is located somewhere inside the area of Air Station Mike-26.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			private _shortDescription = _mSecondaryTargetVehicle getVariable "ObjectiveText";
+			private _longDescription = _shortDescription + ". The truck is located somewhere inside the area of Air Station Mike-26.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Patrol Air Station Mike-26";
+			private _longDescription = "Patrol the Air Station Mike-26 and keep it safe from intruders.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Hunt down any intruders";
+			private _longDescription = "Hunt down and kill all intruders.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			if (!alive _mPrimaryTargetVehicle) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
+		{
+			if (!alive _mSecondaryTargetVehicle) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			private _vehiclesAlive = { alive _x } count _mAllVehicles == count _mAllVehicles;
+			
+			if (!_vehiclesAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			private _missionHasEnded = _self.IsCancelling;
+			private _allEnemiesDead = (call _self.CountUnitsAliveActing) == 0;
+			
+			if (_vehiclesAlive && (_allEnemiesDead || _missionHasEnded)) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckSecondaryObjectiveStateOpposing()
+		{
+			private _allEnemiesDead = (call _self.CountUnitsAliveActing) == 0;
+			
+			if (_allEnemiesDead) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			// If the acting side has extracted, the opposing side has failed to hunt them down.
+			if (_self.ReturnObjectiveStateOpposing == ObjectiveState.Succeeded) then {
+				return ObjectiveState.Failed;
+			};
+			
+			return ObjectiveState.None;
+		};
+	};
+};

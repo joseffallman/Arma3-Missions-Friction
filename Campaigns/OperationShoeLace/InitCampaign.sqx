@@ -1,0 +1,10 @@
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\OperationShoeLaceCampaign.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\OperationShoeLaceMission.sqx";
+
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\CannonballRun\CannonballRun.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\AirStationAssault\AirStationAssault.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\HawkDown\HawkDown.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\NightTensions\NightTensions.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\Establishments\Establishments.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\CaptureTheAirbase.sqx";

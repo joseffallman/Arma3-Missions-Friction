@@ -21,6 +21,75 @@
               </ProjectNodeViewModel>
             </SubNodes>
           </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="OperationShoeLace" FileName="Campaigns\OperationShoeLace">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Missions" FileName="Campaigns\OperationShoeLace\Missions">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="AirStationAssault" FileName="Campaigns\OperationShoeLace\Missions\AirStationAssault">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="AirStationAssault.sqx" FileName="Campaigns\OperationShoeLace\Missions\AirStationAssault\AirStationAssault.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CannonballRun" FileName="Campaigns\OperationShoeLace\Missions\CannonballRun">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CannonballRun.sqx" FileName="Campaigns\OperationShoeLace\Missions\CannonballRun\CannonballRun.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CaptureTheAirbase" FileName="Campaigns\OperationShoeLace\Missions\CaptureTheAirbase">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CaptureTheAirbase.sqx" FileName="Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\CaptureTheAirbase.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TransportState.sqx" FileName="Campaigns\OperationShoeLace\Missions\CaptureTheAirbase\TransportState.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CatAndMouse" FileName="Campaigns\OperationShoeLace\Missions\CatAndMouse">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CatAndMouse.sqx" FileName="Campaigns\OperationShoeLace\Missions\CatAndMouse\CatAndMouse.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Establishments" FileName="Campaigns\OperationShoeLace\Missions\Establishments">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Establishments.sqx" FileName="Campaigns\OperationShoeLace\Missions\Establishments\Establishments.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="HawkDown" FileName="Campaigns\OperationShoeLace\Missions\HawkDown">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="HawkDown.sqx" FileName="Campaigns\OperationShoeLace\Missions\HawkDown\HawkDown.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="NightTensions" FileName="Campaigns\OperationShoeLace\Missions\NightTensions">
+                    <SubNodes>
+                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="NightTensions.sqx" FileName="Campaigns\OperationShoeLace\Missions\NightTensions\NightTensions.sqx">
+                        <SubNodes />
+                      </ProjectNodeViewModel>
+                    </SubNodes>
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="OperationShoeLaceMission.sqx" FileName="Campaigns\OperationShoeLace\Missions\OperationShoeLaceMission.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="InitCampaign.sqx" FileName="Campaigns\OperationShoeLace\InitCampaign.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="OperationShoeLaceCampaign.sqx" FileName="Campaigns\OperationShoeLace\OperationShoeLaceCampaign.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Shared" FileName="Campaigns\Shared">
             <SubNodes>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Campaigns\Shared\ObjectTypeDictionary.sqx">
