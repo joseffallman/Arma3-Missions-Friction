@@ -8,14 +8,15 @@ call compile preprocessFileLineNumbers "Server\Classes\Objects\VehicleSideAlias.
 call compile preprocessFileLineNumbers "Server\Classes\Objects\MissionSettings.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Objects\InsertionEventArgs.sqx";
 call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Campaign.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Mission.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Shared\ObjectTypeDictionary.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\Shared\SoldierTypeDictionary.sqx";
 
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\MyCampaign\InitCampaign.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\DemoCampaign\InitCampaign.sqx";
-call compile preprocessFileLineNumbers "Server\Classes\Campaigns\OperationShoeLace\InitCampaign.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Campaign.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Mission.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Shared\ObjectTypeDictionary.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Shared\SoldierTypeDictionary.sqx";
+
+call compile preprocessFileLineNumbers "Campaigns\MyCampaign\InitCampaign.sqx";
+call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\InitCampaign.sqx";
+call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\InitCampaign.sqx";
 
 using Mission.Common.Statics;
 using Mission.Server;

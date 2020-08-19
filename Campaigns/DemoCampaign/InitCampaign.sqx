@@ -1,0 +1,6 @@
+call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\DemoCampaign.sqx";
+
+call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\Missions\AirbaseIntruders\AirbaseIntruders.sqx";
+call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\Missions\LostVehicles\LostVehicles.sqx";
+call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\Missions\AsEasyAsItGets\AsEasyAsItGets.sqx";
+call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\Missions\DragRacing\DragRacing.sqx";

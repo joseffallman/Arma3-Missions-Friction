@@ -1,0 +1,155 @@
+/*
+ * Name:	CatAndMouse
+ * Date:	2020-07-27
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A mission where both sides are inserted among the housed in Girna and looking for the same equipment.
+ */
+
+using Sqx.Markers;
+using Mission.Common;
+using Mission.Server;
+
+namespace Campaigns.OperationShoeLace
+{
+	public class CatAndMouse : ShoeLaceMission
+	{
+		private fields ["_mBox" as Object, "_mBoxIsFound" as Boolean];
+	
+		// Creates a CatAndMouse object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		private static method ShuffleArray("_array" as Array)
+		{
+			for "_i" from 0 to 20 do {
+				private _index1 = floor random count _array;
+				private _index2 = floor random count _array;
+				
+				private _item = _array select _index1;
+				_array set [_index1, _array select _index2];
+				_array set [_index2, _item];
+			};
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "Cat And Mouse";
+			_mission.StartTimeOfDay = 18;
+			
+			private _startMarkers = ["m09_StartMarker1", "m09_StartMarker2", "m09_StartMarker3", "m09_StartMarker4", "m09_StartMarker5", "m09_StartMarker6", "m09_StartMarker7", "m09_StartMarker8", "m09_StartMarker9", "m09_StartMarker10", "m09_StartMarker11", "m09_StartMarker12"];
+			
+			[_startMarkers] call _self.ShuffleArray;
+			
+			_mission.StartMarkersActing = [_startMarkers select 0, _startMarkers select 1, _startMarkers select 2, _startMarkers select 3, _startMarkers select 4, _startMarkers select 5];
+			_mission.StartMarkersOpposing = [_startMarkers select 6, _startMarkers select 7, _startMarkers select 8, _startMarkers select 9, _startMarkers select 10, _startMarkers select 11];
+		};
+		
+		protected override method Setup()
+		{
+			private _boxPos = ["m_Girna"] call MarkerHelper.GetRandomPosInsideMarker;
+		
+			_mBox = ["Land_WoodenBox_F", _boxPos, random 360, true] call _self.CreateVehicleOnPosition;
+			
+			call _base.Setup;
+		};
+		
+		protected override method String AddBriefingInfoForActing()
+		{
+			return "An intercepted radio message reveals that some kind of special weapon has been left somewhere in Girna. The message was totally unencrypted, so expect enemy forces to be there searching for it too.";
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return "An intercepted radio message reveals that some kind of special weapon has been left somewhere in Girna. The message was totally unencrypted, so expect enemy forces to be there searching for it too.";
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			return ["Find the special weapon.", "Find the special weapon. It is probably packed in some kind of box, and can be anywhere inside or outside buildings within 75 meters from the town centre."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			return ["Kill the enemy squad."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			return ["Find the special weapon.", "Find the special weapon. It is probably packed in some kind of box, and can be anywhere inside or outside buildings within 75 meters from the town centre."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
+		{
+			return ["Kill the enemy squad."] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			private _foundBox = ({ _x distance _mBox < 3 } count _self.ActingUnits > 0);
+			
+			if (_foundBox) then {
+				_mBox setPos [0, 0 ,0];
+				_mBoxIsFound = true;
+				return ObjectiveState.Succeeded;
+			};
+			
+			// If the other side found the box, then fail primary objective, so that everyone is returned to the base.
+			
+			private _allEnemiesDead = call _self.CountUnitsAliveOpposing == 0;
+			
+			if (_mBoxIsFound && _allEnemiesDead) then {
+				return ObjectiveState.Failed;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
+		{
+			private _allEnemiesDead = call _self.CountUnitsAliveOpposing == 0;
+			
+			if (_allEnemiesDead) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			private _foundBox = ({ _x distance _mBox < 3 } count _self.OpposingUnits > 0);
+			
+			if (_foundBox) then {
+				_mBox setPos [0, 0 ,0];
+				_mBoxIsFound = true;
+				return ObjectiveState.Succeeded;
+			};
+			
+			// If the other side found the box, then fail primary objective, so that everyone is returned to the base.
+			
+			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
+			
+			if (_mBoxIsFound && _allEnemiesDead) then {
+				return ObjectiveState.Failed;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckSecondaryObjectiveStateOpposing()
+		{
+			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
+			
+			if (_allEnemiesDead) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+	};
+};

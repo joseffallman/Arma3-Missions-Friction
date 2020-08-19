@@ -1,0 +1,66 @@
+/*
+ * Name:	AirBaseMadness
+ * Date:	2020-07-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A cat-and-mouse mission on the Stratis air base.
+ */
+
+using Mission.Common;
+using Mission.Server;
+using Campaigns;
+
+namespace Campaigns.Demo
+{
+	public class AirbaseIntruders : Mission
+	{
+		// Creates a AirBaseMadness object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as Mission.Server.MissionSettings)
+		{
+			_mission.Name = "Air Base Intruders";
+			_mission.StartMarkersActing = ["m02a_StartArea1"];
+			_mission.StartMarkersOpposing = ["m02o_StartArea1"];
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			private _shortDescription = "Find and kill all enemies.";
+			private _longDescription = "Find and kill all enemies.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Find and kill all enemies.";
+			private _longDescription = "Find and kill all enemies.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			if ((call _self.CountUnitsAliveOpposing) == 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			if ((call _self.CountUnitsAliveActing) == 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+	};
+};

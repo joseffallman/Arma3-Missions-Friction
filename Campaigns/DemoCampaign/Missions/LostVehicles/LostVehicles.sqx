@@ -1,0 +1,79 @@
+/*
+ * Name:	EasyKill
+ * Date:	2020-07-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A very simple test mission.
+ */
+
+using Mission.Common;
+using Mission.Server;
+using Campaigns;
+
+namespace Campaigns.Demo
+{
+	public class LostVehicles : Mission
+	{
+		private fields ["_mAmmoTruck" as Object];
+		
+		// Creates a AirBaseMadness object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "Lost Vehicles";
+			_mission.StartMarkersActing = ["m03a_StartArea1"];
+			_mission.StartMarkersOpposing = ["m03o_StartArea1"];
+			_mission.AddReturnObjectiveForActing = true;
+			_mission.AddReturnObjectiveForOpposing = true;
+		};
+		
+		protected override method Setup()
+		{
+			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
+		
+			_self.GainedTokenActing = "Fuel";
+		
+			call _base.Setup;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			private _shortDescription = "Reach the ammo truck.";
+			private _longDescription = "Reach the ammo truck.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			private _shortDescription = "Reach the ammo truck.";
+			private _longDescription = "Reach the ammo truck.";
+			
+			return [_shortDescription, _longDescription] new MissionObjective;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			if ({ _x distance _mAmmoTruck < 10 } count _self.ActingUnits > 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			if ({ _x distance _mAmmoTruck < 10 } count _self.OpposingUnits > 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+	};
+};

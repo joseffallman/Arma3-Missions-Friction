@@ -1,0 +1,31 @@
+/*
+ * Name:	AsEasyAsItGets
+ * Date:	2020-07-04
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * An 'empty' but working mission - just to show that an empty class deriving from Mission really executes as a mission.
+ */
+
+using Mission.Common;
+using Mission.Server;
+using Campaigns;
+
+namespace Campaigns.Demo
+{
+	public class AsEasyAsItGets : Mission
+	{
+		// Creates a AsEasyAsItGets object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "As Easy As It Gets";
+			_mission.MaximumMissionTime = 1;
+		};
+	};
+};

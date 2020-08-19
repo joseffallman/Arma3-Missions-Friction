@@ -1,0 +1,30 @@
+/*
+ * Name:	DemoCampaign
+ * Date:	2020-08-05
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A campaign used for testing.
+ */
+
+using Mission.Server;
+using Campaigns;
+
+namespace Campaigns.Demo
+{
+	public class DemoCampaign : Campaign
+	{
+		// Creates a Campaign object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method SelectMissions("_missions" as Array /* of Mission */)
+		{
+			_missions pushBack new DragRacing;
+			_missions pushBack new LostVehicles;
+		};
+	};
+};

@@ -1,0 +1,1196 @@
+/*
+ * Name:	Mission
+ * Date:	2020-06-24
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Base class for all missions in the campaign.
+ * A new mission is easily created by creating a class and inheriting this Mission base class.
+ */
+
+using Sqx.Services;
+using Mission.Common;
+using Mission.Communication;
+using Mission.Server;
+
+namespace Campaigns
+{
+	public class Mission : Service
+	{
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
+		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object, "_mMissionIsPrepared" as Boolean];
+		
+		#region Initialization
+		
+		// Creates a mission and sets primitive properties like start time of day and start markers.
+		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
+		public constructor()
+		{
+			private ["_missionSettings" as MissionSettings];
+			
+			call _base.Constructor;
+			
+			_self.ObjectTypeDictionary = new ObjectTypeDictionary;
+			_self.SoldierTypeDictionary = new SoldierTypeDictionary;
+			_mActingSide = west;
+			_mSpawnedVehicles = [];
+			_mSpawnedSoldiers = [];
+			_mActingInsertionObject = objNull;
+			_mOpposingInsertionObject = objNull;
+			_mMissionIsPrepared = false;
+			_self.ActingUnits = [];
+			_self.OpposingUnits = [];
+			_self.PrimaryObjectiveStateActing = ObjectiveState.None;
+			_self.SecondaryObjectiveStateActing = ObjectiveState.None;
+			_self.ReturnObjectiveStateActing = ObjectiveState.None;
+			_self.PrimaryObjectiveStateOpposing = ObjectiveState.None;
+			_self.SecondaryObjectiveStateOpposing = ObjectiveState.None;
+			_self.ReturnObjectiveStateOpposing = ObjectiveState.None;
+			_self.EndNarrative = "";
+			
+			_missionSettings = new MissionSettings;
+			[_missionSettings] call _self.InitMission;
+			
+			_self.Name = _missionSettings.Name;
+			_self.StartTimeOfDay = _missionSettings.StartTimeOfDay;
+			_self.RemainingTime = _missionSettings.MaximumMissionTime;
+			_self.StartMarkersActing = _missionSettings.StartMarkersActing;
+			_self.StartMarkersOpposing = _missionSettings.StartMarkersOpposing;
+			_self.SideMarkersActing = _missionSettings.SideMarkersActing;
+			_self.SideMarkersOpposing = _missionSettings.SideMarkersOpposing;
+			_self.HasReturnObjectiveForActing = _missionSettings.AddReturnObjectiveForActing;
+			_self.HasReturnObjectiveForOpposing = _missionSettings.AddReturnObjectiveForOpposing;
+		};
+		
+		// Initialization the basic meta data for the mission, such as Name, Mission time.
+		// Called from the constructor of the Mission class.
+		// Always override this method in a mission, and at least set the _missionSettings.Name property.
+		// _mission (_missionSettings): An object containing necessary meta data for the mission.
+		protected virtual method InitMission("_mission" as MissionSettings)
+		{
+		};
+		
+		#endregion
+		
+		#region Private Methods
+
+		// Creates objectives for both sides and sets all primary- and secondary objective attributes for
+		// the mission.
+		private method CreateMissionObjectives()
+		{
+			_self.PrimaryObjectiveForActing = call _self.CreatePrimaryObjectiveForActing;
+			_self.SecondaryObjectiveForActing = call _self.CreateSecondaryObjectiveForActing;
+			_self.PrimaryObjectiveForOpposing = call _self.CreatePrimaryObjectiveForOpposing;
+			_self.SecondaryObjectiveForOpposing = call _self.CreateSecondaryObjectiveForOpposing;
+		};
+		
+		// Finds a free spawn position around a given position.
+		// _markPos (Array): The position where to find a free spawn position.
+		// _initialRadius (Scalar): Optional. The initial radius how far from the position that is ok. This
+		// value will expand until a position is found.
+		private static method FindSpawnPos("_markPos" as Array, ["_initialRadius" as Scalar, 0], ["_isHelicopter" as Boolean, false])
+		{
+			private ["_spawnpos", "_randir", "_extendedRadius", "_randis", "_houses", "_vehicles", "_isFlat", "_danger", "_foundIt", "_tries"];
+			private ["_distanceToNearestVehicle" as Scalar, "_distanceFromBuilding" as Scalar, "_allowedSteepness" as Scalar];
+			
+			_distanceFromBuilding = 10;
+			_allowedSteepness = 0.5;
+			
+			_distanceToNearestVehicle = 9;
+			if (_isHelicopter) then {
+				_distanceToNearestVehicle = 12;
+				_allowedSteepness = 0.25;
+			};
+			
+			_spawnpos = [];
+			_foundIt = false;
+			_tries = 0;
+			_extendedRadius = 0;
+			
+			while { true } do {
+				scopeName "SpawnPosGen";
+				
+				_randir = floor random 360;
+				_randis = _initialRadius + floor random _extendedRadius;
+				_spawnpos = [(_markpos select 0) + ((sin _randir) * _randis), (_markpos select 1) + ((cos _randir) * _randis), 0.1];
+				_houses = nearestObjects [_spawnpos, ["house","wall"], 50];
+				_vehicles = nearestObjects [_spawnpos, ["LandVehicle", "AirVehicle", "Man"], 25];
+				_isFlat = _spawnpos isFlatEmpty [2, -1, _allowedSteepness, 10, 0, false, objNull ];
+				_danger = false;
+				{ if (floor(_spawnpos distance getPos _x) < _distanceFromBuilding) then { _danger=true; }; } forEach _houses;
+				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _vehicles;
+				if (surfaceIsWater _spawnpos) then { _danger=true; };
+				if (count _isFlat < 1 ) then { _danger=true; };
+				if (!_danger) then { 
+					_foundIt = true;
+					breakOut "SpawnPosGen"
+				};
+				_tries = _tries + 1;
+				_extendedRadius = _extendedRadius + 0.5;
+				sleep 0.01;
+			};
+			
+			if (!_foundIt) then {
+				_spawnPos = [];
+			};
+			
+			return _spawnpos;
+		};
+		
+		// Spawns a vehicle on a marker.
+		// _vehicleType (String): The vehicle type to spawn.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// Returns (Object): The vehicle spawned.
+		protected method Object CreateVehicleOnMarker("_vehicleType" as String, "_markerName" as String, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
+		{
+			private _position = getMarkerPos _markerName;
+			
+			if (_avoidCollision) then {
+				_position = [_position] call _self.FindSpawnPos;
+			};
+			
+			private _direction = markerDir _markerName;
+			
+			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
+			_vehicle setDir _direction;
+			_vehicle setPos _position;
+			
+			_mSpawnedVehicles pushBack _vehicle;
+			
+			if (_withCrew) then {
+				private _crewGroup = createVehicleCrew _vehicle;
+				_mSpawnedSoldiers = _mSpawnedSoldiers + units _crewGroup;
+			};
+			
+			return _vehicle;
+		};
+		
+		// Spawns a vehicle on a marker.
+		// _vehicleType (String): The vehicle type to spawn.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// Returns (Object): The vehicle spawned.
+		protected method Object CreateVehicleOnPosition("_vehicleType" as String, "_position" as Array, "_direction" as Scalar, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
+		{
+			if (_avoidCollision) then {
+				_position = [_position] call _self.FindSpawnPos;
+			};
+			
+			private _vehicle = _vehicleType createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
+			_vehicle setDir _direction;
+			_vehicle setPos _position;
+			
+			_mSpawnedVehicles pushBack _vehicle;
+			
+			if (_withCrew) then {
+				private _crewGroup = createVehicleCrew _vehicle;
+				_mSpawnedSoldiers = _mSpawnedSoldiers + units _crewGroup;
+			};
+			
+			return _vehicle;
+		};
+		
+		protected method Object CreateAiSoldier("_unitType" as String, "_position" as Array, "_group" as Group)
+		{
+			private _soldier = _group createUnit [_unitType, _position, [], 0, "NONE"];
+			_mSpawnedSoldiers pushBack _soldier;
+			
+			return _soldier;
+		};
+		
+		protected method Object CreateAiSoldierBySide("_unitTypeAlias" as String, "_missionSide" as MissionSide, "_position" as Array, ["_group" as Group, grpNull])
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _soldierType = [_unitTypeAlias, _side] call _self.SoldierTypeDictionary.GetSoldierType;
+			
+			if (isNull _group) then {
+				_group = createGroup [_side, true];
+			};
+			
+			return [_soldierType, _position, _group] call _self.CreateAiSoldier;
+		};
+		
+		
+		#endregion
+		
+		#region Settable Properties
+		
+		// Gets or sets something of free choice that may be of use in future missions for the acting side.
+		public property String GainedTokenActing { get; protected set; };
+		
+		// Gets or sets something of free choice that is considered lost and may affect future missions for the acting side.
+		public property String LostTokenActing { get; protected set; };
+		
+		// Gets or sets something of free choice that may be of use in future missions for the opposing side.
+		public property String GainedTokenOpposing { get; protected set; };
+		
+		// Gets or sets something of free choice that is considered lost and may affect future missions for the opposing side.
+		public property String LostTokenOpposing { get; protected set; };
+		
+		#endregion
+		
+		#region Protected Methods
+		
+		// Gets the actual side (east or west) out of a mission side (acting or opposing).
+		// Avoid addressing the actual side in a mission. Instead use "mission side", i.e.
+		// Acting and Opposing.
+		// _side (MissionSide): The mission side to ask for (acting or opposing).
+		// Returns (Side): The actual side that corresponds to the mission side.
+		public method Side GetActualSide("_side" as MissionSide)
+		{
+			if (_side == MissionSide.Guerilla) then {
+				return independent;
+			};
+		
+			if (_mActingSide == west) then {
+				if (_side == MissionSide.Acting) then {
+					return west;
+				}
+				else {
+					return east;
+				};
+			}
+			else // If acting side is east
+			{
+				if (_side == MissionSide.Acting) then {
+					return east;
+				}
+				else {
+					return west;
+				};
+			};
+		};
+		
+		// Gets the mission side (acting or opposing) out of an actual side (east or west).
+		// _side (Side): The side to ask for (east or west).
+		// Returns (MissionSide): The mission side that corresponds to the actual side.
+		protected method MissionSide GetMissionSide("_side" as Side)
+		{
+			if (_side == independent) then {
+				return MissionSide.Guerilla;
+			};
+		
+			if (_side == _mActingSide) then {
+				return MissionSide.Acting;
+			};
+			
+			return MissionSide.Opposing;
+		};
+		
+		// Shows a general notification - like a task completed message - to all players on one side.
+		// _missionSide (MissionSide): The side to see the notification.
+		// _text (String): The text to show.
+		protected method ShowNotification("_missionSide" as MissionSide, "_text" as String)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			
+			["ClientEventReciever.OnShowNotification", [_side, _text]] call Remote.Invoke;
+		};
+		
+		// Gets the number of units alive on the acting side.
+		// Returns (Scalar): Number of alive units on the acting side.
+		protected method Scalar CountUnitsAliveActing()
+		{
+			return { alive _x } count _self.ActingUnits;
+		};
+		
+		// Gets the number of units alive on the opposing side.
+		// Returns (Scalar): Number of alive units on the opposing side.
+		protected method Scalar CountUnitsAliveOpposing()
+		{
+			return { alive _x } count _self.OpposingUnits;
+		};
+		
+		// Spawns a vehicle on a marker at the scene of the mission.
+		// _vehicleTypeWest (String): The vehicle type spawned if side is west.
+		// _vehicleTypeEast (String): The vehicle type spawned if side is east.
+		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
+		// _spawnMarker (String): The name of the marker specifying the vehicle's position and direction.
+		// Returns (Object): The vehicle spawned.
+		protected method Object CreateSideVehicleOnMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_markerName" as String, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _vehicleType = [_vehicleTypeAlias, _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			
+			return [_vehicleType, _markerName, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
+		};
+		
+		// Spawns a vehicle in the base.
+		// _vehicleTypeWest (String): The vehicle type spawned for side west.
+		// _vehicleTypeEast (String): The vehicle type spawned for side east.
+		// _missionSide (MissionSide): The side (acting or opposing) that owns the vehicle.
+		// _baseMarker (BaseMarker): The marker type that will translate to a marker in the base.
+		// Returns (Object): The vehicle spawned.
+		protected method Object CreateSideVehicleOnBaseMarker("_vehicleTypeAlias" as String, "_missionSide" as MissionSide, "_baseMarker" as BaseMarker, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _vehicleType = [_vehicleTypeAlias, _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			private _spawnMarker = [_side, _baseMarker] call _mBaseMarkersConfig.GetMarkerName;
+			
+			return [_vehicleType, _spawnMarker, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
+		};
+		
+		// Adds an action to an object.
+		// _object (Object): The object to have the action.
+		// _title (String): The title visible on the action menu.
+		// _missionSide (MissionSide): Which players that this action is visible to.
+		// Returns (Scalar): The ID of the action. Used in method OnAction to identify which action that fired.
+		protected method Scalar AddAction("_object" as Object, "_title" as String, "_missionSide" as MissionSide)
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			[_object, _title, _side] call _mServerActionHandler.AddAction;
+		};
+		
+		protected method Scalar DeleteActions("_actionIds" as Array /* of Scalar */)
+		{
+			[_actionIds] call _mServerActionHandler.DeleteActions;
+		};
+		
+		#endregion
+		
+		#region Protected Properties
+		
+		// Gets or sets the insertion map markers for the acting side.
+		// This property must be set in the initialization phase of the mission.
+		// If this array is empty, then the group will be auto inserted in its base.
+		protected property Array StartMarkersActing { get; private set; };
+		
+		// Gets or sets the insertion map markers for the opposing side.
+		// This property must be set in the initialization phase of the mission.
+		// If this array is empty, then the group will be auto inserted in its base.
+ 		protected property Array StartMarkersOpposing { get; private set; };
+		
+		// Gets or sets general markers that should be visible for the acting side.
+		// This property must be set in the initialization phase of the mission.
+		protected property Array SideMarkersActing { get; private set; };
+		
+		// Gets or sets general markers that should be visible for the opposing side.
+		// This property must be set in the initialization phase of the mission.
+		protected property Array SideMarkersOpposing { get; private set; };
+		
+		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
+		// This property may be set in the mission's construtor, and at mission startup, time is skipped ahead 
+		// to this property value.
+		protected property Scalar StartTimeOfDay { get; private set; };
+		
+		// Gets an array of history token keys gained in earlier missions for the acting side.
+		protected property Array EarlierGainedTokensActing { get; private set; };
+		
+		// Gets an array of history token keys lost in earlier missions for the acting side.
+		protected property Array EarlierLostTokensActing { get; private set; };
+		
+		// Gets an array of history token keys gained in earlier missions for the opposing side.
+		protected property Array EarlierGainedTokensOpposing { get; private set; };
+		
+		// Gets an array of history token keys lost in earlier missions for the opposing side.
+		protected property Array EarlierLostTokensOpposing { get; private set; };
+		
+		protected property ObjectTypeDictionary ObjectTypeDictionary { get; private set; };
+		
+		protected property SoldierTypeDictionary SoldierTypeDictionary { get; private set; };
+		
+		// Gets the units on the acting side that was inserted to execute the mission.
+		protected property Array ActingUnits { get; private set; };
+		
+		// Gets the units on the opposing side that was inserted to execute the mission.
+		protected property Array OpposingUnits { get; private set; };
+
+		// Gets the primary objective briefing information for the acting side.
+		protected property MissionObjective PrimaryObjectiveForActing { get; private set; };
+		
+		// Gets the secondary objective briefing information for the acting side. classNull if there is no secondary objective.
+		protected property MissionObjective SecondaryObjectiveForActing { get; private set; };
+		
+		// Gets the primary objective briefing information for the opposing side.
+		protected property MissionObjective PrimaryObjectiveForOpposing { get; private set; };
+		
+		// Gets the secondary objective briefing information for the opposing side. classNull if there is no secondary objective.
+		protected property MissionObjective SecondaryObjectiveForOpposing { get; private set; };
+		
+		// Gets wheter the primary objective for the acting side has been completed.
+		protected property ObjectiveState PrimaryObjectiveStateActing { get; private set; };
+
+		// Gets wheter the secondary objective for the acting side has been completed.
+		protected property ObjectiveState SecondaryObjectiveStateActing { get; private set; };
+		
+		protected property ObjectiveState ReturnObjectiveStateActing { get; private set; };
+		
+		// Gets wheter the primary objective for the opposing side has been completed.
+		protected property ObjectiveState PrimaryObjectiveStateOpposing { get; private set; };
+		
+		// Gets wheter the secondary objective for the opposing side has been completed.
+		protected property ObjectiveState SecondaryObjectiveStateOpposing { get; private set; };
+		
+		protected property ObjectiveState ReturnObjectiveStateOpposing { get; private set; };
+		
+		protected property Array InsertionPointActing { get; private set; };
+		
+		protected property Array InsertionPointOpposing { get; private set; };
+		
+		#endregion
+		
+		#region Public Properties
+		
+		public property String Name { get; private set; };
+		
+		// Gets and sets the remaining time of the mission in minutes. This property may be set in the mission's 
+		// Initialize method, and after that it is updated by the campaign object. After Setup phase, this property
+		// should only be read from.
+		public property Scalar RemainingTime { get; set; };
+		
+		// Gets whether the mission will add a last objective to return to the insertion point after completing the
+		// other objectives.
+		public property Boolean HasReturnObjectiveForActing { get; private set; };
+		
+		// Gets whether the mission will add a last objective to return to the insertion point after completing the
+		// other objectives.
+		public property Boolean HasReturnObjectiveForOpposing { get; private set; };
+		
+		// Gets (or sets) the mission's end narrative. This value is set by the mission, and can be used in the Campaign 
+		// object to alter mission order or acting sides of future missions.
+		public property String EndNarrative { get; protected set; };
+		
+		#endregion
+		
+		#region Public Methods
+		
+		// Sets whether the acting side will be west or east.
+		// Remarks: This method has no effect if it is called after the mission's preparation phase (i.e. the Prepare method has been called).
+		// _actingSide (Side): The side that will be the acting side (thus the other side will be the opposing side).
+		public method SetActingSide("_actingSide" as Side)
+		{
+			if (!_mMissionIsPrepared) then {
+				_mActingSide = _actingSide;
+			};
+		};
+		
+		// Loads the mission with all gained and lost history items.
+		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
+		{
+			_mBaseMarkersConfig = _baseMarkersConfig;
+			_mServerActionHandler = _serverActionHandler;
+		
+			if (_mActingSide == west) then {
+				_self.ActingUnits = units _westlyGroup;
+				_self.OpposingUnits = units _eastlyGroup;
+			}
+			else {
+				_self.ActingUnits = units _eastlyGroup;
+				_self.OpposingUnits = units _westlyGroup;
+			};
+		
+			_self.EarlierGainedTokensActing = _earlierGainedTokensActing;
+			_self.EarlierLostTokensActing = _earlierLostTokensActing;
+			_self.EarlierGainedTokensOpposing = _earlierGainedTokensOpposing;
+			_self.EarlierLostTokensOpposing = _earlierLostTokensOpposing;
+			
+			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
+			skipTime _timeToSkip;
+			
+			call _self.Setup;
+			call _self.CreateMissionObjectives;
+			_mMissionIsPrepared = true;
+		};
+		
+		// Gets the start markers for a side.
+		// This method is used by the framework to enable mission insertion.
+		// _side (Side): The side to get start markers for (east or west).
+		// Returns (Array of String): Start marker names in an array.
+		public method Array GetStartMarkers("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return _self.StartMarkersActing;
+			};
+			
+			return _self.StartMarkersOpposing;
+		};
+	
+		// Gets general map markers that should be visible for a side.
+		// This method is used by the framework to know which markers to show for each side.
+		// _side (Side): The side to get markers for (east or west).
+		// Returns (Array of String): Start marker names in an array.
+		public method Array GetMarkersBySide("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return _self.SideMarkersActing;
+			};
+			
+			return _self.SideMarkersOpposing;
+		};
+		
+		public method Boolean CheckSideHasExtractionMarker("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return _self.HasReturnObjectiveForActing;
+			};
+			
+			return _self.HasReturnObjectiveForOpposing;
+		};
+		
+		// Gets the mission result for a side.
+		// This method is used by the framework to get the result and score for a side after a mission is played.
+		// _side (Side): The side.
+		public method MissionResultInfo GetMissionResult("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide, "_secondaryObjectiveName" as String];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then
+			{
+				_secondaryObjectiveName = "";
+				
+				if (!isNull _self.SecondaryObjectiveForActing) then {
+					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
+				};
+				
+				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveStateActing, _secondaryObjectiveName, _self.SecondaryObjectiveStateActing, _self.HasReturnObjectiveForActing, _self.ReturnObjectiveStateActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
+			}
+			else
+			{
+				_secondaryObjectiveName = "";
+				
+				if (!isNull _self.SecondaryObjectiveForOpposing) then {
+					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
+				};
+				
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveStateOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveStateOpposing, _self.HasReturnObjectiveForOpposing, _self.ReturnObjectiveStateOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
+			};
+		};
+		
+		public method String GetBriefingInfo("_side" as Side)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				return call _self.AddBriefingInfoForActing;
+			};
+			
+			if (_missionSide == MissionSide.Opposing) then {
+				return call _self.AddBriefingInfoForOpposing;
+			};
+			
+			return "";
+		};
+		
+		public method MissionObjective GetMissionObjective("_side" as Side, "_prio" as ObjectivePrio)
+		{
+			private ["_missionSide" as MissionSide];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
+				return _self.PrimaryObjectiveForActing;
+			};
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
+				return _self.SecondaryObjectiveForActing;
+			};
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveForActing) then {
+				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
+			};
+			
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
+				return _self.PrimaryObjectiveForOpposing;
+			};
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
+				return _self.SecondaryObjectiveForOpposing;
+			};
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveForOpposing) then {
+				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
+			};
+			
+			return classNull;
+		};
+		
+		// Checks the state of one of a side's objectives.
+		// _side (Side): The side to check.
+		// _prio (ObjectivePrio): The objective to check.
+		// Returns (ObjectiveState): The state of the sought side's sought objective.
+		public method ObjectiveState CheckObjectiveState("_side" as Side, "_prio" as ObjectivePrio)
+		{
+			private ["_missionSide" as MissionSide, "_state" as ObjectiveState];
+			
+			_missionSide = [_side] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then
+			{
+				if (_prio == ObjectivePrio.Primary) then
+				{
+					if (_self.PrimaryObjectiveStateActing == ObjectiveState.None) then {
+						_state = call _self.CheckPrimaryObjectiveStateActing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.PrimaryObjectiveStateActing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.PrimaryObjectiveStateActing;
+					};
+				};
+				if (_prio == ObjectivePrio.Secondary) then {
+					if (_self.SecondaryObjectiveStateActing == ObjectiveState.None) then {
+						_state = call _self.CheckSecondaryObjectiveStateActing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.SecondaryObjectiveStateActing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.SecondaryObjectiveStateActing;
+					};
+				};
+				if (_prio == ObjectivePrio.Return) then {
+					if (_self.ReturnObjectiveStateActing == ObjectiveState.None) then {
+						_state = call _self.CheckReturnObjectiveStateActing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.ReturnObjectiveStateActing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.ReturnObjectiveStateActing;
+					};
+				};
+			}
+			else // _missionSide == Opposing
+			{
+				if (_prio == ObjectivePrio.Primary) then
+				{
+					if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.None) then {
+						_state = call _self.CheckPrimaryObjectiveStateOpposing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.PrimaryObjectiveStateOpposing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.PrimaryObjectiveStateOpposing;
+					};
+				};
+				if (_prio == ObjectivePrio.Secondary) then {
+					if (_self.SecondaryObjectiveStateOpposing == ObjectiveState.None) then {
+						_state = call _self.CheckSecondaryObjectiveStateOpposing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.SecondaryObjectiveStateOpposing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.SecondaryObjectiveStateOpposing;
+					};
+				};
+				if (_prio == ObjectivePrio.Return) then {
+					if (_self.ReturnObjectiveStateOpposing == ObjectiveState.None) then {
+						_state = call _self.CheckReturnObjectiveStateOpposing;
+						
+						if (_state != ObjectiveState.None) then {
+							_self.ReturnObjectiveStateOpposing = _state;
+							return _state;
+						};
+					}
+					else {
+						return _self.ReturnObjectiveStateOpposing;
+					};
+				};
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		// Called one time for each side that performs an insertion to begin carrying out the mission.
+		// Called by the campaign, and should never be called by the sub mission class.
+		// Note that this method is not called if there are no units in the group (e.g. solo player in MP and no AI).
+		// _group (Group): The group that is being inserted.
+		// _position (Array): The position where the group is inserted.
+		// Returns (Array): The insertion position (possibly altered by the mission).
+		public method Array InsertGroup("_group" as Group, "_position" as Array)
+		{
+			private ["_missionSide" as MissionSide, "_e" as InsertionEventArgs];
+			
+			_missionSide = [side _group] call _self.GetMissionSide;
+			
+			if (_missionSide == MissionSide.Acting) then {
+				_self.ActingUnits = units _group;
+				
+				if (_self.HasReturnObjectiveForActing) then {
+					_mActingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
+				};
+				
+				_e = [side _group, _position] new InsertionEventArgs;
+				
+				[_e] call _self.OnActingGroupInserted;
+			}
+			else {
+				_self.OpposingUnits = units _group;
+				
+				if (_self.HasReturnObjectiveForOpposing) then {
+					_mOpposingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
+				};
+				
+				_e = [side _group, _position] new InsertionEventArgs;
+				
+				[_e] call _self.OnOpposingGroupInserted;
+			};
+			
+			return _e.Position;
+		};
+		
+		// Fired when a player selects an action created with method Mission.AddAction.
+		// _actionId (Scalar): The ID of the action.
+		// _target (Object): The object that has the action.
+		// _actor (Object): The player unit that selected the action.
+		public virtual method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
+		{
+		};
+	
+		#endregion
+		
+		#region Virtual (Overridable) Methods
+		
+		// Setups the mission, i.e. creating and placing weapons and vehicles, and prepares the mission
+		// for the game. Called when the mission is started by the campaign. This is where you create units like vehicles and AI soldiers.
+		protected virtual method Setup()
+		{
+		};
+		
+		// Adds briefing information that is shown to players of the acting side.
+		// Override this if you want to show the players some briefing information.
+		// Default behavior is to return the full description from the primary objective.
+		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
+		protected virtual method String AddBriefingInfoForActing()
+		{
+			private ["_primaryObjective" as MissionObjective];
+			
+			_primaryObjective = call _self.CreatePrimaryObjectiveForActing;
+			
+			if (!isNull _primaryObjective) then {
+				return _primaryObjective.FullDescription;
+			};
+			
+			return "Carry out the mission.";
+		};
+
+		// Adds briefing information that is shown to players of the opposing side.
+		// Override this if you want to show the players some briefing information.
+		// Default behavior is to return the full description from the primary objective.
+		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
+		protected virtual method String AddBriefingInfoForOpposing()
+		{
+			private ["_primaryObjective" as MissionObjective];
+			
+			_primaryObjective = call _self.CreatePrimaryObjectiveForOpposing;
+			
+			if (!isNull _primaryObjective) then {
+				return _primaryObjective.FullDescription;
+			};
+			
+			return "Carry out the mission.";
+		};
+
+		// Creates the briefing information regarding the primary objective for the acting side.
+		// Called once from method Startup. Override this to create a primary objective for the acting side.
+		// Default behavior is to create a mission task that says "Do whatever you want."
+		// Returns (MissionTask): Briefing information. Must not return classNull.
+		protected virtual method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			return ["Survive."] new MissionObjective;
+		};
+		
+		// Creates the briefing information regarding an eventual secondary objective for the acting side.
+		// Called once from method Startup. Override this if you want to create a secondary objective for the acting side.
+		// Default behavior is to return null - the side has no secondary objective.
+		// Returns (MissionTask): Briefing information. classNull if there is no secondary objective.
+		protected virtual method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			return classNull;
+		};
+		
+		// Creates the briefing information regarding the primary objective for the opposing side.
+		// Called once from method Startup. Override this to create a primary objective for the opposing side.
+		// Default behavior is to create a mission task that says "Do whatever you want."
+		// Returns (MissionTask): Briefing information. Must not return classNull.
+		protected virtual method MissionObjective CreatePrimaryObjectiveForOpposing()
+		{
+			return ["Survive."] new MissionObjective;
+		};
+		
+		// Creates the briefing information regarding an eventual secondary objective for the opposing side.
+		// Called once from method Startup. Override this if you want to create a secondary objective for the opposing side.
+		// Default behavior is to return null - the side has no secondary objective.
+		// Returns (MissionTask): Briefing information. classNull if there is no secondary objective.
+		protected virtual method MissionObjective CreateSecondaryObjectiveForOpposing()
+		{
+			return classNull;
+		};
+		
+		// Performs mission setup for the acting side that may be necessary upon insertion.
+		// _e (InsertionEventArgs): Arguments for the insertion. E.g. it contains a property Position that can be both read and altered.
+		protected virtual method OnActingGroupInserted("_e" as InsertionEventArgs)
+		{
+			_self.InsertionPointActing = _e.Position;
+		};
+		
+		// Performs mission setup for the opposing side that may be necessary upon insertion.
+		// _e (InsertionEventArgs): Arguments for the insertion. E.g. it contains a property Position that can be both read and altered.
+		protected virtual method OnOpposingGroupInserted("_e" as InsertionEventArgs)
+		{
+			_self.InsertionPointOpposing = _e.Position;
+		};
+		
+		// Checks if the primary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the acting side's primary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when mission time is up and at least one unit on the side is still alive.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
+		protected virtual method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			private _missionTimeIsUp = _self.RemainingTime == 0;
+			private _unitsStillAlive = (call _self.CountUnitsAliveActing) > 0;
+			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
+			
+			if (_groupHasSurvived) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		// Checks if the secondary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the acting side's secondary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return None, i.e. never a state.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
+		protected virtual method ObjectiveState CheckSecondaryObjectiveStateActing()
+		{
+			return ObjectiveState.None;
+		};
+		
+		// Checks if the return objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the acting side's return objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when primary or secondary objective has a state, and all units is back at the insertion point.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
+		protected virtual method ObjectiveState CheckReturnObjectiveStateActing()
+		{
+			if (_self.HasReturnObjectiveForActing) then
+			{
+				private _primaryOrSecondaryObjectiveCompleted = false;
+				private _aliveUnitsCount = 0;
+				private _allUnitsPresent = false;
+				
+				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateActing != ObjectiveState.None || _self.SecondaryObjectiveStateActing != ObjectiveState.None;
+				_aliveUnitsCount = call _self.CountUnitsAliveActing;
+				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointActing < 25 } count _self.ActingUnits) == _aliveUnitsCount;
+				
+				diag_log ("GURGEL: _primaryOrSecondaryObjectiveCompleted: " + str _primaryOrSecondaryObjectiveCompleted + "; _aliveUnitsCount: " + str _aliveUnitsCount + "; _allUnitsPresent: " + str _allUnitsPresent);
+			
+				if (_primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent) then
+				{
+					return ObjectiveState.Succeeded;
+				};
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		// Checks if the primary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the opposing side's primary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when mission time is up and at least one unit on the side is still alive.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
+		protected virtual method ObjectiveState CheckPrimaryObjectiveStateOpposing()
+		{
+			private _missionTimeIsUp = _self.RemainingTime == 0;
+			private _unitsStillAlive = (call _self.CountUnitsAliveOpposing) > 0;
+			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
+			
+			if (_groupHasSurvived) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			if (!_unitsStillAlive) then {
+				return ObjectiveState.Failed;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		// Checks if the secondary objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the opposing side's secondary objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return None, i.e. never a state.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
+		protected virtual method ObjectiveState CheckSecondaryObjectiveStateOpposing()
+		{
+			return ObjectiveState.None;
+		};
+		
+		// Checks if the return objective has fulfilled a condition for a final state.
+		// Called continously during the mission until it returns a state other than None. Then never again.
+		// Override this to specify the condition for when the opposing side's return objective is completed (Succeeded, Failed or Canceled).
+		// Default behavior is to return Succeeded when primary or secondary objective has a state, and all units is back at the insertion point.
+		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
+		// and None while the state is not set and the framework should continue checking.
+		protected virtual method ObjectiveState CheckReturnObjectiveStateOpposing()
+		{
+			if (_self.HasReturnObjectiveForOpposing) then
+			{
+				private _primaryOrSecondaryObjectiveCompleted = false;
+				private _aliveUnitsCount = 0;
+				private _allUnitsPresent = false;
+				
+				_primaryOrSecondaryObjectiveCompleted = _self.PrimaryObjectiveStateOpposing != ObjectiveState.None || _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
+				_aliveUnitsCount = call _self.CountUnitsAliveOpposing;
+				_allUnitsPresent = ({ alive _x && _x distance _self.InsertionPointOpposing < 25 } count _self.OpposingUnits) == _aliveUnitsCount;
+				
+				diag_log ("GURGEL: _primaryOrSecondaryObjectiveCompleted: " + str _primaryOrSecondaryObjectiveCompleted + "; _aliveUnitsCount: " + str _aliveUnitsCount + "; _allUnitsPresent: " + str _allUnitsPresent);
+			
+				if (_primaryOrSecondaryObjectiveCompleted && _aliveUnitsCount > 0 && _allUnitsPresent) then
+				{
+					return ObjectiveState.Succeeded;
+				};
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		// Checks if mission is fully completed for the acting side, and that there is nothing left for the players to do.
+		// Default behavior is to return true if both primary and secondary objectives are completed. If primary objective is 
+		// null, then the mission is never considered complete. If secondary 
+		// objective is null, then the mission is considered complete when the primary objective is complete.
+		// Returns (Boolean): true when mission is fully completed, otherwise false.
+		protected virtual method Boolean CheckMissionCompleteForActing()
+		{
+			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
+			
+			_primaryObjective = _self.PrimaryObjectiveForActing;
+			_secondaryObjective = _self.SecondaryObjectiveForActing;
+			
+			private _primaryExists = !isNull _primaryObjective;
+			private _secondaryExists = !isNull _secondaryObjective;
+			private _primaryCompleted = _primaryExists && _self.PrimaryObjectiveStateActing != ObjectiveState.None;
+			private _secondaryCompleted = _secondaryExists && _self.SecondaryObjectiveStateActing != ObjectiveState.None;
+			
+			diag_log ("GURGEL: _primaryExists: " + str _primaryExists + "; _primaryCompleted: " + str _primaryCompleted);
+			diag_log ("GURGEL: _secondaryExists: " + str _secondaryExists + "; _secondaryCompleted: " + str _secondaryCompleted);
+			
+			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
+			
+			if (_self.HasReturnObjectiveForActing) then
+			{
+				private _returnCompleted = _self.ReturnObjectiveStateActing != ObjectiveState.None;
+				
+				if (_returnCompleted && (_primaryCompleted || _secondaryCompleted)) then {
+					return true;
+				};
+			}
+			else
+			{
+				// Else - if there is no return objective - mission is complete if all existing objectives are completed (has a state).
+			
+				if (_primaryExists && !_primaryCompleted) then {
+					return false;
+				};
+				if (_secondaryExists && !_secondaryCompleted) then {
+					return false;
+				};
+				
+				return true;
+			};
+			
+			return false;
+		};
+		
+		// Checks if mission is fully completed for the opposing side, and that there is nothing left for the players to do.
+		// Default behavior is to return true if both primary and secondary objectives are completed. If primary objective is 
+		// null, then the mission is never considered complete. If secondary 
+		// objective is null, then the mission is considered complete when the primary objective is complete.
+		// Returns (Boolean): true when mission is fully completed, otherwise false.
+		protected virtual method Boolean CheckMissionCompleteForOpposing()
+		{
+			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
+			
+			_primaryObjective = _self.PrimaryObjectiveForOpposing;
+			_secondaryObjective = _self.SecondaryObjectiveForOpposing;
+			
+			private _primaryExists = !isNull _primaryObjective;
+			private _secondaryExists = !isNull _secondaryObjective;
+			private _primaryCompleted = _primaryExists && _self.PrimaryObjectiveStateOpposing != ObjectiveState.None;
+			private _secondaryCompleted = _secondaryExists && _self.SecondaryObjectiveStateOpposing != ObjectiveState.None;
+			
+			diag_log ("GURGEL: _primaryExists: " + str _primaryExists + "; _primaryCompleted: " + str _primaryCompleted);
+			diag_log ("GURGEL: _secondaryExists: " + str _secondaryExists + "; _secondaryCompleted: " + str _secondaryCompleted);
+			
+			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
+			
+			if (_self.HasReturnObjectiveForOpposing) then
+			{
+				private _returnCompleted = _self.ReturnObjectiveStateOpposing != ObjectiveState.None;
+				
+				if (_returnCompleted && (_primaryCompleted || _secondaryCompleted)) then {
+					return true;
+				};
+			}
+			else
+			{
+				// Else - if there is no return objective - mission is complete if all existing objectives are completed (has a state).
+			
+				if (_primaryExists && !_primaryCompleted) then {
+					return false;
+				};
+				
+				if (_secondaryExists && !_secondaryCompleted) then {
+					return false;
+				};
+				
+				return true;
+			};
+			
+			return false;
+		};
+		
+		// Called by the Run method once every iteration (like once a second) during the mission.
+		// Override this if you want to monitor something over time - a simpler alternative than overriding
+		// the Run method. If you want to end the mission in this method, call _self.Cancel.
+		protected virtual method OnEachIteration()
+		{
+		};
+		
+		private method Boolean AlivePlayersOnSide("_missionSide" as MissionSide)
+		{
+			private _units = _self.ActingUnits;
+			
+			if (_missionSide == MissionSide.Opposing) then {
+				_units = _self.OpposingUnits;
+			};
+			
+			{
+				if (alive _x && isPlayer _x) then {
+					return true;
+				};
+			} foreach _units as Object;
+			
+			return false;
+		};
+		
+		// Checks if it is time for the mission to shut down.
+		// Default behavior is to return true if mission is complete for both sides. Or if it is complete for one side and there are no players on the other side.
+		// Returns (Boolean): true if it is time for the mission to shut down. Otherwise false.
+		protected virtual method Boolean ShouldMissionShutDown()
+		{
+			private _completeForActing = call _self.CheckMissionCompleteForActing;
+			private _completeForOpposing = call _self.CheckMissionCompleteForOpposing;
+			
+			if (_completeForActing && _completeForOpposing) then {
+				return true;
+			};
+
+/*
+			if (_completeForActing && (call _self.CountUnitsAliveOpposing) == 0) then {
+				return true;
+			};
+
+			if (_completeForOpposing && (call _self.CountUnitsAliveActing) == 0) then {
+				return true;
+			};
+*/
+			
+			private _aliveOpposingPlayers = [MissionSide.Opposing] call _self.AlivePlayersOnSide;
+			diag_log ("GURGEL: _aliveOpposingPlayers: " + str _aliveOpposingPlayers);
+			if (_completeForActing && !_aliveOpposingPlayers) then {
+				return true;
+			};
+
+			private _aliveActingPlayers = [MissionSide.Acting] call _self.AlivePlayersOnSide;
+			diag_log ("GURGEL: _aliveActingPlayers: " + str _aliveActingPlayers);
+			if (_completeForOpposing && !_aliveActingPlayers) then {
+				return true;
+			};
+			
+			return false;
+		};
+		
+		// Runs the mission service.
+		// Default behavior is to run the mission until all mission objectives on both sides are completed.
+		// Override this if you want other conditions or a more active mission service. Make sure to always
+		// exit the service loop if the IsCancelling property reads true, and stop the execution by calling 
+		// _self.Cancel, and to to call _base.Run at the end.
+		protected override method Run()
+		{
+			while { !_self.IsCancelling } do
+			{
+				if (call _self.ShouldMissionShutDown) then {
+					call _self.Cancel;
+				};
+				
+				call _self.OnEachIteration;
+				
+				sleep 1;
+			};
+			
+			call _base.Run;
+		};
+		
+		// Cleans up everything that was created in the Setup method.
+		// Default behavior is to delete all vehicles that are created using the spawn methods of this
+		// mission base class.
+		// Override this if you need to clean up stuff that has been created elsewhere. Remember to call
+		// _base.Cleanup.
+		public virtual method Cleanup()
+		{
+			{
+				deleteVehicle _x;
+			} foreach _mSpawnedSoldiers as Object;
+			
+			{
+				deleteVehicle _x;
+			} foreach _mSpawnedVehicles as Object;
+			
+			if (!isNull _mActingInsertionObject) then {
+				deleteVehicle _mActingInsertionObject;
+				_mActingInsertionObject = objNull;
+			};
+			
+			if (!isNull _mOpposingInsertionObject) then {
+				deleteVehicle _mOpposingInsertionObject;
+				_mOpposingInsertionObject = objNull;
+			};
+		};
+
+		#endregion
+	};
+};

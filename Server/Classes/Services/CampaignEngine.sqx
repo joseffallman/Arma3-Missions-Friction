@@ -11,6 +11,7 @@
 using Sqx.Services;
 using Mission.Communication;
 using Mission.Common;
+using Campaigns;
 
 namespace Mission.Server
 {
