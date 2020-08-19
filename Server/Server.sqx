@@ -15,8 +15,6 @@ call compile preprocessFileLineNumbers "Campaigns\Shared\ObjectTypeDictionary.sq
 call compile preprocessFileLineNumbers "Campaigns\Shared\SoldierTypeDictionary.sqx";
 
 call compile preprocessFileLineNumbers "Campaigns\MyCampaign\InitCampaign.sqx";
-call compile preprocessFileLineNumbers "Campaigns\DemoCampaign\InitCampaign.sqx";
-call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\InitCampaign.sqx";
 
 using Mission.Common.Statics;
 using Mission.Server;
