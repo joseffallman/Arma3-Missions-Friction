@@ -20,7 +20,7 @@ namespace Mission.Server.Statics
 	{
 		public method StartCampaign()
 		{
-			private _campaign = new Campaigns.OperationShoeLace.OperationShoeLaceCampaign;
+			private _campaign = new Campaigns.ShoeLace.OperationShoeLace;
 			
 			[_campaign] call ServerObjects.CampaignEngine.SetCampaign;
 			call ServerObjects.CampaignEngine.RunAsync;
