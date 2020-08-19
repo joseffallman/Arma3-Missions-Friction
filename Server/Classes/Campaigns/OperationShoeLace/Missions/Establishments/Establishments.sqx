@@ -138,7 +138,7 @@ namespace Mission.Server.OperationShoeLace
 			
 			if (_fulfilled) then {
 				_mAmmoTruck lock true;
-				_self.GainedTokenActing = HistoryToken.Uav;
+				_self.GainedTokenActing = "UAV";
 			};
 			
 			if (_fulfilled) then {
@@ -233,7 +233,7 @@ namespace Mission.Server.OperationShoeLace
 				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.ActingUnits > 0) then {
 					_mExplosivesBoxOwnerSide = MissionSide.Acting;
 					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
-					_self.GainedTokenActing = HistoryToken.Explosives;
+					_self.GainedTokenActing = "EXPLOSIVES";
 					[MissionSide.Acting, "Found a box of explosives."] call _self.ShowNotification;
 				};
 			};
@@ -242,7 +242,7 @@ namespace Mission.Server.OperationShoeLace
 				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.OpposingUnits > 0) then {
 					_mExplosivesBoxOwnerSide = MissionSide.Opposing;
 					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
-					_self.GainedTokenActing = HistoryToken.Explosives;
+					_self.GainedTokenActing = "EXPLOSIVES";
 					[MissionSide.Opposing, "Found a box of explosives."] call _self.ShowNotification;
 				};
 			};

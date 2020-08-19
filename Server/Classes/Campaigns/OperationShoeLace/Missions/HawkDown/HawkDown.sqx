@@ -59,7 +59,7 @@ namespace Mission.Server.OperationShoeLace
 		{
 			if (_actionId == _mStealIntelActionId) then {
 				_mIntelCollected = true;
-				_self.GainedTokenOpposing = HistoryToken.HawkIntel;
+				_self.GainedTokenOpposing = "HAWKINTEL";
 			};
 		};
 		

@@ -40,7 +40,7 @@ namespace Mission.Server.OperationShoeLace
 		{
 			private _briefing = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
 			
-			if (HistoryToken.Uav in _self.EarlierGainedTokensActing) then {
+			if ("Uav" in _self.EarlierGainedTokensActing) then {
 				_briefing = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
@@ -72,7 +72,7 @@ namespace Mission.Server.OperationShoeLace
 			
 			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
-			if (HistoryToken.Uav in _self.EarlierGainedTokensActing) then {
+			if ("Uav" in _self.EarlierGainedTokensActing) then {
 				_ammoBox addBackpackCargo ["B_UAV_01_backpack_F", 1];
 				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
 			};

@@ -19,7 +19,7 @@ namespace Mission.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
-		private fields ["_mGainedTokensWest" as Array /* of HistoryToken */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
+		private fields ["_mGainedTokensWest" as Array /* of String */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)

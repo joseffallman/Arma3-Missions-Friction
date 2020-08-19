@@ -215,16 +215,16 @@ namespace Mission.Server
 		#region Settable Properties
 		
 		// Gets or sets something of free choice that may be of use in future missions for the acting side.
-		public property HistoryToken GainedTokenActing { get; protected set; };
+		public property String GainedTokenActing { get; protected set; };
 		
 		// Gets or sets something of free choice that is considered lost and may affect future missions for the acting side.
-		public property HistoryToken LostTokenActing { get; protected set; };
+		public property String LostTokenActing { get; protected set; };
 		
 		// Gets or sets something of free choice that may be of use in future missions for the opposing side.
-		public property HistoryToken GainedTokenOpposing { get; protected set; };
+		public property String GainedTokenOpposing { get; protected set; };
 		
 		// Gets or sets something of free choice that is considered lost and may affect future missions for the opposing side.
-		public property HistoryToken LostTokenOpposing { get; protected set; };
+		public property String LostTokenOpposing { get; protected set; };
 		
 		#endregion
 		

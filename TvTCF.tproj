@@ -178,9 +178,6 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseMarker.sqx" FileName="Common\Enums\BaseMarker.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="HistoryToken.sqx" FileName="Common\Enums\HistoryToken.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectivePrio.sqx" FileName="Common\Enums\ObjectivePrio.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>

@@ -56,7 +56,7 @@ namespace Mission.Server.OperationShoeLace
 		{
 			private _briefingText = "The military drawings are in a box in one of the buildings marked 1, 2 and 3.";
 			
-			if (HistoryToken.HawkIntel in _self.EarlierGainedTokensActing) then {
+			if ("HAWKINTEL" in _self.EarlierGainedTokensActing) then {
 				_briefingText = "Earlier collected intel reveals that the drawings are in building no" + markerText _mPrimaryObjectiveMarker;
 			};
 			

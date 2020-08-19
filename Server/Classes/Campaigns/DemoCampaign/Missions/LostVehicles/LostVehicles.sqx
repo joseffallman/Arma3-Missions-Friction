@@ -36,7 +36,7 @@ namespace Mission.Server.Demo
 		{
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, "m03_AmmoTruck"] call _self.CreateSideVehicleOnMarker;
 		
-			_self.GainedTokenActing = HistoryToken.Fuel;
+			_self.GainedTokenActing = "Fuel";
 		
 			call _base.Setup;
 		};
