@@ -357,7 +357,7 @@ namespace Mission.Server.OperationShoeLace
 
 			// Chopper 2
 			
-			if (_mChopper2State == TransportState.Waiting && _mChopper1State == TransportState.Transporting && time > _mChopper1LiftOffTime + 5) then
+			if (_mChopper2State == TransportState.Waiting && _mChopper1State == TransportState.Transporting && time > _mChopper1LiftOffTime + 3) then
 			{
 				private _waypoint = (group driver _mChopper2) addWaypoint [getMarkerPos "m11a_FirstChopperWaypoint", 0];
 				_waypoint setWaypointBehaviour "CARELESS";
@@ -386,7 +386,7 @@ namespace Mission.Server.OperationShoeLace
 
 			// Chopper 3 (players' chopper)
 			
-			if (_mChopper3State == TransportState.Waiting && _mChopper2State == TransportState.Transporting && time > _mChopper2LiftOffTime + 5) then
+			if (_mChopper3State == TransportState.Waiting && _mChopper2State == TransportState.Transporting && time > _mChopper2LiftOffTime + 3) then
 			{
 				private _allPlayersInChopper = { alive _x && vehicle _x == _mChopper3 } count _self.ActingUnits == call _self.CountUnitsAliveActing;
 
