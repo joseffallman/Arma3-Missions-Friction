@@ -8,9 +8,9 @@
  * A mission where the acting side tries to demolish a downed helicopter before the opposing side steals intels from it.
  */
 
-using Mission.Common;
+using Tvtcf.Common;
 using Sqx.Markers;
-using Mission.Server;
+using Tvtcf.Server;
 using Campaigns;
 
 namespace Campaigns.ShoeLace
