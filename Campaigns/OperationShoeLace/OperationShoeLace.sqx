@@ -16,6 +16,8 @@ namespace Campaigns.ShoeLace
 {
 	public class OperationShoeLace : Campaign
 	{
+		private fields ["_mCaptureTheAirbase" as Mission, "_mHawkDown" as Mission, "_mNightTensions" as Mission];
+		
 		// Creates a OperationShoeLace object.
 		public constructor()
 		{
@@ -24,24 +26,33 @@ namespace Campaigns.ShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			private ["_mission" as Mission];
-			
-			_mission = new CaptureTheAirbase;
-			[west] call _mission.SetActingSide;
-			
-			_missions pushBack _mission;
-			_missions pushBack new CannonballRun;
 			_missions pushBack new Establishments;
-			_missions pushBack new HawkDown;
-			_missions pushBack new CatAndMouse;
-			_missions pushBack new NightTensions;
+			
+			_mCaptureTheAirbase = new CaptureTheAirbase;
+			[selectRandom [west, east]]_mCaptureTheAirbase.SetActingSide;
+			_missions pushBack _mCaptureTheAirbase;
+			
+			_mHawkDown = new HawkDown;
+			_missions pushBack _mHawkDown;
+			
+			_mNightTensions = new NightTensions;
+			_missions pushBack _mNightTensions;
+			
 			_missions pushBack new AirStationAssault;
+			_missions pushBack new CatAndMouse;
+			_missions pushBack new CannonballRun;
 		};
 		
-/*
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
 			private ["_mission" as Mission];
+		
+			if (_self.CurrentMissionIndex == 1) then {
+				if (_lastMissionEndNarrative == "WEST wins the airbase.") then {
+					[west] call _mHawkDown.SetActingSide;
+					[east] call _mNightTensions.SetActingSide;
+				};
+			};
 		
 			_mission = [_lastMissionEndNarrative] call _base.GetNextMission;
 			
@@ -51,6 +62,5 @@ namespace Campaigns.ShoeLace
 			
 			return _mission;
 		};
-*/
 	};
 };

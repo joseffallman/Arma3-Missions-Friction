@@ -266,6 +266,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
+				_self.GainedTokenActing = "AIRBASE";
 				return ObjectiveState.Succeeded;
 			};
 		
@@ -282,6 +283,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
+				_self.GainedTokenOpposing = "AIRBASE";
 				return ObjectiveState.Succeeded;
 			};
 		
