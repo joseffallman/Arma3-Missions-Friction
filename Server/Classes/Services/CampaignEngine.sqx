@@ -1,5 +1,5 @@
 /*
- * Name:	Campaign
+ * Name:	CampaignEngine
  * Date:	2020-06-24
  * Version: 1.0
  * Author:  Engima
@@ -20,7 +20,6 @@ namespace Mission.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
-		private fields ["_mGainedTokensWest" as Array /* of String */, "_mLostTokensWest" as Array, "_mGainedTokensEast" as Array, "_mLostTokensEast" as Array];
 	
 		// Creates a Campaign object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)
@@ -268,73 +267,78 @@ namespace Mission.Server
 		
 		private method SaveHistoryTokens("_mission" as Mission)
 		{
+			private _gainedTokensWest = _mCampaign.GainedTokensWest;
+			private _gainedTokensEast = _mCampaign.GainedTokensEast;
+			private _lostTokensWest = _mCampaign.LostTokensWest;
+			private _lostTokensEast = _mCampaign.LostTokensEast;
+			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then
 			{
 				if (!isNull _mission.GainedTokenActing) then
 				{
-					if (_mission.GainedTokenActing in _mLostTokensWest) then {
-						_mLostTokensWest = _mLostTokensWest - [_mission.GainedTokenActing];
+					if (_mission.GainedTokenActing in _lostTokensWest) then {
+						_lostTokensWest = _lostTokensWest - [_mission.GainedTokenActing];
 					};
 					
-					_mGainedTokensWest pushBack _mission.GainedTokenActing;
+					_gainedTokensWest pushBack _mission.GainedTokenActing;
 				};
 				if (!isNull _mission.LostTokenActing) then
 				{
-					if (_mission.LostTokenActing in _mGainedTokensWest) then {
-						_mGainedTokensWest = _mGainedTokensWest - [_mission.LostTokenActing];
+					if (_mission.LostTokenActing in _gainedTokensWest) then {
+						_gainedTokensWest = _gainedTokensWest - [_mission.LostTokenActing];
 					};
 					
-					_mLostTokensWest pushBack _mission.LostTokenActing;
+					_lostTokensWest pushBack _mission.LostTokenActing;
 				};
 				if (!isNull _mission.GainedTokenOpposing) then
 				{
-					if (_mission.GainedTokenOpposing in _mLostTokensEast) then {
-						_mLostTokensEast = _mLostTokensEast - [_mission.GainedTokenOpposing];
+					if (_mission.GainedTokenOpposing in _lostTokensEast) then {
+						_lostTokensEast = _lostTokensEast - [_mission.GainedTokenOpposing];
 					};
 					
-					_mGainedTokensEast pushBack _mission.GainedTokenOpposing;
+					_gainedTokensEast pushBack _mission.GainedTokenOpposing;
 				};
 				if (!isNull _mission.LostTokenOpposing) then
 				{
-					if (_mission.LostTokenOpposing in _mGainedTokensEast) then {
-						_mGainedTokensEast = _mGainedTokensEast - [_mission.LostTokenOpposing];
+					if (_mission.LostTokenOpposing in _gainedTokensEast) then {
+						_gainedTokensEast = _gainedTokensEast - [_mission.LostTokenOpposing];
 					};
 					
-					_mLostTokensEast pushBack _mission.LostTokenOpposing;
+					_lostTokensEast pushBack _mission.LostTokenOpposing;
 				};
 			}
 			else {
 				if (!isNull _mission.GainedTokenActing) then
 				{
-					if (_mission.GainedTokenActing in _mLostTokensEast) then {
-						_mLostTokensEast = _mLostTokensEast - [_mission.GainedTokenActing];
+					if (_mission.GainedTokenActing in _lostTokensEast) then {
+						_lostTokensEast = _lostTokensEast - [_mission.GainedTokenActing];
 					};
 					
-					_mGainedTokensEast pushBack _mission.GainedTokenActing;
+					_gainedTokensEast pushBack _mission.GainedTokenActing;
 				};
 				if (!isNull _mission.LostTokenActing) then
 				{
-					if (_mission.LostTokenActing in _mGainedTokensEast) then {
-						_mGainedTokensEast = _mGainedTokensEast - [_mission.LostTokenActing];
+					if (_mission.LostTokenActing in _gainedTokensEast) then {
+						_gainedTokensEast = _gainedTokensEast - [_mission.LostTokenActing];
 					};
 					
-					_mLostTokensEast pushBack _mission.LostTokenActing;
+					_lostTokensEast pushBack _mission.LostTokenActing;
 				};
 				if (!isNull _mission.GainedTokenOpposing) then
 				{
-					if (_mission.GainedTokenOpposing in _mLostTokensWest) then {
-						_mLostTokensWest = _mLostTokensWest - [_mission.GainedTokenOpposing];
+					if (_mission.GainedTokenOpposing in _lostTokensWest) then {
+						_lostTokensWest = _lostTokensWest - [_mission.GainedTokenOpposing];
 					};
 					
-					_mGainedTokensWest pushBack _mission.GainedTokenOpposing;
+					_gainedTokensWest pushBack _mission.GainedTokenOpposing;
 				};
 				if (!isNull _mission.LostTokenOpposing) then
 				{
-					if (_mission.LostTokenOpposing in _mGainedTokensWest) then {
-						_mGainedTokensWest = _mGainedTokensWest - [_mission.LostTokenOpposing];
+					if (_mission.LostTokenOpposing in _gainedTokensWest) then {
+						_gainedTokensWest = _gainedTokensWest - [_mission.LostTokenOpposing];
 					};
 					
-					_mLostTokensWest pushBack _mission.LostTokenOpposing;
+					_lostTokensWest pushBack _mission.LostTokenOpposing;
 				};
 			};
 		};
@@ -354,10 +358,10 @@ namespace Mission.Server
 			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
 			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
-				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mGainedTokensWest, _mLostTokensWest, _mGainedTokensEast, _mLostTokensEast] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mCampaign.GainedTokensWest, _mCampaign.LostTokensWest, _mCampaign.GainedTokensEast, _mCampaign.LostTokensEast] call _mission.Prepare;
 			}
 			else {
-				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mGainedTokensEast, _mLostTokensEast, _mGainedTokensWest, _mLostTokensWest] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, _mCampaign.GainedTokensEast, _mCampaign.LostTokensEast, _mCampaign.GainedTokensWest, _mCampaign.LostTokensWest] call _mission.Prepare;
 			};
 		};
 		
@@ -365,10 +369,6 @@ namespace Mission.Server
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
 			
-			_mGainedTokensWest = [];
-			_mLostTokensWest = [];
-			_mGainedTokensEast = [];
-			_mLostTokensEast = [];
 			private _accumulatedScoreWest = 0;
 			private _accumulatedScoreEast = 0;
 			

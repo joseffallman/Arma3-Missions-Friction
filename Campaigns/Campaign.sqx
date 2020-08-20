@@ -20,6 +20,10 @@ namespace Campaigns
 			private ["_missions" as Array /* of Mission */];
 			
 			_missions = [];
+			_self.GainedTokensWest = [];
+			_self.LostTokensWest = [];
+			_self.GainedTokensEast = [];
+			_self.LostTokensEast = [];
 			
 			[_missions] call _self.SelectMissions;
 			_self.Missions = _missions;
@@ -34,6 +38,14 @@ namespace Campaigns
 		protected property Scalar CurrentMissionIndex { get; protected set; };
 		
 		protected property Array Missions { get; protected set; };
+		
+		public property Array GainedTokensWest { get; private set; };
+		
+		public property Array GainedTokensEast { get; private set; };
+		
+		public property Array LostTokensWest { get; private set; };
+		
+		public property Array LostTokensEast { get; private set; };
 		
 		// Gets the next mission in the campaign. Used when a mission has ended and a new is about to start.
 		// Default behavior is to simply return the next mission in the mission array.
