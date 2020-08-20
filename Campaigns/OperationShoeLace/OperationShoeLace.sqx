@@ -16,7 +16,7 @@ namespace Campaigns.ShoeLace
 {
 	public class OperationShoeLace : Campaign
 	{
-		private fields ["_mCaptureTheAirbase" as Mission, "_mHawkDown" as Mission, "_mNightTensions" as Mission];
+		private fields ["_mCaptureTheAirbase" as Mission, "_mEstablishments" as Mission, "_mHawkDown" as Mission, "_mNightTensions" as Mission, "_mCatAndMouse" as Mission, "_mAirStationAssault" as Mission, "_mCannonballRun" as Mission];
 		
 		// Creates a OperationShoeLace object.
 		public constructor()
@@ -26,7 +26,9 @@ namespace Campaigns.ShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			_missions pushBack new Establishments;
+			_mEstablishments = new Establishments;
+			[selectRandom [west, east]] call _mEstablishments.SetActingSide;
+			_missions pushBack _mEstablishments;
 			
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
@@ -38,26 +40,58 @@ namespace Campaigns.ShoeLace
 			_mNightTensions = new NightTensions;
 			_missions pushBack _mNightTensions;
 			
-			_missions pushBack new AirStationAssault;
-			_missions pushBack new CatAndMouse;
-			_missions pushBack new CannonballRun;
+			_mCatAndMouse = new CatAndMouse;
+			[selectRandom [west, east]] call _mCatAndMouse.SetActingSide;
+			_missions pushBack _mCatAndMouse;
+			
+			_mAirStationAssault = new AirStationAssault;
+			_missions pushBack _mAirStationAssault;
+			
+			_mCannonballRun = new CannonballRun;
+			[selectRandom [west, east]] call _mCannonballRun.SetActingSide;
+			_missions pushBack _mCannonballRun;
 		};
 		
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
 			private ["_mission" as Mission];
 		
-			if (_self.CurrentMissionIndex == 1) then {
-				if (_lastMissionEndNarrative == "WEST wins the airbase.") then {
-					[west] call _mHawkDown.SetActingSide;
-					[east] call _mNightTensions.SetActingSide;
-				};
-			};
-		
 			_mission = [_lastMissionEndNarrative] call _base.GetNextMission;
 			
-			if (!isNull _mission) then {
-				[east] call _mission.SetActingSide;
+			if (!isNull _mission) then
+			{
+				// In the Hawk Down mission, the side that owns the airbase is about to blow up the helicopter
+				if (_mission == _mHawkDown) then
+				{
+					if ("AIRBASE" in _self.GainedTokensWest) then {
+						[west] call _mission.SetActingSide;
+					}
+					else {
+						[east] call _mission.SetActingSide;
+					};
+				};
+				
+				// In the Night Tensions mission, the acting side is the side not owning the airbase
+				if (_mission == _mNightTensions) then
+				{
+					if ("AIRBASE" in _self.GainedTokensWest) then {
+						[east] call _mission.SetActingSide;
+					}
+					else {
+						[west] call _mission.SetActingSide;
+					};
+				};
+				
+				// In the Air Station Assault mission, the defending side will be the ones not defending the Airbase in Night Tensions
+				if (_mission == _mAirStationAssault) then
+				{
+					if ("AIRBASE" in _self.GainedTokensWest) then {
+						[west] call _mission.SetActingSide;
+					}
+					else {
+						[east] call _mission.SetActingSide;
+					};
+				};
 			};
 			
 			return _mission;
