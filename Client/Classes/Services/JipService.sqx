@@ -9,11 +9,11 @@
  */
 
 using Sqx.Services;
-using Mission.Client.Statics;
-using Mission.Common;
-using Mission.Communication;
+using Tvtcf.Client.Statics;
+using Tvtcf.Common;
+using Tvtcf.Communication;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class JipService : Service
 	{

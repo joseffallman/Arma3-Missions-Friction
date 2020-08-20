@@ -7,7 +7,7 @@
  * Description:
  * Maps the server's action ID to a client action ID and the action target.
  */
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class ActionMapping
 	{

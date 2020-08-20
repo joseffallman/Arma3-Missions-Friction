@@ -8,7 +8,7 @@
  * The base class for a campaign. Inherit this to create your own campaign.
  */
 
-using Mission.Common;
+using Tvtcf.Common;
 
 namespace Campaigns
 {

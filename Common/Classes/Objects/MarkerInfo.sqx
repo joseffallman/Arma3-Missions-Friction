@@ -7,7 +7,7 @@
  * Description:
  * Associates a marker with a side.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class MarkerInfo
 	{

@@ -7,7 +7,7 @@
  * Description:
  * Common event handlers
  */
-namespace Mission.Common.Statics
+namespace Tvtcf.Common.Statics
 {
 	public class CommonEventHandlers
 	{

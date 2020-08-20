@@ -7,7 +7,7 @@
  * Description:
  * Class that contains briefing information about a primary or secondary objective.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class MissionObjective
 	{

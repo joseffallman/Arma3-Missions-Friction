@@ -8,10 +8,10 @@
  * Static class that handles all custom events sent from other machines.
  */
 
-using Mission.Communication;
-using Mission.Common.Statics;
+using Tvtcf.Communication;
+using Tvtcf.Common.Statics;
 
-namespace Mission.Server.Statics
+namespace Tvtcf.Server.Statics
 {
 	public class ServerEventReciever
 	{

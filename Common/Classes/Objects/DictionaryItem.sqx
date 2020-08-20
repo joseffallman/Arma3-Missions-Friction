@@ -7,7 +7,7 @@
  * Description:
  * A general purpose dictionary item.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class DictionaryItem
 	{

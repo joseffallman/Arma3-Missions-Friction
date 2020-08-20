@@ -8,7 +8,7 @@
  * Handles all about camera and cutscenes at mission end.
  */
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class MissionEndHandler : IMissionEndHandler
 	{

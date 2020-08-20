@@ -8,9 +8,9 @@
  * A class that handles the local player's tasks (by encapsuling and taking care of all advanced Arma stuff regarding the subject).
  */
 
-using Mission.Common;
+using Tvtcf.Common;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class TaskHandler
 	{

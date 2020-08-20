@@ -9,9 +9,9 @@
  */
 
 using Sqx.Services;
-using Mission.Communication;
+using Tvtcf.Communication;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class PerformInsertionService : Service
 	{

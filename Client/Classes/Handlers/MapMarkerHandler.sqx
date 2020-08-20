@@ -8,9 +8,9 @@
  * Handles map markers on the client.
  */
 
-using Mission.Common;
+using Tvtcf.Common;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class MapMarkerHandler
 	{

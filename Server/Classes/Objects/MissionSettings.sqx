@@ -7,7 +7,7 @@
  * Description:
  * Contains the general mission settings.
  */
-namespace Mission.Server
+namespace Tvtcf.Server
 {
 	public class MissionSettings
 	{

@@ -7,7 +7,7 @@
  * Description:
  * Enum that describes the possible abstracted sides to be used inside mission.
  */
-namespace Mission.Server
+namespace Tvtcf.Server
 {
 	public enum MissionSide
 	{

@@ -10,11 +10,11 @@
  * start a custom campaign, without it interfering with new CPack versions of the TvTCF framework.
  */
 
-using Mission.Common;
-using Mission.Server;
+using Tvtcf.Common;
+using Tvtcf.Server;
 using Campaigns;
 
-namespace Mission.Server.Statics
+namespace Tvtcf.Server.Statics
 {
 	public class CampaignStarter
 	{

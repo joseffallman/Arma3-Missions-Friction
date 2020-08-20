@@ -8,11 +8,11 @@
  * Static container for the client's event handlers.
  */
 
-using Mission.Common.Statics;
-using Mission.Client;
-using Mission.Communication;
+using Tvtcf.Common.Statics;
+using Tvtcf.Client;
+using Tvtcf.Communication;
 
-namespace Mission.Client.Statics
+namespace Tvtcf.Client.Statics
 {
 	public class ClientEventHandlers
 	{

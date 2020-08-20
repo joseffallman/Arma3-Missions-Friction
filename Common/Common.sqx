@@ -12,8 +12,8 @@ call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResult.sqx
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionObjective.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionBriefing.sqx";
 
-using Mission.Common;
-using Mission.Common.Statics;
+using Tvtcf.Common;
+using Tvtcf.Common.Statics;
 
 namespace Mission
 {

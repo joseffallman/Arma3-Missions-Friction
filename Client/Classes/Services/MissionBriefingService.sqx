@@ -9,9 +9,9 @@
  */
 
 using Sqx.Services;
-using Mission.Common;
+using Tvtcf.Common;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class MissionBriefingService : Service
 	{

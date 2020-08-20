@@ -7,7 +7,7 @@
  * Description:
  * Enum that describes objectives prio.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public enum ObjectivePrio
 	{

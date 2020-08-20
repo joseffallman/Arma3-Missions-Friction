@@ -8,9 +8,9 @@
  * Par of the TvTCF framework to handle user actions in missions.
  */
 
-using Mission.Communication;
+using Tvtcf.Communication;
 
-namespace Mission.Server
+namespace Tvtcf.Server
 {
 	public class ServerActionHandler
 	{

@@ -7,7 +7,7 @@
  * Description:
  * Event arguments for the Mission class' insertion methods.
  */
-namespace Mission.Server
+namespace Tvtcf.Server
 {
 	public class InsertionEventArgs
 	{

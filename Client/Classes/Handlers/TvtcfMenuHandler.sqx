@@ -7,11 +7,11 @@
  * Encapsulates all logic for the TvTCF Campaign Menu.
  */
 
-using Mission.Common;
-using Mission.Communication;
-using Mission.Client.Statics;
+using Tvtcf.Common;
+using Tvtcf.Communication;
+using Tvtcf.Client.Statics;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class TvtcfMenuHandler
 	{

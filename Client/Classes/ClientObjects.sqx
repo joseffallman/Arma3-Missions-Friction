@@ -9,9 +9,9 @@
  */
 
 using Sqx.Services;
-using Mission.Client;
+using Tvtcf.Client;
 
-namespace Mission.Client.Statics
+namespace Tvtcf.Client.Statics
 {
 	public class ClientObjects
 	{

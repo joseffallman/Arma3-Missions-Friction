@@ -6,7 +6,7 @@
  * Description:
  * Handles all messages that can be shown on screen for the player.
  */
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class ClientMessageHandler
 	{

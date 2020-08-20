@@ -7,7 +7,7 @@
  * Description:
  * Handles the mission's briefing.
  */
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public interface IBriefingHandler
 	{

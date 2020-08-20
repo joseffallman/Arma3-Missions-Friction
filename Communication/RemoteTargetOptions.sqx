@@ -6,7 +6,7 @@
  * Description:
  * A pseudo enum with all possible target types for the remoteExec command.
  */
-namespace Mission.Communication
+namespace Tvtcf.Communication
 {
 	public class RemoteTargetOptions
 	{

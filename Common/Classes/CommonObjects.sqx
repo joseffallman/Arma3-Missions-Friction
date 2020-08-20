@@ -8,9 +8,9 @@
  * Static class that holds all server side configs, so they can be reached from anywhere on the server.
  */
 
-using Mission.Common;
+using Tvtcf.Common;
 
-namespace Mission.Common.Statics
+namespace Tvtcf.Common.Statics
 {
 	public class CommonObjects
 	{

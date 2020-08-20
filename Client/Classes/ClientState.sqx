@@ -7,7 +7,7 @@
  * Description:
  * Handles state properties of the current client.
  */
-namespace Mission.Client.Statics
+namespace Tvtcf.Client.Statics
 {
 	public class ClientState
 	{
