@@ -7,7 +7,7 @@
  * Description:
  * Abstracted base marker for markers that exists in both west's and east's base.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public enum BaseMarker
 	{

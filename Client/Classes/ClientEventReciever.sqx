@@ -21,12 +21,12 @@
  * the class or classes meant to handle the logic needed for each event message respectively.
  */
 
-using Mission.Common;
-using Mission.Common.Statics;
-using Mission.Client;
-using Mission.Communication;
+using Tvtcf.Common;
+using Tvtcf.Common.Statics;
+using Tvtcf.Client;
+using Tvtcf.Communication;
 
-namespace Mission.Client.Statics
+namespace Tvtcf.Client.Statics
 {
 	public class ClientEventReciever
 	{

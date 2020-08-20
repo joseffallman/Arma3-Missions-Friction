@@ -9,11 +9,11 @@
  */
 
 using Sqx.Services;
-using Mission.Communication;
-using Mission.Common;
+using Tvtcf.Communication;
+using Tvtcf.Common;
 using Campaigns;
 
-namespace Mission.Server
+namespace Tvtcf.Server
 {
 	public class CampaignEngine : Service
 	{

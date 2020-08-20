@@ -7,7 +7,7 @@
  * Description:
  * Contains all necessary information for briefing of a mission.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class MissionBriefing
 	{

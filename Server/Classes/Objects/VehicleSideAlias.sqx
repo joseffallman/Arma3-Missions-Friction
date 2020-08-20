@@ -7,7 +7,7 @@
  * Description:
  * Bundles a vehicle alias to a specific vehicle type on each of the competing sides.
  */
-namespace Mission.Server
+namespace Tvtcf.Server
 {
 	public class VehicleSideAlias
 	{

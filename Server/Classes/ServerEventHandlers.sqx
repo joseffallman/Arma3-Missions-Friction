@@ -8,9 +8,9 @@
  * Container for the server's event handlers.
  */
 
-using Mission.Communication;
+using Tvtcf.Communication;
 
-namespace Mission.Server.Statics
+namespace Tvtcf.Server.Statics
 {
 	public class ServerEventHandlers
 	{

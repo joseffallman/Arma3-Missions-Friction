@@ -7,7 +7,7 @@
  * Description:
  * An enum describing the different states of an objective.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public enum ObjectiveState
 	{

@@ -10,7 +10,7 @@
 
 using Sqx.Services;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class TeleportService : Service
 	{

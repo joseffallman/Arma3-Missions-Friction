@@ -7,7 +7,7 @@
  * Description:
  * Provides information about all markers in the base.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public interface IBaseMarkersConfig
 	{

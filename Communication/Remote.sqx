@@ -8,10 +8,10 @@
  * Handles remote execution. All calls that need to be done across the network must be registered here.
  */
 
-using Mission.Client.Statics;
-using Mission.Server.Statics;
+using Tvtcf.Client.Statics;
+using Tvtcf.Server.Statics;
 
-namespace Mission.Communication
+namespace Tvtcf.Communication
 {
 	public class Remote
 	{

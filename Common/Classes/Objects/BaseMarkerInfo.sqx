@@ -7,7 +7,7 @@
  * Description:
  * Contains information about a marker that is in a base.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class BaseMarkerInfo
 	{

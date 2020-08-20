@@ -2,6 +2,6 @@ call compile preprocessFileLineNumbers "Communication\RemoteTargetOptions.sqx";
 call compile preprocessFileLineNumbers "Communication\Remote.sqx";
 call compile preprocessFileLineNumbers "Communication\PublicVariableHandler.sqx";
 
-using Mission.Communication;
+using Tvtcf.Communication;
 
 call RemoteTargetOptions.Init;

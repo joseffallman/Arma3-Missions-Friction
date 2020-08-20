@@ -7,7 +7,7 @@
  * Description:
  * Contains the result of a mission.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class MissionResult
 	{

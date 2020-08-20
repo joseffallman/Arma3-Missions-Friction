@@ -17,9 +17,9 @@ call compile preprocessFileLineNumbers "Campaigns\Shared\SoldierTypeDictionary.s
 call compile preprocessFileLineNumbers "Campaigns\MyCampaign\InitCampaign.sqx";
 call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\InitCampaign.sqx";
 
-using Mission.Common.Statics;
-using Mission.Server;
-using Mission.Server.Statics;
+using Tvtcf.Common.Statics;
+using Tvtcf.Server;
+using Tvtcf.Server.Statics;
 
 namespace Mission
 {

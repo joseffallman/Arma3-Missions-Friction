@@ -7,7 +7,7 @@
  * Description:
  * Handlers all about admin selectable mission parameters.
  */
-namespace Mission.Common
+namespace Tvtcf.Common
 {
 	public class MissionParametersHandler
 	{

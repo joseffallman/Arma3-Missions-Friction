@@ -16,8 +16,8 @@ call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.
 call compile preprocessFileLineNumbers "Client\Classes\Services\JipService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\MissionBriefingService.sqx";
 
-using Mission.Client;
-using Mission.Client.Statics;
+using Tvtcf.Client;
+using Tvtcf.Client.Statics;
 
 namespace Mission
 {

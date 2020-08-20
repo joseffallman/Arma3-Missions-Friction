@@ -8,10 +8,10 @@
  * Handles all about camera views - for dead players.
  */
 
-using Mission.Communication;
-using Mission.Client.Statics;
+using Tvtcf.Communication;
+using Tvtcf.Client.Statics;
 
-namespace Mission.Client
+namespace Tvtcf.Client
 {
 	public class CameraHandler
 	{
