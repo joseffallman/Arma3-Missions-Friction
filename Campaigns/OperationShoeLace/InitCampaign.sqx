@@ -1,5 +1,4 @@
 call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\OperationShoeLace.sqx";
-call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\OperationShoeLaceMission.sqx";
 
 call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\CannonballRun\CannonballRun.sqx";
 call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\Missions\AirStationAssault\AirStationAssault.sqx";

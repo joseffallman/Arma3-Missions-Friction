@@ -29,7 +29,7 @@ namespace Campaigns.ShoeLace
 			_missions pushBack new Establishments;
 			
 			_mCaptureTheAirbase = new CaptureTheAirbase;
-			[selectRandom [west, east]]_mCaptureTheAirbase.SetActingSide;
+			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;
 			
 			_mHawkDown = new HawkDown;

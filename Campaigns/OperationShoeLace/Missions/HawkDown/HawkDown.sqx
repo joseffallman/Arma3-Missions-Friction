@@ -11,10 +11,11 @@
 using Mission.Common;
 using Sqx.Markers;
 using Mission.Server;
+using Campaigns;
 
 namespace Campaigns.ShoeLace
 {
-	public class HawkDown : ShoeLaceMission
+	public class HawkDown : Mission
 	{
 		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String, "_mIntelCollected" as Boolean, "_mStealIntelActionId" as Scalar];
 		
@@ -27,7 +28,7 @@ namespace Campaigns.ShoeLace
 			_mIntelCollected = false;
 		};
 		
-		protected override method InitMission("_mission" as Mission.Server.MissionSettings)
+		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Hawk Down";
 			_mission.StartMarkersActing = ["m05a_StartArea"];
