@@ -15,9 +15,12 @@ namespace Tvtcf.Common
 		public constructor {
 			call _self.SetDefaultValuesIfSinglePlayer;
 			
-			_self.AiWestFrequency = (paramsArray select 0);
-			_self.AiEastFrequency = (paramsArray select 1);
+			_self.MandatoryPrepareTime = (paramsArray select 0);
+			_self.AiWestFrequency = (paramsArray select 1);
+			_self.AiEastFrequency = (paramsArray select 2);
 		};
+		
+		public property Scalar MandatoryPrepareTime { get; private set; };
 		
 		public property Scalar AiWestFrequency { get; private set; };
 		
