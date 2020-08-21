@@ -76,7 +76,7 @@ namespace Tvtcf.Client
 			];
 			
 			if (_self.OptionPerformInsertionVisible) then {
-				TVTCF_TvtcfMenu pushBack ["Perform Insertion", [0], "", -5, [["expression", "call Mission_Client_TvtcfMenuHandler_OnPerformInsertion"]], "1", "1"];
+				TVTCF_TvtcfMenu pushBack ["Perform Insertion", [0], "", -5, [["expression", "call Tvtcf_Client_TvtcfMenuHandler_OnPerformInsertion"]], "1", "1"];
 			};
 		};
 		

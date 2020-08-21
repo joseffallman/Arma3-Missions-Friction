@@ -1,0 +1,51 @@
+/*
+ * Name:	MissionPrepareCounter
+ * Date:	2020-08-21
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Counts down until insertion is allowed before each mission.
+ */
+
+using Sqx.Services;
+
+namespace Tvtcf.Client
+{
+	public class MissionPrepareCounter : Service
+	{
+		private fields ["_mInsertionTime" as Scalar];
+		
+		// Creates a MissionPrepareCounter object.
+		public constructor("_insertionTime" as Scalar)
+		{
+			call _base.Constructor;
+			_mInsertionTime = _insertionTime;
+		};
+		
+		protected override method Run()
+		{
+			private _time = serverTime;
+			
+			if (!isMultiplayer) then {
+				_time = time;
+			};
+			
+			while { _time < _mInsertionTime } do
+			{
+				private _timeLeft = ceil (_mInsertionTime - serverTime);
+				hint ("Insertion allowed in " + str _timeLeft + " seconds.");
+				
+				sleep 1;
+				
+				_time = serverTime;				
+				if (!isMultiplayer) then {
+					_time = time;
+				};
+			};
+			
+			hint "Insertion allowed in 0 seconds.";
+			call _base.Run;
+		};
+	};
+};

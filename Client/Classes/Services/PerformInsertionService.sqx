@@ -10,6 +10,7 @@
 
 using Sqx.Services;
 using Tvtcf.Communication;
+using Tvtcf.Common.Statics;
 
 namespace Tvtcf.Client
 {
@@ -56,29 +57,37 @@ namespace Tvtcf.Client
 		{
 			private ["_enoughWaitingTime" as Scalar];
 			
-			// Open the map and ask player to select a group
-			openMap true;
+			private _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
 			
-			// Wait for map click
-			
-			_mWaitingForMapClick = true;
-			_enoughWaitingTime = time + 30;
-			
-			["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
-			
-			waitUntil {	!_mWaitingForMapClick || time > _enoughWaitingTime };
-			
-			if (!_mWaitingForMapClick) then
+			if (serverTime < _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime) then {
+				["Insertion is not yet available."] call _mMessageHandler.ShowMessage;
+			}
+			else
 			{
-				if ([_mMapPos, _mInsertionMarkers] call _self.InAnyMarker) then {
-					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _mMapPos]] call Remote.Invoke;
+				// Open the map and ask player to select a group
+				openMap true;
+				
+				// Wait for map click
+				
+				_mWaitingForMapClick = true;
+				_enoughWaitingTime = time + 30;
+				
+				["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
+				
+				waitUntil {	!_mWaitingForMapClick || time > _enoughWaitingTime };
+				
+				if (!_mWaitingForMapClick) then
+				{
+					if ([_mMapPos, _mInsertionMarkers] call _self.InAnyMarker) then {
+						["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _mMapPos]] call Remote.Invoke;
+					}
+					else {
+						["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
+					};
 				}
 				else {
-					["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
+					["Insertion timed out. Please try again when you are ready."] call _mMessageHandler.ShowSubTitle;
 				};
-			}
-			else {
-				["Insertion timed out. Please try again when you are ready."] call _mMessageHandler.ShowSubTitle;
 			};
 			
 			call _base.Run;

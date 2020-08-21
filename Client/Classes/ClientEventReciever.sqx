@@ -47,7 +47,7 @@ namespace Tvtcf.Client.Statics
 		{
 			if (_isFirstMission) then {
 				cutText ["", "BLACK OUT", 2];
-			};
+			};		
 		};
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
@@ -69,10 +69,14 @@ namespace Tvtcf.Client.Statics
 			};
 		};
 		
-		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing)
+		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing, "_serverTime" as Scalar)
 		{
+			private ["_missionPrepareCounter" as MissionPrepareCounter];
 			private ["_briefingService" as MissionBriefingService];
 			
+			_missionPrepareCounter = [_serverTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+			call _missionPrepareCounter.RunAsync;
+		
 			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, false] new MissionBriefingService;
 			
 			call _briefingService.RunAsync;

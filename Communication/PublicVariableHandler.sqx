@@ -157,5 +157,24 @@ namespace Tvtcf.Communication
 			return [];
 		};
 		
+		
+		public static method BroadcastMissionStartTime("_missionStartTime" as Scalar)
+		{
+			PUBVAR_MissionStartTime = _missionStartTime;
+			publicVariable "PUBVAR_MissionStartTime";
+		};
+		
+		public static method Boolean HasValueMissionStartTime() {
+			return !isNil "PUBVAR_MissionStartTime";
+		};
+		
+		public static method Scalar GetMissionStartTime()
+		{
+			if (call _self.HasValueMissionStartTime) then {
+				return PUBVAR_MissionStartTime;
+			};
+
+			return 0;
+		};		
 	};
 };
