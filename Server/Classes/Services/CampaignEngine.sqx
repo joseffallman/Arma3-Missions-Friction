@@ -277,7 +277,7 @@ namespace Tvtcf.Server
 			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then
 			{
-				if (!isNull _mission.GainedTokenActing) then
+				if (_mission.GainedTokenActing != "") then
 				{
 					if (_mission.GainedTokenActing in _lostTokensWest) then {
 						_lostTokensWest = _lostTokensWest - [_mission.GainedTokenActing];
@@ -285,7 +285,7 @@ namespace Tvtcf.Server
 					
 					_gainedTokensWest pushBack _mission.GainedTokenActing;
 				};
-				if (!isNull _mission.LostTokenActing) then
+				if (_mission.LostTokenActing != "") then
 				{
 					if (_mission.LostTokenActing in _gainedTokensWest) then {
 						_gainedTokensWest = _gainedTokensWest - [_mission.LostTokenActing];
@@ -293,7 +293,7 @@ namespace Tvtcf.Server
 					
 					_lostTokensWest pushBack _mission.LostTokenActing;
 				};
-				if (!isNull _mission.GainedTokenOpposing) then
+				if (_mission.GainedTokenOpposing != "") then
 				{
 					if (_mission.GainedTokenOpposing in _lostTokensEast) then {
 						_lostTokensEast = _lostTokensEast - [_mission.GainedTokenOpposing];
@@ -301,7 +301,7 @@ namespace Tvtcf.Server
 					
 					_gainedTokensEast pushBack _mission.GainedTokenOpposing;
 				};
-				if (!isNull _mission.LostTokenOpposing) then
+				if (_mission.LostTokenOpposing != "") then
 				{
 					if (_mission.LostTokenOpposing in _gainedTokensEast) then {
 						_gainedTokensEast = _gainedTokensEast - [_mission.LostTokenOpposing];
@@ -311,7 +311,7 @@ namespace Tvtcf.Server
 				};
 			}
 			else {
-				if (!isNull _mission.GainedTokenActing) then
+				if (_mission.GainedTokenActing != "") then
 				{
 					if (_mission.GainedTokenActing in _lostTokensEast) then {
 						_lostTokensEast = _lostTokensEast - [_mission.GainedTokenActing];
@@ -319,7 +319,7 @@ namespace Tvtcf.Server
 					
 					_gainedTokensEast pushBack _mission.GainedTokenActing;
 				};
-				if (!isNull _mission.LostTokenActing) then
+				if (_mission.LostTokenActing != "") then
 				{
 					if (_mission.LostTokenActing in _gainedTokensEast) then {
 						_gainedTokensEast = _gainedTokensEast - [_mission.LostTokenActing];
@@ -327,7 +327,7 @@ namespace Tvtcf.Server
 					
 					_lostTokensEast pushBack _mission.LostTokenActing;
 				};
-				if (!isNull _mission.GainedTokenOpposing) then
+				if (_mission.GainedTokenOpposing != "") then
 				{
 					if (_mission.GainedTokenOpposing in _lostTokensWest) then {
 						_lostTokensWest = _lostTokensWest - [_mission.GainedTokenOpposing];
@@ -335,7 +335,7 @@ namespace Tvtcf.Server
 					
 					_gainedTokensWest pushBack _mission.GainedTokenOpposing;
 				};
-				if (!isNull _mission.LostTokenOpposing) then
+				if (_mission.LostTokenOpposing != "") then
 				{
 					if (_mission.LostTokenOpposing in _gainedTokensWest) then {
 						_gainedTokensWest = _gainedTokensWest - [_mission.LostTokenOpposing];
