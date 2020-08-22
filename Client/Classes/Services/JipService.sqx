@@ -11,6 +11,7 @@
 using Sqx.Services;
 using Tvtcf.Client.Statics;
 using Tvtcf.Common;
+using Tvtcf.Common.Statics;
 using Tvtcf.Communication;
 
 namespace Tvtcf.Client
@@ -26,6 +27,7 @@ namespace Tvtcf.Client
 		{
 			private ["_missionMarkersInfo" as MissionMarkersInfo];
 			private ["_briefingService" as MissionBriefingService, "_missionBriefing" as MissionBriefing];
+			private ["_missionPrepareCounter" as MissionPrepareCounter];
 			
 			waitUntil { player == player };
 			
@@ -43,6 +45,12 @@ namespace Tvtcf.Client
 				_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, true] new MissionBriefingService;
 				call _briefingService.RunAsync;
 			};
+			
+			// Set eventual insertion counter
+			
+			private _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
+			_missionPrepareCounter = [_missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+			call _missionPrepareCounter.RunAsync;
 			
 			// Set camera
 			

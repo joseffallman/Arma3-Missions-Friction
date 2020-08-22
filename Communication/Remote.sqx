@@ -20,7 +20,7 @@ namespace Tvtcf.Communication
 		// _parameter (Any): The parameter (or list of parameters) to use in the method call.
 		public static method Invoke("_methodFullName" as String, ["_parameter" as Any, []])
 		{
-			[_methodFullName, _parameter] remoteExec ["Mission_Communication_Remote_Recieve", RemoteTargetOptions.All];
+			[_methodFullName, _parameter] remoteExec ["Tvtcf_Communication_Remote_Recieve", RemoteTargetOptions.All];
 		};
 		
 		// Remotely called by the invoking machine and executed locally. Fires the intended invoked method.

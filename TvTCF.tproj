@@ -162,6 +162,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionBriefingService.sqx" FileName="Client\Classes\Services\MissionBriefingService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionPrepareCounter.sqx" FileName="Client\Classes\Services\MissionPrepareCounter.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="PerformInsertionService.sqx" FileName="Client\Classes\Services\PerformInsertionService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

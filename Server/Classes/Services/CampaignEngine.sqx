@@ -129,8 +129,11 @@ namespace Tvtcf.Server
 
 			_missionBriefing = [_mission.Name, _briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
 
+			private _serverTime = serverTime;
+			[_serverTime] call PublicVariableHandler.BroadcastMissionStartTime;
+
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
-			["ClientEventReciever.OnMissionBriefing", [_missionBriefing]] call Remote.Invoke;
+			["ClientEventReciever.OnMissionBriefing", [_missionBriefing, _serverTime]] call Remote.Invoke;
 		};
 
 		public method Array InsertGroup("_side" as Side, "_position" as Array)
@@ -400,7 +403,6 @@ namespace Tvtcf.Server
 					_remainingTime = 30;
 				};
 				
-				//[_mCurrentMission] call _self.NotifyClientsAboutMissionStart;
 				["ClientEventReciever.OnMissionStarting", [_isFirstMission]] call Remote.Invoke;
 				
 				sleep 2;

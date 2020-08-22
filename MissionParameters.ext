@@ -1,8 +1,17 @@
 class Params
 {
-	class AiWest
+	class MandatoryPrepareTime
 	{
 		// paramsArray[0]
+		title="Mandatory Mission Prepare Time";
+		values[]={0, 15, 30, 60, 90, 120};
+		texts[]={"None", "15 seconds", "30 seconds", "60 seconds", "90 seconds", "120 seconds"};
+		default = 0;
+	};
+	
+	class AiWest
+	{
+		// paramsArray[1]
 		title="AI Units West Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};
@@ -11,7 +20,7 @@ class Params
 	
 	class AiEast
 	{
-		// paramsArray[1]
+		// paramsArray[2]
 		title="AI Units East Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};

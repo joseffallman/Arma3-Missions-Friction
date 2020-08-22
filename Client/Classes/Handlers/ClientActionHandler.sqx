@@ -28,7 +28,7 @@ namespace Tvtcf.Client
 		
 		public method AddAction("_serverActionId" as Scalar, "_object" as Object, "_title" as String)
 		{
-			private _clientActionId = _object addAction [_title, { call Mission_Client_ClientActionHandler_OnAction }, _serverActionId];
+			private _clientActionId = _object addAction [_title, { call Tvtcf_Client_ClientActionHandler_OnAction }, _serverActionId];
 			_mActionMappings pushBack [_serverActionId, _clientActionId, _object] new ActionMapping;
 		};
 		
