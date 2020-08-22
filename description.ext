@@ -8,8 +8,8 @@ class Header
   maxPlayers = 10;
 };
 
-onLoadName = "My Campaign";
-overviewText = "My Campaign";
+onLoadName = "Operation Shoe Lace";
+overviewText = "Operation Shoe Lace";
 onLoadMission = "Created upon Engima's TvT Campaign Framework (TvTCF)."; // This very text is to be here for the reason of fulfilling the licence. See the file LICENCE.
 
 overviewTextLocked = "";

@@ -61,7 +61,8 @@ namespace Campaigns.ShoeLace
 			if (!isNull _mission) then
 			{
 				// In the Hawk Down mission, the side that owns the airbase is about to blow up the helicopter
-				if (_mission == _mHawkDown) then
+				
+				if (_mission is HawkDown) then
 				{
 					if ("AIRBASE" in _self.GainedTokensWest) then {
 						[west] call _mission.SetActingSide;
@@ -72,7 +73,7 @@ namespace Campaigns.ShoeLace
 				};
 				
 				// In the Night Tensions mission, the acting side is the side not owning the airbase
-				if (_mission == _mNightTensions) then
+				if (_mission is NightTensions) then
 				{
 					if ("AIRBASE" in _self.GainedTokensWest) then {
 						[east] call _mission.SetActingSide;
@@ -83,7 +84,7 @@ namespace Campaigns.ShoeLace
 				};
 				
 				// In the Air Station Assault mission, the defending side will be the ones not defending the Airbase in Night Tensions
-				if (_mission == _mAirStationAssault) then
+				if (_mission is AirStationAssault) then
 				{
 					if ("AIRBASE" in _self.GainedTokensWest) then {
 						[west] call _mission.SetActingSide;
