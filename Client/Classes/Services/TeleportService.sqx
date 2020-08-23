@@ -30,7 +30,7 @@ namespace Tvtcf.Client
 			_vehicle setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.25];
 		};
 		
-		// Teleports the player instantly to the base.
+		// Teleports the player instantly.
 		protected override method Run()
 		{
 			if (player distance _mPosition > 50) then
@@ -66,12 +66,24 @@ namespace Tvtcf.Client
 						};
 					} foreach units group player;
 				}
-				else {
+				else
+				{
 					{
-						if (local _x) then {
-							_x setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+						if (local _x) then
+						{
+							// Only move the player in SP
+							if (_x != player || !isMultiplayer) then
+							{
+								_x setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+							};
 						};
 					} foreach units group player;
+					
+					// In MP, perform a respawn for players
+					if (isMultiplayer) then
+					{
+						forceRespawn player;
+					};
 				};
 				
 				openMap false;
