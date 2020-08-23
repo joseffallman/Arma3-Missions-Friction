@@ -127,10 +127,12 @@ namespace Campaigns.ShoeLace
 			_mArmoredTransport1 = ["APC TRANSPORT CANNON", MissionSide.Opposing, "m11o_ArmoredTransport1", false, true] call _self.CreateSideVehicleOnMarker;
 			_mArmoredTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mArmoredTransport1;
+			{ _x setCaptive true; } foreach crew _mArmoredTransport1;
 			
 			_mTruckTransport1 = ["TRANSPORT TRUCK", MissionSide.Opposing, "m11o_TransportTruck", false, true] call _self.CreateSideVehicleOnMarker;
 			_mTruckTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mTruckTransport1;
+			{ _x setCaptive true; } foreach crew _mTruckTransport1;
 			
 			// Soldiers
 			
@@ -468,6 +470,7 @@ namespace Campaigns.ShoeLace
 				[_mOpposingGroup2] call _self.AddInfantrySadWaypoints;
 				[_mOpposingGroup3] call _self.AddInfantrySadWaypoints;
 				_mTruckTransportState = TransportState.Returning;
+				{ _x setCaptive false; } foreach crew _mArmoredTransport1;
 			};
 		};
 		
