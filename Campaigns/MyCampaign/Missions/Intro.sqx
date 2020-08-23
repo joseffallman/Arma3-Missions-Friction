@@ -30,7 +30,9 @@ namespace Campaigns.MyCampaign
 		
 		protected override method Setup()
 		{
-			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			private _mrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			
+			[_mrap, "Take this car!", MissionSide.Acting] call _self.AddAction;
 			
 			call _base.Setup;
 		};
