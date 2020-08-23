@@ -61,6 +61,7 @@ namespace Campaigns.ShoeLace
 			if (_actionId == _mStealIntelActionId) then {
 				_mIntelCollected = true;
 				_self.GainedTokenOpposing = "HAWKINTEL";
+				[[_actionId]] call _self.DeleteActions;
 			};
 		};
 		
