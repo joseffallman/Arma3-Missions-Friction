@@ -14,7 +14,7 @@ using Campaigns;
 
 namespace Campaigns.ShoeLace
 {
-	public class CaptureTheAirbase : Mission
+	public class CaptureTheAirbase : ShoeLaceMission
 	{
 		private fields ["_mChopper1" as Object, "_mChopper1State" as TransportState, "_mHelipad1" as Object, "_mChopper1LiftOffTime" as Scalar];
 		private fields ["_mChopper2" as Object, "_mChopper2State" as TransportState, "_mHelipad2" as Object, "_mChopper2LiftOffTime" as Scalar];

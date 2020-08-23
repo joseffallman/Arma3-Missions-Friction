@@ -14,7 +14,7 @@ using Campaigns;
 
 namespace Campaigns.ShoeLace
 {
-	public class AirStationAssault : Mission
+	public class AirStationAssault : ShoeLaceMission
 	{
 		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array];
 		

@@ -14,7 +14,7 @@ using Campaigns;
 
 namespace Campaigns.ShoeLace
 {
-	public class CannonballRun : Mission
+	public class CannonballRun : ShoeLaceMission
 	{
 		private fields ["_mTruck" as Object];
 	

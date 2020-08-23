@@ -1,0 +1,48 @@
+/*
+ * Name:	ShoeLaceMission
+ * Date:	2020-08-03
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Contains common logic for all mission that belong to Operation Shoe Lace.
+ */
+
+using Tvtcf.Common;
+using Tvtcf.Server;
+using Campaigns;
+
+namespace Campaigns.ShoeLace
+{
+	public class ShoeLaceMission : Mission
+	{
+		// Creates a ShoeLaceMission object.
+		public constructor()
+		{
+			call _base.Constructor;
+		};
+		
+		protected override method InitMission("_mission" as MissionSettings)
+		{
+			_mission.Name = "A Shoe Lace Mission";
+		};
+		
+		protected property Object ActingsQuadbike { get; private set; };
+		
+		protected property Object OpposingsQuadbike { get; private set; };
+		
+		protected property Object ActingsMrap { get; private set; };
+		
+		protected property Object OpposingsMrap { get; private set; };
+		
+		protected override method Setup()
+		{
+			_self.ActingsQuadbike = ["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.ActingsMrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.OpposingsQuadbike = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.OpposingsMrap = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+		
+			call _base.Setup;
+		};
+	};
+};
