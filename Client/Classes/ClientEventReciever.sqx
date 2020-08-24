@@ -237,13 +237,13 @@ namespace Tvtcf.Client.Statics
 		public static method OnAddAction("_serverActionId" as Scalar, "_object" as Object, "_title" as String, "_side" as Side)
 		{
 			if (_side == playerSide) then {
-				[_serverActionId, _object, _title] call ClientObjects.ClientActionHandler.AddAction;
+				[_serverActionId, _object, _title] call ClientObjects.ClientMissionActionHandler.AddAction;
 			};
 		};
 		
 		public static method OnDeleteActions("_actionIds" as Array)
 		{
-			[_actionIds] call ClientObjects.ClientActionHandler.DeleteActions;
+			[_actionIds] call ClientObjects.ClientMissionActionHandler.DeleteActions;
 		};
 	};
 };

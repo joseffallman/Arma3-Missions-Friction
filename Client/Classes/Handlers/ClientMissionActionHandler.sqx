@@ -1,5 +1,5 @@
 /*
- * Name:	ClientActionHandler
+ * Name:	ClientMissionActionHandler
  * Date:	2020-08-04
  * Version: 1.0
  * Author:  Engima
@@ -12,7 +12,7 @@ using Tvtcf.Communication;
 
 namespace Tvtcf.Client
 {
-	public class ClientActionHandler
+	public class ClientMissionActionHandler
 	{
 		private fields ["_mActionMappings" as Array /* of ActionMapping */];
 		
@@ -28,7 +28,7 @@ namespace Tvtcf.Client
 		
 		public method AddAction("_serverActionId" as Scalar, "_object" as Object, "_title" as String)
 		{
-			private _clientActionId = _object addAction [_title, { call Tvtcf_Client_ClientActionHandler_OnAction }, _serverActionId, 100, false, true, "", "true", 5];
+			private _clientActionId = _object addAction [_title, { call Tvtcf_Client_ClientMissionActionHandler_OnAction }, _serverActionId, 100, false, true, "", "true", 5];
 			_mActionMappings pushBack [_serverActionId, _clientActionId, _object] new ActionMapping;
 		};
 		

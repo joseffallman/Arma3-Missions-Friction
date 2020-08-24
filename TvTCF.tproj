@@ -61,10 +61,10 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CameraHandler.sqx" FileName="Client\Classes\Handlers\CameraHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientActionHandler.sqx" FileName="Client\Classes\Handlers\ClientActionHandler.sqx">
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMessageHandler.sqx" FileName="Client\Classes\Handlers\ClientMessageHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMessageHandler.sqx" FileName="Client\Classes\Handlers\ClientMessageHandler.sqx">
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMissionActionHandler.sqx" FileName="Client\Classes\Handlers\ClientMissionActionHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx">
