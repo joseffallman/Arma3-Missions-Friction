@@ -14,11 +14,8 @@ namespace Tvtcf.Client.Statics
 		public static method Init()
 		{
 			_self.IsAlive = true;
-			_self.MissionHasStarted = false;
 		};
 		
 		public static property Boolean IsAlive { get; set; };
-		
-		public static property Boolean MissionHasStarted { get; set; };
 	};
 };

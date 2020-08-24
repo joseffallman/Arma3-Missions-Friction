@@ -68,14 +68,13 @@ namespace Tvtcf.Client
 			_playerGroupHasInserted = false;
 			
 			if (playerSide == west) then {
-				_playerGroupHasInserted = (call PublicVariableHandler.GetWestHasInserted);
+				_playerGroupHasInserted = call PublicVariableHandler.GetWestHasInserted;
 			}
 			else {
-				_playerGroupHasInserted =  (call PublicVariableHandler.GetEastHasInserted);
+				_playerGroupHasInserted = call PublicVariableHandler.GetEastHasInserted;
 			};
 			
-			_self.OptionPerformInsertionVisible = ClientState.MissionHasStarted && !_playerGroupHasInserted;
-			player sideChat "Has started: " + str ClientState.MissionHasStarted;
+			_self.OptionPerformInsertionVisible = (call PublicVariableHandler.GetMissionHasStarted) && !_playerGroupHasInserted;
 			
 			call _self.BuildCampaignMenu;
 		};
