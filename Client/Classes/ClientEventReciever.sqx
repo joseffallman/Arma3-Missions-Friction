@@ -106,7 +106,7 @@ namespace Tvtcf.Client.Statics
 			};
 			
 			// Hide insertion menu option
-			call TvtcfMenuHandler.UpdateVisibleOptions;
+			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 		};
 		
 		public static method OnMissionEnding()
@@ -180,7 +180,7 @@ namespace Tvtcf.Client.Statics
 			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
 
 			// Show insertion menu option
-			call TvtcfMenuHandler.UpdateVisibleOptions;
+			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;

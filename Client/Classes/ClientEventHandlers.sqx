@@ -57,7 +57,7 @@ namespace Tvtcf.Client.Statics
 				[] spawn {
 					waitUntil { player == player };
 					
-					call TvtcfMenuHandler.Init;
+					call TvtcfActionMenuHandler.Init;
 					call ClientObjects.CameraHandler.SetDeathCamera;
 				};
 			}];

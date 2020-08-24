@@ -76,7 +76,7 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskHandler.sqx" FileName="Client\Classes\Handlers\TaskHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TvtcfMenuHandler.sqx" FileName="Client\Classes\Handlers\TvtcfMenuHandler.sqx">
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TvtcfActionMenuHandler.sqx" FileName="Client\Classes\Handlers\TvtcfActionMenuHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                 </SubNodes>
