@@ -15,18 +15,29 @@ namespace Tvtcf.Client
 {
 	public class TvtcfActionMenuHandler
 	{
+		private static fields ["_mMissionMenuActionId" as Scalar];
+		
         // Initializes the TvTCF Menu for the player and adds the "Open Mission Menu" action.
         public static method Init()
         {
+        	_mMissionMenuActionId = -1;
+        	_self.OptionPerformInsertionVisible = false;
         	call _self.UpdateVisibleOptions;
-			call _self.BuildCampaignMenu;
-			
-			call _self.ShowAction;
 		};
 		
 		public static method ShowAction()
 		{
-			player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }];
+			if (_mMissionMenuActionId < 0) then {
+				_mMissionMenuActionId = player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }, nil, 100];
+			};
+		};
+		
+		public static method HideAction()
+		{
+			if (_mMissionMenuActionId >= 0) then {
+				player removeAction _mMissionMenuActionId;
+				_mMissionMenuActionId = -1;
+			};
 		};
 		
 		#region Option Properties
@@ -57,13 +68,14 @@ namespace Tvtcf.Client
 			_playerGroupHasInserted = false;
 			
 			if (playerSide == west) then {
-				_playerGroupHasInserted = call PublicVariableHandler.GetWestHasInserted;
+				_playerGroupHasInserted = (call PublicVariableHandler.GetWestHasInserted);
 			}
 			else {
-				_playerGroupHasInserted = call PublicVariableHandler.GetEastHasInserted;
+				_playerGroupHasInserted =  (call PublicVariableHandler.GetEastHasInserted);
 			};
 			
-			_self.OptionPerformInsertionVisible = !_playerGroupHasInserted;
+			_self.OptionPerformInsertionVisible = ClientState.MissionHasStarted && !_playerGroupHasInserted;
+			player sideChat "Has started: " + str ClientState.MissionHasStarted;
 			
 			call _self.BuildCampaignMenu;
 		};
@@ -77,6 +89,15 @@ namespace Tvtcf.Client
 			
 			if (_self.OptionPerformInsertionVisible) then {
 				TVTCF_TvtcfMenu pushBack ["Perform Insertion", [0], "", -5, [["expression", "call Tvtcf_Client_TvtcfActionMenuHandler_OnPerformInsertion"]], "1", "1"];
+			};
+			
+			// Check all options, if none is visible then remove the action menu item.
+			
+			if (!_self.OptionPerformInsertionVisible) then {
+				call _self.HideAction;
+			}
+			else {
+				call _self.ShowAction;
 			};
 		};
 		

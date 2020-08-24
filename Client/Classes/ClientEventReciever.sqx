@@ -47,7 +47,10 @@ namespace Tvtcf.Client.Statics
 		{
 			if (_isFirstMission) then {
 				cutText ["", "BLACK OUT", 2];
-			};		
+			};
+			
+			player sideChat "MissionHasStarted = true";
+			ClientState.MissionHasStarted = true;
 		};
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
@@ -67,6 +70,8 @@ namespace Tvtcf.Client.Statics
 					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, getPos player]] call Remote.Invoke;
 				};
 			};
+			
+			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 		};
 		
 		public static method OnMissionBriefing("_missionBriefing" as MissionBriefing, "_serverTime" as Scalar)
@@ -142,6 +147,8 @@ namespace Tvtcf.Client.Statics
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
 		{
 			private ["_resultInfo" as MissionResultInfo];
+			
+			ClientState.MissionHasStarted = false;
 			
 			// "Resurrect" player
 			ClientState.IsAlive = true;
