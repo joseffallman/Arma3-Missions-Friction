@@ -6,10 +6,10 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Handlers\TvtcfMenuHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\TvtcfActionMenuHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\CameraHandler.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientActionHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMissionActionHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Objects\ActionMapping.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.sqx";
@@ -41,7 +41,7 @@ namespace Mission
 			
 			// Initialize the TvTCF menu.
 			sleep 1;
-			call TvtcfMenuHandler.Init;
+			call TvtcfActionMenuHandler.Init;
 		};
 	};
 };

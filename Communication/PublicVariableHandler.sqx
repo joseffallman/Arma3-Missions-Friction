@@ -176,5 +176,25 @@ namespace Tvtcf.Communication
 
 			return 0;
 		};		
+		
+		
+		public static method BroadcastMissionHasStarted("_missionHasStarted" as Boolean)
+		{
+			PUBVAR_MissionHasStarted = _missionHasStarted;
+			publicVariable "PUBVAR_MissionHasStarted";
+		};
+		
+		public static method Boolean HasValueMissionHasStarted() {
+			return !isNil "PUBVAR_MissionHasStarted";
+		};
+		
+		public static method Boolean GetMissionHasStarted()
+		{
+			if (call _self.HasValueMissionHasStarted) then {
+				return PUBVAR_MissionHasStarted;
+			};
+
+			return false;
+		};		
 	};
 };
