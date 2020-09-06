@@ -447,9 +447,6 @@
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="description.ext" FileName="description.ext">
         <SubNodes />
       </ProjectNodeViewModel>
-      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="HawkDown.sqx" FileName="HawkDown.sqx">
-        <SubNodes />
-      </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="init.sqf" FileName="init.sqf">
         <SubNodes />
       </ProjectNodeViewModel>

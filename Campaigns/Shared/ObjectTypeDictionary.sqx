@@ -72,7 +72,9 @@ namespace Campaigns
 				// Neutral objects
 				["CLOSED PAPERBOX", "Land_PaperBox_closed_F", "Land_PaperBox_closed_F", "Land_PaperBox_closed_F"] new VehicleSideAlias,
 				["OPEN PAPERBOX", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_empty_F", "Land_PaperBox_open_empty_F"] new VehicleSideAlias,
-				["WOODEN BOX", "Land_WoodenBox_F", "Land_WoodenBox_F", "Land_WoodenBox_F"] new VehicleSideAlias
+				["WOODEN BOX", "Land_WoodenBox_F", "Land_WoodenBox_F", "Land_WoodenBox_F"] new VehicleSideAlias,
+				["TABLE DESK", "Land_TableDesk_F", "Land_TableDesk_F", "Land_TableDesk_F"] new VehicleSideAlias,				
+				["LAPTOP", "Item_Laptop_Unfolded", "Item_Laptop_Unfolded", "Item_Laptop_Unfolded"] new VehicleSideAlias
 			];
 		};
 		

@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=276;
+		nextID=293;
 	};
 	class MarkerIDProvider
 	{
-		nextID=36;
+		nextID=40;
 	};
 	class Camera
 	{
-		pos[]={1993.5961,33.344757,5150.7549};
-		dir[]={0.052918043,-0.33300236,0.94152939};
-		up[]={0.018687943,0.94292623,0.3324838};
-		aside[]={0.99852365,1.0516233e-006,-0.056125376};
+		pos[]={2149.584,45.381779,5630.2788};
+		dir[]={-0.56560481,-0.30613127,0.76592058};
+		up[]={-0.18188699,0.95191544,0.24630114};
+		aside[]={0.80449003,-2.0184088e-006,0.59409422};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -177,6 +158,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=127;
+		items=134;
 		class Item0
 		{
 			dataType="Marker";
@@ -1106,7 +1106,7 @@ class Mission
 		class Item23
 		{
 			dataType="Marker";
-			position[]={2554.9626,0,6106.9175};
+			position[]={2273.2336,0,6433.4302};
 			name="m06a_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
@@ -1115,21 +1115,20 @@ class Mission
 			b=100;
 			angle=276.69891;
 			id=73;
-			atlOffset=24.78747;
+			atlOffset=30.665762;
 		};
 		class Item24
 		{
 			dataType="Marker";
-			position[]={1988.407,5.9169998,5802.4121};
+			position[]={2070.0215,5.5750537,5733.4287};
 			name="m06o_StartArea1";
 			markerType="ELLIPSE";
 			type="rectangle";
 			colorName="ColorEAST";
-			a=170;
-			b=170;
+			a=220;
+			b=220;
 			angle=196.81;
 			id=74;
-			atlOffset=0.00036907196;
 		};
 		class Item25
 		{
@@ -2680,6 +2679,75 @@ class Mission
 			type="Empty";
 			id=272;
 			atlOffset=-11.509192;
+		};
+		class Item127
+		{
+			dataType="Marker";
+			position[]={1973.392,0,5709.8042};
+			name="m06a_PrimaryObject01";
+			type="Empty";
+			angle=284.32184;
+			id=276;
+			atlOffset=-5.6999998;
+		};
+		class Item128
+		{
+			dataType="Marker";
+			position[]={2344.7659,3.6863153,5803.2905};
+			name="m06o_RoadBlock_BarGate";
+			type="Empty";
+			angle=54.800987;
+			id=283;
+		};
+		class Item129
+		{
+			dataType="Marker";
+			position[]={2332.759,3.7620001,5807.688};
+			name="m06o_RoadBlock_Guard";
+			type="Empty";
+			angle=120.66597;
+			id=287;
+			atlOffset=0.0003349781;
+		};
+		class Item130
+		{
+			dataType="Marker";
+			position[]={2340.3159,3.8380001,5794.2412};
+			name="m06o_RoadBlock_Vehicle";
+			type="Empty";
+			angle=54.800983;
+			id=288;
+			atlOffset=7.0333481e-005;
+		};
+		class Item131
+		{
+			dataType="Marker";
+			position[]={2339.0281,3.7690001,5803.2881};
+			name="m06a_RoadBlockWarning";
+			text="Entrance Guard";
+			type="mil_warning";
+			id=290;
+			atlOffset=-0.000467062;
+		};
+		class Item132
+		{
+			dataType="Marker";
+			position[]={2239.9561,5.9910002,5761.2012};
+			name="m06a_PrimaryObjective4";
+			text="4";
+			type="mil_objective";
+			id=291;
+			atlOffset=-0.00010061264;
+		};
+		class Item133
+		{
+			dataType="Marker";
+			position[]={2225.551,6.1259999,5719.8579};
+			name="m06a_PrimaryObjective5";
+			text="5";
+			type="mil_objective";
+			id=292;
+			atlOffset=0.00017309189;
 		};
 	};
 };
