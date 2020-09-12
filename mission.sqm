@@ -5,21 +5,21 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=513;
+	toggles=641;
 	class ItemIDProvider
 	{
-		nextID=293;
+		nextID=305;
 	};
 	class MarkerIDProvider
 	{
-		nextID=40;
+		nextID=41;
 	};
 	class Camera
 	{
-		pos[]={2149.584,45.381779,5630.2788};
-		dir[]={-0.56560481,-0.30613127,0.76592058};
-		up[]={-0.18188699,0.95191544,0.24630114};
-		aside[]={0.80449003,-2.0184088e-006,0.59409422};
+		pos[]={1951.2896,19.83935,5809.2173};
+		dir[]={-0.98100573,-0.18711798,0.052280471};
+		up[]={-0.18689454,0.98232806,0.0099609755};
+		aside[]={0.053219777,-1.037452e-006,0.9986437};
 	};
 };
 binarizationWanted=0;
@@ -124,6 +124,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -158,25 +177,6 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=134;
+		items=142;
 		class Item0
 		{
 			dataType="Marker";
@@ -1133,7 +1133,7 @@ class Mission
 		class Item25
 		{
 			dataType="Marker";
-			position[]={1650.0072,0,4470.853};
+			position[]={1677.4321,0,4575.5361};
 			name="m06a_StartArea2";
 			markerType="ELLIPSE";
 			type="rectangle";
@@ -1142,7 +1142,7 @@ class Mission
 			b=100;
 			angle=183.13692;
 			id=75;
-			atlOffset=26.985439;
+			atlOffset=19.70541;
 		};
 		class Item26
 		{
@@ -2696,7 +2696,7 @@ class Mission
 			position[]={2344.7659,3.6863153,5803.2905};
 			name="m06o_RoadBlock_BarGate";
 			type="Empty";
-			angle=54.800987;
+			angle=54.800983;
 			id=283;
 		};
 		class Item129
@@ -2748,6 +2748,81 @@ class Mission
 			type="mil_objective";
 			id=292;
 			atlOffset=0.00017309189;
+		};
+		class Item134
+		{
+			dataType="Marker";
+			position[]={2340.29,3.5669999,5813.2661};
+			name="m06o_RoadBlock_RoadCone";
+			type="Empty";
+			angle=54.800983;
+			id=294;
+			atlOffset=-0.0001180172;
+		};
+		class Item135
+		{
+			dataType="Marker";
+			position[]={1691.986,5.5,5119.8032};
+			name="m06o_AmbientHelicopter";
+			type="Empty";
+			angle=106.60793;
+			id=295;
+		};
+		class Item136
+		{
+			dataType="Marker";
+			position[]={1913.767,5.5050001,5954.8628};
+			name="m06o_AmbientVehiclePos3";
+			type="Empty";
+			angle=240.51797;
+			id=296;
+			atlOffset=0.00027704239;
+		};
+		class Item137
+		{
+			dataType="Marker";
+			position[]={1763.616,5.5,5250.562};
+			name="m06o_AmbientVehiclePos1";
+			type="Empty";
+			angle=12.586994;
+			id=297;
+		};
+		class Item138
+		{
+			dataType="Marker";
+			position[]={2141.5791,8.7390003,5356.564};
+			name="m06o_AmbientVehiclePos2";
+			type="Empty";
+			angle=8.0129986;
+			id=298;
+			atlOffset=0.00041007996;
+		};
+		class Item139
+		{
+			dataType="Marker";
+			position[]={1685.12,5.5,5002.8242};
+			name="m06o_AmbientVehiclePos4";
+			type="Empty";
+			angle=286.18585;
+			id=299;
+		};
+		class Item140
+		{
+			dataType="Marker";
+			position[]={2300.8047,5.0204515,5769.8979};
+			name="m06o_AmbientVehiclePos5";
+			type="Empty";
+			angle=302.20584;
+			id=300;
+		};
+		class Item141
+		{
+			dataType="Marker";
+			position[]={1936.6219,5.5,5797.188};
+			name="m06o_AmbientVehiclePos6";
+			type="Empty";
+			angle=274.21887;
+			id=301;
 		};
 	};
 };
