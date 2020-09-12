@@ -57,8 +57,13 @@ namespace Campaigns
 				["HELICOPTER WRECK", "Land_Wreck_Heli_Attack_01_F", "Land_Wreck_Heli_Attack_02_F", ""] new VehicleSideAlias,
 				
 				// Ammo boxes
+				["AMMOBOX BASIC AMMO", "Box_NATO_Ammo_F", "Box_East_Ammo_F", "Box_IND_Ammo_F"] new VehicleSideAlias,
+				["AMMOBOX BASIC WEAPONS", "Box_NATO_Wps_F", "Box_East_Wps_F", "Box_IND_Wps_F"] new VehicleSideAlias,
+				["AMMOBOX SPECIAL WEAPONS", "Box_NATO_WpsSpecial_F", "Box_East_WpsSpecial_F", "Box_IND_WpsSpecial_F"] new VehicleSideAlias,
+				["AMMOBOX GRENADES", "Box_NATO_Grenades_F", "Box_East_Grenades_F", "Box_IND_Grenades_F"] new VehicleSideAlias,
 				["AMMOBOX ORDNANCE", "Box_NATO_AmmoOrd_F", "Box_East_AmmoOrd_F", "Box_IND_AmmoOrd_F"] new VehicleSideAlias,
 				["AMMOBOX LAUNCHERS", "Box_NATO_WpsLaunch_F", "Box_East_WpsLaunch_F", "Box_IND_WpsLaunch_F"] new VehicleSideAlias,
+				["AMMOBOX SUPPORT", "Box_NATO_Support_F", "Box_East_Support_F", "Box_IND_Support_F"] new VehicleSideAlias,
 				
 				// Ammo boxes
 				["ASSAULT BOAT", "B_Boat_Transport_01_F", "O_Boat_Transport_01_F", ""] new VehicleSideAlias,
