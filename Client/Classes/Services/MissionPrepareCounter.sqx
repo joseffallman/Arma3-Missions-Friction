@@ -29,6 +29,7 @@ namespace Tvtcf.Client
 		{
 			var _time = serverTime;
 			var _hasWaited = false;
+			var _seconds = 0;
 			
 			if (!isMultiplayer) then {
 				_time = time;
@@ -38,7 +39,9 @@ namespace Tvtcf.Client
 			{
 				var _timeLeft = ceil (_mInsertionTime - serverTime);
 				
-				["Insertion allowed in " + str _timeLeft + " seconds."] call _mClientMessageHandler.ShowSubTitle;
+				if (_seconds >= 10) then {
+					["Insertion allowed in " + str _timeLeft + " seconds."] call _mClientMessageHandler.ShowSubTitle;
+				};
 				
 				sleep 1;
 				
@@ -48,6 +51,7 @@ namespace Tvtcf.Client
 				};
 				
 				_hasWaited = true;
+				_seconds = _seconds + 1;
 			};
 			
 			if (_hasWaited) then {

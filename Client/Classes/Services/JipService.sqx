@@ -51,9 +51,20 @@ namespace Tvtcf.Client
 			
 			// Set eventual insertion counter
 			
-			private _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
-			_missionPrepareCounter = [_mClientMessageHandler, _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
-			call _missionPrepareCounter.RunAsync;
+			if (!isNull _missionMarkersInfo) then
+			{
+				private Array _startMarkers = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
+				
+				// Only show mission prepare counter if there are startmarkers defined for the current side in the current mission.
+				
+				if (count _startMarkers > 0) then
+				{
+					var _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
+					_missionPrepareCounter = [_mClientMessageHandler, _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+					
+					call _missionPrepareCounter.RunAsync;
+				};
+			};
 			
 			// Set camera
 			
