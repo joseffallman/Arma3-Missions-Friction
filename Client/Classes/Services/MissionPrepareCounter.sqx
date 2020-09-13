@@ -14,18 +14,21 @@ namespace Tvtcf.Client
 {
 	public class MissionPrepareCounter : Service
 	{
-		private fields ["_mInsertionTime" as Scalar];
+		private fields ["_mClientMessageHandler" as ClientMessageHandler, "_mInsertionTime" as Scalar];
 		
 		// Creates a MissionPrepareCounter object.
-		public constructor("_insertionTime" as Scalar)
+		public constructor("_clientMessageHandler" as ClientMessageHandler, "_insertionTime" as Scalar)
 		{
 			call _base.Constructor;
+			
+			_mClientMessageHandler = _clientMessageHandler;
 			_mInsertionTime = _insertionTime;
 		};
 		
 		protected override method Run()
 		{
-			private _time = serverTime;
+			var _time = serverTime;
+			var _hasWaited = false;
 			
 			if (!isMultiplayer) then {
 				_time = time;
@@ -33,8 +36,9 @@ namespace Tvtcf.Client
 			
 			while { _time < _mInsertionTime } do
 			{
-				private _timeLeft = ceil (_mInsertionTime - serverTime);
-				hint ("Insertion allowed in " + str _timeLeft + " seconds.");
+				var _timeLeft = ceil (_mInsertionTime - serverTime);
+				
+				["Insertion allowed in " + str _timeLeft + " seconds."] call _mClientMessageHandler.ShowSubTitle;
 				
 				sleep 1;
 				
@@ -42,9 +46,14 @@ namespace Tvtcf.Client
 				if (!isMultiplayer) then {
 					_time = time;
 				};
+				
+				_hasWaited = true;
 			};
 			
-			hint "Insertion allowed in 0 seconds.";
+			if (_hasWaited) then {
+				["Insertion allowed!"] call _mClientMessageHandler.ShowSubTitle;
+			};
+
 			call _base.Run;
 		};
 	};

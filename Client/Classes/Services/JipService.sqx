@@ -18,9 +18,12 @@ namespace Tvtcf.Client
 {
 	public class JipService : Service
 	{
-		public constructor()
+		private fields ["_mClientMessageHandler" as ClientMessageHandler];
+	
+		public constructor("_clientMessageHandler" as ClientMessageHandler)
 		{
 			call _base.Constructor;
+			_mClientMessageHandler = _clientMessageHandler;
 		};
 		
 		protected override method Run()
@@ -49,7 +52,7 @@ namespace Tvtcf.Client
 			// Set eventual insertion counter
 			
 			private _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
-			_missionPrepareCounter = [_missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+			_missionPrepareCounter = [_mClientMessageHandler, _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
 			call _missionPrepareCounter.RunAsync;
 			
 			// Set camera

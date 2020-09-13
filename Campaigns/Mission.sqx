@@ -47,6 +47,7 @@ namespace Campaigns
 			_self.PrimaryObjectiveStateOpposing = ObjectiveState.None;
 			_self.SecondaryObjectiveStateOpposing = ObjectiveState.None;
 			_self.ReturnObjectiveStateOpposing = ObjectiveState.None;
+			_self.MissionTimeElapsed = 0;
 			_self.EndNarrative = "";
 			
 			_missionSettings = new MissionSettings;
@@ -54,7 +55,8 @@ namespace Campaigns
 			
 			_self.Name = _missionSettings.Name;
 			_self.StartTimeOfDay = _missionSettings.StartTimeOfDay;
-			_self.RemainingTime = _missionSettings.MaximumMissionTime;
+			_self.MissionTimeLimit = _missionSettings.MissionTimeLimit;
+			_self.RemainingTime = _missionSettings.MissionTimeLimit;
 			_self.StartMarkersActing = _missionSettings.StartMarkersActing;
 			_self.StartMarkersOpposing = _missionSettings.StartMarkersOpposing;
 			_self.SideMarkersActing = _missionSettings.SideMarkersActing;
@@ -433,10 +435,15 @@ namespace Campaigns
 		
 		public property String Name { get; private set; };
 		
-		// Gets and sets the remaining time of the mission in minutes. This property may be set in the mission's 
-		// Initialize method, and after that it is updated by the campaign object. After Setup phase, this property
-		// should only be read from.
-		public property Scalar RemainingTime { get; set; };
+		// Gets the mission maximum time in minutes.
+		public property Scalar MissionTimeLimit { get; private set; };
+		
+		// Gets the mission time elapsed since the mission started in minutes.
+		public property Scalar MissionTimeElapsed { get; private set; };
+		
+		// Gets the remaining time of the mission in minutes. This property may be set in the mission's 
+		// Initialize method, and after that it is updated by the campaign object.
+		public property Scalar RemainingTime { get; private set; };
 		
 		// Gets whether the mission will add a last objective to return to the insertion point after completing the
 		// other objectives.
@@ -453,6 +460,12 @@ namespace Campaigns
 		#endregion
 		
 		#region Public Methods
+		
+		public method SetTimeElapsed("_missionTimeElapsed" as Scalar)
+		{
+			_self.MissionTimeElapsed = _missionTimeElapsed;
+			_self.RemainingTime = _self.MissionTimeLimit - _missionTimeElapsed;
+		};
 		
 		// Sets whether the acting side will be west or east.
 		// Remarks: This method has no effect if it is called after the mission's preparation phase (i.e. the Prepare method has been called).

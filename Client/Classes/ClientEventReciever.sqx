@@ -76,7 +76,7 @@ namespace Tvtcf.Client.Statics
 			private ["_missionPrepareCounter" as MissionPrepareCounter];
 			private ["_briefingService" as MissionBriefingService];
 			
-			_missionPrepareCounter = [_serverTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+			_missionPrepareCounter = [ClientObjects.MessageHandler, _serverTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
 			call _missionPrepareCounter.RunAsync;
 		
 			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, false] new MissionBriefingService;

@@ -395,14 +395,6 @@ namespace Tvtcf.Server
 				_mEastSecondaryObjectiveCompleted = false;
 				_mEastReturnObjectiveCompleted = false;
 				
-				private _remainingTime = _mCurrentMission.RemainingTime;
-				
-				// Override the mission's own remaining time with 30 minutes if it is too long
-				if (_remainingTime > 30) then {
-					_mCurrentMission.RemainingTime = 30;
-					_remainingTime = 30;
-				};
-				
 				[true] call PublicVariableHandler.BroadcastMissionHasStarted;
 				["ClientEventReciever.OnMissionStarting", [_isFirstMission]] call Remote.Invoke;
 				
@@ -434,26 +426,27 @@ namespace Tvtcf.Server
 				
 				[_mMissionMarkersInfo] call _self.InsertSideWithNoPlayers;
 				
-				private _startTime = time;
-				private _endTime = time + _remainingTime * 60;
+				var _remainingTime = _mCurrentMission.RemainingTime;
+				var _startTime = time;
+				var _endTime = _startTime + _mCurrentMission.MissionTimeLimit * 60;
 				
 				call _mCurrentMission.RunAsync;
+				["ClientEventReciever.OnMissionTimeTick", [_mCurrentMission.MissionTimeLimit]] call Remote.Invoke;
 				
 				while { _mCurrentMission.IsRunning } do
 				{
-					// Calculate remaining time
-					_remainingTime = floor (1 + (_endTime - time) / 60);
+					var _elapsedTimeInMin = floor ((time - _startTime) / 60);
 					
-					if (_remainingTime != _mCurrentMission.RemainingTime) then
+					if (_elapsedTimeInMin != _mCurrentMission.MissionTimeElapsed) then
 					{
-						_mCurrentMission.RemainingTime = _remainingTime;
-						["ClientEventReciever.OnMissionTimeTick", [_remainingTime]] call Remote.Invoke;
+						[_elapsedTimeInMin] call _mCurrentMission.SetTimeElapsed;
+						["ClientEventReciever.OnMissionTimeTick", [_mCurrentMission.RemainingTime]] call Remote.Invoke;
 					};
 
 					// If time is up, cancel the mission.
 					
 					if (time > _endTime) then {
-						_mCurrentMission.RemainingTime = 0;
+						[_mCurrentMission.MissionTimeElapsed] call _mCurrentMission.SetTimeElapsed;
 						call _mCurrentMission.Cancel;
 					};
 					
