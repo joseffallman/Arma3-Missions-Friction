@@ -68,7 +68,7 @@ namespace Campaigns.ShoeLace
 			
 			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
 			
-			// Road Block defenting airport entry
+			// Road Block defending airport entry
 			
 			["Land_BarGate_F", "m06o_RoadBlock_BarGate"] call _self.CreateVehicleOnMarker;
 			["RoadCone_L_F", "m06o_RoadBlock_RoadCone"] call _self.CreateVehicleOnMarker;
@@ -224,7 +224,7 @@ namespace Campaigns.ShoeLace
 			var _behavior = selectRandom ["SAFE", "AWARE"];
 			var _speedMode = selectRandom ["FULL", "NORMAL", "LIMITED"];
 			
-			var _waypoint = group _ambientVehicle addWaypoint [getMarkerPos _destinationMarker, 30];
+			var _waypoint = group _ambientVehicle addWaypoint [getMarkerPos _destinationMarker, 50];
 			_waypoint setWaypointBehaviour _behavior;
 			_waypoint setWaypointSpeed _speedMode;
 		};
