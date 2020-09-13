@@ -29,6 +29,7 @@ namespace Tvtcf.Client.Statics
 			_self.CameraHandler = [_self.MessageHandler] new CameraHandler;
 			_self.JipService = [_self.MessageHandler] new JipService;
 			_self.ClientMissionActionHandler = new ClientMissionActionHandler;
+			_self.ExtractionSymbolHandler = new ExtractionSymbolHandler;
 		};
 		
 		// [Declare client config and handler classes as static properties here]
@@ -52,5 +53,7 @@ namespace Tvtcf.Client.Statics
 		public static property JipService JipService { get; private set; };
 		
 		public static property ClientMissionActionHandler ClientMissionActionHandler { get; private set; };
+		
+		public static property ExtractionSymbolHandler ExtractionSymbolHandler { get; private set; };
 	};
 };

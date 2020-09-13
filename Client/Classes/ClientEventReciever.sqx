@@ -112,6 +112,10 @@ namespace Tvtcf.Client.Statics
 			
 				_teleporter = [_position] new TeleportService;
 				call _teleporter.RunAsync;
+				
+				if (ClientObjects.MapMarkerHandler.UseExtractionMarker) then {
+					[_position] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
+				};
 			};
 			
 			// Hide insertion menu option
@@ -151,6 +155,9 @@ namespace Tvtcf.Client.Statics
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
 		{
 			private ["_resultInfo" as MissionResultInfo];
+			
+			// Remove eventual extraction symbol
+			call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
 			
 			// "Resurrect" player
 			ClientState.IsAlive = true;

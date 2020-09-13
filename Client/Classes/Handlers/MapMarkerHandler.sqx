@@ -14,17 +14,20 @@ namespace Tvtcf.Client
 {
 	public class MapMarkerHandler
 	{
-		private fields ["_mUseExtractionMarker" as Boolean, "_mLocalMarkers" as Array];
+		private fields ["_mLocalMarkers" as Array];
 		
 		// Creates a MapMarkerHandler object.
 		public constructor()
 		{
 			_mLocalMarkers = [];
+			_self.UseExtractionMarker = false;
 		};
+		
+		public property Boolean UseExtractionMarker { get; private set; };
 		
 		public method AddExtractionMarker("_position" as Array)
 		{
-			if (_mUseExtractionMarker) then
+			if (_self.UseExtractionMarker) then
 			{
 				private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
 				_marker setMarkerShapeLocal "ICON";
@@ -36,7 +39,7 @@ namespace Tvtcf.Client
 		
 		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
 		{
-			_mUseExtractionMarker = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
+			_self.UseExtractionMarker = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
 		
 			// Remove all earlier markers
 			

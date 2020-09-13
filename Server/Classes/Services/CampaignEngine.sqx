@@ -138,8 +138,8 @@ namespace Tvtcf.Server
 
 		public method Array InsertGroup("_side" as Side, "_position" as Array)
 		{
-			private _group = grpNull;
-			private _actualPos = _position;
+			var _group = grpNull;
+			var _actualPos = _position;
 			
 			{
 				if (side group _x == _side) then {
