@@ -53,18 +53,6 @@ namespace Campaigns.ShoeLace
 			return "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
 		};
 		
-		private static method ShuffleArray("_array" as Array)
-		{
-			for "_i" from 0 to 20 do {
-				private _index1 = floor random count _array;
-				private _index2 = floor random count _array;
-				
-				private _item = _array select _index1;
-				_array set [_index1, _array select _index2];
-				_array set [_index2, _item];
-			};
-		};
-		
 		protected override method Setup()
 		{
 			private ["_targetVehicles" as Array, "_vehicleMarkers" as Array, "_vehicle" as Object];
@@ -86,7 +74,7 @@ namespace Campaigns.ShoeLace
 			_targetVehicles = [];
 			_vehicleMarkers = ["m01o_Vehicle1", "m01o_Vehicle2", "m01o_Vehicle3", "m01o_Vehicle4", "m01o_Vehicle5", "m01o_Vehicle6", "m01o_Vehicle7"];
 			
-			[_vehicleMarkers] call _self.ShuffleArray;
+			[_vehicleMarkers] call OperationShoeLace.ShuffleArray;
 			
 			_vehicle = ["AMMO TRUCK", MissionSide.Opposing, _vehicleMarkers select 0] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy ammo truck"];
@@ -116,7 +104,7 @@ namespace Campaigns.ShoeLace
 			_vehicle = ["QUADBIKE", MissionSide.Opposing, _vehicleMarkers select 5] call _self.CreateSideVehicleOnMarker;
 			_mAllVehicles pushBack _vehicle;
 			
-			[_targetVehicles] call _self.ShuffleArray;
+			[_targetVehicles] call OperationShoeLace.ShuffleArray;
 
 			_mPrimaryTargetVehicle = _targetVehicles select 0;
 			_mSecondaryTargetVehicle = _targetVehicles select 1;

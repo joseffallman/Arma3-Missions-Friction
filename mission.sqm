@@ -5,21 +5,21 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=641;
+	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=305;
+		nextID=315;
 	};
 	class MarkerIDProvider
 	{
-		nextID=41;
+		nextID=49;
 	};
 	class Camera
 	{
-		pos[]={1951.2896,19.83935,5809.2173};
-		dir[]={-0.98100573,-0.18711798,0.052280471};
-		up[]={-0.18689454,0.98232806,0.0099609755};
-		aside[]={0.053219777,-1.037452e-006,0.9986437};
+		pos[]={2170.3628,13.689186,5662.0615};
+		dir[]={-0.84084439,-0.53113955,0.10547677};
+		up[]={-0.527022,0.84723467,0.066114925};
+		aside[]={0.12447592,-1.2076089e-006,0.99233133};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -177,6 +158,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=142;
+		items=152;
 		class Item0
 		{
 			dataType="Marker";
@@ -2823,6 +2823,100 @@ class Mission
 			type="Empty";
 			angle=274.21887;
 			id=301;
+		};
+		class Item142
+		{
+			dataType="Marker";
+			position[]={2173.561,6,5734.3599};
+			name="m06o_AmbientParkedVehicle1";
+			type="Empty";
+			angle=102.41;
+			id=305;
+		};
+		class Item143
+		{
+			dataType="Marker";
+			position[]={2207.343,6,5624.4268};
+			name="m06o_AmbientParkedVehicle2";
+			type="Empty";
+			angle=191.505;
+			id=306;
+		};
+		class Item144
+		{
+			dataType="Marker";
+			position[]={2074.687,6.6030002,5509.3018};
+			name="m06o_AmbientParkedVehicle3";
+			type="Empty";
+			angle=148.09593;
+			id=307;
+			atlOffset=-0.00031042099;
+		};
+		class Item145
+		{
+			dataType="Marker";
+			position[]={1885.316,5.5,5575.9219};
+			name="m06o_AmbientParkedVehicle4";
+			type="Empty";
+			angle=282.03589;
+			id=308;
+		};
+		class Item146
+		{
+			dataType="Marker";
+			position[]={1905.511,5.6680002,5739.3359};
+			name="m06o_AmbientParkedVehicle5";
+			type="Empty";
+			angle=194.21495;
+			id=309;
+			atlOffset=-0.00033950806;
+		};
+		class Item147
+		{
+			dataType="Marker";
+			position[]={1738.897,5.5929999,5103.0298};
+			name="m06o_AmbientParkedVehicle6";
+			type="Empty";
+			angle=15.154;
+			id=310;
+			atlOffset=-0.00042057037;
+		};
+		class Item148
+		{
+			dataType="Marker";
+			position[]={2036.744,2.763,5369.5059};
+			name="m06o_AmbientParkedVehicle7";
+			type="Empty";
+			angle=102.01797;
+			id=311;
+			atlOffset=0.00032782555;
+		};
+		class Item149
+		{
+			dataType="Marker";
+			position[]={2153.332,6,5600.3989};
+			name="m06o_AmbientParkedVehicle8";
+			type="Empty";
+			angle=101.279;
+			id=312;
+		};
+		class Item150
+		{
+			dataType="Marker";
+			position[]={1908.347,5.5,5976.2891};
+			name="m06o_AmbientParkedVehicle9";
+			type="Empty";
+			angle=243.58992;
+			id=313;
+		};
+		class Item151
+		{
+			dataType="Marker";
+			position[]={2145.989,6,5663.1401};
+			name="m06o_AmbientParkedVehicle10";
+			type="Empty";
+			angle=102.437;
+			id=314;
 		};
 	};
 };

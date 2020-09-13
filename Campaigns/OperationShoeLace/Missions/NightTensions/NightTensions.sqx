@@ -106,6 +106,26 @@ namespace Campaigns.ShoeLace
 			_mAmbientVehicle1StartTime = ceil random 10;
 			_mAmbientVehicle2StartTime = ceil random 10;
 			
+			// Ambient parked vehicles 
+			
+			var _parkedVehicleMarkers = [
+				"m06o_AmbientParkedVehicle1", "m06o_AmbientParkedVehicle2", "m06o_AmbientParkedVehicle3", "m06o_AmbientParkedVehicle4","m06o_AmbientParkedVehicle5",
+				"m06o_AmbientParkedVehicle6", "m06o_AmbientParkedVehicle7", "m06o_AmbientParkedVehicle8", "m06o_AmbientParkedVehicle9", "m06o_AmbientParkedVehicle10"
+			];
+			
+			[_parkedVehicleMarkers] call OperationShoeLace.ShuffleArray;
+			
+			var _vehicleTypes = ["MRAP", "MRAP", "QUADBIKE", "QUADBIKE", "TRANSPORT TRUCK", "REPAIR TRUCK", "MEDICAL TRUCK"];
+			var _numberOfVehicles = 2 + floor random 7; // Between 2 and 8.
+			
+			for "_i" from 0 to _numberOfVehicles - 1 do
+			{
+				var _marker = _parkedVehicleMarkers select _i;
+				var _vehicleType = selectRandom _vehicleTypes;
+				
+				[_vehicleType, MissionSide.Opposing, _marker] call _self.CreateSideVehicleOnMarker;
+			};
+			
 			call _base.Setup;
 		};
 		
