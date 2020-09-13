@@ -55,22 +55,20 @@ namespace Tvtcf.Client
 		
 		protected override method Run()
 		{
-			private ["_enoughWaitingTime" as Scalar];
-			
 			private _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
 			
 			if (serverTime < _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime) then {
-				["Insertion is not yet available."] call _mMessageHandler.ShowMessage;
+				["Insertion is not yet allowed."] call _mMessageHandler.ShowMessage;
 			}
 			else
 			{
-				// Open the map and ask player to select a group
+				// Open the map and ask player to select a position
 				openMap true;
 				
 				// Wait for map click
 				
 				_mWaitingForMapClick = true;
-				_enoughWaitingTime = time + 30;
+				var _enoughWaitingTime = time + 30;
 				
 				["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
 				

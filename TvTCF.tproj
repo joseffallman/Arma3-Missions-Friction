@@ -136,6 +136,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientMissionActionHandler.sqx" FileName="Client\Classes\Handlers\ClientMissionActionHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ExtractionSymbolHandler.sqx" FileName="Client\Classes\Handlers\ExtractionSymbolHandler.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

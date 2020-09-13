@@ -76,8 +76,15 @@ namespace Tvtcf.Client.Statics
 			private ["_missionPrepareCounter" as MissionPrepareCounter];
 			private ["_briefingService" as MissionBriefingService];
 			
-			_missionPrepareCounter = [_serverTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
-			call _missionPrepareCounter.RunAsync;
+			private MissionMarkersInfo _markersInfo = call PublicVariableHandler.GetMissionMarkersInfo;
+			private Array _startMarkers = [playerSide] call _markersInfo.GetStartMarkersBySide;
+			
+			// Only show mission prepare counter if there are startmarkers defined for the current side in the current mission.
+			
+			if (count _startMarkers > 0) then {
+				_missionPrepareCounter = [ClientObjects.MessageHandler, _serverTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+				call _missionPrepareCounter.RunAsync;
+			};
 		
 			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, false] new MissionBriefingService;
 			
@@ -105,6 +112,10 @@ namespace Tvtcf.Client.Statics
 			
 				_teleporter = [_position] new TeleportService;
 				call _teleporter.RunAsync;
+				
+				if (ClientObjects.MapMarkerHandler.UseExtractionMarker) then {
+					[_position] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
+				};
 			};
 			
 			// Hide insertion menu option
@@ -144,6 +155,9 @@ namespace Tvtcf.Client.Statics
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
 		{
 			private ["_resultInfo" as MissionResultInfo];
+			
+			// Remove eventual extraction symbol
+			call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
 			
 			// "Resurrect" player
 			ClientState.IsAlive = true;

@@ -10,6 +10,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\TvtcfActionMenuH
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\CameraHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMissionActionHandler.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\ExtractionSymbolHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Objects\ActionMapping.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.sqx";
