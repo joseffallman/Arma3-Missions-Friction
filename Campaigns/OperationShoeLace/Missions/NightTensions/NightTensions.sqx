@@ -16,7 +16,7 @@ namespace Campaigns.ShoeLace
 {
 	public class NightTensions : ShoeLaceMission
 	{
-		private fields ["_mDrawingsAreStolen" as Boolean, "_mPrimaryObjectiveMarker" as String, "_mPrimaryObjectiveNumber" as Scalar, "_mMissionTime" as Scalar];
+		private fields ["_mDrawingsAreStolen" as Boolean, "_mPrimaryObjectiveMarker" as String, "_mPrimaryObjectiveNumber" as Scalar];
 		private fields ["_mAmbientChopper" as Object, "_mAmbientChopperHasLeft" as Boolean, "_mAmbientChopperStartTime" as Scalar, "_mSoundSource" as Object];
 		private fields ["_mAmbientVehicle1" as Object, "_mAmbientVehicle1StartTime" as Scalar];
 		private fields ["_mAmbientVehicle2" as Object, "_mAmbientVehicle2StartTime" as Scalar];
@@ -99,7 +99,6 @@ namespace Campaigns.ShoeLace
 			[_guardGroup, "m06o_StartArea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 
 			// Abient stuff
-			_mMissionTime = _self.RemainingTime;
 			_mAmbientChopper = ["TRANSPORT HELICOPTER", MissionSide.Opposing, "m06o_AmbientHelicopter", false, true] call _self.CreateSideVehicleOnMarker;
 			_mAmbientChopperStartTime = floor random 40;
 			
@@ -231,9 +230,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method OnEachIteration()
 		{
-			var _missionTimeElapsed = _mMissionTime - _self.RemainingTime;
-		
-			if (!_mAmbientChopperHasLeft && _missionTimeElapsed >= _mAmbientChopperStartTime) then
+			if (!_mAmbientChopperHasLeft && _self.MissionTimeElapsed >= _mAmbientChopperStartTime) then
 			{
 				var _pos = selectRandom [[0, 0, 0], [10000, 0, 0], [10000, 10000, 0], [0, 10000, 0]];
 				var _waypoint = group _mAmbientChopper addWaypoint [_pos, 0];
@@ -244,7 +241,7 @@ namespace Campaigns.ShoeLace
 				_mAmbientChopperHasLeft = true;
 			};
 			
-			if (_missionTimeElapsed >= _mAmbientVehicle1StartTime) then
+			if (_self.MissionTimeElapsed >= _mAmbientVehicle1StartTime) then
 			{
 				if (isNull _mAmbientVehicle1) then
 				{
@@ -255,10 +252,10 @@ namespace Campaigns.ShoeLace
 				};
 				
 				[_mAmbientVehicle1] call _self.MoveAmbientVehicle;
-				_mAmbientVehicle1StartTime = _missionTimeElapsed + ceil random 10;
+				_mAmbientVehicle1StartTime = _self.MissionTimeElapsed + ceil random 10;
 			};
 			
-			if (_missionTimeElapsed >= _mAmbientVehicle2StartTime) then
+			if (_self.MissionTimeElapsed >= _mAmbientVehicle2StartTime) then
 			{
 				if (isNull _mAmbientVehicle2) then
 				{
@@ -269,7 +266,7 @@ namespace Campaigns.ShoeLace
 				};
 				
 				[_mAmbientVehicle2] call _self.MoveAmbientVehicle;
-				_mAmbientVehicle2StartTime = _missionTimeElapsed + ceil random 10;
+				_mAmbientVehicle2StartTime = _self.MissionTimeElapsed + ceil random 10;
 			};
 		};
 		
