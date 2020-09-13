@@ -236,7 +236,11 @@ namespace Campaigns.ShoeLace
 			if (!_mAmbientChopperHasLeft && _missionTimeElapsed >= _mAmbientChopperStartTime) then
 			{
 				var _pos = selectRandom [[0, 0, 0], [10000, 0, 0], [10000, 10000, 0], [0, 10000, 0]];
-				group _mAmbientChopper addWaypoint [_pos, 0];
+				var _waypoint = group _mAmbientChopper addWaypoint [_pos, 0];
+				
+				_waypoint setWaypointBehaviour selectRandom ["SAFE", "AWARE"];
+				_waypoint setWaypointSpeed selectRandom ["FULL", "NORMAL", "LIMITED"];
+				
 				_mAmbientChopperHasLeft = true;
 			};
 			
