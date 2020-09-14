@@ -6,6 +6,7 @@
  *
  * Description:
  * A mission in which one side chases the other with a helicopter.
+ * Sides: ACTING is running and OPPOSING is hunting.
  */
 
 using Tvtcf.Common;
@@ -36,7 +37,7 @@ namespace Campaigns.ShoeLace
 		{
 			_mTruck = ["DEVICE TRUCK", MissionSide.Acting, "m10a_TruckStartMarker"] call _self.CreateSideVehicleOnMarker;
 			["MRAP HMG", MissionSide.Acting, "m10a_EscortStartMarker"] call _self.CreateSideVehicleOnMarker;
-			["HEAVY ATTACK HELICOPTER", MissionSide.Opposing, "m10a_Helicopter"] call _self.CreateSideVehicleOnMarker;
+			["HEAVY ATTACK HELICOPTER", MissionSide.Opposing, "m_AirbaseHelipad1"] call _self.CreateSideVehicleOnMarker;
 		
 			call _base.Setup;
 		};

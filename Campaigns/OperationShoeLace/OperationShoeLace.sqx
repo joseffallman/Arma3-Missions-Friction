@@ -16,7 +16,7 @@ namespace Campaigns.ShoeLace
 {
 	public class OperationShoeLace : Campaign
 	{
-		private fields ["_mCaptureTheAirbase" as Mission, "_mEstablishments" as Mission, "_mHawkDown" as Mission, "_mNightTensions" as Mission, "_mCatAndMouse" as Mission, "_mAirStationAssault" as Mission, "_mCannonballRun" as Mission];
+		private fields ["_mEstablishments" as Mission, "_mCaptureTheAirbase" as Mission, "_mHawkDown" as Mission, "_mNightTensions" as Mission, "_mCatAndMouse" as Mission, "_mAirStationAssault" as Mission, "_mCannonballRun" as Mission];
 		
 		// Creates a OperationShoeLace object.
 		public constructor()
@@ -44,30 +44,41 @@ namespace Campaigns.ShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
+			// Any side can get AAF explosives
 			_mEstablishments = new Establishments;
 			[selectRandom [west, east]] call _mEstablishments.SetActingSide;
 			_missions pushBack _mEstablishments;
 			
+			// Winner gets the Airbase
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;
 			
+			// Airbase holders are the hunters
+			// Runaways can gain Special Weapons (Weapons with silencers)
+			_mCannonballRun = new CannonballRun;
+			_missions pushBack _mCannonballRun;
+			
+			// Airbase holders will blow up helicopter
+			// Runaways can gain information about the correct building in Nightly Tensions.
 			_mHawkDown = new HawkDown;
 			_missions pushBack _mHawkDown;
 			
+			// Airbase holders will guard the airbase
+			// Runaways can use information about the correct building in Nightly Tensions.
+			// Airbase holder can loose Helicopter.
 			_mNightTensions = new NightTensions;
 			_missions pushBack _mNightTensions;
 			
+			// Any side can gain a Drone
 			_mCatAndMouse = new CatAndMouse;
 			[selectRandom [west, east]] call _mCatAndMouse.SetActingSide;
 			_missions pushBack _mCatAndMouse;
 			
+			// Airbase holders are attacking
+			// Airbase holder can use Drone.
 			_mAirStationAssault = new AirStationAssault;
 			_missions pushBack _mAirStationAssault;
-			
-			_mCannonballRun = new CannonballRun;
-			[selectRandom [west, east]] call _mCannonballRun.SetActingSide;
-			_missions pushBack _mCannonballRun;
 		};
 		
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
@@ -81,6 +92,18 @@ namespace Campaigns.ShoeLace
 			
 			if (!isNull _mission) then
 			{
+				// In the Cannonball Run mission, the side that owns the airbase is the side hunting
+				
+				if (_mission is CannonballRun) then
+				{
+					if ("AIRBASE" in _self.GainedTokensWest) then {
+						[west] call _mission.SetActingSide;
+					}
+					else {
+						[east] call _mission.SetActingSide;
+					};
+				};
+				
 				// In the Hawk Down mission, the side that owns the airbase is about to blow up the helicopter
 				
 				if (_mission is HawkDown) then

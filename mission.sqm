@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={2170.3628,13.689186,5662.0615};
-		dir[]={-0.84084439,-0.53113955,0.10547677};
-		up[]={-0.527022,0.84723467,0.066114925};
-		aside[]={0.12447592,-1.2076089e-006,0.99233133};
+		pos[]={1893.4569,30.679897,5725.502};
+		dir[]={0.20002544,-0.61977869,0.75890428};
+		up[]={0.15796527,0.78475958,0.59932542};
+		aside[]={0.96700799,2.8425347e-007,-0.25487626};
 	};
 };
 binarizationWanted=0;
@@ -124,6 +124,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -155,25 +174,6 @@ class CustomAttributes
 							};
 						};
 					};
-				};
-			};
-		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
 				};
 			};
 		};
@@ -1156,20 +1156,22 @@ class Mission
 		class Item27
 		{
 			dataType="Marker";
-			position[]={1958.6332,5.663166,5706.2085};
+			position[]={1958.6331,5.6630001,5706.208};
 			name="m06a_PrimaryObjective2";
-			text=" 3";
+			text=" 2";
 			type="mil_objective";
 			id=77;
+			atlOffset=-0.00016546249;
 		};
 		class Item28
 		{
 			dataType="Marker";
-			position[]={1922.6211,5.6838388,5737.5356};
+			position[]={1922.621,5.684,5737.5361};
 			name="m06a_PrimaryObjective3";
-			text=" 2";
+			text=" 3";
 			type="mil_objective";
 			id=78;
+			atlOffset=0.00015974045;
 		};
 		class Item29
 		{
@@ -2445,12 +2447,12 @@ class Mission
 		class Item104
 		{
 			dataType="Marker";
-			position[]={1895.063,2.3492432,5758.2407};
-			name="m10a_Helicopter";
+			position[]={1895.063,2.349,5758.2412};
+			name="m_AirbaseHelipad1";
 			type="Empty";
-			angle=107.64563;
+			angle=107.646;
 			id=229;
-			atlOffset=-3.3407569;
+			atlOffset=-3.3410001;
 		};
 		class Item105
 		{
