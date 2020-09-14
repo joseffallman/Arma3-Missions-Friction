@@ -368,6 +368,17 @@ namespace Tvtcf.Server
 			};
 		};
 		
+		private method CleanupItemsOnTheGround()
+		{
+			var _mapCenterPos = [worldSize / 2, worldSize / 2];
+			var _mapCenterPosDistance = (worldSize) * 1.475;
+			var _list = nearestObjects [_mapCenterPos, ["WeaponHolderSimulated","GroundWeaponHolder"], _mapCenterPosDistance];
+			
+			{
+				deleteVehicle _x;
+			} foreach _list as Object;
+		};
+		
 		protected override method Run()
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
@@ -484,6 +495,7 @@ namespace Tvtcf.Server
 				[[]] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				
 				call _mCurrentMission.Cleanup;
+				call _self.CleanupItemsOnTheGround;
 				
 				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 				
