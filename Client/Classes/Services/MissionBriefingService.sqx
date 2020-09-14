@@ -38,9 +38,9 @@ namespace Tvtcf.Client
             [_mMissionBriefing.MissionName, str (date select 2) + "/" + str (date select 1) + "/" + str (date select 0) + " " + str (date select 3) + ":00"] spawn BIS_fnc_infoText;
             
             if (!_mJip) then {
-				sleep 3;			
+            	sleep 2;
 				cutText ["", "BLACK IN", 1];
-				sleep 3;
+				sleep 1;
             };
 		
 			_briefingInfo = [playerSide] call _mMissionBriefing.GetBriefingInfo;
