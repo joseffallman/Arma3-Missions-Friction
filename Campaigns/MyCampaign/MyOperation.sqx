@@ -25,6 +25,8 @@ namespace Campaigns.MyCampaign
 		{
 			_missions pushBack new Intro;
 			_missions pushBack new Intro;
+			_missions pushBack new Intro;
+			_missions pushBack new Intro;
 			
 			// TODO: Add more missions to the campaign here. Use the following pattern:
 		

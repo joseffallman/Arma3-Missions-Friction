@@ -409,7 +409,7 @@ namespace Tvtcf.Server
 				[true] call PublicVariableHandler.BroadcastMissionHasStarted;
 				["ClientEventReciever.OnMissionStarting", [_isFirstMission]] call Remote.Invoke;
 				
-				sleep 2;
+				//sleep 2;
 				
 				// Create AI units
 				private _westlyGroup = [west] call _mMissionUnitsHandler.GetGroupBySide;
@@ -487,19 +487,19 @@ namespace Tvtcf.Server
 				[false] call PublicVariableHandler.BroadcastMissionHasStarted;
 				["ClientEventReciever.OnMissionEnding", []] call Remote.Invoke;
 				
-				sleep 5;
-				
 				[false] call PublicVariableHandler.BroadcastWestHasInserted;
 				[false] call PublicVariableHandler.BroadcastEastHasInserted;
 				[[]] call PublicVariableHandler.BroadcastInsertedWestlyUnits;
 				[[]] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
+				
+				sleep 2;
 				
 				call _mCurrentMission.Cleanup;
 				call _self.CleanupItemsOnTheGround;
 				
 				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 				
-				sleep 1;
+				sleep 0.1;
 				
 				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
 			};

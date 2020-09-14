@@ -25,15 +25,18 @@ namespace Campaigns.MyCampaign
 		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Intro";
-			//_mission.StartMarkersActing = ["m06o_StartArea1"];
-			//_mission.StartMarkersOpposing = ["m06o_StartArea1"];
+			_mission.StartMarkersActing = ["m06o_StartArea1"];
+			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
+			_mission.StartTimeOfDay = floor random 24;
 			//_mission.AddReturnObjectiveForActing = true;
 			//_mission.AddReturnObjectiveForOpposing = true;
 		};
 		
 		protected override method Setup()
 		{
-			private _mrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			var _mrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
+			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
 			["AMMOBOX SPECIAL WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
 			[_mrap, "Take this car!", MissionSide.Acting] call _self.AddAction;

@@ -37,7 +37,7 @@ namespace Tvtcf.Client.Statics
 					call ClientObjects.JipService.RunAsync;
 				}
 				else {
-			  		cutText ["","BLACK IN", 1];
+			  		//cutText ["","BLACK IN", 1];
 				};
 			}] call BIS_fnc_addStackedEventHandler;
 			

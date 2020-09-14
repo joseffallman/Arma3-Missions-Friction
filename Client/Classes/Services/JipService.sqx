@@ -71,6 +71,7 @@ namespace Tvtcf.Client
 		    sleep 1;
 			call ClientObjects.CameraHandler.SetDeathCamera;
 			sleep 0.5;
+			
 	  		cutText ["","BLACK IN", 1];
 		    
 		    call _base.Run;
