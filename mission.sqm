@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=315;
+		nextID=316;
 	};
 	class MarkerIDProvider
 	{
@@ -2450,7 +2450,7 @@ class Mission
 			position[]={1895.063,2.349,5758.2412};
 			name="m_AirbaseHelipad1";
 			type="Empty";
-			angle=107.646;
+			angle=107.64599;
 			id=229;
 			atlOffset=-3.3410001;
 		};

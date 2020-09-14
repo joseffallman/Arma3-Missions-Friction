@@ -50,33 +50,41 @@ namespace Campaigns.ShoeLace
 			_missions pushBack _mEstablishments;
 			
 			// Winner gets the Airbase
+			// Any side can use AAF explosives.
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;
 			
-			// Airbase holders are the hunters
-			// Runaways can gain Special Weapons (Weapons with silencers)
-			_mCannonballRun = new CannonballRun;
-			_missions pushBack _mCannonballRun;
-			
 			// Airbase holders will blow up helicopter
 			// Runaways can gain information about the correct building in Nightly Tensions.
+			// Any side can use AAF explosives.
 			_mHawkDown = new HawkDown;
 			_missions pushBack _mHawkDown;
 			
 			// Airbase holders will guard the airbase
 			// Runaways can use information about the correct building in Nightly Tensions.
 			// Airbase holder can loose Helicopter.
+			// Any side can use AAF explosives.
 			_mNightTensions = new NightTensions;
 			_missions pushBack _mNightTensions;
 			
+			// Airbase holders are the hunters
+			// Runaways can gain Guerilla Alliance.
+			// Airbase holders may have lost their primary Helicopter.
+			// Any side can use AAF explosives.
+			_mCannonballRun = new CannonballRun;
+			_missions pushBack _mCannonballRun;
+			
 			// Any side can gain a Drone
+			// Runaways can use Guerilla Alliance.
+			// Any side can use AAF explosives.
 			_mCatAndMouse = new CatAndMouse;
 			[selectRandom [west, east]] call _mCatAndMouse.SetActingSide;
 			_missions pushBack _mCatAndMouse;
 			
 			// Airbase holders are attacking
-			// Airbase holder can use Drone.
+			// Airbase holders can use Drone.
+			// Any side can use AAF explosives.
 			_mAirStationAssault = new AirStationAssault;
 			_missions pushBack _mAirStationAssault;
 		};
