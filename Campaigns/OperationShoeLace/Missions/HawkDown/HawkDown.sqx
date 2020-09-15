@@ -6,6 +6,7 @@
  *
  * Description:
  * A mission where the acting side tries to demolish a downed helicopter before the opposing side steals intels from it.
+ * Sides: Acting destroys the helicopter and Opposing tries ty steal information from it.
  */
 
 using Tvtcf.Common;
@@ -37,6 +38,7 @@ namespace Campaigns.ShoeLace
 			_mission.SideMarkersOpposing = ["m05_CrashSite"];
 			_mission.AddReturnObjectiveForActing = true;
 			_mission.AddReturnObjectiveForOpposing = true;
+			_mission.StartTimeOfDay = 5 + floor random 13; // Between 5 and 18.
 		};
 		
 		protected override method Setup()
