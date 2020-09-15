@@ -61,9 +61,9 @@ namespace Campaigns.ShoeLace
 			_mHawkDown = new HawkDown;
 			_missions pushBack _mHawkDown;
 			
-			// Airbase holders will guard the airbase
+			// Airbase holders will guard the airbase.
 			// Runaways can use information about the correct building in Nightly Tensions.
-			// Airbase holder can loose Helicopter.
+			// Airbase holder can loose HELICOPTER.
 			// Any side can use AAF explosives.
 			_mNightTensions = new NightTensions;
 			_missions pushBack _mNightTensions;

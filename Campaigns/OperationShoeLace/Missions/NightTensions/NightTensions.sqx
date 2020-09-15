@@ -153,26 +153,27 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			var _briefingText = "The military drawings are most likely in a desk in one of the five office buildings marked on the map.";
+			var _briefingText = "We are now quite sure that the enemy is about to raise some kind of military building or weapon. The military drawings are most likely in a desk in one of the five office buildings marked on the map.";
 			
-			if ("HAWKINTEL" in _self.EarlierGainedTokensActing) then {
-				_briefingText = "Earlier collected intel reveals that the drawings are in building no" + markerText _mPrimaryObjectiveMarker;
+			if ("AIRBASE SECRET" in _self.EarlierGainedTokensActing) then {
+				_briefingText = "Earlier collected intel (AIRBASE SECRET) reveals that the secret military drawings are in building no" + markerText _mPrimaryObjectiveMarker;
 			};
 			
-			_briefingText = _briefingText + "<br /><br />Before insertion, make sure you squad is in the assault boat.";
+			_briefingText = _briefingText + "<br /><br />Remember to get in the assault boat before inserting.";
 			
-			return _briefingText;
+			return _briefingText + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "An ordinary night at the airbase, but the threat of intruders breaking in and stealing materiel is always present. The five main enterable magazines are military offices containing information that is not to be stolen at any cost. And the attack helicopter at the tower is a high value target.";
+			var _text = "A not so ordinary night at the airbase. The threat of intruders breaking in and stealing materiel is always present, but intelligence reveals that there might be a higher risk of that than usual. The five main enterable magazines are military offices containing information that is not to be stolen at any cost, and the attack helicopter at the tower is a high value target for enemy forces.";
+			return _text + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Steal military drawings";
-			private _longDescription = "Find the office desk with military drawings and steal them.";
+			private _longDescription = "Find the office desk with military drawings in one of the numbered buildings and steal them.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -180,23 +181,23 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			private _shortDescription = "Destroy Helicpter";
-			private _longDescription = "Destroy the attack helicopter. But only do it if it feels safe! If you don't return with the drawings the primary objective will be lost.";
+			private _longDescription = "Destroy the enemy attack helicopter. But only if it is safe! If you don't return with the drawings the primary objective will be compromised.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			private _shortDescription = "Keep airbase safe";
-			private _longDescription = "Keep the airbase safe and prevent intruders from stealing and destroying anything.";
+			private _shortDescription = "Patrol the airbase";
+			private _longDescription = "Patrol the airbase and keep it safe by preventing any intruders to steal and destroy anything.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
-			private _shortDescription = "Kill all intruders";
-			private _longDescription = "Kill all intruders.";
+			private _shortDescription = "Kill any intruders";
+			private _longDescription = "With regards to the current higher alert any intruders must be killed immediately.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -216,6 +217,7 @@ namespace Campaigns.ShoeLace
 		{
 			if (!alive _mHelicopter) then {
 				_self.LostTokenOpposing = "HELICOPTER";
+				[MissionSide.Opposing, "Lost: Helicopter."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};
 			
