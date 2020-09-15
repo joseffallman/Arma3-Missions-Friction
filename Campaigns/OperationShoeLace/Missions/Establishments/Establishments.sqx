@@ -50,18 +50,18 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "Deliver supplies to Delta Bravo 4 at Limeri Bay and check the surroundings. Stay aware and report any spotted enemy or guerilla movements.";
+			return "Welcome! The situation is calm and under control for the moment, and the whole brigade is working on establishments and setting up the perimiters.";
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "Reach Alpha Charlie 2 at Agia Marina's military range to get the mail, and check the surroundings. Stay aware and report any spotted enemy or guerilla movements.";
+			return "Welcome! The situation is calm and under control for the moment, and the whole brigade is working on establishments and setting up the perimiters.";
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
 			private _shortDescription = "Deliver supplies";
-			private _longDescription = "Drive the truck to Limeri Bay and park it among the other vehicles there.";
+			private _longDescription = "Drive the truck to Limeri Bay, park it among the other vehicles there, and leave it there. Then there are other vehicles at your disposal.";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -69,7 +69,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Alpha Six has reported some kind of activity at Point Delta. Go there and spend some time to investigate the area. Maybe you will find someting useful. But be aware of possible hostile contacts!";
+			private _longDescription = "Group Alpha Six has reported some kind of activity at Point Delta. Go there and investigate the area. See if you can find someting useful. But be aware of the high risk of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -85,7 +85,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Alpha Six has reported some kind of activity at Point Delta. Go there and spend some time to investigate the area. Maybe you will find someting useful. But be aware of possible hostile contacts!";
+			private _longDescription = "Group Charlie Four has reported some kind of activity at Point Delta. Go there and investigate the area. See if you can find someting useful. But be aware of the high risk of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};

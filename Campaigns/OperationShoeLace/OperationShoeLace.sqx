@@ -49,7 +49,7 @@ namespace Campaigns.ShoeLace
 			[selectRandom [west, east]] call _mEstablishments.SetActingSide;
 			_missions pushBack _mEstablishments;
 			
-			// Winner gets the Airbase.
+			// Winner gets AIRBASE.
 			// Any side can use AAF EXPLOSIVES.
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
