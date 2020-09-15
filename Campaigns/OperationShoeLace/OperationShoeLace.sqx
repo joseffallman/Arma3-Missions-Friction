@@ -44,13 +44,13 @@ namespace Campaigns.ShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			// Any side can get AAF explosives
+			// Any side can get AAF EXPLOSIVES.
 			_mEstablishments = new Establishments;
 			[selectRandom [west, east]] call _mEstablishments.SetActingSide;
 			_missions pushBack _mEstablishments;
 			
-			// Winner gets the Airbase
-			// Any side can use AAF explosives.
+			// Winner gets the Airbase.
+			// Any side can use AAF EXPLOSIVES.
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;

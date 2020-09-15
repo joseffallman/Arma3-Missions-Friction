@@ -5,7 +5,8 @@
  * Author:  Engima
  *
  * Description:
- * An 'empty' but working mission - just to show that an empty class deriving from Mission really executes as a mission.
+ * An initial mission to mostly get used to the mission mechanics and set the context.
+ * Sides: ACTING drives a truck to Limeri Bay, while OPPOSING goes to Agia Marian to get the mail.
  */
 
 using Tvtcf.Common;
@@ -18,16 +19,17 @@ namespace Campaigns.ShoeLace
 	public class Establishments : Mission
 	{
 		private fields ["_mAmmoTruck" as Object, "_mMailBox" as Object, "_mExplosivesBox" as Object, "_mDeltaActingAreaMarker" as String, "_mDeltaOpposingAreaMarker" as String];
-		private fields ["_mActingEnterDeltaAreaTime" as Scalar, "_mOpposingEnterDeltaAreaTime" as Scalar, "_mExplosivesBoxOwnerSide" as MissionSide];
-	
-		// Creates a AsEasyAsItGets object.
+		private fields ["_mActingEnterDeltaAreaTime" as Scalar, "_mOpposingEnterDeltaAreaTime" as Scalar];
+		private fields ["_mConfiscateActionActing" as Scalar, "_mConfiscateActionOpposing" as Scalar, "_mMailIsCollected" as Boolean, "_mCheckMailActionId" as Scalar];
+		
+		// Creates a Establishments object.
 		public constructor()
 		{
 			call _base.Constructor;
 			
 			_mActingEnterDeltaAreaTime = -1;
 			_mOpposingEnterDeltaAreaTime = -1;
-			_mExplosivesBoxOwnerSide = MissionSide.Guerilla;
+			_mMailIsCollected = false;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -67,7 +69,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Alpha Six have reported seing something at Point Delta. Go there and spend some time to investigate the area. But be aware, enemy units have also been spotted in the vincinity.";
+			private _longDescription = "Alpha Six has reported some kind of activity at Point Delta. Go there and spend some time to investigate the area. Maybe you will find someting useful. But be aware of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -83,7 +85,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Alpha Six have reported seing something at Point Delta. Go there and spend some time to investigate the area. But be aware, enemy units have also been spotted in the vincinity.";
+			private _longDescription = "Alpha Six has reported some kind of activity at Point Delta. Go there and spend some time to investigate the area. Maybe you will find someting useful. But be aware of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -91,19 +93,19 @@ namespace Campaigns.ShoeLace
 		protected override method Setup()
 		{
 			// Select two random fishy places to populate with guerillas (it might be different, it might be the same).
-			private _fishyPlaceMarkers = ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
-			private _populatedFishyPlaceMarker1 = selectRandom _fishyPlaceMarkers;
-			private _populatedFishyPlaceMarker2 = selectRandom _fishyPlaceMarkers;
+			var _fishyPlaceMarkers = ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
+			var _populatedFishyPlaceMarker1 = selectRandom _fishyPlaceMarkers;
+			var _populatedFishyPlaceMarker2 = selectRandom _fishyPlaceMarkers;
 			
 			// Spawn guereillas at the selected fishy place and make them patrol
-			private _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1] call _self.CreateAiSoldierBySide;
-			private _guardGroup = group _guard;
+			var _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1] call _self.CreateAiSoldierBySide;
+			var _guardGroup = group _guard;
 			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1, _guardGroup] call _self.CreateAiSoldierBySide;
 			[_guardGroup, _populatedFishyPlaceMarker1] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			// Spawn guereillas at the other selected fishy place and make them patrol
-			private _guard2 = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2] call _self.CreateAiSoldierBySide;
-			private _guardGroup2 = group _guard2;
+			var _guard2 = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2] call _self.CreateAiSoldierBySide;
+			var _guardGroup2 = group _guard2;
 			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2, _guardGroup2] call _self.CreateAiSoldierBySide;
 			[_guardGroup2, _populatedFishyPlaceMarker2] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
@@ -118,8 +120,8 @@ namespace Campaigns.ShoeLace
 			
 			// Create mail box at Military Range
 			private _mailBoxPosition = ["m_MilitaryRangeArea"] call MarkerHelper.GetRandomPosInsideMarker;
-			private _mailBoxMarker = createMarkerLocal ["temp_marker_mailbox", _mailBoxPosition];
-			_mMailBox = ["CLOSED PAPERBOX", MissionSide.Opposing, _mailBoxMarker] call _self.CreateSideVehicleOnMarker;
+			_mMailBox = ["Land_PaperBox_closed_F", _mailBoxPosition, random 360] call _self.CreateVehicleOnPosition;
+			_mCheckMailActionId = [_mMailBox, "Collect mail", MissionSide.Opposing] call _self.AddAction;
 			
 			// Create vehicles at Limeri Bay
 			["MRAP", MissionSide.Acting, "m07a_LimeriBayMrap"] call _self.CreateSideVehicleOnMarker;
@@ -128,21 +130,56 @@ namespace Campaigns.ShoeLace
 			// Create AAF Explosives box that may be found at point Delta
 			private _explosivesBoxAreaMarker = selectRandom [_mDeltaActingAreaMarker, _mDeltaOpposingAreaMarker];
 			
-			_mExplosivesBox = ["AMMOBOX ORDNANCE", [_explosivesBoxAreaMarker] call MarkerHelper.GetRandomPosInsideMarker, random 360] call _self.CreateVehicleOnPosition;
+			_mExplosivesBox = ["Box_IND_AmmoOrd_F", [_explosivesBoxAreaMarker] call MarkerHelper.GetRandomPosInsideMarker, random 360] call _self.CreateVehicleOnPosition;
+			_mConfiscateActionActing = [_mExplosivesBox, "Confiscate ammo box", MissionSide.Acting] call _self.AddAction;
+			_mConfiscateActionOpposing = [_mExplosivesBox, "Confiscate ammo box", MissionSide.Opposing] call _self.AddAction;
 			
 			call _base.Setup;
 		};
 		
-		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
 		{
-			private _fulfilled = (getPos _mAmmoTruck) inArea "m_LimeriBayArea" && (count crew _mAmmoTruck) == 0;
-			
-			if (_fulfilled) then {
-				_mAmmoTruck lock true;
-				_self.GainedTokenActing = "UAV";
+			if (_actionId == _mCheckMailActionId) then {
+				_mMailIsCollected = true;
 			};
 			
-			if (_fulfilled) then {
+			if (_actionId == _mConfiscateActionActing || _actionId == _mConfiscateActionOpposing) then
+			{
+				if (_actionId == _mConfiscateActionActing) then {
+					_self.GainedTokenActing = "AAF EXPLOSIVES";
+					[MissionSide.Acting, "Gained: Box of AAF explosives."] call _self.ShowNotification;
+				};
+				
+				if (_actionId == _mConfiscateActionOpposing) then {
+					_self.GainedTokenOpposing = "AAF EXPLOSIVES";
+					[MissionSide.Opposing, "Gained: Box of AAF explosives."] call _self.ShowNotification;
+				};
+				
+				_mExplosivesBox setPos [0, 0, 0]; // Get rid of it
+			};
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			var _ammoTruckAtDestination = (getPos _mAmmoTruck) inArea "m_LimeriBayArea";
+			var _crewHasLeftTruck = (count crew _mAmmoTruck) == 0;
+			
+			if (_ammoTruckAtDestination && _crewHasLeftTruck) then {
+				_mAmmoTruck lock true;
+				return ObjectiveState.Succeeded;
+			};
+			
+			return ObjectiveState.None;
+		};
+		
+		private method ObjectiveState CheckSecondaryObjectiveState("_units" as Array, "_enteredAreaTime" as Scalar)
+		{
+			// Fulfilled when units on the acting side has been inside delta area for more than two minute.
+			
+			private _insideArea = { alive _x && { _x inArea _mDeltaActingAreaMarker }} count _units > 0;
+			private _beenThereTwoMinutes = _enteredAreaTime > 0 && time > _enteredAreaTime + 120;
+			
+			if (_insideArea && _beenThereTwoMinutes) then {
 				return ObjectiveState.Succeeded;
 			};
 			
@@ -151,33 +188,12 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
 		{
-			// Fulfilled when units on the acting side has been inside delta area for more than one minute.
-			
-			private _insideArea = { alive _x && { _x inArea _mDeltaActingAreaMarker }} count _self.ActingUnits > 0;
-			private _beenThereOneMinue = _mActingEnterDeltaAreaTime > 0 && time > _mActingEnterDeltaAreaTime + 60;
-			
-			if (_insideArea && _beenThereOneMinue) then {
-				return ObjectiveState.Succeeded;
-			};
-			
-			return ObjectiveState.None;
-		};
-		
-		private method Boolean AtLeastOneOpposingOutsideVehicleNearBox()
-		{
-			{
-				if (alive _x && vehicle _x == _x && _x distance _mMailBox < 3) then
-				{
-					return true;
-				};
-			} foreach _self.OpposingUnits as Object;
-			
-			return false;
+			return [_self.ActingUnits, _mActingEnterDeltaAreaTime] call _self.CheckSecondaryObjectiveState;
 		};
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			if (call _self.AtLeastOneOpposingOutsideVehicleNearBox) then {
+			if (_mMailIsCollected) then {
 				return ObjectiveState.Succeeded;
 			};
 			
@@ -186,16 +202,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckSecondaryObjectiveStateOpposing()
 		{
-			// Fulfilled when units on the opposing side has been inside delta area for more than one minute.
-			
-			private _insideArea = { alive _x && { _x inArea _mDeltaOpposingAreaMarker }} count _self.OpposingUnits > 0;
-			private _beenThereOneMinue = _mOpposingEnterDeltaAreaTime > 0 && time > _mOpposingEnterDeltaAreaTime + 60;
-			
-			if (_insideArea && _beenThereOneMinue) then {
-				return ObjectiveState.Succeeded;
-			};
-			
-			return ObjectiveState.None;
+			return [_self.OpposingUnits, _mOpposingEnterDeltaAreaTime] call _self.CheckSecondaryObjectiveState;
 		};
 		
 		private method GroupInsideDeltaArea("_missionSide" as MissionSide)
@@ -227,31 +234,10 @@ namespace Campaigns.ShoeLace
 			else {
 				_mOpposingEnterDeltaAreaTime = -1;
 			};
-			
-			// Check of someone finds the explosives box
-			
-			if (_mExplosivesBoxOwnerSide == MissionSide.Guerilla) then {
-				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.ActingUnits > 0) then {
-					_mExplosivesBoxOwnerSide = MissionSide.Acting;
-					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
-					_self.GainedTokenActing = "EXPLOSIVES";
-					[MissionSide.Acting, "Found a box of explosives."] call _self.ShowNotification;
-				};
-			};
-			
-			if (_mExplosivesBoxOwnerSide == MissionSide.Guerilla) then {
-				if ({ vehicle _x == _x && _x distance _mExplosivesBox < 3 } count _self.OpposingUnits > 0) then {
-					_mExplosivesBoxOwnerSide = MissionSide.Opposing;
-					_mExplosivesBox setPos [0, 0, 0]; // Will be deleted in the Cleanup phase
-					_self.GainedTokenActing = "EXPLOSIVES";
-					[MissionSide.Opposing, "Found a box of explosives."] call _self.ShowNotification;
-				};
-			};
 		};
 		
 		public override method Cleanup()
 		{
-			deleteMarkerLocal "temp_marker_mailbox";
 			call _base.Cleanup;
 		};
 	};
