@@ -55,9 +55,9 @@ namespace Campaigns.ShoeLace
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;
 			
-			// Airbase holders will blow up helicopter
-			// Runaways can gain information about the correct building in Nightly Tensions.
-			// Any side can use AAF explosives.
+			// Airbase holders will blow up helicopter.
+			// Runaways can gain AIRBASE SECRET.
+			// Any side can use AAF EXPLOSIVES.
 			_mHawkDown = new HawkDown;
 			_missions pushBack _mHawkDown;
 			
