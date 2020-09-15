@@ -16,7 +16,7 @@ using Campaigns;
 
 namespace Campaigns.ShoeLace
 {
-	public class Establishments : Mission
+	public class Establishments : ShoeLaceMission
 	{
 		private fields ["_mAmmoTruck" as Object, "_mMailBox" as Object, "_mExplosivesBox" as Object, "_mDeltaActingAreaMarker" as String, "_mDeltaOpposingAreaMarker" as String];
 		private fields ["_mActingEnterDeltaAreaTime" as Scalar, "_mOpposingEnterDeltaAreaTime" as Scalar];
@@ -111,12 +111,12 @@ namespace Campaigns.ShoeLace
 			
 			// Spawn an ammo truck and vehicles in the acting base
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+//			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+//			["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			// Spawn vehicles in the opposing base
-			["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+//			["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+//			["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			// Create mail box at Military Range
 			private _mailBoxPosition = ["m_MilitaryRangeArea"] call MarkerHelper.GetRandomPosInsideMarker;
