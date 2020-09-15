@@ -37,12 +37,15 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
+			["AMMOBOX BASIC WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+			["AMMOBOX BASIC WEAPONS", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+			
 			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensActing) then {
-				["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+				["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 			};
 		
 			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensOpposing) then {
-				["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+				["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 			};
 		
 			_self.ActingsQuadbike = ["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;

@@ -6,6 +6,7 @@
  *
  * Description:
  * A mission in which the acting and opposing side will try to capture the airbase.
+ * Sides: ACTING is moving in with helicopters, OPPOSING is moving in with armor.
  */
 
 using Tvtcf.Common;
@@ -227,12 +228,16 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "The Stratis Airbase is one of the keys to our force's current operation. We need to sieze it to enable an easier resupply from our main forces, and so that it and so that it does not fall into enemy hands.<br /><br />Before you insert, make sure you bring AT launchers.";
+			var _p1 = "The Stratis Airbase is one of the keys in our operation. We need to capture it to enable an easier resupply chain from our main forces, and so that we do not risk it falling into enemy hands.";
+			var _p2 = "<br /><br />Remember to bring AT launchers!";
+		
+			return _p1 + _p2;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "The Stratis Airbase is one of the keys to our force's current operation. We need to sieze it to enable an easier resupply from our main forces, and so that it and so that it does not fall into enemy hands.";
+			var _p1 = "The Stratis Airbase is one of the keys in our operation. We need to capture it to enable an easier resupply chain from our main forces, and so that we do not risk it falling into enemy hands.";
+			return _p1;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -269,6 +274,7 @@ namespace Campaigns.ShoeLace
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
 				_self.GainedTokenActing = "AIRBASE";
+				[MissionSide.Acting, "Gained: Airbase."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};
 		
@@ -286,6 +292,7 @@ namespace Campaigns.ShoeLace
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
 				_self.GainedTokenOpposing = "AIRBASE";
+				[MissionSide.Opposing, "Gained: Airbase."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};
 		
