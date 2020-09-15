@@ -35,6 +35,54 @@ namespace Campaigns.ShoeLace
 		
 		protected property Object OpposingsMrap { get; private set; };
 		
+		protected override method String AddBriefingInfoForActing()
+		{
+			return [MissionSide.Acting] call _self.GetTokenBriefingText;
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			return [MissionSide.Opposing] call _self.GetTokenBriefingText;
+		};
+		
+		protected method GetTokenBriefingText("_missionSide" as MissionSide)
+		{
+			var _info = "<br /><br />Gains: ";
+			var _comma = "";
+			
+			if (_missionSide == MissionSide.Acting) then {
+				{
+					_info = _info + _comma + _x;
+					_comma = ", ";
+				} foreach _self.EarlierGainedTokensActing as String;
+			}
+			else {
+				{
+					_info = _info + _comma + _x;
+					_comma = ", ";
+				} foreach _self.EarlierGainedTokensOpposing as String;
+			};
+			
+			_info = _info + ".<br />Losses: ";
+			
+			_comma = "";
+			
+			if (_missionSide == MissionSide.Acting) then {
+				{
+					_info = _info + _comma + _x;
+					_comma = ", ";
+				} foreach _self.EarlierLostTokensActing as String;
+			}
+			else {
+				{
+					_info = _info + _comma + _x;
+					_comma = ", ";
+				} foreach _self.EarlierLostTokensOpposing as String;
+			};
+			
+			return _info;
+		};
+		
 		protected override method Setup()
 		{
 			["AMMOBOX BASIC WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
@@ -52,7 +100,7 @@ namespace Campaigns.ShoeLace
 			_self.ActingsMrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			_self.OpposingsQuadbike = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			_self.OpposingsMrap = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-		
+			
 			call _base.Setup;
 		};
 	};
