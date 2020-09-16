@@ -268,82 +268,111 @@ namespace Tvtcf.Server
 			};
 		};
 		
+		// Deletes all matching items from an array by modifying the original array.
+		// _array (Array): The array to delete stuff from.
+		// _item (Any): The item that should be deleted.
+		// Returns (Scalar): Number of deleted items.
+		private static method Scalar DeleteItemInArray("_array" as Array, "_item" as Any)
+		{
+			var _removedSomething = true;
+			var _removedItemsCount = 0;
+			
+			player sideChat "Before removal of " + str _item + ": " + str _array;
+			
+			while { _removedSomething } do
+			{
+				var _index = -1;
+				_removedSomething = false;
+			
+				for "_i" from 0 to count _array - 1 do {
+					scopeName "for_loop";
+			
+					if (_array # _i == _item) then {
+						_index = _i;
+						breakOut "for_loop";
+					};
+				};
+				
+				if (_index >= 0) then {
+					_array deleteAt _index;
+					_removedItemsCount = _removedItemsCount + 1;
+					_removedSomething = true;
+				};
+			};
+			
+			player sideChat "After removal of " + str _item + ": " + str _array;
+			return _removedItemsCount;
+		};
+		
 		private method SaveHistoryTokens("_mission" as Mission)
 		{
-			private _gainedTokensWest = _mCampaign.GainedTokensWest;
-			private _gainedTokensEast = _mCampaign.GainedTokensEast;
-			private _lostTokensWest = _mCampaign.LostTokensWest;
-			private _lostTokensEast = _mCampaign.LostTokensEast;
+			private ["_gainedTokensWest" as Array, "_lostTokensWest" as Array, "_gainedTokensEast" as Array, "_lostTokensEast" as Array];
+		
+			var _earlierGainedTokensWest = _mCampaign.GainedTokensWest;
+			var _earlierGainedTokensEast = _mCampaign.GainedTokensEast;
+			var _earlierLostTokensWest = _mCampaign.LostTokensWest;
+			var _earlierLostTokensEast = _mCampaign.LostTokensEast;
 			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then
 			{
-				if (_mission.GainedTokenActing != "") then
-				{
-					if (_mission.GainedTokenActing in _lostTokensWest) then {
-						_lostTokensWest = _lostTokensWest - [_mission.GainedTokenActing];
-					};
-					
-					_gainedTokensWest pushBack _mission.GainedTokenActing;
-				};
-				if (_mission.LostTokenActing != "") then
-				{
-					if (_mission.LostTokenActing in _gainedTokensWest) then {
-						_gainedTokensWest = _gainedTokensWest - [_mission.LostTokenActing];
-					};
-					
-					_lostTokensWest pushBack _mission.LostTokenActing;
-				};
-				if (_mission.GainedTokenOpposing != "") then
-				{
-					if (_mission.GainedTokenOpposing in _lostTokensEast) then {
-						_lostTokensEast = _lostTokensEast - [_mission.GainedTokenOpposing];
-					};
-					
-					_gainedTokensEast pushBack _mission.GainedTokenOpposing;
-				};
-				if (_mission.LostTokenOpposing != "") then
-				{
-					if (_mission.LostTokenOpposing in _gainedTokensEast) then {
-						_gainedTokensEast = _gainedTokensEast - [_mission.LostTokenOpposing];
-					};
-					
-					_lostTokensEast pushBack _mission.LostTokenOpposing;
-				};
+				_gainedTokensWest = _mission.GainedTokensActing;
+				_lostTokensWest = _mission.LostTokensActing;
+				_gainedTokensEast = _mission.GainedTokensOpposing;
+				_lostTokensEast = _mission.LostTokensOpposing;
 			}
 			else {
-				if (_mission.GainedTokenActing != "") then
-				{
-					if (_mission.GainedTokenActing in _lostTokensEast) then {
-						_lostTokensEast = _lostTokensEast - [_mission.GainedTokenActing];
-					};
-					
-					_gainedTokensEast pushBack _mission.GainedTokenActing;
-				};
-				if (_mission.LostTokenActing != "") then
-				{
-					if (_mission.LostTokenActing in _gainedTokensEast) then {
-						_gainedTokensEast = _gainedTokensEast - [_mission.LostTokenActing];
-					};
-					
-					_lostTokensEast pushBack _mission.LostTokenActing;
-				};
-				if (_mission.GainedTokenOpposing != "") then
-				{
-					if (_mission.GainedTokenOpposing in _lostTokensWest) then {
-						_lostTokensWest = _lostTokensWest - [_mission.GainedTokenOpposing];
-					};
-					
-					_gainedTokensWest pushBack _mission.GainedTokenOpposing;
-				};
-				if (_mission.LostTokenOpposing != "") then
-				{
-					if (_mission.LostTokenOpposing in _gainedTokensWest) then {
-						_gainedTokensWest = _gainedTokensWest - [_mission.LostTokenOpposing];
-					};
-					
-					_lostTokensWest pushBack _mission.LostTokenOpposing;
-				};
+				_gainedTokensWest = _mission.GainedTokensOpposing;
+				_lostTokensWest = _mission.LostTokensOpposing;
+				_gainedTokensEast = _mission.GainedTokensActing;
+				_lostTokensEast = _mission.LostTokensActing;
 			};
+			
+//			player sideChat "Earlier: " + str _earlierGainedTokensWest;
+//			player sideChat "Now: " + str _gainedTokensWest;
+
+			// If west have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
+			{
+				if (_x in _earlierLostTokensWest) then {
+					[_earlierLostTokensWest, _x] call _self.DeleteItemInArray;
+				};
+				
+				if (!(_x in _earlierGainedTokensWest)) then {
+					_earlierGainedTokensWest pushBack _x;
+				};
+			} foreach _gainedTokensWest as String;
+				
+			// If west have lost tokens in the mission, remove them from their gained tokens, and add them to lost tokens
+			{
+				if (_x in _earlierGainedTokensWest) then {
+					[_earlierGainedTokensWest, _x] call _self.DeleteItemInArray;
+				};
+				
+				if (!(_x in _earlierLostTokensWest)) then {
+					_earlierLostTokensWest pushBack _x;
+				};
+			} foreach _lostTokensWest as String;
+			
+			// If east have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
+			{
+				if (_x in _earlierLostTokensEast) then {
+					[_earlierLostTokensEast, _x] call _self.DeleteItemInArray;
+				};
+				
+				if (!(_x in _earlierGainedTokensEast)) then {
+					_earlierGainedTokensEast pushBack _x;
+				};
+			} foreach _gainedTokensEast as String;
+			
+			// If east have lost tokens in the mission, remove them from their gained tokens, and add them to lost tokens
+			{
+				if (_x in _earlierGainedTokensEast) then {
+					[_earlierGainedTokensEast, _x] call _self.DeleteItemInArray;
+				};
+				
+				if (!(_x in _earlierLostTokensEast)) then {
+					_earlierLostTokensEast pushBack _x;
+				};
+			} foreach _lostTokensEast as String;
 		};
 		
 		private method PrepareMission("_mission" as Mission)
