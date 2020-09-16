@@ -44,7 +44,8 @@ namespace Campaigns.ShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			// Any side can get AAF EXPLOSIVES.
+			// One side can get AAF EXPLOSIVES (for every future mission).
+			// Both side can get BASIC WEAPONS (for every future mission).
 			_mEstablishments = new Establishments;
 			[selectRandom [west, east]] call _mEstablishments.SetActingSide;
 			_missions pushBack _mEstablishments;
@@ -62,16 +63,16 @@ namespace Campaigns.ShoeLace
 			_missions pushBack _mHawkDown;
 			
 			// Airbase holders will guard the airbase.
-			// Runaways can use information about the correct building in Nightly Tensions.
-			// Airbase holder can loose HELICOPTER.
 			// Any side can use AAF explosives.
+			// Runaways can use AIRBASE SECRET to get information about the correct building in Nightly Tensions.
+			// Airbase holder can loose HELICOPTER.
 			_mNightTensions = new NightTensions;
 			_missions pushBack _mNightTensions;
 			
 			// Airbase holders are the hunters
+			// Any side can use AAF explosives.
 			// Runaways can gain Guerilla Alliance.
 			// Airbase holders may have lost their primary Helicopter.
-			// Any side can use AAF explosives.
 			_mCannonballRun = new CannonballRun;
 			_missions pushBack _mCannonballRun;
 			
