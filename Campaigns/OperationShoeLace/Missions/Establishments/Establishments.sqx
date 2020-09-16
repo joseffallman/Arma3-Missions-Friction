@@ -171,6 +171,7 @@ namespace Campaigns.ShoeLace
 			
 			if (_ammoTruckAtDestination && _crewHasLeftTruck) then {
 				_mAmmoTruck lock true;
+				_self.GainedTokensActing pushBack "BASIC WEAPONS";
 				return ObjectiveState.Succeeded;
 			};
 			
@@ -203,6 +204,7 @@ namespace Campaigns.ShoeLace
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
 			if (_mMailIsCollected) then {
+				_self.GainedTokensOpposing pushBack "BASIC WEAPONS";
 				return ObjectiveState.Succeeded;
 			};
 			
