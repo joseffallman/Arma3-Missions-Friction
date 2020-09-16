@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=316;
+		nextID=322;
 	};
 	class MarkerIDProvider
 	{
-		nextID=49;
+		nextID=53;
 	};
 	class Camera
 	{
-		pos[]={1893.4569,30.679897,5725.502};
-		dir[]={0.20002544,-0.61977869,0.75890428};
-		up[]={0.15796527,0.78475958,0.59932542};
-		aside[]={0.96700799,2.8425347e-007,-0.25487626};
+		pos[]={2160.8174,60.159065,5694.6113};
+		dir[]={0.24303631,-0.61865312,0.74718368};
+		up[]={0.1914434,0.78544283,0.5885703};
+		aside[]={0.95099252,-9.5783616e-007,-0.30933136};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -177,6 +158,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=152;
+		items=158;
 		class Item0
 		{
 			dataType="Marker";
@@ -2316,6 +2316,7 @@ class Mission
 			a=3;
 			b=3;
 			id=211;
+			atlOffset=0.40145493;
 		};
 		class Item93
 		{
@@ -2450,7 +2451,7 @@ class Mission
 			position[]={1895.063,2.349,5758.2412};
 			name="m_AirbaseHelipad1";
 			type="Empty";
-			angle=107.64599;
+			angle=107.64598;
 			id=229;
 			atlOffset=-3.3410001;
 		};
@@ -2506,8 +2507,8 @@ class Mission
 			dataType="Marker";
 			position[]={2716.144,83.344002,951};
 			name="m10_SouthernLighthouse";
-			text="Southern Lighthouse";
-			type="mil_marker";
+			text="Truck destination";
+			type="mil_end";
 			id=238;
 			atlOffset=0.0002822876;
 		};
@@ -2919,6 +2920,68 @@ class Mission
 			type="Empty";
 			angle=102.437;
 			id=314;
+		};
+		class Item152
+		{
+			dataType="Marker";
+			position[]={5008.4932,203.45599,5910.8589};
+			name="m10_TruckStartPosition";
+			text="Start";
+			type="mil_start";
+			id=316;
+			atlOffset=-5.0118103;
+		};
+		class Item153
+		{
+			dataType="Marker";
+			position[]={2177.3721,5.9619999,5758.2969};
+			name="m_AirbaseHelipad2";
+			type="Empty";
+			angle=10.475999;
+			id=317;
+			atlOffset=5.3882599e-005;
+		};
+		class Item154
+		{
+			dataType="Marker";
+			position[]={1896.104,5.6900001,5757.938};
+			name="m06a_DestroyHelicopter";
+			type="mil_destroy";
+			id=318;
+		};
+		class Item155
+		{
+			dataType="Marker";
+			position[]={1896.104,5.6900001,5757.938};
+			name="m10o_PrimaryHelicopter";
+			text="Primary helicopter";
+			type="mil_dot";
+			id=319;
+		};
+		class Item156
+		{
+			dataType="Marker";
+			position[]={2177.031,5.961,5758.3398};
+			name="m10o_SecondaryHelicopter";
+			text="Secondary helicopter";
+			type="mil_dot";
+			id=320;
+			atlOffset=0.00012159348;
+		};
+		class Item157
+		{
+			dataType="Marker";
+			position[]={1891.2041,5.6557374,5745.5454};
+			name="m06o_HelicopterArea";
+			markerType="ELLIPSE";
+			type="rectangle";
+			colorName="ColorEAST";
+			fillName="Border";
+			a=60;
+			b=60;
+			angle=196.81;
+			drawBorder=1;
+			id=321;
 		};
 	};
 };

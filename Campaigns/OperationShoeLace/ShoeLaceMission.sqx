@@ -96,11 +96,13 @@ namespace Campaigns.ShoeLace
 			};
 			
 			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensActing) then {
-				["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				var _box = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
 			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensOpposing) then {
-				["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				var _box = ["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
 			_self.ActingsQuadbike = ["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
