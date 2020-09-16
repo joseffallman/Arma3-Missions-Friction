@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=333;
+		nextID=338;
 	};
 	class MarkerIDProvider
 	{
-		nextID=63;
+		nextID=65;
 	};
 	class Camera
 	{
-		pos[]={4452.1885,217.44003,4267.0732};
-		dir[]={0.30890119,-0.74468243,0.59169936};
-		up[]={0.34462893,0.66741896,0.66013324};
-		aside[]={0.88650328,-2.3133907e-007,-0.46280417};
+		pos[]={1955.6549,41.845177,2468.8076};
+		dir[]={0.38076523,-0.1634094,0.91013831};
+		up[]={0.06307029,0.98655641,0.15075576};
+		aside[]={0.92253739,-2.6348425e-007,-0.38595352};
 	};
 };
 binarizationWanted=0;
@@ -124,25 +124,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -177,6 +158,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +203,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=165;
+		items=169;
 		class Item0
 		{
 			dataType="Marker";
@@ -1018,7 +1018,7 @@ class Mission
 			position[]={4506.146,102.982,6785.9209};
 			name="m_KillFarmRoadMarker";
 			type="Empty";
-			angle=200.57698;
+			angle=200.57697;
 			id=43;
 			atlOffset=-3.8800659;
 		};
@@ -2939,7 +2939,7 @@ class Mission
 			position[]={2018.1134,3.2177246,4172.4521};
 			name="m_NisiBayRoadMarker";
 			type="Empty";
-			angle=97.895996;
+			angle=97.895988;
 			id=322;
 		};
 		class Item155
@@ -2986,7 +2986,7 @@ class Mission
 			position[]={6029.9932,18.106001,5598.8628};
 			name="m_CaminoTwinRoadMarker";
 			type="Empty";
-			angle=230.62498;
+			angle=230.62495;
 			id=327;
 			atlOffset=-0.00014877319;
 		};
@@ -2996,7 +2996,7 @@ class Mission
 			position[]={3222.615,4.7540002,6833.5542};
 			name="m_NorthWestRoadMarker";
 			type="Empty";
-			angle=107.62699;
+			angle=107.62698;
 			id=328;
 			atlOffset=0.00018548965;
 		};
@@ -3016,7 +3016,7 @@ class Mission
 			position[]={1714.837,5.5,5010.1611};
 			name="m_AirportRoadMarker";
 			type="Empty";
-			angle=15.464797;
+			angle=15.464796;
 			id=330;
 		};
 		class Item163
@@ -3025,7 +3025,7 @@ class Mission
 			position[]={3558.9189,198.694,4898.5181};
 			name="m_ComMastRoadMarker";
 			type="Empty";
-			angle=229.80197;
+			angle=229.80194;
 			id=331;
 			atlOffset=-0.00033569336;
 		};
@@ -3037,6 +3037,42 @@ class Mission
 			type="Empty";
 			id=332;
 			atlOffset=-0.00038146973;
+		};
+		class Item165
+		{
+			dataType="Marker";
+			position[]={1933.433,2.1670001,2972.3049};
+			name="m09_IndependentSpawnMarker1";
+			type="Empty";
+			id=333;
+			atlOffset=-4.7683716e-007;
+		};
+		class Item166
+		{
+			dataType="Marker";
+			position[]={2326.238,11.547,2826.6021};
+			name="m09_IndependentSpawnMarker2";
+			type="Empty";
+			id=335;
+			atlOffset=-0.5463028;
+		};
+		class Item167
+		{
+			dataType="Marker";
+			position[]={2317.2429,100.923,2523.479};
+			name="m09_IndependentSpawnMarker3";
+			type="Empty";
+			id=336;
+			atlOffset=-4.7676239;
+		};
+		class Item168
+		{
+			dataType="Marker";
+			position[]={1947.177,9.243,2411.675};
+			name="m09_IndependentSpawnMarker4";
+			type="Empty";
+			id=337;
+			atlOffset=-6.9915009;
 		};
 	};
 };

@@ -17,12 +17,18 @@ namespace Campaigns.ShoeLace
 {
 	public class CatAndMouse : ShoeLaceMission
 	{
-		private fields ["_mBox" as Object, "_mBoxIsFound" as Boolean];
+		private fields ["_mBox" as Object, "_mBoxOwnerSide" as MissionSide, "_mActingActionId" as Scalar, "_mOpposingActionId" as Scalar];
+		private fields ["_mIndependentSpawnTime" as Scalar, "_mIndependentForceHasSpawned" as Boolean];
 	
 		// Creates a CatAndMouse object.
 		public constructor()
 		{
 			call _base.Constructor;
+			_mBoxOwnerSide = MissionSide.Guerilla;
+			_mActingActionId = -1;
+			_mOpposingActionId = -1;
+			_mIndependentForceHasSpawned = false;
+			_mIndependentSpawnTime = 5 + floor random 15;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -40,26 +46,62 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
-			private _boxPos = ["m_Girna"] call MarkerHelper.GetRandomPosInsideMarker;
+			var _boxPos = ["m_Girna"] call MarkerHelper.GetRandomPosInsideMarker;
 		
 			_mBox = ["Land_WoodenBox_F", _boxPos, random 360, true] call _self.CreateVehicleOnPosition;
 			
+			_mActingActionId = [_mBox, "Take drone equipment", MissionSide.Acting] call _self.AddAction;
+			_mOpposingActionId = [_mBox, "Take drone equipment", MissionSide.Opposing] call _self.AddAction;
+			
 			call _base.Setup;
+			
+			var _actingAndIndependentAllied = "AAF ALLIANCE" in _self.EarlierGainedTokensActing;
+			var _opposingAndIndependentAllied = "AAF ALLIANCE" in _self.EarlierGainedTokensOpposing;
+			
+			[MissionSide.Acting, _actingAndIndependentAllied] call _self.SetIndependentAlliance;
+			[MissionSide.Opposing, _opposingAndIndependentAllied] call _self.SetIndependentAlliance;
+		};
+		
+		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
+		{
+			if (_actionId == _mActingActionId) then {
+				_mBox setPos [0, 0 ,0];
+				_mBoxOwnerSide = MissionSide.Acting;
+			};
+			
+			if (_actionId == _mOpposingActionId) then {
+				_mBox setPos [0, 0 ,0];
+				_mBoxOwnerSide = MissionSide.Opposing;
+			};
 		};
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "An intercepted radio message reveals that some kind of special weapon has been left somewhere in Girna. The message was totally unencrypted, so expect enemy forces to be there searching for it too.";
+			var _p1 = "An intercepted radio message reveals that AAF drone equipment has been accidentaly left somewhere in Girna. The message was totally unencrypted, so expect that both AAF and enemy forces can show up too.";
+			
+			var _p2 = "";
+			if ("AAF ALLIANCE" in _self.EarlierGainedTokensActing) then {
+				_p2 = "<br /><br />We have currently a ceasefire agreement with AAF. However, be very careful with target identification, accidentally kill any of them we will loose alliance.";
+			};
+			
+			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "An intercepted radio message reveals that some kind of special weapon has been left somewhere in Girna. The message was totally unencrypted, so expect enemy forces to be there searching for it too.";
+			var _p1 = "An intercepted radio message reveals that AAF drone equipment has been accidentaly left somewhere in Girna. The message was totally unencrypted, so expect that both AAF and enemy forces can show up too.";
+			
+			var _p2 = "";
+			if ("AAF ALLIANCE" in _self.EarlierGainedTokensActing) then {
+				_p2 = "<br /><br />We have currently a ceasefire agreement with AAF. However, be very careful with target identification, accidentally kill any of them we will loose alliance.";
+			};
+			
+			return _p1 + _p2 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			return ["Find the special weapon.", "Find the special weapon. It is probably packed in some kind of box, and can be anywhere inside or outside buildings within 75 meters from the town centre."] new MissionObjective;
+			return ["Find the drone.", "Find the wooden box with the drone equipment. It can be anywhere in Girna with 75 meters from the town centre, inside a building or outside."] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
@@ -69,7 +111,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Find the special weapon.", "Find the special weapon. It is probably packed in some kind of box, and can be anywhere inside or outside buildings within 75 meters from the town centre."] new MissionObjective;
+			return ["Find the drone.", "Find the wooden box with the drone equipment. It can be anywhere in Girna with 75 meters from the town centre, inside a building or outside."] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
@@ -79,20 +121,12 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			private _foundBox = ({ _x distance _mBox < 3 } count _self.ActingUnits > 0);
+			var _boxIsOurs = _mBoxOwnerSide == MissionSide.Acting;
 			
-			if (_foundBox) then {
-				_mBox setPos [0, 0 ,0];
-				_mBoxIsFound = true;
+			if (_boxIsOurs && (_self.SecondaryObjectiveStateActing == ObjectiveState.Succeeded || _self.RemainingTime == 0)) then {
+				_self.GainedTokensActing pushBack "DRONE";
+				[MissionSide.Acting, "Gained: Drone."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
-			};
-			
-			// If the other side found the box, then fail primary objective, so that everyone is returned to the base.
-			
-			private _allEnemiesDead = call _self.CountUnitsAliveOpposing == 0;
-			
-			if (_mBoxIsFound && _allEnemiesDead) then {
-				return ObjectiveState.Failed;
 			};
 			
 			return ObjectiveState.None;
@@ -111,20 +145,12 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			private _foundBox = ({ _x distance _mBox < 3 } count _self.OpposingUnits > 0);
+			var _boxIsOurs = _mBoxOwnerSide == MissionSide.Opposing;
 			
-			if (_foundBox) then {
-				_mBox setPos [0, 0 ,0];
-				_mBoxIsFound = true;
+			if (_boxIsOurs && (_self.SecondaryObjectiveStateOpposing == ObjectiveState.Succeeded || _self.RemainingTime == 0)) then {
+				_self.GainedTokensOpposing pushBack "DRONE";
+				[MissionSide.Opposing, "Gained: Drone."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
-			};
-			
-			// If the other side found the box, then fail primary objective, so that everyone is returned to the base.
-			
-			private _allEnemiesDead = call _self.CountUnitsAliveActing == 0;
-			
-			if (_mBoxIsFound && _allEnemiesDead) then {
-				return ObjectiveState.Failed;
 			};
 			
 			return ObjectiveState.None;
@@ -139,6 +165,29 @@ namespace Campaigns.ShoeLace
 			};
 			
 			return ObjectiveState.None;
+		};
+		
+		protected override method OnEachIteration()
+		{
+			if (!_mIndependentForceHasSpawned && _self.MissionTimeElapsed >= _mIndependentSpawnTime) then
+			{
+				var _spawnMarker = selectRandom ["m09_IndependentSpawnMarker1", "m09_IndependentSpawnMarker2", "m09_IndependentSpawnMarker3", "m09_IndependentSpawnMarker4"];
+			
+				var _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _spawnMarker] call _self.CreateAiSoldierBySide;
+				var _guardGroup = group _guard;
+				["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _spawnMarker, _guardGroup] call _self.CreateAiSoldierBySide;
+				[_guardGroup, "m_Girna"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+				
+				_mIndependentForceHasSpawned = true;
+			};
+		};
+		
+		public override method Cleanup()
+		{
+			call _base.Cleanup;
+			
+			[MissionSide.Acting, false] call _self.SetIndependentAlliance;
+			[MissionSide.Opposing, false] call _self.SetIndependentAlliance;
 		};
 	};
 };

@@ -86,9 +86,6 @@ namespace Campaigns.ShoeLace
 		
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
-			[east] call _mNightTensions.SetActingSide;
-			return _mNightTensions;
-			
 			private ["_mission" as Mission];
 		
 			_mission = [_lastMissionEndNarrative] call _base.GetNextMission;

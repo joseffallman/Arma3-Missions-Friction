@@ -10,7 +10,7 @@
  *
  * TODO
  * Randomize start and end for the run.
- * Add a few ambient civilians and AAF vehicles with consequences if they are killed.
+ * Add AA at AAF base.
  */
 
 using Tvtcf.Common;
