@@ -21,12 +21,15 @@ namespace Campaigns.ShoeLace
 {
 	public class CannonballRun : ShoeLaceMission
 	{
-		private fields ["_mTruck" as Object];
+		private fields ["_mTruck" as Object, "_mAmbientTrafficCount" as Scalar, "_mAmbientTrafficCountMax" as Scalar];
+		private fields ["_mLocationMarkers" as Array, "_mAmbientCivilianVehicleTypes" as Array, "_mAmbientAafVehicleTypes" as Array];
 	
 		// Creates a CannonballRun object.
 		public constructor()
 		{
 			call _base.Constructor;
+			_mAmbientTrafficCount = 0;
+			_mAmbientTrafficCountMax = 1 + floor random 4; // Between 1 and 5.
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -37,6 +40,13 @@ namespace Campaigns.ShoeLace
 			_mission.StartMarkersOpposing = ["m10o_StartArea"];
 			_mission.SideMarkersActing = ["m10_TruckStartPosition", "m10_SouthernLighthouse"];
 			_mission.SideMarkersOpposing = ["m10_TruckStartPosition", "m10_SouthernLighthouse", "m10o_PrimaryHelicopter", "m10o_SecondaryHelicopter"];
+			
+			// Ambient traffic
+			_mLocationMarkers = ["m_NisiBayRoadMarker", "m_GirnaRoadMarker", "m_JayCoveRoadMarker", "m_TheSpartanRoadMarker", "m_LimeriBayRoadMarker", "m_CaminoTwinRoadMarker", "m_KillFarmRoadMarker", "m_NorthWestRoadMarker", "m_AgiaMarinaRoadMarker", "m_AirportRoadMarker", "m_ComMastRoadMarker", "m_OldOutpostRoadMarker"];
+			_mLocationMarkers = _mLocationMarkers call OperationShoeLace.ShuffleArray;
+			
+			_mAmbientCivilianVehicleTypes = ["C_Offroad_01_F", "C_Offroad_01_repair_F", "C_Quadbike_01_F", "C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_SUV_01_F", "C_Van_01_transport_F", "C_Van_01_box_F", "C_Van_01_fuel_F"];
+			_mAmbientAafVehicleTypes = ["O_Truck_03_ammo_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_Quadbike_01_F"];
 		};
 		
 		protected override method Setup()
@@ -112,6 +122,41 @@ namespace Campaigns.ShoeLace
 			};
 			
 			return ObjectiveState.None;
+		};
+		
+		private method SpawnAmbientVehicle()
+		{
+			private ["_vehicle" as Object, "_vehicleType" as String];
+			
+			var _marker = _mLocationMarkers select _mAmbientTrafficCount;
+			var _side = selectRandom [civilian, independent];
+			
+			if (_side == independent) then {
+				_vehicleType = selectRandom _mAmbientAafVehicleTypes;
+			}
+			else {
+				_vehicleType = selectRandom _mAmbientCivilianVehicleTypes;
+			};
+				
+			_vehicle = [_vehicleType, _marker, false, true] call _self.CreateVehicleOnMarker;
+			
+			for "_i" from 0 to 9 do {
+				var _waypoint = group _vehicle addWaypoint [getMarkerPos (selectRandom _mLocationMarkers), 50];
+				_waypoint setWaypointBehaviour selectRandom ["SAFE", "AWARE"];
+				_waypoint setWaypointSpeed selectRandom ["FULL", "NORMAL", "LIMITED"];
+			};
+		};
+		
+		protected override method OnEachIteration()
+		{
+			// Spawn one ambient vehicle per minute in the beginning of the mission
+			if (_mAmbientTrafficCount < _mAmbientTrafficCountMax) then
+			{
+				if (_self.MissionTimeElapsed >= _mAmbientTrafficCount) then
+				{
+					call _self.SpawnAmbientVehicle;
+				};
+			};
 		};
 	};
 };
