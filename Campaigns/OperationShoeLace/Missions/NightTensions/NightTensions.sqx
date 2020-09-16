@@ -216,7 +216,7 @@ namespace Campaigns.ShoeLace
 		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
 		{
 			if (!alive _mHelicopter) then {
-				_self.LostTokenOpposing = "HELICOPTER";
+				_self.LostTokensOpposing pushBack "HELICOPTER";
 				[MissionSide.Opposing, "Lost: Helicopter."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};

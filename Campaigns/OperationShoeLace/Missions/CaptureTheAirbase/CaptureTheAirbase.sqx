@@ -273,7 +273,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
-				_self.GainedTokenActing = "AIRBASE";
+				_self.GainedTokensActing pushBack "AIRBASE";
 				[MissionSide.Acting, "Gained: Airbase."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};
@@ -291,7 +291,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
-				_self.GainedTokenOpposing = "AIRBASE";
+				_self.GainedTokensOpposing pushBack "AIRBASE";
 				[MissionSide.Opposing, "Gained: Airbase."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};

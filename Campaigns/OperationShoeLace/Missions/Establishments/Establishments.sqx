@@ -149,13 +149,13 @@ namespace Campaigns.ShoeLace
 			if (_actionId == _mConfiscateActionActing || _actionId == _mConfiscateActionOpposing) then
 			{
 				if (_actionId == _mConfiscateActionActing) then {
-					_self.GainedTokenActing = "AAF EXPLOSIVES";
+					_self.GainedTokensActing pushBack "AAF EXPLOSIVES";
 					[MissionSide.Acting, "Gained: Box of AAF explosives."] call _self.ShowNotification;
 					_mInvestigationCompleteActing = true;
 				};
 				
 				if (_actionId == _mConfiscateActionOpposing) then {
-					_self.GainedTokenOpposing = "AAF EXPLOSIVES";
+					_self.GainedTokensOpposing pushBack "AAF EXPLOSIVES";
 					[MissionSide.Opposing, "Gained: Box of AAF explosives."] call _self.ShowNotification;
 					_mInvestigationCompleteOpposing = true;
 				};

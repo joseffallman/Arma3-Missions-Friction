@@ -70,7 +70,7 @@ namespace Campaigns.ShoeLace
 			if (_actionId == _mStealIntelActionId) then
 			{
 				_mIntelCollected = true;
-				_self.GainedTokenOpposing = "AIRBASE SECRET";
+				_self.GainedTokensOpposing pushBack "AIRBASE SECRET";
 				[MissionSide.Opposing, "Gained: Airbase Secret."] call _self.ShowNotification;
 				[[_actionId]] call _self.DeleteActions;
 			};
