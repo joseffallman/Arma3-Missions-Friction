@@ -39,18 +39,20 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			private _briefing = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
+			var _p1 = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
+			var _p2 = "";
 			
-			if ("Uav" in _self.EarlierGainedTokensActing) then {
-				_briefing = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+			if ("DRONE" in _self.EarlierGainedTokensActing) then {
+				_p2 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
-			return _briefing;
+			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
+			_p1 = "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
+			return _p1 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method Setup()
@@ -61,7 +63,7 @@ namespace Campaigns.ShoeLace
 			
 			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
-			if ("Uav" in _self.EarlierGainedTokensActing) then {
+			if ("DRONE" in _self.EarlierGainedTokensActing) then {
 				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
 				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
 			};

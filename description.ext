@@ -13,7 +13,7 @@ overviewText = "Operation Shoe Lace";
 onLoadMission = "Built upon Engima's TvT Campaign Framework (TvTCF)."; // This very text is to be here for the reason of fulfilling the licence. See the file LICENCE.
 
 overviewTextLocked = "";
-author = "Me";
+author = "Engima";
 
 OnLoadMissionTime = false;
 disabledAI = 1;

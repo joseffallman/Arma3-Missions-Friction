@@ -50,7 +50,7 @@ namespace Campaigns
 				["APC TRANSPORT RCWS", "B_APC_Tracked_01_rcws_F", "O_APC_Wheeled_02_rcws_v2_F", "I_APC_Wheeled_03_cannon_F"] new VehicleSideAlias,
 				
 				// Air vehicles
-				["HEAVY ATTACK HELICOPTER", "B_Heli_Attack_01_dynamicLoadout_F", "O_Heli_Light_02_dynamicLoadout_F", "I_Heli_light_03_dynamicLoadout_F"] new VehicleSideAlias,
+				["HEAVY ATTACK HELICOPTER", "B_Heli_Attack_01_dynamicLoadout_F", "O_Heli_Attack_02_dynamicLoadout_F", "I_Heli_light_03_dynamicLoadout_F"] new VehicleSideAlias,
 				["TRANSPORT HELICOPTER", "B_Heli_Transport_01_F", "O_Heli_Light_02_unarmed_F", "I_Heli_Transport_02_F"] new VehicleSideAlias,
 				
 				// Wrecks

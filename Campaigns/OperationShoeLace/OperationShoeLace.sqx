@@ -28,7 +28,7 @@ namespace Campaigns.ShoeLace
 		// The array to shuffle.
 		public static method ShuffleArray("_array" as Array)
 		{
-			for "_i" from 0 to count _array do
+			for "_i" from 0 to (count _array) * 2 do
 			{
 				private _index1 = floor random count _array;
 				private _index2 = floor random count _array;

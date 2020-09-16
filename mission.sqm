@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=338;
+		nextID=339;
 	};
 	class MarkerIDProvider
 	{
@@ -40,13 +40,14 @@ addons[]=
 	"A3_Structures_F_Civ_Constructions",
 	"A3_Structures_F_Civ_Accessories",
 	"A3_Structures_F_Mil_Shelters",
-	"A3_Structures_F_Argo_Military_Fortifications"
+	"A3_Structures_F_Argo_Military_Fortifications",
+	"A3_Air_F_Beta_Heli_Attack_02"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=8;
+		items=9;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -103,6 +104,13 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item8
+		{
+			className="A3_Air_F_Beta";
+			name="Arma 3 Beta - Aircraft";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 randomSeed=16377955;
@@ -123,6 +131,25 @@ class CustomAttributes
 	{
 		name="Multiplayer";
 		class Attribute0
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
 		{
 			property="RespawnTemplates";
 			expression="true";
@@ -158,25 +185,6 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
 		nAttributes=2;
 	};
 };
@@ -203,7 +211,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=169;
+		items=170;
 		class Item0
 		{
 			dataType="Marker";
@@ -1018,7 +1026,7 @@ class Mission
 			position[]={4506.146,102.982,6785.9209};
 			name="m_KillFarmRoadMarker";
 			type="Empty";
-			angle=200.57697;
+			angle=200.57695;
 			id=43;
 			atlOffset=-3.8800659;
 		};
@@ -2939,7 +2947,7 @@ class Mission
 			position[]={2018.1134,3.2177246,4172.4521};
 			name="m_NisiBayRoadMarker";
 			type="Empty";
-			angle=97.895988;
+			angle=97.895981;
 			id=322;
 		};
 		class Item155
@@ -2986,7 +2994,7 @@ class Mission
 			position[]={6029.9932,18.106001,5598.8628};
 			name="m_CaminoTwinRoadMarker";
 			type="Empty";
-			angle=230.62495;
+			angle=230.62492;
 			id=327;
 			atlOffset=-0.00014877319;
 		};
@@ -3025,7 +3033,7 @@ class Mission
 			position[]={3558.9189,198.694,4898.5181};
 			name="m_ComMastRoadMarker";
 			type="Empty";
-			angle=229.80194;
+			angle=229.80193;
 			id=331;
 			atlOffset=-0.00033569336;
 		};
@@ -3073,6 +3081,22 @@ class Mission
 			type="Empty";
 			id=337;
 			atlOffset=-6.9915009;
+		};
+		class Item169
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={2336.8013,74.558983,2263.406};
+				angles[]={0.049958061,0,0.039979152};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=338;
+			type="O_Heli_Attack_02_dynamicLoadout_F";
 		};
 	};
 };
