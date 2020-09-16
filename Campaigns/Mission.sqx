@@ -33,6 +33,10 @@ namespace Campaigns
 			
 			_self.ObjectTypeDictionary = new ObjectTypeDictionary;
 			_self.SoldierTypeDictionary = new SoldierTypeDictionary;
+			_self.GainedTokensActing = [];
+			_self.LostTokensActing = [];
+			_self.GainedTokensOpposing = [];
+			_self.LostTokensOpposing = [];
 			_mActingSide = west;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
@@ -217,17 +221,17 @@ namespace Campaigns
 		
 		#region Settable Properties
 		
-		// Gets or sets something of free choice that may be of use in future missions for the acting side.
-		public property String GainedTokenActing { get; protected set; };
+		// Gets or sets "tokens" (text strings) of free choice that may be of use in future missions for the acting side.
+		public property Array GainedTokensActing { get; protected set; };
 		
-		// Gets or sets something of free choice that is considered lost and may affect future missions for the acting side.
-		public property String LostTokenActing { get; protected set; };
+		// Gets or sets "tokens" (text strings) of free choice that is considered lost and may affect future missions for the acting side.
+		public property Array LostTokensActing { get; protected set; };
 		
-		// Gets or sets something of free choice that may be of use in future missions for the opposing side.
-		public property String GainedTokenOpposing { get; protected set; };
+		// Gets or sets "tokens" (text strings) of free choice that may be of use in future missions for the opposing side.
+		public property Array GainedTokensOpposing { get; protected set; };
 		
-		// Gets or sets something of free choice that is considered lost and may affect future missions for the opposing side.
-		public property String LostTokenOpposing { get; protected set; };
+		// Gets or sets "tokens" (text strings) of free choice that is considered lost and may affect future missions for the opposing side.
+		public property Array LostTokensOpposing { get; protected set; };
 		
 		#endregion
 		
