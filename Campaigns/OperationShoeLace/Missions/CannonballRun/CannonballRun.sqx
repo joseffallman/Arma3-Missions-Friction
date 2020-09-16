@@ -22,12 +22,16 @@ namespace Campaigns.ShoeLace
 	public class CannonballRun : ShoeLaceMission
 	{
 		private fields ["_mTruck" as Object, "_mAmbientTrafficCount" as Scalar, "_mAmbientTrafficCountMax" as Scalar];
-		private fields ["_mLocationMarkers" as Array, "_mAmbientCivilianVehicleTypes" as Array, "_mAmbientAafVehicleTypes" as Array];
+		private fields ["_mLocationMarkers" as Array, "_mAmbientCivilianVehicleTypes" as Array, "_mAmbientAafVehicleTypes" as Array, "_mAmbientUnits" as Array];
+		private fields ["_mActingHasKilledAmbientUnit" as Boolean, "_mOpposingHasKilledAmbientUnit" as Boolean];
 	
 		// Creates a CannonballRun object.
 		public constructor()
 		{
 			call _base.Constructor;
+			_mAmbientUnits = [];
+			_mActingHasKilledAmbientUnit = false;
+			_mOpposingHasKilledAmbientUnit = false;
 			_mAmbientTrafficCount = 0;
 			_mAmbientTrafficCountMax = 1 + floor random 4; // Between 1 and 5.
 		};
@@ -73,12 +77,19 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "The diplomacy with AAF has been making progress, and a peace treaty is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to get their help when we need it later.";
+			var _p1 = "The diplomacy with AAF has been making progress, and a peace treaty is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to get their help when we need it later.";
+			return _p1 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "Intelligence has found that the enemy will deliver boby trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
+			var _p1 = "Intelligence has found that the enemy will deliver boby trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
+			
+			if ("HELICOPTER" in _self.EarlierLostTokensOpposing) then {
+				_p1 = _p1 + "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
+			};
+			
+			return _p1 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -97,9 +108,13 @@ namespace Campaigns.ShoeLace
 				return ObjectiveState.Failed;
 			};
 			
-			if (_mTruck distance getMarkerPos "m10_SouthernLighthouse" < 50) then {
-				_self.GainedTokensActing pushBack "AAF ALLIANCE";
-				[MissionSide.Acting, "Gained: AAF Alliance"] call _self.ShowNotification;
+			if (_mTruck distance getMarkerPos "m10_SouthernLighthouse" < 50) then
+			{			
+				if (!_mActingHasKilledAmbientUnit) then {
+					_self.GainedTokensActing pushBack "AAF ALLIANCE";
+					[MissionSide.Acting, "Gained: AAF Alliance"] call _self.ShowNotification;
+				};
+				
 				return ObjectiveState.Succeeded;
 			};
 			
@@ -115,9 +130,13 @@ namespace Campaigns.ShoeLace
 			var _truckCanMove = canMove _mTruck;
 			var _allEnemyUnitsAreDead = (call _self.CountUnitsAliveActing) == 0;
 			
-			if (!_truckCanMove || _allEnemyUnitsAreDead) then {
-				_self.GainedTokensOpposing pushBack "AAF ALLIANCE";
-				[MissionSide.Opposing, "Gained: AAF Alliance"] call _self.ShowNotification;
+			if (!_truckCanMove || _allEnemyUnitsAreDead) then
+			{
+				if (!_mOpposingHasKilledAmbientUnit) then {
+					_self.GainedTokensOpposing pushBack "AAF ALLIANCE";
+					[MissionSide.Opposing, "Gained: AAF Alliance"] call _self.ShowNotification;
+				};
+				
 				return ObjectiveState.Succeeded;
 			};
 			
@@ -140,11 +159,53 @@ namespace Campaigns.ShoeLace
 				
 			_vehicle = [_vehicleType, _marker, false, true] call _self.CreateVehicleOnMarker;
 			
+			{
+				_mAmbientUnits pushBack _x;
+				_x setVariable ["UnitSide", side group _x];
+				
+				_x addEventHandler ["Killed", {
+					params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
+					_unit setVariable ["KilledBySide", side group _killer];
+				}];
+				
+			} foreach crew _vehicle as Object;
+			
 			for "_i" from 0 to 9 do {
 				var _waypoint = group _vehicle addWaypoint [getMarkerPos (selectRandom _mLocationMarkers), 50];
 				_waypoint setWaypointBehaviour selectRandom ["SAFE", "AWARE"];
 				_waypoint setWaypointSpeed selectRandom ["FULL", "NORMAL", "LIMITED"];
 			};
+		};
+		
+		protected method CheckAmbientUnitKilled()
+		{
+			{
+				var _side = _x getVariable ["UnitSide"] as Side;
+				var _killedBySide = _x getVariable ["KilledBySide"] as Side;
+				
+				if (_side != _killedBySide && (_killedBySide == west || _killedBySide == east)) then
+				{
+					private "_sSide" as String;
+					
+					if (_side == civilian) then {
+						_sSide = "civilian";
+					}
+					else {
+						_sSide = "AAF unit";
+					};
+					
+					var _killerMissionSide = [_killedBySide] call _self.GetMissionSide;
+					
+					if (_killerMissionSide == MissionSide.Acting && !_mActingHasKilledAmbientUnit) then {
+						[_killerMissionSide, "Lost: AAF alliance - " + _sSide + " killed."] call _self.ShowNotification;
+						_mActingHasKilledAmbientUnit = true;
+					};
+					if (_killerMissionSide == MissionSide.Opposing && !_mOpposingHasKilledAmbientUnit) then {
+						[_killerMissionSide, "Lost: AAF alliance - " + _sSide + " killed."] call _self.ShowNotification;
+						_mOpposingHasKilledAmbientUnit = true;
+					};
+				};
+			} foreach _mAmbientUnits;
 		};
 		
 		protected override method OnEachIteration()
@@ -157,6 +218,9 @@ namespace Campaigns.ShoeLace
 					call _self.SpawnAmbientVehicle;
 				};
 			};
+			
+			// Check if ambient units has been killed by players
+			call _self.CheckAmbientUnitKilled;
 		};
 	};
 };
