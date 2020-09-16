@@ -73,17 +73,20 @@ namespace Campaigns.ShoeLace
 			["AMMOBOX LAUNCHERS", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			call _base.Setup;
+			
+			[MissionSide.Acting, true] call _base.SetIndependentAlliance;
+			[MissionSide.Opposing, true] call _base.SetIndependentAlliance;
 		};
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			var _p1 = "The diplomacy with AAF has been making progress, and a peace treaty is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to get their help when we need it later.";
+			var _p1 = "The diplomacy with AAF has been making progress, and a ceasefire agreement is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to improve our relations, so can they help us if we need it later.";
 			return _p1 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			var _p1 = "Intelligence has found that the enemy will deliver boby trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
+			var _p1 = "Intelligence has found that the enemy is about to deliver booby-trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
 			
 			if ("HELICOPTER" in _self.EarlierLostTokensOpposing) then {
 				_p1 = _p1 + "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
@@ -199,10 +202,12 @@ namespace Campaigns.ShoeLace
 					if (_killerMissionSide == MissionSide.Acting && !_mActingHasKilledAmbientUnit) then {
 						[_killerMissionSide, "Lost: AAF alliance - " + _sSide + " killed."] call _self.ShowNotification;
 						_mActingHasKilledAmbientUnit = true;
+						[MissionSide.Acting, false] call _base.SetIndependentAlliance;
 					};
 					if (_killerMissionSide == MissionSide.Opposing && !_mOpposingHasKilledAmbientUnit) then {
 						[_killerMissionSide, "Lost: AAF alliance - " + _sSide + " killed."] call _self.ShowNotification;
 						_mOpposingHasKilledAmbientUnit = true;
+						[MissionSide.Opposing, false] call _base.SetIndependentAlliance;
 					};
 				};
 			} foreach _mAmbientUnits;
@@ -221,6 +226,12 @@ namespace Campaigns.ShoeLace
 			
 			// Check if ambient units has been killed by players
 			call _self.CheckAmbientUnitKilled;
+		};
+		
+		public override method Cleanup()
+		{
+			[MissionSide.Acting, false] call _base.SetIndependentAlliance;
+			[MissionSide.Opposing, false] call _base.SetIndependentAlliance;
 		};
 	};
 };

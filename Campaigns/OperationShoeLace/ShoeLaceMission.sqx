@@ -85,6 +85,9 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
+			[MissionSide.Acting, false] call _self.SetIndependentAlliance;
+			[MissionSide.Opposing, false] call _self.SetIndependentAlliance;
+			
 			if ("BASIC WEAPONS" in _self.EarlierGainedTokensActing) then {
 				["AMMOBOX BASIC WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 				["AMMOBOX BASIC AMMO", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
@@ -111,6 +114,14 @@ namespace Campaigns.ShoeLace
 			_self.OpposingsMrap = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			call _base.Setup;
+		};
+		
+		protected method SetIndependentAlliance("_missionSide" as MissionSide, "_setAsAllied" as Boolean)
+		{
+			var _side = [_missionSide] call _self.GetActualSide;
+			
+			resistance setFriend [_side, 0];
+			_side setFriend [resistance, 0];
 		};
 	};
 };
