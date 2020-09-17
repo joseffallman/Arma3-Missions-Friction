@@ -40,19 +40,26 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForActing()
 		{
 			var _p1 = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
-			var _p2 = "";
+			var _p2 = "<br /><br />Remember to bring explosives!";
+			var _p3 = "";
 			
 			if ("DRONE" in _self.EarlierGainedTokensActing) then {
-				_p2 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+				_p3 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
-			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			_p1 = "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
-			return _p1 + call _base.AddBriefingInfoForOpposing;
+			var _p1 = "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
+			var _p2 = "";
+			
+			if ("DRONE" in _self.EarlierGainedTokensOpposing) then {
+				_p2 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+			};
+			
+			return _p1 + _p2 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method Setup()
@@ -61,9 +68,20 @@ namespace Campaigns.ShoeLace
 		
 			// Spawn acting side's base objects
 			
-			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			var _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
 			if ("DRONE" in _self.EarlierGainedTokensActing) then {
+				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
+				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
+			};
+			
+			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			
+			// Spawn opposing side's base objects
+			
+			_ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			
+			if ("DRONE" in _self.EarlierGainedTokensOpposing) then {
 				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
 				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
 			};
@@ -116,7 +134,6 @@ namespace Campaigns.ShoeLace
 			private _guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m01o_startarea1"] call _self.CreateAiSoldierBySide;
 			private _guardGroup = group _guard;
 			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m01o_startarea1", _guardGroup] call _self.CreateAiSoldierBySide;
-			
 			[_guardGroup, "m01o_startarea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			call _base.Setup;
