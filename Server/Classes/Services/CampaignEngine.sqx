@@ -277,7 +277,7 @@ namespace Tvtcf.Server
 			var _removedSomething = true;
 			var _removedItemsCount = 0;
 			
-			player sideChat "Before removal of " + str _item + ": " + str _array;
+			diag_log ("DELETEITEM: Before removal of " + str _item + ": " + str _array);
 			
 			while { _removedSomething } do
 			{
@@ -300,7 +300,8 @@ namespace Tvtcf.Server
 				};
 			};
 			
-			player sideChat "After removal of " + str _item + ": " + str _array;
+			diag_log ("DELETEITEM: After removal of " + str _item + ": " + str _array);
+			
 			return _removedItemsCount;
 		};
 		
@@ -327,15 +328,15 @@ namespace Tvtcf.Server
 				_lostTokensEast = _mission.LostTokensActing;
 			};
 			
-			diag_log ("TOKENS: GainedTokensWest: " + str _gainedTokensWest);
-			diag_log ("TOKENS: GainedTokensEast: " + str _gainedTokensEast);
-			diag_log ("TOKENS: LostTokensWest: " + str _lostTokensWest);
-			diag_log ("TOKENS: LostTokensEast: " + str _lostTokensEast);
+			diag_log ("TOKENS1: GainedTokensWest: " + str _gainedTokensWest);
+			diag_log ("TOKENS1: GainedTokensEast: " + str _gainedTokensEast);
+			diag_log ("TOKENS1: LostTokensWest: " + str _lostTokensWest);
+			diag_log ("TOKENS1: LostTokensEast: " + str _lostTokensEast);
 
-			diag_log ("TOKENS: EarlierGainedTokensWest: " + str _earlierGainedTokensWest);
-			diag_log ("TOKENS: EarlierGainedTokensEast: " + str _earlierGainedTokensEast);
-			diag_log ("TOKENS: EarlierLostTokensWest: " + str _earlierLostTokensWest);
-			diag_log ("TOKENS: EarlierLostTokensEast: " + str _earlierLostTokensEast);
+			diag_log ("TOKENS1: EarlierGainedTokensWest: " + str _earlierGainedTokensWest);
+			diag_log ("TOKENS1: EarlierGainedTokensEast: " + str _earlierGainedTokensEast);
+			diag_log ("TOKENS1: EarlierLostTokensWest: " + str _earlierLostTokensWest);
+			diag_log ("TOKENS1: EarlierLostTokensEast: " + str _earlierLostTokensEast);
 
 			// If west have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
 			{
@@ -380,6 +381,16 @@ namespace Tvtcf.Server
 					_earlierLostTokensEast pushBack _x;
 				};
 			} foreach _lostTokensEast as String;
+			
+			diag_log ("TOKENS2: GainedTokensWest: " + str _gainedTokensWest);
+			diag_log ("TOKENS2: GainedTokensEast: " + str _gainedTokensEast);
+			diag_log ("TOKENS2: LostTokensWest: " + str _lostTokensWest);
+			diag_log ("TOKENS2: LostTokensEast: " + str _lostTokensEast);
+
+			diag_log ("TOKENS2: EarlierGainedTokensWest: " + str _earlierGainedTokensWest);
+			diag_log ("TOKENS2: EarlierGainedTokensEast: " + str _earlierGainedTokensEast);
+			diag_log ("TOKENS2: EarlierLostTokensWest: " + str _earlierLostTokensWest);
+			diag_log ("TOKENS2: EarlierLostTokensEast: " + str _earlierLostTokensEast);
 		};
 		
 		private method PrepareMission("_mission" as Mission)
