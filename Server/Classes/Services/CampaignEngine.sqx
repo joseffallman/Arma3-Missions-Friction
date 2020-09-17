@@ -327,8 +327,15 @@ namespace Tvtcf.Server
 				_lostTokensEast = _mission.LostTokensActing;
 			};
 			
-//			player sideChat "Earlier: " + str _earlierGainedTokensWest;
-//			player sideChat "Now: " + str _gainedTokensWest;
+			diag_log ("TOKENS: GainedTokensWest: " + str _gainedTokensWest);
+			diag_log ("TOKENS: GainedTokensEast: " + str _gainedTokensEast);
+			diag_log ("TOKENS: LostTokensWest: " + str _lostTokensWest);
+			diag_log ("TOKENS: LostTokensEast: " + str _lostTokensEast);
+
+			diag_log ("TOKENS: EarlierGainedTokensWest: " + str _earlierGainedTokensWest);
+			diag_log ("TOKENS: EarlierGainedTokensEast: " + str _earlierGainedTokensEast);
+			diag_log ("TOKENS: EarlierLostTokensWest: " + str _earlierLostTokensWest);
+			diag_log ("TOKENS: EarlierLostTokensEast: " + str _earlierLostTokensEast);
 
 			// If west have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
 			{
