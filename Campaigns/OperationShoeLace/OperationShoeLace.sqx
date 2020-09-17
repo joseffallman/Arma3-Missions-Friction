@@ -92,18 +92,6 @@ namespace Campaigns.ShoeLace
 			
 			if (!isNull _mission) then
 			{
-				// In the Cannonball Run mission, the side that owns the airbase is the side hunting
-				
-				if (_mission is CannonballRun) then
-				{
-					if ("AIRBASE" in _self.GainedTokensWest) then {
-						[west] call _mission.SetActingSide;
-					}
-					else {
-						[east] call _mission.SetActingSide;
-					};
-				};
-				
 				// In the Hawk Down mission, the side that owns the airbase is about to blow up the helicopter
 				
 				if (_mission is HawkDown) then
@@ -113,6 +101,18 @@ namespace Campaigns.ShoeLace
 					}
 					else {
 						[east] call _mission.SetActingSide;
+					};
+				};
+				
+				// In the Cannonball Run mission, the side that owns the airbase is the side hunting
+				
+				if (_mission is CannonballRun) then
+				{
+					if ("AIRBASE" in _self.GainedTokensWest) then {
+						[east] call _mission.SetActingSide;
+					}
+					else {
+						[west] call _mission.SetActingSide;
 					};
 				};
 				

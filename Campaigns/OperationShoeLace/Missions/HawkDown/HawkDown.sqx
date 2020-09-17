@@ -78,15 +78,19 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			var _text = "A friendly transport helicopter was lost somewhere over the east woods. The helicopter was carrying highly ranked officers who would have supported a secret project to be carried out at the Stratis Airbase. It is of utterly importance that we find any survivors and destroy the helicopter before it falls into enemy hands.";
-			var _text2 = "<br /><br />Remember to bring explosives!";
-			return _text + _text2 + call _base.AddBriefingInfoForActing;
+			var _p1 = "A friendly transport helicopter was lost somewhere over the east woods. The helicopter was carrying highly ranked officers who would have supported a secret project to be carried out at the Stratis Airbase. It is of utterly importance that we find any survivors and destroy the helicopter before it falls into enemy hands.";
+			var _p2 = "<br /><br />Remember to insert in a vehicle! You will need it to travel to the area.";
+			var _p3 = "<br /><br />Remember to bring explosives!";
+			
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			var _text = "Intelligence reveals that an enemy helicopter recently went down in the eastly woods. Judging by the current frequence of enemy radio transmissions it is now ween as highly interesting by HQ, and should be investigated with urge.";
-			return _text + call _base.AddBriefingInfoForActing;
+			var _p1 = "Intelligence reveals that an enemy helicopter recently went down in the eastly woods. Judging by the current frequence of enemy radio transmissions it is now ween as highly interesting by HQ, and should be investigated with urge.";
+			var _p2 = "<br /><br />Remember to insert in a vehicle! You will need it to travel to the area.";
+			
+			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()

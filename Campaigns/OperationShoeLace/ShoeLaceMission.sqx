@@ -47,7 +47,7 @@ namespace Campaigns.ShoeLace
 		
 		protected method GetTokenBriefingText("_missionSide" as MissionSide)
 		{
-			var _info = "<br /><br />Gains: ";
+			var _info = "<br /><br />Gained tokens: ";
 			var _comma = "";
 			
 			if (_missionSide == MissionSide.Acting) then {
@@ -63,7 +63,7 @@ namespace Campaigns.ShoeLace
 				} foreach _self.EarlierGainedTokensOpposing as String;
 			};
 			
-			_info = _info + ".<br />Losses: ";
+			_info = _info + ".<br />Lost tokens: ";
 			
 			_comma = "";
 			
