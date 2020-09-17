@@ -37,7 +37,15 @@ namespace Tvtcf.Common
 				_score = _score + 25;
 			};
 			
-			_score = _score - (_menAtStart - _menAtEnd) * 10;
+			var _menLost = _menAtStart - _menAtEnd;
+			var _scorePerMan = _score / 5;
+			
+			_score = _score - (_scorePerMan * _menLost);
+			
+			if (_menLost == _menAtStart) then // All died
+			{
+				_score = 0;
+			};
 			
 			if (_score < 0) then {
 				_score = 0;

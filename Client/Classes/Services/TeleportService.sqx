@@ -70,21 +70,14 @@ namespace Tvtcf.Client
 					{
 						if (local _x) then
 						{
-							// Only move the player in SP, but move all other group members in SP and MP.
-//							if (_x != player || !isMultiplayer) then
-//							{
-								_x setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
-//							};
+							_x setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
 						};
 					} foreach units group player;
 					
-//					// In MP, perform a respawn for players
-//					if (isMultiplayer) then
-//					{
-//						setPlayerRespawnTime 0;
-//						forceRespawn player;
-//						setPlayerRespawnTime 3;
-//					};
+					// Just in case - it seems that player do not always teleport.
+					if (player distance _mPosition > 10) then {
+						player setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.1];
+					};
 				};
 				
 				player setDamage 0;
