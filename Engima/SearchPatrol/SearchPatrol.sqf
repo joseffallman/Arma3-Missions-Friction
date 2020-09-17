@@ -294,14 +294,14 @@ while { !_exitScript && !isNull _group } do {
 				_y = 100 * cos _angle;
 				_x = 100 * sin _angle;
 				
-				if (!isNull _unit) then {
+				if (!isNil "_unit" && {!isNull _unit}) then {
 					_lookAtPos = [(getPos _unit select 0) + _y, (getPos _unit select 1) + _x, getPos _unit select 2];
 					_unit lookAt _lookAtPos;
 				};
 				
 				sleep 5;
 				
-				if (!isNull _unit) then {
+				if (!isNil "_unit" && {!isNull _unit}) then {
 					_unit lookAt objNull;
 				};
 			};

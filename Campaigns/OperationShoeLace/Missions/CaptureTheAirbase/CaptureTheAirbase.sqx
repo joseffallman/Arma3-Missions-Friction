@@ -266,7 +266,7 @@ namespace Campaigns.ShoeLace
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
 			if (_mLeaningToSide == MissionSide.Acting) then {
-				var _allPlayersAreDead = false;
+				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
 				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
 					return ObjectiveState.Succeeded;
 				};
@@ -291,7 +291,7 @@ namespace Campaigns.ShoeLace
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
 			if (_mLeaningToSide == MissionSide.Opposing) then {
-				var _allPlayersAreDead = false;
+				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
 				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
 					return ObjectiveState.Succeeded;
 				};
@@ -465,7 +465,7 @@ namespace Campaigns.ShoeLace
 
 				if (_allPlayersOut) then {
 					[group driver _mArmoredTransport1] call _self.AddInfantrySadWaypoints;
-					_mArmoredTransport1 limitSpeed 20;
+					_mArmoredTransport1 limitSpeed 10;
 					_mArmoredTransportState = TransportState.Returning;
 				};
 			};
@@ -500,12 +500,12 @@ namespace Campaigns.ShoeLace
 		
 		private method AddInfantrySadWaypoints("_group" as Group)
 		{
-			for "_i" from 0 to 10 do {
-				private _waypoint = _group addWaypoint [["m11_AirbaseTowerVincinity"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker, 20];
-				_waypoint setWaypointType "SAD";
-				_waypoint setWaypointBehaviour "AWARE";
-				_waypoint setWaypointCombatMode "YELLOW";
-				_waypoint setWaypointSpeed "FULL";
+			for "_i" from 0 to 20 do {
+				private _waypoint = _group addWaypoint [["m11_AirbaseTowerVincinity"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker, 25];
+				_waypoint setWaypointType selectRandom ["MOVE", "SAD"];
+				_waypoint setWaypointBehaviour selectRandom ["AWARE", "COMBAT"];
+				_waypoint setWaypointCombatMode selectRandom ["YELLOW", "RED"];
+				_waypoint setWaypointSpeed selectRandom ["FULL", "NORMAL"];
 			};
 		};
 		

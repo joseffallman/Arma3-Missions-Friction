@@ -87,7 +87,7 @@ namespace Campaigns.ShoeLace
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
 			private ["_mission" as Mission];
-			[east] call _mCaptureTheAirbase.SetActingSide;
+			[west] call _mCaptureTheAirbase.SetActingSide;
 			return _mCaptureTheAirbase;
 		
 			_mission = [_lastMissionEndNarrative] call _base.GetNextMission;
