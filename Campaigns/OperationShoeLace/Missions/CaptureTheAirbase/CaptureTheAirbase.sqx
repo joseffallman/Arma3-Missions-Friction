@@ -265,12 +265,19 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			private _enemiesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
-			private _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			if (_mLeaningToSide == MissionSide.Acting) then {
+				var _allPlayersAreDead = false;
+				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
+					return ObjectiveState.Succeeded;
+				};
+			};
 			
 			if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.Succeeded) then {
 				return ObjectiveState.Failed;
 			};
+			
+			var _enemiesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
+			var _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
 				_self.GainedTokensActing pushBack "AIRBASE";
@@ -283,12 +290,19 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			private _enemiesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
-			private _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			if (_mLeaningToSide == MissionSide.Opposing) then {
+				var _allPlayersAreDead = false;
+				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
+					return ObjectiveState.Succeeded;
+				};
+			};
 			
 			if (_self.PrimaryObjectiveStateActing == ObjectiveState.Succeeded) then {
 				return ObjectiveState.Failed;
 			};
+			
+			var _enemiesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
+			var _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
 				_self.GainedTokensOpposing pushBack "AIRBASE";
@@ -431,16 +445,18 @@ namespace Campaigns.ShoeLace
 				private _allPlayersIn = { alive _x && vehicle _x == _mArmoredTransport1 } count _self.OpposingUnits == call _self.CountUnitsAliveOpposing;
 
 				if (_allPlayersIn) then {
-					private _waypoint = (group driver _mArmoredTransport1) addWaypoint [getMarkerPos "m11o_UnloadMarker", 25];
+					private _waypoint = (group driver _mArmoredTransport1) addWaypoint [getMarkerPos "m11o_ArmorUnloadMarker", 50];
 					_waypoint setWaypointBehaviour "AWARE";
+					(group driver _mArmoredTransport1) setBehaviour "AWARE";
 					_mArmoredTransportState = TransportState.Transporting;
 				};
 			};
 			
 			if (_mArmoredTransportState == TransportState.Transporting) then {
-				if (_mArmoredTransport1 distance2D getMarkerPos "m11o_UnloadMarker" < 25 && unitReady _mArmoredTransport1) then {
+				if (_mArmoredTransport1 distance2D getMarkerPos "m11o_ArmorUnloadMarker" < 50) then {
 					_mArmoredTransportState = TransportState.Unloading;
 					_mArmoredTransport1 limitSpeed 0;
+					[MissionSide.Opposing, "Disembark!"] call _self.ShowNotification;
 				};
 			};
 			
@@ -456,14 +472,15 @@ namespace Campaigns.ShoeLace
 			
 			if (_mTruckTransportState == TransportState.Waiting) then {
 				if (_mArmoredTransportState == TransportState.Transporting) then {
-					private _waypoint = (group driver _mTruckTransport1) addWaypoint [getMarkerPos "m11o_UnloadMarker", 25];
-					_waypoint setWaypointBehaviour "SAFE";
+					private _waypoint = (group driver _mTruckTransport1) addWaypoint [getMarkerPos "m11o_TruckUnloadMarker", 50];
+					_waypoint setWaypointBehaviour "AWARE";
+					(group driver _mTruckTransport1) setBehaviour "AWARE";
 					_mTruckTransportState = TransportState.Transporting;
 				};
 			};
 			
 			if (_mTruckTransportState == TransportState.Transporting) then {
-				if (_mTruckTransport1 distance2D getMarkerPos "m11o_UnloadMarker" < 150 && unitReady _mTruckTransport1) then {
+				if (_mTruckTransport1 distance2D getMarkerPos "m11o_TruckUnloadMarker" < 50) then {
 					_mTruckTransportState = TransportState.Unloading;
 					_mTruckTransport1 limitSpeed 0;
 				};

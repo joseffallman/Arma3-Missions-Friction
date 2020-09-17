@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=339;
+		nextID=340;
 	};
 	class MarkerIDProvider
 	{
@@ -132,25 +132,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -185,6 +166,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -211,7 +211,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=170;
+		items=171;
 		class Item0
 		{
 			dataType="Marker";
@@ -1026,7 +1026,7 @@ class Mission
 			position[]={4506.146,102.982,6785.9209};
 			name="m_KillFarmRoadMarker";
 			type="Empty";
-			angle=200.57695;
+			angle=200.57689;
 			id=43;
 			atlOffset=-3.8800659;
 		};
@@ -2420,7 +2420,7 @@ class Mission
 			position[]={1895.063,2.349,5758.2412};
 			name="m_AirbaseHelipad1";
 			type="Empty";
-			angle=107.64597;
+			angle=107.64596;
 			id=229;
 			atlOffset=-3.3410001;
 		};
@@ -2534,12 +2534,11 @@ class Mission
 		class Item112
 		{
 			dataType="Marker";
-			position[]={2305.1919,4.5819998,5781.5981};
-			name="m11o_UnloadMarker";
+			position[]={2347.457,3.5442944,5811.3994};
+			name="m11o_TruckUnloadMarker";
 			type="Empty";
-			angle=263.54599;
+			angle=241.66722;
 			id=251;
-			atlOffset=-0.00025749207;
 		};
 		class Item113
 		{
@@ -2947,7 +2946,7 @@ class Mission
 			position[]={2018.1134,3.2177246,4172.4521};
 			name="m_NisiBayRoadMarker";
 			type="Empty";
-			angle=97.895981;
+			angle=97.895966;
 			id=322;
 		};
 		class Item155
@@ -2994,7 +2993,7 @@ class Mission
 			position[]={6029.9932,18.106001,5598.8628};
 			name="m_CaminoTwinRoadMarker";
 			type="Empty";
-			angle=230.62492;
+			angle=230.62491;
 			id=327;
 			atlOffset=-0.00014877319;
 		};
@@ -3097,6 +3096,17 @@ class Mission
 			};
 			id=338;
 			type="O_Heli_Attack_02_dynamicLoadout_F";
+			atlOffset=-7.6293945e-006;
+		};
+		class Item170
+		{
+			dataType="Marker";
+			position[]={2315.1389,4.3730001,5787.5439};
+			name="m11o_ArmorUnloadMarker";
+			type="Empty";
+			angle=241.66698;
+			id=339;
+			atlOffset=-4.3869019e-005;
 		};
 	};
 };
