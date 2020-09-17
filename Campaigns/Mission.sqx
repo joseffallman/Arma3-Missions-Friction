@@ -1107,9 +1107,13 @@ namespace Campaigns
 		{
 		};
 		
-		private method Boolean AlivePlayersOnSide("_missionSide" as MissionSide)
+		// Counts how many players (not AI) there is on a given side.
+		// _missionSide (MissionSide): The mission side to test.
+		// Returns (Scalar): The number of alive players on the side.
+		protected method Scalar CountPlayersAliveOnSide("_missionSide" as MissionSide)
 		{
-			private _units = _self.ActingUnits;
+			var _count = 0;
+			var _units = _self.ActingUnits;
 			
 			if (_missionSide == MissionSide.Opposing) then {
 				_units = _self.OpposingUnits;
@@ -1117,11 +1121,11 @@ namespace Campaigns
 			
 			{
 				if (alive _x && isPlayer _x) then {
-					return true;
+					_count = _count + 1;
 				};
 			} foreach _units as Object;
 			
-			return false;
+			return _count;
 		};
 		
 		// Checks if it is time for the mission to shut down.
@@ -1146,13 +1150,13 @@ namespace Campaigns
 			};
 */
 			
-			private _aliveOpposingPlayers = [MissionSide.Opposing] call _self.AlivePlayersOnSide;
+			private _aliveOpposingPlayers = ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) > 0;
 			diag_log ("GURGEL: _aliveOpposingPlayers: " + str _aliveOpposingPlayers);
 			if (_completeForActing && !_aliveOpposingPlayers) then {
 				return true;
 			};
 
-			private _aliveActingPlayers = [MissionSide.Acting] call _self.AlivePlayersOnSide;
+			private _aliveActingPlayers = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) > 0;
 			diag_log ("GURGEL: _aliveActingPlayers: " + str _aliveActingPlayers);
 			if (_completeForOpposing && !_aliveActingPlayers) then {
 				return true;
