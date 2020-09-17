@@ -34,20 +34,12 @@ namespace Campaigns.MyCampaign
 		
 		protected override method Setup()
 		{
-			var _mrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles] call _self.CreateSideVehicleOnBaseMarker;
-			
-			if ("MRAP HMG" in _self.EarlierGainedTokensActing) then {
-				["MRAP HMG", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-				_self.LostTokensActing pushBack "MRAP HMG";
-			}
-			else {
-				_self.GainedTokensActing pushBack "MRAP HMG";
-			};
+			["MRAP HMG", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			["TRANSPORT HELICOPTER", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			["TRANSPORT HELICOPTER", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
 			["AMMOBOX SPECIAL WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
-			
-			[_mrap, "Take this car!", MissionSide.Acting] call _self.AddAction;
 			
 			call _base.Setup;
 		};
