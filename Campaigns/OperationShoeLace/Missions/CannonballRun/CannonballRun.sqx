@@ -46,8 +46,8 @@ namespace Campaigns.ShoeLace
 			_mission.SideMarkersOpposing = ["m10_TruckStartPosition", "m10_SouthernLighthouse", "m10o_PrimaryHelicopter", "m10o_SecondaryHelicopter"];
 			
 			// Ambient traffic
-			_mLocationMarkers = ["m_NisiBayRoadMarker", "m_GirnaRoadMarker", "m_JayCoveRoadMarker", "m_TheSpartanRoadMarker", "m_LimeriBayRoadMarker", "m_CaminoTwinRoadMarker", "m_KillFarmRoadMarker", "m_NorthWestRoadMarker", "m_AgiaMarinaRoadMarker", "m_AirportRoadMarker", "m_ComMastRoadMarker", "m_OldOutpostRoadMarker"];
-			_mLocationMarkers = [_mLocationMarkers] call OperationShoeLace.ShuffleArray;
+			_mLocationMarkers = ["m_AirportRoadMarker", "m_NisiBayRoadMarker", "m_GirnaRoadMarker", "m_JayCoveRoadMarker", "m_TheSpartanRoadMarker", "m_LimeriBayRoadMarker", "m_CaminoTwinRoadMarker", "m_KillFarmRoadMarker", "m_NorthWestRoadMarker", "m_AgiaMarinaRoadMarker", "m_ComMastRoadMarker", "m_OldOutpostRoadMarker"];
+			[_mLocationMarkers] call OperationShoeLace.ShuffleArray;
 			
 			_mAmbientCivilianVehicleTypes = ["C_Offroad_01_F", "C_Offroad_01_repair_F", "C_Quadbike_01_F", "C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_SUV_01_F", "C_Van_01_transport_F", "C_Van_01_box_F", "C_Van_01_fuel_F"];
 			_mAmbientAafVehicleTypes = ["O_Truck_03_ammo_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_Quadbike_01_F"];
@@ -58,7 +58,7 @@ namespace Campaigns.ShoeLace
 			_mTruck = ["DEVICE TRUCK", MissionSide.Acting, "m10a_TruckStartMarker"] call _self.CreateSideVehicleOnMarker;
 			["MRAP HMG", MissionSide.Acting, "m10a_EscortStartMarker"] call _self.CreateSideVehicleOnMarker;
 			
-			if ("HELICOPTER" in _self.LostTokensOpposing) then
+			if ("HELICOPTER" in _self.EarlierLostTokensOpposing) then
 			{
 				["HELICOPTER WRECK", MissionSide.Opposing, "m_AirbaseHelipad1"] call _self.CreateSideVehicleOnMarker;
 			}
@@ -159,8 +159,9 @@ namespace Campaigns.ShoeLace
 			else {
 				_vehicleType = selectRandom _mAmbientCivilianVehicleTypes;
 			};
-				
+			
 			_vehicle = [_vehicleType, _marker, false, true] call _self.CreateVehicleOnMarker;
+			_mAmbientTrafficCount = _mAmbientTrafficCount + 1;
 			
 			{
 				_mAmbientUnits pushBack _x;
@@ -183,8 +184,8 @@ namespace Campaigns.ShoeLace
 		protected method CheckAmbientUnitKilled()
 		{
 			{
-				var _side = _x getVariable ["UnitSide"] as Side;
-				var _killedBySide = _x getVariable ["KilledBySide"] as Side;
+				var _side = _x getVariable "UnitSide" as Side;
+				var _killedBySide = _x getVariable ["KilledBySide", civilian] as Side;
 				
 				if (_side != _killedBySide && (_killedBySide == west || _killedBySide == east)) then
 				{
