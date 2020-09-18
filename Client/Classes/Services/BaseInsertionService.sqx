@@ -26,7 +26,6 @@ namespace Tvtcf.Client
 		
 		protected override method Run()
 		{
-			player sideChat "starting";
 			while { !_self.IsCancelling } do
 			{
 				var _respawnMarker = [playerSide, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName;
@@ -40,7 +39,6 @@ namespace Tvtcf.Client
 				sleep 0.2;
 			};
 			
-			player sideChat "ending";
 			call _base.Run;
 		};
 	};

@@ -23,7 +23,6 @@ namespace Tvtcf.Client.Statics
 			
 			_self.BriefingHandler = new BriefingHandler;
 			_self.TaskHandler = new TaskHandler;
-			_self.MissionEndHandler = new MissionEndHandler;
 			_self.MapMarkerHandler = [new BaseMarkersConfig] new MapMarkerHandler;
 			_self.MessageHandler = new ClientMessageHandler;
 			_self.PerformInsertionService = [_self.MessageHandler] new PerformInsertionService;
@@ -37,8 +36,6 @@ namespace Tvtcf.Client.Statics
 		// [Declare client config and handler classes as static properties here]
 		
 		public static property IBriefingHandler BriefingHandler { get; private set; };
-		
-		public static property IMissionEndHandler MissionEndHandler { get; private set; };
 		
 		public static property TaskHandler TaskHandler { get; private set; };
 		
