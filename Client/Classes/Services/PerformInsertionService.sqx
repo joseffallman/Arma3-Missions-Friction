@@ -68,11 +68,10 @@ namespace Tvtcf.Client
 				// Wait for map click
 				
 				_mWaitingForMapClick = true;
-				var _enoughWaitingTime = time + 30;
 				
 				["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
 				
-				waitUntil {	!_mWaitingForMapClick || time > _enoughWaitingTime };
+				waitUntil {	!_mWaitingForMapClick || !visibleMap };
 				
 				if (!_mWaitingForMapClick) then
 				{
@@ -82,9 +81,6 @@ namespace Tvtcf.Client
 					else {
 						["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
 					};
-				}
-				else {
-					["Insertion timed out. Please try again when you are ready."] call _mMessageHandler.ShowSubTitle;
 				};
 			};
 			
