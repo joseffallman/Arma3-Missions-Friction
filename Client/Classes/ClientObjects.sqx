@@ -10,6 +10,7 @@
 
 using Sqx.Services;
 using Tvtcf.Client;
+using Tvtcf.Common;
 
 namespace Tvtcf.Client.Statics
 {
@@ -23,7 +24,7 @@ namespace Tvtcf.Client.Statics
 			_self.BriefingHandler = new BriefingHandler;
 			_self.TaskHandler = new TaskHandler;
 			_self.MissionEndHandler = new MissionEndHandler;
-			_self.MapMarkerHandler = new MapMarkerHandler;
+			_self.MapMarkerHandler = [new BaseMarkersConfig] new MapMarkerHandler;
 			_self.MessageHandler = new ClientMessageHandler;
 			_self.PerformInsertionService = [_self.MessageHandler] new PerformInsertionService;
 			_self.CameraHandler = [_self.MessageHandler] new CameraHandler;

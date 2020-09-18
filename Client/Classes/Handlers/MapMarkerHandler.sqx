@@ -14,11 +14,12 @@ namespace Tvtcf.Client
 {
 	public class MapMarkerHandler
 	{
-		private fields ["_mLocalMarkers" as Array, "_mInsertionMarker" as String];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mLocalMarkers" as Array, "_mInsertionMarker" as String];
 		
 		// Creates a MapMarkerHandler object.
-		public constructor()
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
 		{
+			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mLocalMarkers = [];
 			_self.UseExtractionMarker = false;
 			_mInsertionMarker = "";
@@ -80,13 +81,19 @@ namespace Tvtcf.Client
 			
 			// Insertion marker
 			
+			var _pos = [0, 0, 0];
+			
 			if (count _startMarkers > 0) then {
-				var _pos = [_startMarkers] call Functions.FindClosestToMarkersPos;
-				
-				_mInsertionMarker = createMarkerLocal ["_insertionMarkerLocal", _pos];
-				_mInsertionMarker setMarkerShapeLocal "ICON";
-				_mInsertionMarker setMarkerTypeLocal "mil_start";
+				_pos = [_startMarkers] call Functions.FindClosestToMarkersPos;
+			}
+			else {
+				var _respawnMarker = [playerSide, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName;
+				_pos = getMarkerPos _respawnMarker;
 			};
+			
+			_mInsertionMarker = createMarkerLocal ["_insertionMarkerLocal", _pos];
+			_mInsertionMarker setMarkerShapeLocal "ICON";
+			_mInsertionMarker setMarkerTypeLocal "mil_start";
 			
 			// Draw other markers
 			
