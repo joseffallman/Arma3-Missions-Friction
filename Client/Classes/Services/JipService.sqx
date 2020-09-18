@@ -59,9 +59,25 @@ namespace Tvtcf.Client
 				
 				if (count _startMarkers > 0) then
 				{
+					// Base Insertion Counter
+					
+					var _hasInserted = false;
+					
+					if (playerSide == west) then {
+						_hasInserted = call publicVariableHandler.GetWestHasInserted;
+					};
+					if (playerSide == east) then {
+						_hasInserted = call publicVariableHandler.GetEastHasInserted;
+					};
+					
+					if (!_hasInserted) then {
+						call ClientObjects.BaseInsertionService.RunAsync;
+					};
+					
+					// Mission Prepare Counter
+				
 					var _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
 					_missionPrepareCounter = [_mClientMessageHandler, _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
-					
 					call _missionPrepareCounter.RunAsync;
 				};
 			};
