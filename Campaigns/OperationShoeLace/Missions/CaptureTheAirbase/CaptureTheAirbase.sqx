@@ -267,15 +267,16 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
+			if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.Succeeded) then {
+				return ObjectiveState.Failed;
+			};
+			
 			if (_mLeaningToSide == MissionSide.Acting) then {
 				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
 				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
+				_self.GainedTokensActing pushBack "AIRBASE";
 					return ObjectiveState.Succeeded;
 				};
-			};
-			
-			if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.Succeeded) then {
-				return ObjectiveState.Failed;
 			};
 			
 			var _enemiesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
@@ -283,7 +284,6 @@ namespace Campaigns.ShoeLace
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
 				_self.GainedTokensActing pushBack "AIRBASE";
-				[MissionSide.Acting, "Gained: Airbase."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};
 		
@@ -292,15 +292,16 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
+			if (_self.PrimaryObjectiveStateActing == ObjectiveState.Succeeded) then {
+				return ObjectiveState.Failed;
+			};
+			
 			if (_mLeaningToSide == MissionSide.Opposing) then {
 				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
 				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
+					_self.GainedTokensOpposing pushBack "AIRBASE";
 					return ObjectiveState.Succeeded;
 				};
-			};
-			
-			if (_self.PrimaryObjectiveStateActing == ObjectiveState.Succeeded) then {
-				return ObjectiveState.Failed;
 			};
 			
 			var _enemiesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
@@ -308,7 +309,6 @@ namespace Campaigns.ShoeLace
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
 				_self.GainedTokensOpposing pushBack "AIRBASE";
-				[MissionSide.Opposing, "Gained: Airbase."] call _self.ShowNotification;
 				return ObjectiveState.Succeeded;
 			};
 		
