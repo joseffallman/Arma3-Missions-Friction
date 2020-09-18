@@ -93,6 +93,9 @@
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
                 <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseInsertionService.sqx" FileName="Client\Classes\Services\BaseInsertionService.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="JipService.sqx" FileName="Client\Classes\Services\JipService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

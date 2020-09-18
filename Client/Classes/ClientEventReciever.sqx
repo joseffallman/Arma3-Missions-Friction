@@ -45,25 +45,23 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnMissionStarting("_isFirstMission" as Boolean)
 		{
-			if (_isFirstMission) then {
-				//cutText ["", "BLACK OUT", 2];
-			};
 		};
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
 		{
-			private ["_markerInfos" as Array /* of String */];
-				
 			// Update the markers
 			
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
 			
-			if (player == leader group player) then
+			var _startMarkers = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
+			
+			if (count _startMarkers > 0) then {
+				call ClientObjects.BaseInsertionService.RunAsync;
+			}
+			else
 			{
 				// If no insertion markers are specified, perform insertion immediately
-				_markerInfos = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
-				
-				if (count _markerInfos == 0) then {
+				if (player == leader group player) then {
 					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, getPos player]] call Remote.Invoke;
 				};
 			};
@@ -105,6 +103,9 @@ namespace Tvtcf.Client.Statics
 		public static method OnInsertGroup("_group" as Group, "_position" as Array)
 		{
 			private ["_teleporter" as TeleportService];
+			
+			// Stop the base insertion service.
+			call ClientObjects.BaseInsertionService.Cancel;
 			
 			if (playerSide == side _group) then
 			{

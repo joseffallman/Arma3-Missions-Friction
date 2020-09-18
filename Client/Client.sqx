@@ -17,6 +17,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.
 call compile preprocessFileLineNumbers "Client\Classes\Services\JipService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\MissionBriefingService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\MissionPrepareCounter.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Services\BaseInsertionService.sqx";
 
 using Tvtcf.Client;
 using Tvtcf.Client.Statics;
