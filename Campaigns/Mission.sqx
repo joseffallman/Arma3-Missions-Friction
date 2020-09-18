@@ -748,21 +748,9 @@ namespace Campaigns
 				
 				_e = [side _group, _position] new InsertionEventArgs;
 				[_e] call _self.OnActingGroupInserted;
-				
-//				if (_self.HasReturnObjectiveForActing) then {
-//					_mActingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _e.Position;
-//					
-//					if (surfaceIsWater _position) then {
-//						_mActingInsertionObject setPosASL [_e.Position select 0, _e.Position select 1, 1];
-//					};
-//				};
 			}
 			else {
 				_self.OpposingUnits = units _group;
-				
-//				if (_self.HasReturnObjectiveForOpposing) then {
-//					_mOpposingInsertionObject = "Sign_Arrow_Large_Blue_F" createVehicle _position;
-//				};
 				
 				_e = [side _group, _position] new InsertionEventArgs;
 				[_e] call _self.OnOpposingGroupInserted;
