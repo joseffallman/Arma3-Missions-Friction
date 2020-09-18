@@ -14,13 +14,14 @@ namespace Tvtcf.Client
 {
 	public class MapMarkerHandler
 	{
-		private fields ["_mLocalMarkers" as Array];
+		private fields ["_mLocalMarkers" as Array, "_mInsertionMarker" as String];
 		
 		// Creates a MapMarkerHandler object.
 		public constructor()
 		{
 			_mLocalMarkers = [];
 			_self.UseExtractionMarker = false;
+			_mInsertionMarker = "";
 		};
 		
 		public property Boolean UseExtractionMarker { get; private set; };
@@ -48,10 +49,16 @@ namespace Tvtcf.Client
 			} foreach _mLocalMarkers;
 			
 			_mLocalMarkers = [];
+			
+			if (_mInsertionMarker != "") then {
+				deleteMarkerLocal _mInsertionMarker;
+				_mInsertionMarker = "";
+			};
 		
 			// Draw start markers
 			
 			private _startMarkerColor = if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
+			var _startMarkers = [];
 			
 			{
 				if (_x.Side == playerSide) then
@@ -61,6 +68,7 @@ namespace Tvtcf.Client
 					
 					private _marker = createMarkerLocal [_name, _pos];
 					_mLocalMarkers pushBack _marker;
+					_startMarkers pushBack _marker;
 
 					_marker setMarkerShapeLocal (markerShape _x.Name);
 					_marker setMarkerSizeLocal (markerSize _x.Name);
@@ -69,6 +77,16 @@ namespace Tvtcf.Client
 					_marker setMarkerBrushLocal "DiagGrid";
 				};
 			} foreach _missionMarkersInfo.StartMarkers as MarkerInfo;
+			
+			// Insertion marker
+			
+			if (count _startMarkers > 0) then {
+				var _pos = [_startMarkers] call Functions.FindClosestToMarkersPos;
+				
+				_mInsertionMarker = createMarkerLocal ["_insertionMarkerLocal", _pos];
+				_mInsertionMarker setMarkerShapeLocal "ICON";
+				_mInsertionMarker setMarkerTypeLocal "mil_start";
+			};
 			
 			// Draw other markers
 			
