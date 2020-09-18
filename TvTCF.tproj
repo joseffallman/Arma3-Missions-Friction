@@ -165,6 +165,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_ReadMe.sqx" FileName="Common\Classes\Handlers\_ReadMe.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Functions.sqx" FileName="Common\Classes\Handlers\Functions.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionParametersHandler.sqx" FileName="Common\Classes\Handlers\MissionParametersHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

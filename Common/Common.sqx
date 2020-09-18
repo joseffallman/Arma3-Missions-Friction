@@ -3,6 +3,7 @@ call compile preprocessFileLineNumbers "Common\Classes\CommonObjects.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\CommonEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Configs\BaseMarkersConfig.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Handlers\MissionParametersHandler.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Handlers\Functions.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\BaseMarkerInfo.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\DictionaryItem.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionMarkersInfo.sqx";
