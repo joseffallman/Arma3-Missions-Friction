@@ -201,12 +201,12 @@ namespace Campaigns.ShoeLace
 					var _killerMissionSide = [_killedBySide] call _self.GetMissionSide;
 					
 					if (_killerMissionSide == MissionSide.Acting && !_mActingHasKilledAmbientUnit) then {
-						[_killerMissionSide, "Lost: AAF alliance - " + _sSide + " killed."] call _self.ShowNotification;
+						[_killerMissionSide, "Lost: AAF Alliance - " + _sSide + " killed."] call _self.ShowNotification;
 						_mActingHasKilledAmbientUnit = true;
 						[MissionSide.Acting, false] call _base.SetIndependentAlliance;
 					};
 					if (_killerMissionSide == MissionSide.Opposing && !_mOpposingHasKilledAmbientUnit) then {
-						[_killerMissionSide, "Lost: AAF alliance - " + _sSide + " killed."] call _self.ShowNotification;
+						[_killerMissionSide, "Lost: AAF Alliance - " + _sSide + " killed."] call _self.ShowNotification;
 						_mOpposingHasKilledAmbientUnit = true;
 						[MissionSide.Opposing, false] call _base.SetIndependentAlliance;
 					};
