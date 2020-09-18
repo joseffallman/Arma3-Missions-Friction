@@ -132,6 +132,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -163,25 +182,6 @@ class CustomAttributes
 							};
 						};
 					};
-				};
-			};
-		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
 				};
 			};
 		};
@@ -2607,11 +2607,10 @@ class Mission
 			name="m11_AirbaseTowerVincinity";
 			markerType="ELLIPSE";
 			type="ellipse";
-			colorName="ColorOrange";
-			fillName="Border";
+			colorName="ColorGUER";
+			fillName="FDiagonal";
 			a=250;
 			b=250;
-			drawBorder=1;
 			id=264;
 			atlOffset=-0.00026702881;
 		};

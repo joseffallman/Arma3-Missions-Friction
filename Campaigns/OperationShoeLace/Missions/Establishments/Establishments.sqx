@@ -72,7 +72,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Go to Point Delta and investigate the area to see if you can find someting useful. But be aware of the risk of possible hostile contacts! [You will have two minutes from entering Point Delta to 'find something useful'.]";
+			private _longDescription = "Go to Point Delta and investigate the area. Search for at least two minutes, and confiscate anything that you find useful for the rest of the operation. You can confiscate things with the action menu. But be aware of the risk of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -88,7 +88,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Go to Point Delta and investigate the area to see if you can find someting useful. But be aware of the risk of possible hostile contacts! [You will have two minutes from entering Point Delta to 'find something useful'.]";
+			private _longDescription = "Go to Point Delta and investigate the area. Search for at least two minutes, and confiscate anything that you find useful for the rest of the operation. You can confiscate things with the action menu. But be aware of the risk of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};

@@ -44,6 +44,8 @@ namespace Campaigns.ShoeLace
 			_mission.StartTimeOfDay = 5;
 			_mission.StartMarkersActing = ["m11a_StartMarker"];
 			_mission.StartMarkersOpposing = ["m11o_StartMarker"];
+			_mission.SideMarkersActing = ["m11_AirbaseTowerVincinity"];
+			_mission.SideMarkersOpposing = ["m11_AirbaseTowerVincinity"];
 		};
 		
 		protected override method Setup()
@@ -242,12 +244,12 @@ namespace Campaigns.ShoeLace
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
 		{
-			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (250 meters) of enemy forces."] new MissionObjective;
+			return ["Capture the airbase.", "Assist the brigade in siezing the tower and clear the tower's closest surroundings (250 meters) of enemy forces. Join them at Camp Maxwell and board the helicopter as quickly as you can!"] new MissionObjective;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Capture the airbase.", "Size the tower and clear the tower's closest surroundings (250 meters) of enemy forces."] new MissionObjective;
+			return ["Capture the airbase.", "Assist the brigade in siezing the tower and clear the tower's closest surroundings (250 meters) of enemy forces. Join them at Agia Marina and board the armored transport as quickly as you can!"] new MissionObjective;
 		};
 		
 		private method Scalar CountUnitsNearTower("_units" as Array)
