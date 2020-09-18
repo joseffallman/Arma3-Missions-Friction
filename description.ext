@@ -20,3 +20,5 @@ disabledAI = 1;
 
 respawn = "BASE";
 respawnButton = 0;
+
+reviveMode = 0;

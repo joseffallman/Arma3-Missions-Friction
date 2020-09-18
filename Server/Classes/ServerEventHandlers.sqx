@@ -19,20 +19,20 @@ namespace Tvtcf.Server.Statics
 			// [Add all server event handlers here]
 			
 			// Fires when a JIP player is connecting.
-			addMissionEventHandler ["PlayerConnected",
-			{
-				params ["_id" as Scalar, "_uid" as String, "_name" as String, "_jip" as Boolean, "_owner" as Scalar];
-			}];
+//			addMissionEventHandler ["PlayerConnected",
+//			{
+//				params ["_id" as Scalar, "_uid" as String, "_name" as String, "_jip" as Boolean, "_owner" as Scalar];
+//			}];
 			
 			// Fires when a JIP player is disconnecting.
-			addMissionEventHandler ["PlayerDisconnected", {
-				params ["_id" as Scalar, "_uid" as String, "_name" as String, "_jip" as Boolean, "_owner" as Scalar];
-			}];
+//			addMissionEventHandler ["PlayerDisconnected", {
+//				params ["_id" as Scalar, "_uid" as String, "_name" as String, "_jip" as Boolean, "_owner" as Scalar];
+//			}];
 			
 			// Fires when a player leaves the MP game.
-			addMissionEventHandler ["HandleDisconnect", {
-				params ["_unit" as Object, "_id" as Scalar, "_uid" as String, "_name" as String];
-			}];
+//			addMissionEventHandler ["HandleDisconnect", {
+//				params ["_unit" as Object, "_id" as Scalar, "_uid" as String, "_name" as String];
+//			}];
 			
 			// Add killed event handlers on all playable units
 			
