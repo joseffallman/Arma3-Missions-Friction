@@ -53,12 +53,12 @@ namespace Campaigns.ShoeLace
 		
 		protected override method String AddBriefingInfoForActing()
 		{
-			return "Welcome! The situation is calm and under control for the moment, and the whole brigade is working on establishments and setting up the perimiters. No hostile contacts this far, but group Alpha Six has reported seing some kind of activity around Point Delta.";
+			return "Welcome! The situation is calm and under control for the moment, and the whole brigade is working on establishments and setting up the perimiters. No hostile contacts this far, but local guerillas have expressed their hostility, and group Alpha Six has reported seing some kind of activity around Point Delta. ";
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
-			return "Welcome! The situation is calm and under control for the moment, and the whole brigade is working on establishments and setting up the perimiters. No hostile contacts this far, but group Charlie Four has reported seing some kind of activity around Point Delta.";
+			return "Welcome! The situation is calm and under control for the moment, and the whole brigade is working on establishments and setting up the perimiters. No hostile contacts this far, but local guerillas have expressed their hostility, and group Charlie Four has reported seing some kind of activity around Point Delta.";
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -114,12 +114,6 @@ namespace Campaigns.ShoeLace
 			
 			// Spawn an ammo truck and vehicles in the acting base
 			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-//			["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-//			["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			
-			// Spawn vehicles in the opposing base
-//			["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-//			["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			// Create mail box at Military Range
 			private _mailBoxPosition = ["m_MilitaryRangeArea"] call MarkerHelper.GetRandomPosInsideMarker;
@@ -137,9 +131,28 @@ namespace Campaigns.ShoeLace
 			_mConfiscateActionActing = [_mExplosivesBox, "Confiscate ammo box", MissionSide.Acting] call _self.AddAction;
 			_mConfiscateActionOpposing = [_mExplosivesBox, "Confiscate ammo box", MissionSide.Opposing] call _self.AddAction;
 			
+			// Ambient Infantry
+			
+			var _ambientGroupsCount = 2 + floor random 6;
+			var _guerillaClassNames = ["I_G_Soldier_A_F", "I_G_Soldier_AR_F", "I_G_medic_F", "I_G_engineer_F", "I_G_Soldier_exp_F", "I_G_Soldier_GL_F", "I_G_Soldier_M_F", "I_G_officer_F", "I_G_Soldier_F", "I_G_Soldier_LAT_F", "I_G_Soldier_lite_F", "I_G_Soldier_SL_F", "I_G_Soldier_TL_F"];
+			
+			for "_i" from 0 to _ambientGroupsCount - 1 do
+			{
+				var _ambientGroup = createGroup [independent, true];
+				var _ambientPos = ["m07_CenterPosition"] call MarkerHelper.GetRandomPosInsideMarker;
+				var _ambientGroupUnitCount = 1 + floor random 3;
+				
+				for "_j" from 0 to _ambientGroupUnitCount - 1 do
+				{
+					[selectRandom _guerillaClassNames, _ambientPos, _ambientGroup] call _self.CreateAiSoldier;
+				};
+				
+				[_ambientGroup, "m07_CenterPosition"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			};
+
 			call _base.Setup;
 		};
-		
+
 		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
 		{
 			if (_actionId == _mCheckMailActionId) then {
