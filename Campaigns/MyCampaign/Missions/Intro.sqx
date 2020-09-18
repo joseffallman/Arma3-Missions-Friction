@@ -25,7 +25,7 @@ namespace Campaigns.MyCampaign
 		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Intro";
-			_mission.StartMarkersActing = ["m06o_StartArea1"];
+			_mission.StartMarkersActing = [];
 			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
 			_mission.StartTimeOfDay = floor random 24;
 			//_mission.AddReturnObjectiveForActing = true;

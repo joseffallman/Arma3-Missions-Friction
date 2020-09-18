@@ -14,7 +14,7 @@ namespace Tvtcf.Client
 {
 	public class MapMarkerHandler
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mLocalMarkers" as Array, "_mInsertionMarker" as String];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mLocalMarkers" as Array];
 		
 		// Creates a MapMarkerHandler object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
@@ -22,8 +22,10 @@ namespace Tvtcf.Client
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mLocalMarkers = [];
 			_self.UseExtractionMarker = false;
-			_mInsertionMarker = "";
+			_self.InsertionMarker = "";
 		};
+		
+		public property String InsertionMarker { get; private set; };
 		
 		public property Boolean UseExtractionMarker { get; private set; };
 		
@@ -51,9 +53,9 @@ namespace Tvtcf.Client
 			
 			_mLocalMarkers = [];
 			
-			if (_mInsertionMarker != "") then {
-				deleteMarkerLocal _mInsertionMarker;
-				_mInsertionMarker = "";
+			if (_self.InsertionMarker != "") then {
+				deleteMarkerLocal _self.InsertionMarker;
+				_self.InsertionMarker = "";
 			};
 		
 			// Draw start markers
@@ -91,9 +93,9 @@ namespace Tvtcf.Client
 				_pos = getMarkerPos _respawnMarker;
 			};
 			
-			_mInsertionMarker = createMarkerLocal ["_insertionMarkerLocal", _pos];
-			_mInsertionMarker setMarkerShapeLocal "ICON";
-			_mInsertionMarker setMarkerTypeLocal "mil_start";
+			_self.InsertionMarker = createMarkerLocal ["_insertionMarkerLocal", _pos];
+			_self.InsertionMarker setMarkerShapeLocal "ICON";
+			_self.InsertionMarker setMarkerTypeLocal "mil_start";
 			
 			// Draw other markers
 			
