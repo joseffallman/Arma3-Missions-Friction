@@ -4,7 +4,6 @@ call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
-call compile preprocessFileLineNumbers "Client\Classes\Handlers\MissionEndHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TvtcfActionMenuHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMessageHandler.sqx";
@@ -12,6 +11,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\CameraHandler.sq
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMissionActionHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ExtractionSymbolHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Objects\ActionMapping.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Services\CampaignEndService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\JipService.sqx";

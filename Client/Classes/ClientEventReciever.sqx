@@ -237,10 +237,12 @@ namespace Tvtcf.Client.Statics
 		public static method OnCampaignEnded("_westAccumulatedScore" as Scalar, "_eastAccumulatedScore" as Scalar)
 		{
 			if (playerSide == west) then {
-				[_westAccumulatedScore >= _eastAccumulatedScore] call ClientObjects.MissionEndHandler.EndGame;
+				var _campaignEndService = [_westAccumulatedScore >= _eastAccumulatedScore] new CampaignEndService;
+				call _campaignEndService.RunAsync;
 			}
 			else {
-				[_eastAccumulatedScore >= _westAccumulatedScore] call ClientObjects.MissionEndHandler.EndGame;
+				var _campaignEndService = [_eastAccumulatedScore >= _westAccumulatedScore] new CampaignEndService;
+				call _campaignEndService.RunAsync;
 			};
 		};
 		

@@ -50,9 +50,6 @@
                       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IBriefingHandler.sqx" FileName="Client\Classes\Handlers\Interfaces\IBriefingHandler.sqx">
                         <SubNodes />
                       </ProjectNodeViewModel>
-                      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="IMissionEndHandler.sqx" FileName="Client\Classes\Handlers\Interfaces\IMissionEndHandler.sqx">
-                        <SubNodes />
-                      </ProjectNodeViewModel>
                     </SubNodes>
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BriefingHandler.sqx" FileName="Client\Classes\Handlers\BriefingHandler.sqx">
@@ -73,9 +70,6 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapMarkerHandler.sqx" FileName="Client\Classes\Handlers\MapMarkerHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionEndHandler.sqx" FileName="Client\Classes\Handlers\MissionEndHandler.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TaskHandler.sqx" FileName="Client\Classes\Handlers\TaskHandler.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
@@ -94,6 +88,9 @@
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Client\Classes\Services">
                 <SubNodes>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseInsertionService.sqx" FileName="Client\Classes\Services\BaseInsertionService.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignEndService.sqx" FileName="Client\Classes\Services\CampaignEndService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="JipService.sqx" FileName="Client\Classes\Services\JipService.sqx">
