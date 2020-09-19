@@ -90,7 +90,7 @@ namespace Tvtcf.Client
 
 			_self.OptionEndMissionVisible =
 				CommonObjects.MissionParametersHandler.EnableServerAdminOptions &&
-				call BIS_fnc_admin > 0;
+				(call BIS_fnc_admin) > 0;
 
 			call _self.BuildCampaignMenu;
 		};
