@@ -6,19 +6,6 @@
  *
  * Description:
  * Static class that handles all custom events sent from other machines.
- *
- * Remarks:
- * The idea here is to avoid being specific about what is supposed to happen on the target machine. The name of each 
- * method should start with "On" to reflect an event that "happens" on the machine firing it. E.g. do not name a method like 
- * "ThrowPlayerInTeamKillPrison". Instead name it after the reason, so better use "OnPlayerKilled" with killer and
- * victim as parameters. This way
- * the server do not care about what happens on the client, it simply reports what happens on the server. And also,
- * the client may want to do more than one thing with this event. E.g. lowering the killers rating. This way you do not 
- * couple the server and client together, so that the server can focus only on server stuff and the client only on client
- * stuff.
- *
- * Do not perform logic in this class - (or at least not advanced logic). Instead route the event message action to
- * the class or classes meant to handle the logic needed for each event message respectively.
  */
 
 using Tvtcf.Common;
@@ -41,6 +28,7 @@ namespace Tvtcf.Client.Statics
 		public static method OnMissionTimeTick("_missionTimeRemaining" as Scalar)
 		{
 			hint ("Mission ends in " + (str _missionTimeRemaining) + " minutes.");
+			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 		};
 		
 		public static method OnMissionStarting("_isFirstMission" as Boolean)

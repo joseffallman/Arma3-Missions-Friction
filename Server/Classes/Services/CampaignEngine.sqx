@@ -179,6 +179,13 @@ namespace Tvtcf.Server
 			return _actualPos;
 		};
 		
+		public method EndCurrentMission()
+		{
+			if (!isNull _mCurrentMission) then {
+				call _mCurrentMission.Cancel;
+			};
+		};
+		
 		public method OnAction("_serverActionId" as Scalar, "_target" as Object, "_caller" as Object)
 		{
 			[_serverActionId, _target, _caller] call _mCurrentMission.OnAction;

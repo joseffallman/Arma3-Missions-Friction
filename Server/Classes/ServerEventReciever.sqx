@@ -41,5 +41,10 @@ namespace Tvtcf.Server.Statics
 		{
 			[_serverActionId, _target, _caller] call ServerObjects.CampaignEngine.OnAction;
 		};
+		
+		public static method OnEndMission()
+		{
+			call ServerObjects.CampaignEngine.EndCurrentMission;
+		};
 	};
 };
