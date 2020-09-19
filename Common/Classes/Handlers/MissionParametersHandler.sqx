@@ -14,11 +14,14 @@ namespace Tvtcf.Common
 		// Creates a MissionParametersHandler object.
 		public constructor {
 			call _self.SetDefaultValuesIfSinglePlayer;
-			
-			_self.MandatoryPrepareTime = (paramsArray select 0);
-			_self.AiWestFrequency = (paramsArray select 1);
-			_self.AiEastFrequency = (paramsArray select 2);
+
+			_self.EnableServerAdminOptions = (paramsArray select 0) == 1;
+			_self.MandatoryPrepareTime = (paramsArray select 1);
+			_self.AiWestFrequency = (paramsArray select 2);
+			_self.AiEastFrequency = (paramsArray select 3);
 		};
+		
+		public property Boolean EnableServerAdminOptions { get; private set; };
 		
 		public property Scalar MandatoryPrepareTime { get; private set; };
 		

@@ -8,6 +8,7 @@
  */
 
 using Tvtcf.Common;
+using Tvtcf.Common.Statics;
 using Tvtcf.Communication;
 using Tvtcf.Client.Statics;
 
@@ -25,14 +26,14 @@ namespace Tvtcf.Client
         	call _self.UpdateVisibleOptions;
 		};
 		
-		public static method ShowAction()
+		private static method ShowAction()
 		{
 			if (_mMissionMenuActionId < 0) then {
 				_mMissionMenuActionId = player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }, nil, 100];
 			};
 		};
 		
-		public static method HideAction()
+		private static method HideAction()
 		{
 			if (_mMissionMenuActionId >= 0) then {
 				player removeAction _mMissionMenuActionId;
@@ -43,6 +44,8 @@ namespace Tvtcf.Client
 		#region Option Properties
 		
 		public static property Boolean OptionPerformInsertionVisible { get; private set; };
+		
+		public static property Boolean OptionEndMissionVisible { get; private set; };
 		
 		#endregion
 		
@@ -56,6 +59,13 @@ namespace Tvtcf.Client
 			};
 		};
 		
+		private static method ShowOptionEndMission("_show" as Boolean)
+		{
+			if (_show != _self.OptionEndMissionVisible) then {
+				_self.OptionEndMissionVisible = _show;
+				call _self.BuildCampaignMenu;
+			};
+		};
 
 		#endregion
 		
@@ -63,9 +73,9 @@ namespace Tvtcf.Client
 		
 		public static method UpdateVisibleOptions()
 		{
-			private ["_playerGroupHasInserted" as Boolean];
+			// Option Perform Insertion
 			
-			_playerGroupHasInserted = false;
+			var _playerGroupHasInserted = false;
 			
 			if (playerSide == west) then {
 				_playerGroupHasInserted = call PublicVariableHandler.GetWestHasInserted;
@@ -73,9 +83,15 @@ namespace Tvtcf.Client
 			else {
 				_playerGroupHasInserted = call PublicVariableHandler.GetEastHasInserted;
 			};
-			
+
 			_self.OptionPerformInsertionVisible = (call PublicVariableHandler.GetMissionHasStarted) && !_playerGroupHasInserted;
-			
+
+			// Option End Mission
+
+			_self.OptionEndMissionVisible =
+				CommonObjects.MissionParametersHandler.EnableServerAdminOptions &&
+				(call BIS_fnc_admin) > 0;
+
 			call _self.BuildCampaignMenu;
 		};
 		
@@ -90,9 +106,13 @@ namespace Tvtcf.Client
 				TVTCF_TvtcfMenu pushBack ["Perform Insertion", [0], "", -5, [["expression", "call Tvtcf_Client_TvtcfActionMenuHandler_OnPerformInsertion"]], "1", "1"];
 			};
 			
+			if (_self.OptionEndMissionVisible) then {
+				TVTCF_TvtcfMenu pushBack ["End Mission", [0], "", -5, [["expression", "call Tvtcf_Client_TvtcfActionMenuHandler_OnEndMission"]], "1", "1"];
+			};
+			
 			// Check all options, if none is visible then remove the action menu item.
 			
-			if (!_self.OptionPerformInsertionVisible) then {
+			if (!_self.OptionPerformInsertionVisible && !_self.OptionEndMissionVisible) then {
 				call _self.HideAction;
 			}
 			else {
@@ -123,6 +143,12 @@ namespace Tvtcf.Client
 				
 				call ClientObjects.PerformInsertionService.RunAsync;
 			};
+		};
+		
+		// Called when the local player selects the "End Mission" option.
+		private static method OnEndMission()
+		{
+			["ServerEventReciever.OnEndMission", []] call Remote.Invoke;
 		};
 		
 		#endregion

@@ -55,7 +55,6 @@ namespace Campaigns.MyCampaign
 		
 		protected override method OnEachIteration()
 		{
-			player sideChat str ({ isPlayer _x } count _self.ActingUnits);
 		};
 	};
 };
