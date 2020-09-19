@@ -1,8 +1,17 @@
 class Params
 {
-	class MandatoryPrepareTime
+	class ServerAdminOptions
 	{
 		// paramsArray[0]
+		title="Enable Server Admin Options";
+		values[]={0, 1};
+		texts[]={"Off", "On"};
+		default = 0;
+	};
+	
+	class MandatoryPrepareTime
+	{
+		// paramsArray[1]
 		title="Mandatory Mission Prepare Time";
 		values[]={0, 15, 30, 60, 90, 120};
 		texts[]={"None", "15 seconds", "30 seconds", "60 seconds", "90 seconds", "120 seconds"};
@@ -11,7 +20,7 @@ class Params
 	
 	class AiWest
 	{
-		// paramsArray[1]
+		// paramsArray[2]
 		title="AI Units West Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};
@@ -20,7 +29,7 @@ class Params
 	
 	class AiEast
 	{
-		// paramsArray[2]
+		// paramsArray[3]
 		title="AI Units East Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};

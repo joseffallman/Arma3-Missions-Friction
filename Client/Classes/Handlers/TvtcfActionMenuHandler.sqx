@@ -8,6 +8,7 @@
  */
 
 using Tvtcf.Common;
+using Tvtcf.Common.Statics;
 using Tvtcf.Communication;
 using Tvtcf.Client.Statics;
 
@@ -82,13 +83,15 @@ namespace Tvtcf.Client
 			else {
 				_playerGroupHasInserted = call PublicVariableHandler.GetEastHasInserted;
 			};
-			
+
 			_self.OptionPerformInsertionVisible = (call PublicVariableHandler.GetMissionHasStarted) && !_playerGroupHasInserted;
-			
+
 			// Option End Mission
-			
-			_self.OptionEndMissionVisible = call BIS_fnc_admin > 0;
-			
+
+			_self.OptionEndMissionVisible =
+				CommonObjects.MissionParametersHandler.EnableServerAdminOptions &&
+				call BIS_fnc_admin > 0;
+
 			call _self.BuildCampaignMenu;
 		};
 		
