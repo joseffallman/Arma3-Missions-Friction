@@ -18,6 +18,15 @@ class Params
 		default = 0;
 	};
 	
+	class TimeBetweenMissions
+	{
+		// paramsArray[1]
+		title="Time Between Missions";
+		values[]={0, 30, 60, 90, 120};
+		texts[]={"None", "30 seconds", "60 seconds", "90 seconds", "120 seconds"};
+		default = 0;
+	};
+	
 	class AiWest
 	{
 		// paramsArray[2]

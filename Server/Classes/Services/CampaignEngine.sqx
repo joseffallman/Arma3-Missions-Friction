@@ -17,12 +17,12 @@ namespace Tvtcf.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar)
 		{
 			call _base.Constructor;
 			
@@ -30,6 +30,7 @@ namespace Tvtcf.Server
 			_mMissionUnitsHandler = _missionUnitsHandler;
 			_mAiUnitsWestCount = _aiUnitsWestCount;
 			_mAiUnitsEastCount = _aiUnitsEastCount;
+			_mTimeBetweenMissions = _timeBetweenMissions;
 			
 			_mServerActionHandler = new ServerActionHandler;
 			
@@ -566,7 +567,8 @@ namespace Tvtcf.Server
 				
 				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 				
-				sleep 0.1;
+				var _nextMissionTime = time + _mTimeBetweenMissions + 0.1;
+				waitUntil { time > _nextMissionTime };
 				
 				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
 			};
