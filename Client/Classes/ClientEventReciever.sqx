@@ -18,9 +18,12 @@ namespace Tvtcf.Client.Statics
 	public class ClientEventReciever
 	{
 		// Called when the mission engine on the server starts.
-		public static method OnMissionStart()
+		public static method OnCampaignStart()
 		{
-		
+			[] spawn {
+				sleep 10;
+				[TutorialType.Welcome] call TutorialHandler.ShowTutorial;
+			};
 		};
 	
 		// Called each time a second passes in the mission.

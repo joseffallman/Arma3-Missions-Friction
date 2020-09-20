@@ -1,4 +1,7 @@
 #include "MissionParameters.ext"
+#include "Dialogs\Defines.hpp"
+#include "Dialogs\DialogControls.hpp"
+#include "Dialogs\TutorialDialog.hpp"
 
 // Mission Header
 class Header

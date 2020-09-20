@@ -2,6 +2,9 @@ call compile preprocessFileLineNumbers "Client\Classes\ClientState.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientObjects.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Configs\TutorialConfig.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Dialogs\TutorialDialog.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Handlers\TutorialHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\MapMarkerHandler.sqx";
@@ -11,6 +14,7 @@ call compile preprocessFileLineNumbers "Client\Classes\Handlers\CameraHandler.sq
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ClientMissionActionHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\ExtractionSymbolHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Objects\ActionMapping.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Objects\Tutorial.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\CampaignEndService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\PerformInsertionService.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Services\TeleportService.sqx";
@@ -32,6 +36,9 @@ namespace Mission
 			// Make sure the player object exists
 			cutText ["", "BLACK FADED"];
 			waitUntil { player == player };
+			
+			call TutorialConfig.Init;
+			call TutorialHandler.Init;
 			
 			call ClientState.Init;
 			
