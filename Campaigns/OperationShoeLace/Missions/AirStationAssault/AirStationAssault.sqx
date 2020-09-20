@@ -43,7 +43,7 @@ namespace Campaigns.ShoeLace
 			var _p2 = "<br /><br />Remember to bring explosives!";
 			var _p3 = "";
 			
-			if ("DRONE" in _self.EarlierGainedTokensActing) then {
+			if ("DRONE" in _self.GainedTokensActing) then {
 				_p3 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
@@ -55,7 +55,7 @@ namespace Campaigns.ShoeLace
 			var _p1 = "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
 			var _p2 = "";
 			
-			if ("DRONE" in _self.EarlierGainedTokensOpposing) then {
+			if ("DRONE" in _self.GainedTokensOpposing) then {
 				_p2 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
@@ -70,7 +70,7 @@ namespace Campaigns.ShoeLace
 			
 			var _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
-			if ("DRONE" in _self.EarlierGainedTokensActing) then {
+			if ("DRONE" in _self.GainedTokensActing) then {
 				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
 				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
 			};
@@ -81,7 +81,7 @@ namespace Campaigns.ShoeLace
 			
 			_ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
-			if ("DRONE" in _self.EarlierGainedTokensOpposing) then {
+			if ("DRONE" in _self.GainedTokensOpposing) then {
 				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
 				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
 			};

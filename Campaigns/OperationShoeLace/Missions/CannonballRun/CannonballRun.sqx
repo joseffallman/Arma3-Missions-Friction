@@ -58,7 +58,7 @@ namespace Campaigns.ShoeLace
 			_mTruck = ["DEVICE TRUCK", MissionSide.Acting, "m10a_TruckStartMarker"] call _self.CreateSideVehicleOnMarker;
 			["MRAP HMG", MissionSide.Acting, "m10a_EscortStartMarker"] call _self.CreateSideVehicleOnMarker;
 			
-			if ("HELICOPTER" in _self.EarlierLostTokensOpposing) then
+			if ("HELICOPTER" in _self.LostTokensOpposing) then
 			{
 				["HELICOPTER WRECK", MissionSide.Opposing, "m_AirbaseHelipad1"] call _self.CreateSideVehicleOnMarker;
 			}
@@ -88,7 +88,7 @@ namespace Campaigns.ShoeLace
 		{
 			var _p1 = "Intelligence has found that the enemy is about to deliver booby-trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
 			
-			if ("HELICOPTER" in _self.EarlierLostTokensOpposing) then {
+			if ("HELICOPTER" in _self.LostTokensOpposing) then {
 				_p1 = _p1 + "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
 			};
 			

@@ -48,7 +48,7 @@ namespace Campaigns.ShoeLace
 			
 			// Spawn ordnance for opposing if they have the AAF EXPLOSIVES.
 			
-			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensOpposing) then {
+			if ("AAF EXPLOSIVES" in _self.GainedTokensOpposing) then {
 				["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			};
 			

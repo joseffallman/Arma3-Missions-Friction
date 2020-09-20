@@ -163,7 +163,7 @@ namespace Campaigns.ShoeLace
 		{
 			var _briefingText = "We are now quite sure that the enemy is about to raise some kind of military building or weapon. The military drawings are most likely in a desk in one of the five office buildings marked on the map.";
 			
-			if ("AIRBASE SECRET" in _self.EarlierGainedTokensActing) then {
+			if ("AIRBASE SECRET" in _self.GainedTokensActing) then {
 				_briefingText = "Earlier collected intel (AIRBASE SECRET) reveals that the secret military drawings are in building " + markerText _mPrimaryObjectiveMarker + ".";
 			};
 			

@@ -55,8 +55,8 @@ namespace Campaigns.ShoeLace
 			
 			call _base.Setup;
 			
-			var _actingAndIndependentAllied = "AAF ALLIANCE" in _self.EarlierGainedTokensActing;
-			var _opposingAndIndependentAllied = "AAF ALLIANCE" in _self.EarlierGainedTokensOpposing;
+			var _actingAndIndependentAllied = "AAF ALLIANCE" in _self.GainedTokensActing;
+			var _opposingAndIndependentAllied = "AAF ALLIANCE" in _self.GainedTokensOpposing;
 			
 			[MissionSide.Acting, _actingAndIndependentAllied] call _self.SetIndependentAlliance;
 			[MissionSide.Opposing, _opposingAndIndependentAllied] call _self.SetIndependentAlliance;
@@ -80,7 +80,7 @@ namespace Campaigns.ShoeLace
 			var _p1 = "An intercepted radio message reveals that AAF drone equipment has been accidentaly left somewhere in Girna. The message was totally unencrypted, so expect that both AAF and enemy forces can show up too.";
 			
 			var _p2 = "";
-			if ("AAF ALLIANCE" in _self.EarlierGainedTokensActing) then {
+			if ("AAF ALLIANCE" in _self.GainedTokensActing) then {
 				_p2 = "<br /><br />We have currently a ceasefire agreement with AAF. However, be very careful with target identification, accidentally kill any of them we will loose alliance.";
 			};
 			
@@ -92,7 +92,7 @@ namespace Campaigns.ShoeLace
 			var _p1 = "An intercepted radio message reveals that AAF drone equipment has been accidentaly left somewhere in Girna. The message was totally unencrypted, so expect that both AAF and enemy forces can show up too.";
 			
 			var _p2 = "";
-			if ("AAF ALLIANCE" in _self.EarlierGainedTokensActing) then {
+			if ("AAF ALLIANCE" in _self.GainedTokensActing) then {
 				_p2 = "<br /><br />We have currently a ceasefire agreement with AAF. However, be very careful with target identification, accidentally kill any of them we will loose alliance.";
 			};
 			

@@ -54,13 +54,13 @@ namespace Campaigns.ShoeLace
 				{
 					_info = _info + _comma + _x;
 					_comma = ", ";
-				} foreach _self.EarlierGainedTokensActing as String;
+				} foreach _self.GainedTokensActing as String;
 			}
 			else {
 				{
 					_info = _info + _comma + _x;
 					_comma = ", ";
-				} foreach _self.EarlierGainedTokensOpposing as String;
+				} foreach _self.GainedTokensOpposing as String;
 			};
 			
 			_info = _info + ".<br />Lost tokens: ";
@@ -71,13 +71,13 @@ namespace Campaigns.ShoeLace
 				{
 					_info = _info + _comma + _x;
 					_comma = ", ";
-				} foreach _self.EarlierLostTokensActing as String;
+				} foreach _self.LostTokensActing as String;
 			}
 			else {
 				{
 					_info = _info + _comma + _x;
 					_comma = ", ";
-				} foreach _self.EarlierLostTokensOpposing as String;
+				} foreach _self.LostTokensOpposing as String;
 			};
 			
 			return _info;
@@ -88,22 +88,22 @@ namespace Campaigns.ShoeLace
 			[MissionSide.Acting, false] call _self.SetIndependentAlliance;
 			[MissionSide.Opposing, false] call _self.SetIndependentAlliance;
 			
-			if ("BASIC WEAPONS" in _self.EarlierGainedTokensActing) then {
+			if ("BASIC WEAPONS" in _self.GainedTokensActing) then {
 				["AMMOBOX BASIC WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 				["AMMOBOX BASIC AMMO", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 			};
 			
-			if ("BASIC WEAPONS" in _self.EarlierGainedTokensOpposing) then {
+			if ("BASIC WEAPONS" in _self.GainedTokensOpposing) then {
 				["AMMOBOX BASIC WEAPONS", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 				["AMMOBOX BASIC AMMO", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 			};
 			
-			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensActing) then {
+			if ("AAF EXPLOSIVES" in _self.GainedTokensActing) then {
 				var _box = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
-			if ("AAF EXPLOSIVES" in _self.EarlierGainedTokensOpposing) then {
+			if ("AAF EXPLOSIVES" in _self.GainedTokensOpposing) then {
 				var _box = ["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
 				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
