@@ -377,20 +377,10 @@ namespace Campaigns
 		// to this property value.
 		protected property Scalar StartTimeOfDay { get; private set; };
 		
-		// Gets an array of history token keys gained in earlier missions for the acting side.
-		protected property Array EarlierGainedTokensActing { get; private set; };
-		
-		// Gets an array of history token keys lost in earlier missions for the acting side.
-		protected property Array EarlierLostTokensActing { get; private set; };
-		
-		// Gets an array of history token keys gained in earlier missions for the opposing side.
-		protected property Array EarlierGainedTokensOpposing { get; private set; };
-		
-		// Gets an array of history token keys lost in earlier missions for the opposing side.
-		protected property Array EarlierLostTokensOpposing { get; private set; };
-		
+		// Gets the object type dictionary that translates a vehicle type alias into its real class name.
 		protected property ObjectTypeDictionary ObjectTypeDictionary { get; private set; };
 		
+		// Gets the soldier type dictionary that translates a unit type alias into its real class name.
 		protected property SoldierTypeDictionary SoldierTypeDictionary { get; private set; };
 		
 		// Gets the units on the acting side that was inserted to execute the mission.
@@ -480,7 +470,7 @@ namespace Campaigns
 		};
 		
 		// Loads the mission with all gained and lost history items.
-		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_earlierGainedTokensActing" as Array, "_earlierLostTokensActing" as Array, "_earlierGainedTokensOpposing" as Array, "_earlierLostTokensOpposing" as Array)
+		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_gainedTokensActing" as Array, "_lostTokensActing" as Array, "_gainedTokensOpposing" as Array, "_lostTokensOpposing" as Array)
 		{
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mServerActionHandler = _serverActionHandler;
@@ -494,10 +484,10 @@ namespace Campaigns
 				_self.OpposingUnits = units _westlyGroup;
 			};
 		
-			_self.EarlierGainedTokensActing = _earlierGainedTokensActing;
-			_self.EarlierLostTokensActing = _earlierLostTokensActing;
-			_self.EarlierGainedTokensOpposing = _earlierGainedTokensOpposing;
-			_self.EarlierLostTokensOpposing = _earlierLostTokensOpposing;
+			_self.GainedTokensActing = _gainedTokensActing;
+			_self.LostTokensActing = _lostTokensActing;
+			_self.GainedTokensOpposing = _gainedTokensOpposing;
+			_self.LostTokensOpposing = _lostTokensOpposing;
 			
 			private _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
 			skipTime _timeToSkip;

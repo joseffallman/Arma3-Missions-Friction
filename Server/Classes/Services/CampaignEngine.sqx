@@ -312,6 +312,17 @@ namespace Tvtcf.Server
 			return _removedItemsCount;
 		};
 		
+		private static method Array CloneArray("_array" as Array)
+		{
+			var _clonedArray = [];
+		
+			{
+				_clonedArray pushBack _x;
+			} foreach _array;
+			
+			return _clonedArray;
+		};
+		
 		private method SaveHistoryTokens("_mission" as Mission)
 		{
 			private ["_gainedTokensWest" as Array, "_lostTokensWest" as Array, "_gainedTokensEast" as Array, "_lostTokensEast" as Array];
@@ -323,16 +334,16 @@ namespace Tvtcf.Server
 			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then
 			{
-				_gainedTokensWest = _mission.GainedTokensActing;
-				_lostTokensWest = _mission.LostTokensActing;
-				_gainedTokensEast = _mission.GainedTokensOpposing;
-				_lostTokensEast = _mission.LostTokensOpposing;
+				_gainedTokensWest = _mission.GainedTokensActing - _earlierGainedTokensWest;
+				_lostTokensWest = _mission.LostTokensActing - _earlierLostTokensWest;
+				_gainedTokensEast = _mission.GainedTokensOpposing - _earlierGainedTokensEast;
+				_lostTokensEast = _mission.LostTokensOpposing - _earlierLostTokensEast;
 			}
 			else {
-				_gainedTokensWest = _mission.GainedTokensOpposing;
-				_lostTokensWest = _mission.LostTokensOpposing;
-				_gainedTokensEast = _mission.GainedTokensActing;
-				_lostTokensEast = _mission.LostTokensActing;
+				_gainedTokensWest = _mission.GainedTokensOpposing - _earlierGainedTokensWest;
+				_lostTokensWest = _mission.LostTokensOpposing - _earlierLostTokensWest;
+				_gainedTokensEast = _mission.GainedTokensActing - _earlierGainedTokensEast;
+				_lostTokensEast = _mission.LostTokensActing - _earlierLostTokensEast;
 			};
 			
 			diag_log ("TOKENS1: GainedTokensWest: " + str _gainedTokensWest);
@@ -345,17 +356,6 @@ namespace Tvtcf.Server
 			diag_log ("TOKENS1: EarlierLostTokensWest: " + str _earlierLostTokensWest);
 			diag_log ("TOKENS1: EarlierLostTokensEast: " + str _earlierLostTokensEast);
 
-			// If west have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
-			{
-				if (_x in _earlierLostTokensWest) then {
-					[_earlierLostTokensWest, _x] call _self.DeleteItemInArray;
-				};
-				
-				if (!(_x in _earlierGainedTokensWest)) then {
-					_earlierGainedTokensWest pushBack _x;
-				};
-			} foreach _gainedTokensWest as String;
-				
 			// If west have lost tokens in the mission, remove them from their gained tokens, and add them to lost tokens
 			{
 				if (_x in _earlierGainedTokensWest) then {
@@ -366,17 +366,17 @@ namespace Tvtcf.Server
 					_earlierLostTokensWest pushBack _x;
 				};
 			} foreach _lostTokensWest as String;
-			
-			// If east have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
+
+			// If west have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
 			{
-				if (_x in _earlierLostTokensEast) then {
-					[_earlierLostTokensEast, _x] call _self.DeleteItemInArray;
+				if (_x in _earlierLostTokensWest) then {
+					[_earlierLostTokensWest, _x] call _self.DeleteItemInArray;
 				};
 				
-				if (!(_x in _earlierGainedTokensEast)) then {
-					_earlierGainedTokensEast pushBack _x;
+				if (!(_x in _earlierGainedTokensWest)) then {
+					_earlierGainedTokensWest pushBack _x;
 				};
-			} foreach _gainedTokensEast as String;
+			} foreach _gainedTokensWest as String;
 			
 			// If east have lost tokens in the mission, remove them from their gained tokens, and add them to lost tokens
 			{
@@ -388,6 +388,17 @@ namespace Tvtcf.Server
 					_earlierLostTokensEast pushBack _x;
 				};
 			} foreach _lostTokensEast as String;
+			
+			// If east have gained tokens in the mission, remove them from their lost tokens, and add them to gained tokens
+			{
+				if (_x in _earlierLostTokensEast) then {
+					[_earlierLostTokensEast, _x] call _self.DeleteItemInArray;
+				};
+				
+				if (!(_x in _earlierGainedTokensEast)) then {
+					_earlierGainedTokensEast pushBack _x;
+				};
+			} foreach _gainedTokensEast as String;
 			
 			diag_log ("TOKENS2: GainedTokensWest: " + str _gainedTokensWest);
 			diag_log ("TOKENS2: GainedTokensEast: " + str _gainedTokensEast);
