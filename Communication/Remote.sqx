@@ -46,6 +46,7 @@ namespace Tvtcf.Communication
 			
 				switch (_methodFullName) do
 				{
+					case "ClientEventReciever.OnCampaignStart": { _parameters spawn ClientEventReciever.OnCampaignStart; };
 					case "ClientEventReciever.OnMissionTimeTick": { _parameters spawn ClientEventReciever.OnMissionTimeTick; };
 					case "ClientEventReciever.OnMissionStarting": { _parameters spawn ClientEventReciever.OnMissionStarting; };
 					case "ClientEventReciever.OnMissionSetup": { _parameters spawn ClientEventReciever.OnMissionSetup; };

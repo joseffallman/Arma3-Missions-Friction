@@ -442,6 +442,8 @@ namespace Tvtcf.Server
 			
 			sleep 3;
 			
+			["ClientEventReciever.OnCampaignStart", []] call Remote.Invoke;
+			
 			// Run each mission
 			
 			_mCurrentMission = [""] call _mCampaign.GetNextMission;
