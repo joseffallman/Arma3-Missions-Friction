@@ -17,8 +17,8 @@ namespace Tvtcf.Common
 			call _self.SetDefaultValuesIfSinglePlayer;
 
 			_self.EnableServerAdminOptions = (paramsArray select 0) == 1;
-			_self.TimeBetweenMissions = (paramsArray select 1);
-			_self.MandatoryPrepareTime = (paramsArray select 2);
+			_self.MandatoryPrepareTime = (paramsArray select 1);
+			_self.TimeBetweenMissions = (paramsArray select 2);
 			_self.AiWestFrequency = (paramsArray select 3);
 			_self.AiEastFrequency = (paramsArray select 4);
 		};
