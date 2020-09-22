@@ -18,7 +18,7 @@ namespace Tvtcf.Common
 
 			_self.EnableServerAdminOptions = (paramsArray select 0) == 1;
 			_self.MandatoryPrepareTime = (paramsArray select 1);
-			_self.TimeBetweenMissions = 30; //(paramsArray select 2);
+			_self.TimeBetweenMissions = (paramsArray select 2);
 			_self.AiWestFrequency = (paramsArray select 3);
 			_self.AiEastFrequency = (paramsArray select 4);
 		};

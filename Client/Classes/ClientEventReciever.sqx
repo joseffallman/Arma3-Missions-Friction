@@ -201,7 +201,9 @@ namespace Tvtcf.Client.Statics
 			call ClientObjects.TaskHandler.DeleteAllTasks;
 			
 			// Start the Next Mission Counter
-			call ClientObjects.WaitingForMissionCounter.RunAsync;
+			if (CommonObjects.MissionParametersHandler.TimeBetweenMissions > 0) then {
+				call ClientObjects.WaitingForMissionCounter.RunAsync;
+			};
 		};
 		
 		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)

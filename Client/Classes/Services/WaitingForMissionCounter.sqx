@@ -14,33 +14,40 @@ namespace Tvtcf.Client
 {
 	public class WaitingForMissionCounter : Service
 	{
-		private fields ["_mSeconds" as Scalar];
+		private fields ["_mTimeBetweenMissions" as Scalar, "_mRemainingTime" as Scalar];
 		
 		// Creates a AwaitingNextMissionCounter object.
-		public constructor("_seconds" as Scalar)
+		public constructor("_timeBetweenMissions" as Scalar)
 		{
 			call _base.Constructor;
-			_mSeconds = _seconds;
+			_mTimeBetweenMissions = _timeBetweenMissions;
+			_mRemainingTime = _timeBetweenMissions;
+		};
+		
+		public method SetRemainingTime("_remainingTime" as Scalar)
+		{
+			_mRemainingTime = floor _remainingTime;
 		};
 		
 		protected override method Run()
 		{
 			sleep 1;
-			cutText ["","BLACK IN", 1];
 			
-			var _seconds = _mSeconds - 1;
+			cutText ["","BLACK IN", 1];
+			_mRemainingTime = _mRemainingTime - 1;
 		
-			while { _seconds >= 0 && !_self.IsCancelling } do {
-				hint ("Next mission starts in " + (str _seconds) + " seconds.");
+			while { _mRemainingTime >= 0 && !_self.IsCancelling } do {
+				hint ("Next mission starts in " + (str _mRemainingTime) + " seconds.");
 				
-				if (_seconds == 1) then {
+				if (_mRemainingTime == 2) then {
 					cutText ["","BLACK OUT", 1];
 				};
 				
+				_mRemainingTime = _mRemainingTime - 1;
 				sleep 1;
-				_seconds = _seconds - 1;
 			};
 			
+			_mRemainingTime = _mTimeBetweenMissions;
 			call _base.Run;
 		};
 	};

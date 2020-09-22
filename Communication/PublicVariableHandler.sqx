@@ -158,20 +158,20 @@ namespace Tvtcf.Communication
 		};
 		
 		
-		public static method BroadcastMissionStartTime("_missionStartTime" as Scalar)
+		public static method BroadcastBriefingEndTime("_briefingEndTime" as Scalar)
 		{
-			PUBVAR_MissionStartTime = _missionStartTime;
-			publicVariable "PUBVAR_MissionStartTime";
+			PUBVAR_BriefingEndTime = _briefingEndTime;
+			publicVariable "PUBVAR_BriefingEndTime";
 		};
 		
-		public static method Boolean HasValueMissionStartTime() {
-			return !isNil "PUBVAR_MissionStartTime";
+		public static method Boolean HasValueBriefingEndTime() {
+			return !isNil "PUBVAR_BriefingEndTime";
 		};
 		
-		public static method Scalar GetMissionStartTime()
+		public static method Scalar GetBriefingEndTime()
 		{
-			if (call _self.HasValueMissionStartTime) then {
-				return PUBVAR_MissionStartTime;
+			if (call _self.HasValueBriefingEndTime) then {
+				return PUBVAR_BriefingEndTime;
 			};
 
 			return 0;
@@ -195,6 +195,26 @@ namespace Tvtcf.Communication
 			};
 
 			return false;
+		};		
+		
+		
+		public static method BroadcastNextMissionStartTime("_nextMissionStartTime" as Scalar)
+		{
+			PUBVAR_NextMissionStartTime = _nextMissionStartTime;
+			publicVariable "PUBVAR_NextMissionStartTime";
+		};
+		
+		public static method Boolean HasValueNextMissionStartTime() {
+			return !isNil "PUBVAR_NextMissionStartTime";
+		};
+		
+		public static method Scalar GetNextMissionStartTime()
+		{
+			if (call _self.HasValueNextMissionStartTime) then {
+				return PUBVAR_NextMissionStartTime;
+			};
+
+			return 0;
 		};		
 	};
 };

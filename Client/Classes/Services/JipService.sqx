@@ -49,6 +49,17 @@ namespace Tvtcf.Client
 				call _briefingService.RunAsync;
 			};
 			
+			// Set eventual next mission counter if the campaign is between two missions
+			
+			var _nextMissionStartTime = call PublicVariableHandler.GetNextMissionStartTime;
+			var _remainingTime = floor (_nextMissionStartTime - (call Functions.GetMissionTime));
+			
+			if (_remainingTime > 0) then
+			{
+				[_remainingTime] call ClientObjects.WaitingForMissionCounter.SetRemainingTime;
+				call ClientObjects.WaitingForMissionCounter.RunAsync;
+			};
+			
 			// Set eventual insertion counter
 			
 			if (!isNull _missionMarkersInfo) then
@@ -76,8 +87,8 @@ namespace Tvtcf.Client
 					
 					// Mission Prepare Counter
 				
-					var _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
-					_missionPrepareCounter = [_mClientMessageHandler, _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
+					var _briefingEndTime = call PublicVariableHandler.GetBriefingEndTime;
+					_missionPrepareCounter = [_mClientMessageHandler, _briefingEndTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
 					call _missionPrepareCounter.RunAsync;
 				};
 			};

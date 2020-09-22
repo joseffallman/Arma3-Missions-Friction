@@ -41,8 +41,6 @@ namespace Campaigns.MyCampaign
 			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
 			["AMMOBOX SPECIAL WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
 			
-			player sideChat str _self.GainedTokensActing;
-			
 			call _base.Setup;
 		};
 		
@@ -50,7 +48,6 @@ namespace Campaigns.MyCampaign
 		{
 			if (_self.RemainingTime <= 29) then {
 				var _token = str floor random 10;
-				player sideChat _token;
 				_self.GainedTokensActing pushBack _token;
 				return ObjectiveState.Succeeded;
 			};

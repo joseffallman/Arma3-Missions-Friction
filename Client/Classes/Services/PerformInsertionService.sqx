@@ -11,6 +11,7 @@
 using Sqx.Services;
 using Tvtcf.Communication;
 using Tvtcf.Common.Statics;
+using Tvtcf.Common;
 
 namespace Tvtcf.Client
 {
@@ -55,9 +56,10 @@ namespace Tvtcf.Client
 		
 		protected override method Run()
 		{
-			private _missionStartTime = call PublicVariableHandler.GetMissionStartTime;
+			var _briefingEndTime = call PublicVariableHandler.GetBriefingEndTime;
+			var _serverTime = call Functions.GetMissionTime;
 			
-			if (serverTime < _missionStartTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime) then {
+			if (_serverTime < _briefingEndTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime) then {
 				["Insertion is not yet allowed."] call _mMessageHandler.ShowMessage;
 			}
 			else

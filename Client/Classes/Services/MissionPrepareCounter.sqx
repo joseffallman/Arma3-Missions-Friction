@@ -9,6 +9,7 @@
  */
 
 using Sqx.Services;
+using Tvtcf.Common;
 
 namespace Tvtcf.Client
 {
@@ -27,17 +28,13 @@ namespace Tvtcf.Client
 		
 		protected override method Run()
 		{
-			var _time = serverTime;
+			var _time = call Functions.GetMissionTime;
 			var _hasWaited = false;
 			var _seconds = 0;
 			
-			if (!isMultiplayer) then {
-				_time = time;
-			};
-			
 			while { _time < _mInsertionTime } do
 			{
-				var _timeLeft = ceil (_mInsertionTime - serverTime);
+				var _timeLeft = ceil (_mInsertionTime - (call Functions.GetMissionTime));
 				
 				if (_seconds >= 10) then {
 					["Insertion allowed in " + str _timeLeft + " seconds."] call _mClientMessageHandler.ShowSubTitle;
@@ -45,10 +42,7 @@ namespace Tvtcf.Client
 				
 				sleep 1;
 				
-				_time = serverTime;				
-				if (!isMultiplayer) then {
-					_time = time;
-				};
+				_time = call Functions.GetMissionTime;				
 				
 				_hasWaited = true;
 				_seconds = _seconds + 1;

@@ -130,8 +130,9 @@ namespace Tvtcf.Server
 
 			_missionBriefing = [_mission.Name, _briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
 
-			private _serverTime = serverTime;
-			[_serverTime] call PublicVariableHandler.BroadcastMissionStartTime;
+			var _serverTime = call Functions.GetMissionTime;
+
+			[_serverTime] call PublicVariableHandler.BroadcastBriefingEndTime;
 
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing, _serverTime]] call Remote.Invoke;
@@ -506,7 +507,8 @@ namespace Tvtcf.Server
 				[_mMissionMarkersInfo] call _self.InsertSideWithNoPlayers;
 				
 				var _remainingTime = _mCurrentMission.RemainingTime;
-				var _startTime = time;
+				var _startTime = call Functions.GetMissionTime;
+				
 				var _endTime = _startTime + _mCurrentMission.MissionTimeLimit * 60;
 				
 				call _mCurrentMission.RunAsync;
@@ -514,7 +516,7 @@ namespace Tvtcf.Server
 				
 				while { _mCurrentMission.IsRunning } do
 				{
-					var _elapsedTimeInMin = floor ((time - _startTime) / 60);
+					var _elapsedTimeInMin = floor (((call Functions.GetMissionTime) - _startTime) / 60);
 					
 					if (_elapsedTimeInMin != _mCurrentMission.MissionTimeElapsed) then
 					{
@@ -524,7 +526,9 @@ namespace Tvtcf.Server
 
 					// If time is up, cancel the mission.
 					
-					if (time > _endTime) then {
+					var _serverTime = call Functions.GetMissionTime;
+					
+					if (_serverTime > _endTime) then {
 						[_mCurrentMission.MissionTimeElapsed] call _mCurrentMission.SetTimeElapsed;
 						call _mCurrentMission.Cancel;
 					};
@@ -569,12 +573,14 @@ namespace Tvtcf.Server
 				
 				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
 				
-				var _nextMissionTime = time + _mTimeBetweenMissions;
+				var _time = call Functions.GetMissionTime;
+				var _nextMissionStartTime = _time + _mTimeBetweenMissions;
 				
 				sleep 0.1;
 				
 				if (!isNull _mCurrentMission) then {
-					waitUntil { time > _nextMissionTime };
+					[_nextMissionStartTime] call PublicVariableHandler.BroadcastNextMissionStartTime;
+					waitUntil { (call Functions.GetMissionTime) > _nextMissionStartTime };
 				};
 			};
 

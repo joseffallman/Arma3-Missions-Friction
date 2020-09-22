@@ -75,5 +75,14 @@ namespace Tvtcf.Common
 			
 			return _bestPos;
 		};
+		
+		public static method Scalar GetMissionTime()
+		{
+			if (isMultiplayer) then {
+				return serverTime;
+			};
+			
+			return time;
+		};
 	};
 };
