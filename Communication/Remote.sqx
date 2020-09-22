@@ -37,6 +37,7 @@ namespace Tvtcf.Communication
 					case "ServerEventReciever.OnPlayerPerformingInsertion": { _parameters spawn ServerEventReciever.OnPlayerPerformingInsertion; };
 					case "ServerEventReciever.OnAction": { _parameters spawn ServerEventReciever.OnAction; };
 					case "ServerEventReciever.OnEndMission": { _parameters spawn ServerEventReciever.OnEndMission; };
+					case "ServerEventReciever.OnForceNextMission": { _parameters spawn ServerEventReciever.OnForceNextMission; };
 				};
 			};
 			

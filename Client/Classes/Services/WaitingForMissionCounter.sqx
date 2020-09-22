@@ -34,6 +34,8 @@ namespace Tvtcf.Client
 			sleep 1;
 			
 			cutText ["","BLACK IN", 1];
+			var _isBlack = false;
+			
 			_mRemainingTime = _mRemainingTime - 1;
 		
 			while { _mRemainingTime >= 0 && !_self.IsCancelling } do {
@@ -41,10 +43,16 @@ namespace Tvtcf.Client
 				
 				if (_mRemainingTime == 2) then {
 					cutText ["","BLACK OUT", 1];
+					_isBlack = true;
 				};
 				
 				_mRemainingTime = _mRemainingTime - 1;
 				sleep 1;
+			};
+			
+			if (!_isBlack) then {
+				cutText ["","BLACK OUT", 1];
+				_isBlack = true;
 			};
 			
 			_mRemainingTime = _mTimeBetweenMissions;

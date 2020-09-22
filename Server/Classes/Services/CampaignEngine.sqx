@@ -20,6 +20,7 @@ namespace Tvtcf.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
+		private fields ["_mForceNextMission" as Boolean];
 	
 		// Creates a Campaign object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar)
@@ -31,6 +32,7 @@ namespace Tvtcf.Server
 			_mAiUnitsWestCount = _aiUnitsWestCount;
 			_mAiUnitsEastCount = _aiUnitsEastCount;
 			_mTimeBetweenMissions = _timeBetweenMissions;
+			_mForceNextMission = false;
 			
 			_mServerActionHandler = new ServerActionHandler;
 			
@@ -186,6 +188,11 @@ namespace Tvtcf.Server
 			if (!isNull _mCurrentMission) then {
 				call _mCurrentMission.Cancel;
 			};
+		};
+		
+		public method ForceNextMission()
+		{
+			_mForceNextMission = true;
 		};
 		
 		public method OnAction("_serverActionId" as Scalar, "_target" as Object, "_caller" as Object)
@@ -580,7 +587,9 @@ namespace Tvtcf.Server
 				
 				if (!isNull _mCurrentMission) then {
 					[_nextMissionStartTime] call PublicVariableHandler.BroadcastNextMissionStartTime;
-					waitUntil { (call Functions.GetMissionTime) > _nextMissionStartTime };
+					waitUntil { _mForceNextMission || (call Functions.GetMissionTime) > _nextMissionStartTime - 1 };
+					_mForceNextMission = false;
+					sleep 1;
 				};
 			};
 
