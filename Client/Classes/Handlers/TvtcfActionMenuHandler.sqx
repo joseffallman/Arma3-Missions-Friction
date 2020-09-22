@@ -94,21 +94,20 @@ namespace Tvtcf.Client
 				_playerGroupHasInserted = call PublicVariableHandler.GetEastHasInserted;
 			};
 
-			_self.OptionPerformInsertionVisible = (call PublicVariableHandler.GetMissionHasStarted) && !_playerGroupHasInserted;
+			var _missionHasStarted = call PublicVariableHandler.GetMissionHasStarted;
+			_self.OptionPerformInsertionVisible = (_missionHasStarted) && !_playerGroupHasInserted;
 
 			// Option End Mission
 			
-			var _nextMissionStartTime = PublicVariableHandler.GetNextMissionStartTime;
-
 			_self.OptionEndMissionVisible =
-				_nextMissionStartTime < (call Functions.GetMissionTime) &&
+				_missionHasStarted &&
 				CommonObjects.MissionParametersHandler.EnableServerAdminOptions &&
 				((call BIS_fnc_admin) > 0 || isServer);
 				
 			// Option Force Next Mission
 			
 			_self.OptionForceNextMissionVisible =
-				_nextMissionStartTime > (call Functions.GetMissionTime) &&
+				!_missionHasStarted &&
 				CommonObjects.MissionParametersHandler.EnableServerAdminOptions &&
 				((call BIS_fnc_admin) > 0 || isServer);
 

@@ -33,11 +33,7 @@ namespace Tvtcf.Client.Statics
 				ClientState.IsAlive = !_hasInserted;
 				
 				if (didJIP) then {
-					// Perform JIP stuff
 					call ClientObjects.JipService.RunAsync;
-				}
-				else {
-			  		//cutText ["","BLACK IN", 1];
 				};
 			}] call BIS_fnc_addStackedEventHandler;
 			

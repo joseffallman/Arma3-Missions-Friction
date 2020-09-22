@@ -576,21 +576,29 @@ namespace Tvtcf.Server
 				call _mCurrentMission.Cleanup;
 				call _self.CleanupItemsOnTheGround;
 				
-				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
+				var _nextMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
+				var _isLastMission = isNull _nextMission;
 				
-				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
+				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast, _isLastMission]] call Remote.Invoke;
 				
 				var _time = call Functions.GetMissionTime;
 				var _nextMissionStartTime = _time + _mTimeBetweenMissions;
 				
 				sleep 0.1;
 				
-				if (!isNull _mCurrentMission) then {
+				if (!isNull _nextMission) then {
 					[_nextMissionStartTime] call PublicVariableHandler.BroadcastNextMissionStartTime;
-					waitUntil { _mForceNextMission || (call Functions.GetMissionTime) > _nextMissionStartTime - 1 };
+					waitUntil { _mForceNextMission || (call Functions.GetMissionTime) > _nextMissionStartTime };
+					
+					if (_mForceNextMission) then {
+						["ClientEventReciever.OnForceNextMission", []] call Remote.Invoke;
+						sleep 2;
+					};
+					
 					_mForceNextMission = false;
-					sleep 1;
 				};
+				
+				_mCurrentMission = _nextMission;
 			};
 
 			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;

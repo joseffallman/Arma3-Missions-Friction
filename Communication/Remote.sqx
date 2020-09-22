@@ -61,6 +61,7 @@ namespace Tvtcf.Communication
 					case "ClientEventReciever.OnShowNotification": { _parameters spawn ClientEventReciever.OnShowNotification; };
 					case "ClientEventReciever.OnAddAction": { _parameters spawn ClientEventReciever.OnAddAction; };
 					case "ClientEventReciever.OnDeleteActions": { _parameters spawn ClientEventReciever.OnDeleteActions; };
+					case "ClientEventReciever.OnForceNextMission": { _parameters spawn ClientEventReciever.OnForceNextMission; };
 				};
 			};
 		};
