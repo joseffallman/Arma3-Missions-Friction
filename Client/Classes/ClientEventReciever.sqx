@@ -21,7 +21,7 @@ namespace Tvtcf.Client.Statics
 		public static method OnCampaignStart()
 		{
 			[] spawn {
-				sleep 10;
+				sleep 6;
 				[TutorialType.Welcome] call TutorialHandler.ShowTutorial;
 			};
 		};
