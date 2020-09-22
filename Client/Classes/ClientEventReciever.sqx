@@ -199,6 +199,9 @@ namespace Tvtcf.Client.Statics
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;
+			
+			// Start the Next Mission Counter
+			call ClientObjects.WaitingForMissionCounter.RunAsync;
 		};
 		
 		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
@@ -227,6 +230,8 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnCampaignEnded("_westAccumulatedScore" as Scalar, "_eastAccumulatedScore" as Scalar)
 		{
+			call ClientObjects.WaitingForMissionCounter.Cancel;
+		
 			if (playerSide == west) then {
 				var _campaignEndService = [_westAccumulatedScore >= _eastAccumulatedScore] new CampaignEndService;
 				call _campaignEndService.RunAsync;

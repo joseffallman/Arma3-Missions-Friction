@@ -11,6 +11,7 @@
 using Sqx.Services;
 using Tvtcf.Client;
 using Tvtcf.Common;
+using Tvtcf.Common.Statics;
 
 namespace Tvtcf.Client.Statics
 {
@@ -31,6 +32,7 @@ namespace Tvtcf.Client.Statics
 			_self.ClientMissionActionHandler = new ClientMissionActionHandler;
 			_self.ExtractionSymbolHandler = new ExtractionSymbolHandler;
 			_self.BaseInsertionService = [new BaseMarkersConfig] new BaseInsertionService;
+			_self.WaitingForMissionCounter = [CommonObjects.MissionParametersHandler.TimeBetweenMissions] new WaitingForMissionCounter;
 		};
 		
 		// [Declare client config and handler classes as static properties here]
@@ -56,5 +58,7 @@ namespace Tvtcf.Client.Statics
 		public static property ExtractionSymbolHandler ExtractionSymbolHandler { get; private set; };
 		
 		public static property BaseInsertionService BaseInsertionService { get; private set; };
+		
+		public static property WaitingForMissionCounter WaitingForMissionCounter { get; private set; };
 	};
 };

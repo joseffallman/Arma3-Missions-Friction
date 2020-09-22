@@ -567,10 +567,15 @@ namespace Tvtcf.Server
 				
 				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
 				
-				var _nextMissionTime = time + _mTimeBetweenMissions + 0.1;
-				waitUntil { time > _nextMissionTime };
-				
 				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
+				
+				var _nextMissionTime = time + _mTimeBetweenMissions;
+				
+				sleep 0.1;
+				
+				if (!isNull _mCurrentMission) then {
+					waitUntil { time > _nextMissionTime };
+				};
 			};
 
 			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;

@@ -1,0 +1,42 @@
+/*
+ * Name:	WaitingForMissionCounter
+ * Date:	2020-09-22
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * A counter that counts down until next mission starts.
+ */
+
+using Sqx.Services;
+
+namespace Tvtcf.Client
+{
+	public class WaitingForMissionCounter : Service
+	{
+		private fields ["_mSeconds" as Scalar];
+		
+		// Creates a AwaitingNextMissionCounter object.
+		public constructor("_seconds" as Scalar)
+		{
+			call _base.Constructor;
+			_mSeconds = _seconds;
+		};
+		
+		protected override method Run()
+		{
+			sleep 1;
+			
+			var _seconds = _mSeconds - 1;
+		
+			while { _seconds >= 0 && !_self.IsCancelling } do {
+				hint ("Next mission starts in " + (str _seconds) + " seconds.");
+				
+				sleep 1;
+				_seconds = _seconds - 1;
+			};
+			
+			call _base.Run;
+		};
+	};
+};
