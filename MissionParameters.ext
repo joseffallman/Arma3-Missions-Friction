@@ -20,16 +20,16 @@ class Params
 	
 	class TimeBetweenMissions
 	{
-		// paramsArray[1]
+		// paramsArray[2]
 		title="Time Between Missions";
-		values[]={0, 30, 60, 90, 120};
-		texts[]={"None", "30 seconds", "60 seconds", "90 seconds", "120 seconds"};
+		values[]={0, 30, 60, 120, 180, 300, 600};
+		texts[]={"None", "30 seconds", "1 minute", "2 minutes", "3 minutes", "5 minutes", "10 minutes"};
 		default = 0;
 	};
 	
 	class AiWest
 	{
-		// paramsArray[2]
+		// paramsArray[3]
 		title="AI Units West Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};
@@ -38,7 +38,7 @@ class Params
 	
 	class AiEast
 	{
-		// paramsArray[3]
+		// paramsArray[4]
 		title="AI Units East Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};
