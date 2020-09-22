@@ -26,11 +26,16 @@ namespace Tvtcf.Client
 		protected override method Run()
 		{
 			sleep 1;
+			cutText ["","BLACK IN", 1];
 			
 			var _seconds = _mSeconds - 1;
 		
 			while { _seconds >= 0 && !_self.IsCancelling } do {
 				hint ("Next mission starts in " + (str _seconds) + " seconds.");
+				
+				if (_seconds == 1) then {
+					cutText ["","BLACK OUT", 1];
+				};
 				
 				sleep 1;
 				_seconds = _seconds - 1;
