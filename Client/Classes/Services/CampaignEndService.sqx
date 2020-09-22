@@ -24,15 +24,15 @@ namespace Tvtcf.Client
 	
 		protected override method Run()
 		{
-			cutText ["","BLACK IN", 1];
+			cutText ["Campaign end service", "BLACK IN", 1];
 			
 			var _i = 60;
 			
-			while { _i > 0 } do {
-				var _text = "VICTORY! ";
+			while { _i >= 0 } do {
+				var _text = "CAMPAIGN VICTORY! ";
 				
 				if (!_mIsVictory) then {
-					_text = "DEFEAT! ";
+					_text = "CAMPAIGN DEFEAT! ";
 				};
 				
 				hint (_text + str _i);

@@ -26,7 +26,8 @@ namespace Tvtcf.Server.Statics
 				CommonObjects.BaseMarkersConfig, 
 				ServerObjects.MissionUnitsHandler, 
 				CommonObjects.MissionParametersHandler.AiWestFrequency, 
-				CommonObjects.MissionParametersHandler.AiEastFrequency] new CampaignEngine;
+				CommonObjects.MissionParametersHandler.AiEastFrequency,
+				CommonObjects.MissionParametersHandler.TimeBetweenMissions] new CampaignEngine;
 		};
 		
 		public static property MissionUnitsHandler MissionUnitsHandler { get; private set; };

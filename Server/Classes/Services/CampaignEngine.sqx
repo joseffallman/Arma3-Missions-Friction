@@ -17,12 +17,13 @@ namespace Tvtcf.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
+		private fields ["_mForceNextMission" as Boolean];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar)
 		{
 			call _base.Constructor;
 			
@@ -30,6 +31,8 @@ namespace Tvtcf.Server
 			_mMissionUnitsHandler = _missionUnitsHandler;
 			_mAiUnitsWestCount = _aiUnitsWestCount;
 			_mAiUnitsEastCount = _aiUnitsEastCount;
+			_mTimeBetweenMissions = _timeBetweenMissions;
+			_mForceNextMission = false;
 			
 			_mServerActionHandler = new ServerActionHandler;
 			
@@ -129,8 +132,9 @@ namespace Tvtcf.Server
 
 			_missionBriefing = [_mission.Name, _briefingInfoWest, _westPrimaryObjective, _westSecondaryObjective, _westReturnObjective, _briefingInfoEast, _eastPrimaryObjective, _eastSecondaryObjective, _eastReturnObjective] new MissionBriefing;
 
-			private _serverTime = serverTime;
-			[_serverTime] call PublicVariableHandler.BroadcastMissionStartTime;
+			var _serverTime = call Functions.GetMissionTime;
+
+			[_serverTime] call PublicVariableHandler.BroadcastBriefingEndTime;
 
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing, _serverTime]] call Remote.Invoke;
@@ -184,6 +188,11 @@ namespace Tvtcf.Server
 			if (!isNull _mCurrentMission) then {
 				call _mCurrentMission.Cancel;
 			};
+		};
+		
+		public method ForceNextMission()
+		{
+			_mForceNextMission = true;
 		};
 		
 		public method OnAction("_serverActionId" as Scalar, "_target" as Object, "_caller" as Object)
@@ -505,7 +514,8 @@ namespace Tvtcf.Server
 				[_mMissionMarkersInfo] call _self.InsertSideWithNoPlayers;
 				
 				var _remainingTime = _mCurrentMission.RemainingTime;
-				var _startTime = time;
+				var _startTime = call Functions.GetMissionTime;
+				
 				var _endTime = _startTime + _mCurrentMission.MissionTimeLimit * 60;
 				
 				call _mCurrentMission.RunAsync;
@@ -513,7 +523,7 @@ namespace Tvtcf.Server
 				
 				while { _mCurrentMission.IsRunning } do
 				{
-					var _elapsedTimeInMin = floor ((time - _startTime) / 60);
+					var _elapsedTimeInMin = floor (((call Functions.GetMissionTime) - _startTime) / 60);
 					
 					if (_elapsedTimeInMin != _mCurrentMission.MissionTimeElapsed) then
 					{
@@ -523,7 +533,9 @@ namespace Tvtcf.Server
 
 					// If time is up, cancel the mission.
 					
-					if (time > _endTime) then {
+					var _serverTime = call Functions.GetMissionTime;
+					
+					if (_serverTime > _endTime) then {
 						[_mCurrentMission.MissionTimeElapsed] call _mCurrentMission.SetTimeElapsed;
 						call _mCurrentMission.Cancel;
 					};
@@ -564,11 +576,29 @@ namespace Tvtcf.Server
 				call _mCurrentMission.Cleanup;
 				call _self.CleanupItemsOnTheGround;
 				
-				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;
+				var _nextMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
+				var _isLastMission = isNull _nextMission;
+				
+				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast, _isLastMission]] call Remote.Invoke;
+				
+				var _time = call Functions.GetMissionTime;
+				var _nextMissionStartTime = _time + _mTimeBetweenMissions;
 				
 				sleep 0.1;
 				
-				_mCurrentMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
+				if (!isNull _nextMission) then {
+					[_nextMissionStartTime] call PublicVariableHandler.BroadcastNextMissionStartTime;
+					waitUntil { _mForceNextMission || (call Functions.GetMissionTime) > _nextMissionStartTime };
+					
+					if (_mForceNextMission) then {
+						["ClientEventReciever.OnForceNextMission", []] call Remote.Invoke;
+						sleep 2;
+					};
+					
+					_mForceNextMission = false;
+				};
+				
+				_mCurrentMission = _nextMission;
 			};
 
 			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;

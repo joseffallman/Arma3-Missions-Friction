@@ -39,7 +39,7 @@ namespace Tvtcf.Client
             
             if (!_mJip) then {
             	sleep 2;
-				cutText ["", "BLACK IN", 1];
+				cutText ["Briefing service", "BLACK IN", 1];
 				sleep 1;
             };
 		

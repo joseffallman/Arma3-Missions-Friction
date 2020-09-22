@@ -197,6 +197,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TeleportService.sqx" FileName="Client\Classes\Services\TeleportService.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="WaitingForMissionCounter.sqx" FileName="Client\Classes\Services\WaitingForMissionCounter.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventHandlers.sqx" FileName="Client\Classes\ClientEventHandlers.sqx">

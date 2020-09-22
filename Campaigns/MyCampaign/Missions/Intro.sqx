@@ -47,6 +47,8 @@ namespace Campaigns.MyCampaign
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
 			if (_self.RemainingTime <= 29) then {
+				var _token = str floor random 10;
+				_self.GainedTokensActing pushBack _token;
 				return ObjectiveState.Succeeded;
 			};
 

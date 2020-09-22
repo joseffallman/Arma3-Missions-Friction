@@ -21,7 +21,7 @@ namespace Tvtcf.Client.Statics
 		public static method OnCampaignStart()
 		{
 			[] spawn {
-				sleep 10;
+				sleep 6;
 				[TutorialType.Welcome] call TutorialHandler.ShowTutorial;
 			};
 		};
@@ -127,7 +127,7 @@ namespace Tvtcf.Client.Statics
 			{
 				private ["_teleporter" as TeleportService];
 				
-				cutText ["", "BLACK OUT", 1];
+				cutText ["Client event reciever", "BLACK OUT", 1];
 				
 				sleep 1.2;
 				
@@ -154,7 +154,7 @@ namespace Tvtcf.Client.Statics
 			};
 		};
 		
-		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar)
+		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar, "_isLastMission" as Boolean)
 		{
 			private ["_resultInfo" as MissionResultInfo];
 			
@@ -199,6 +199,11 @@ namespace Tvtcf.Client.Statics
 			
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;
+			
+			// Start the Next Mission Counter
+			if (!_isLastMission && CommonObjects.MissionParametersHandler.TimeBetweenMissions > 0) then {
+				call ClientObjects.WaitingForMissionCounter.RunAsync;
+			};
 		};
 		
 		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
@@ -227,6 +232,8 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnCampaignEnded("_westAccumulatedScore" as Scalar, "_eastAccumulatedScore" as Scalar)
 		{
+			call ClientObjects.WaitingForMissionCounter.Cancel;
+		
 			if (playerSide == west) then {
 				var _campaignEndService = [_westAccumulatedScore >= _eastAccumulatedScore] new CampaignEndService;
 				call _campaignEndService.RunAsync;
@@ -261,6 +268,11 @@ namespace Tvtcf.Client.Statics
 		public static method OnDeleteActions("_actionIds" as Array)
 		{
 			[_actionIds] call ClientObjects.ClientMissionActionHandler.DeleteActions;
+		};
+		
+		public static method OnForceNextMission()
+		{
+			call ClientObjects.WaitingForMissionCounter.Cancel;
 		};
 	};
 };
