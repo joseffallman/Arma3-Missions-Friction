@@ -153,7 +153,7 @@ namespace Tvtcf.Client.Statics
 			call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
 		};
 		
-		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar, "_isLastMission" as Boolean)
+		public static method OnMissionEnded("_missionResult" as MissionResult, "_isLastMission" as Boolean)
 		{
 			private ["_resultInfo" as MissionResultInfo];
 			
@@ -189,7 +189,7 @@ namespace Tvtcf.Client.Statics
 			_diaryText = _diaryText + "<br /><br />Mission score: " + str _resultInfo.Score;
 			
 			_diaryText = _diaryText + "<br /><br />Total score";
-			_diaryText = _diaryText + "<br />West: " + str _accumulatedScoreWest + ". East: " + str _accumulatedScoreEast + ".";
+			_diaryText = _diaryText + "<br />West: " + str _missionResult.TotalScoreWest + ". East: " + str _missionResult.TotalScoreEast + ".";
 
 			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
 

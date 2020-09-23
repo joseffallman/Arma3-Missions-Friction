@@ -12,11 +12,13 @@ namespace Tvtcf.Common
 	public class MissionResult
 	{
 		// Creates a MissionResult object.
-		public constructor("_missionName" as String, "_resultInfoWest" as MissionResultInfo, "_resultInfoEast" as MissionResultInfo)
+		public constructor("_missionName" as String, "_resultInfoWest" as MissionResultInfo, "_resultInfoEast" as MissionResultInfo, "_totalScoreWest" as Scalar, "_totalScoreEast" as Scalar)
 		{
 			_self.MissionName = _missionName;
 			_self.ResultInfoWest = _resultInfoWest;
 			_self.ResultInfoEast = _resultInfoEast;
+			_self.TotalScoreWest = _totalScoreWest;
+			_self.TotalScoreEast = _totalScoreEast;
 		};
 		
 		public property String MissionName { get; private set; };
@@ -24,6 +26,10 @@ namespace Tvtcf.Common
 		public property MissionResultInfo ResultInfoWest { get; private set; };
 		
 		public property MissionResultInfo ResultInfoEast { get; private set; };
+		
+		public property Scalar TotalScoreWest { get; private set; };
+		
+		public property Scalar TotalScoreEast { get; private set; };
 		
 		public method MissionResultInfo GetResultInfo("_side" as Side)
 		{

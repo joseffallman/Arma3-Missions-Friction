@@ -602,7 +602,7 @@ namespace Tvtcf.Server
 				var _nextMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
 				var _isLastMission = isNull _nextMission;
 				
-				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast] new MissionResult, _accumulatedScoreWest, _accumulatedScoreEast, _isLastMission]] call Remote.Invoke;
+				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast, _accumulatedScoreWest, _accumulatedScoreEast] new MissionResult, _isLastMission]] call Remote.Invoke;
 				
 				var _time = call Functions.GetMissionTime;
 				var _nextMissionStartTime = _time + _mTimeBetweenMissions;
