@@ -27,7 +27,7 @@ namespace Mission
 		{
 			// Silence the AI radio chatter.
 			0 fadeRadio 0;
-			enableRadio false;
+			//enableRadio false;
 			enableSentences false;
 			
 			// Bootstrap the common singletons.

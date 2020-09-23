@@ -507,14 +507,14 @@ namespace Tvtcf.Server
 				[true] call PublicVariableHandler.BroadcastMissionHasStarted;
 				["ClientEventReciever.OnMissionStarting", [_isFirstMission]] call Remote.Invoke;
 				
-				//sleep 2;
-				
 				// Create AI units
 				private _westlyGroup = [west] call _mMissionUnitsHandler.GetGroupBySide;
 				private _westlyAi = [west] call _mMissionUnitsHandler.GetAiUnitsBySide;
 				private _westRespawnPos = getMarkerPos ([west, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName);
 				
-				for "_i" from (count _westlyAi) to _mAiUnitsWestCount - 1 do {
+				for "_i" from (count _westlyAi) to _mAiUnitsWestCount - 1 do
+				{
+					player sideChat str _i;
 					private _aiUnit = _westlyGroup createUnit ["B_Soldier_F", _westRespawnPos, [], 0, "NONE"];
 					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
 				};
@@ -523,7 +523,8 @@ namespace Tvtcf.Server
 				private _eastlyAi = [east] call _mMissionUnitsHandler.GetAiUnitsBySide;
 				private _eastRespawnPos = getMarkerPos ([east, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName);
 				
-				for "_i" from (count _eastlyAi) to _mAiUnitsEastCount - 1 do {
+				for "_i" from (count _eastlyAi) to _mAiUnitsEastCount - 1 do
+				{
 					private _aiUnit = _eastlyGroup createUnit ["O_Soldier_F", _eastRespawnPos, [], 0, "NONE"];
 					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
 				};

@@ -96,12 +96,18 @@ namespace Tvtcf.Server
 			{
 				if (alive _x && canStand _x) then {
 					_westlyAiUnitsToKeep pushBack _x;
+				}
+				else {
+					deleteVehicle _x;
 				};
 			} foreach _mWestlyAiUnits as Object;
 			
 			{
 				if (alive _x && canStand _x) then {
 					_eastlyAiUnitsToKeep pushBack _x;
+				}
+				else {
+					deleteVehicle _x;
 				};
 			} foreach _mEastlyAiUnits as Object;
 			
