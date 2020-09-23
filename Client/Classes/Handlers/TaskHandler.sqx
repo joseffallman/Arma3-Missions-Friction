@@ -37,7 +37,7 @@ namespace Tvtcf.Client
 		// Sets task state for current player.
 		// _task (Task): The task to set.
 		// _taskState (TaskState): The task state to be set.
-		public method SetTaskState("_prio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
+		public method SetTaskState("_prio" as ObjectivePrio, "_objectiveState" as ObjectiveState, "_showNotification" as Boolean)
 		{
 			private ["_taskId" as String];
 			
@@ -45,7 +45,7 @@ namespace Tvtcf.Client
 			
 			_taskId = _mTaskPrefix + str _prio;
 			
-			[_taskId, [_objectiveState] call ObjectiveStateMeta.ToTaskStateString, true] call BIS_fnc_taskSetState;
+			[_taskId, [_objectiveState] call ObjectiveStateMeta.ToTaskStateString, _showNotification] call BIS_fnc_taskSetState;
 		};
 		
 		public method ShowNotification("_text" as String)

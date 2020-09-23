@@ -24,7 +24,7 @@ namespace Tvtcf.Client
 	
 		protected override method Run()
 		{
-			cutText ["Campaign end service", "BLACK IN", 1];
+			cutText ["", "BLACK IN", 1];
 			
 			var _i = 60;
 			

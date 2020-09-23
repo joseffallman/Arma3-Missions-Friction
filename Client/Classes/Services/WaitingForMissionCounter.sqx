@@ -35,7 +35,7 @@ namespace Tvtcf.Client
 			
 			_mRemainingTime = _mRemainingTime - 1;
 		
-			cutText ["Next mission counter", "BLACK IN", 1];
+			cutText ["", "BLACK IN", 1];
 			var _isBlack = false;
 					
 			while { _mRemainingTime >= 0 && !_self.IsCancelling } do
@@ -43,7 +43,7 @@ namespace Tvtcf.Client
 				hint ("Next mission starts in " + (str _mRemainingTime) + " seconds.");
 				
 				if (_mRemainingTime == 2) then {
-					cutText ["Next mission counter","BLACK OUT", 1];
+					cutText ["","BLACK OUT", 1];
 					_isBlack = true;
 				};
 				
@@ -52,7 +52,7 @@ namespace Tvtcf.Client
 			};
 			
 			if (!_isBlack) then {
-				cutText ["Next mission counter", "BLACK OUT", 1];
+				cutText ["", "BLACK OUT", 1];
 				_isBlack = true;
 			};
 			

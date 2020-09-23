@@ -232,6 +232,12 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionResultInfo.sqx" FileName="Common\Classes\Objects\MissionResultInfo.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectiveChange.sqx" FileName="Common\Classes\Objects\ObjectiveChange.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectiveChangeCollection.sqx" FileName="Common\Classes\Objects\ObjectiveChangeCollection.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Services" FileName="Common\Classes\Services">

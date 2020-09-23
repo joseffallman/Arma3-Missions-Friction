@@ -28,15 +28,13 @@ namespace Campaigns.MyCampaign
 			_mission.StartMarkersActing = ["m06o_StartArea1"];
 			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
 			_mission.StartTimeOfDay = 12;
-			//_mission.AddReturnObjectiveForActing = true;
+			_mission.AddReturnObjectiveForActing = true;
 			//_mission.AddReturnObjectiveForOpposing = true;
 		};
 		
 		protected override method Setup()
 		{
 			["MRAP HMG", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			["TRANSPORT HELICOPTER", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			["TRANSPORT HELICOPTER", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
 			
 			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
 			["AMMOBOX SPECIAL WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
@@ -44,11 +42,28 @@ namespace Campaigns.MyCampaign
 			call _base.Setup;
 		};
 		
+		protected override method MissionObjective CreatePrimaryObjectiveForActing()
+		{
+			return ["Survive one minute."] new MissionObjective;
+		};
+		
+		protected override method MissionObjective CreateSecondaryObjectiveForActing()
+		{
+			return ["Survive two minutes."] new MissionObjective;
+		};
+		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
 			if (_self.RemainingTime <= 29) then {
-				var _token = str floor random 10;
-				_self.GainedTokensActing pushBack _token;
+				return ObjectiveState.Succeeded;
+			};
+
+			return ObjectiveState.None;
+		};
+		
+		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
+		{
+			if (_self.RemainingTime <= 28) then {
 				return ObjectiveState.Succeeded;
 			};
 

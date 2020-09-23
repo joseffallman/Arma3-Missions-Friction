@@ -12,6 +12,8 @@ call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResultInfo
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResult.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionObjective.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionBriefing.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\ObjectiveChange.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\ObjectiveChangeCollection.sqx";
 
 using Tvtcf.Common;
 using Tvtcf.Common.Statics;

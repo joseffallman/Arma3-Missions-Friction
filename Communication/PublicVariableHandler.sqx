@@ -216,5 +216,25 @@ namespace Tvtcf.Communication
 
 			return 0;
 		};		
+		
+		
+		public static method BroadcastObjectiveChangeCollection("_objectiveChangeCollection" as ObjectiveChangeCollection)
+		{
+			PUBVAR_ObjectiveChangeCollection = _objectiveChangeCollection;
+			publicVariable "PUBVAR_ObjectiveChangeCollection";
+		};
+		
+		public static method Boolean HasValueObjectiveChangeCollection() {
+			return !isNil "PUBVAR_ObjectiveChangeCollection";
+		};
+		
+		public static method ObjectiveChangeCollection GetObjectiveChangeCollection()
+		{
+			if (call _self.HasValueObjectiveChangeCollection) then {
+				return PUBVAR_ObjectiveChangeCollection;
+			};
+
+			return classNull;
+		};		
 	};
 };

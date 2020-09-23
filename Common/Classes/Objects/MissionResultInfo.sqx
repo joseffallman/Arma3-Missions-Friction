@@ -11,7 +11,7 @@ namespace Tvtcf.Common
 {
 	public class MissionResultInfo
 	{
-		// Creates a MissionResult object.t
+		// Creates a MissionResult object.
 		public constructor("_primaryObjectiveName" as String, "_primaryObjectiveState" as ObjectiveState, "_secondaryObjectiveName" as String, "_secondaryObjectiveState" as ObjectiveState, "_usingReturnObjective" as Boolean, "_returnObjectiveState" as ObjectiveState, "_menAtStart" as Scalar, "_menAtEnd" as Scalar)
 		{
 			_self.PrimaryObjectiveName = _primaryObjectiveName;

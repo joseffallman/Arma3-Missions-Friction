@@ -36,6 +36,8 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnMissionStarting("_isFirstMission" as Boolean)
 		{
+			// Delete tasks
+			call ClientObjects.TaskHandler.DeleteAllTasks;
 		};
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
@@ -82,7 +84,7 @@ namespace Tvtcf.Client.Statics
 				call _missionPrepareCounter.RunAsync;
 			};
 		
-			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, false] new MissionBriefingService;
+			_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, classNull, false] new MissionBriefingService;
 			
 			call _briefingService.RunAsync;
 		};
@@ -123,35 +125,32 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnMissionEnding()
 		{
-			[] spawn
-			{
-				private ["_teleporter" as TeleportService];
-				
-				cutText ["Client event reciever", "BLACK OUT", 1];
-				
-				sleep 1.2;
-				
-				// Teleport to base (if not already there)
-				
-				private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
-				
-				if (player distance getMarkerPos _baseMarkerName > 50) then {
-					_teleporter = [getMarkerPos _baseMarkerName, false, false] new TeleportService;
-					call _teleporter.RunAsync;
-				};
-				
-				// Reset loadout
-				
-				if (playerSide == west) then {
-					player setUnitLoadout "B_Soldier_F";
-				}
-				else {
-					player setUnitLoadout "O_Soldier_F";
-				};
+			private ["_teleporter" as TeleportService];
 			
-				// Remove eventual extraction symbol
-				call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
+			cutText ["", "BLACK OUT", 1];
+			
+			sleep 1.2;
+			
+			// Teleport to base (if not already there)
+			
+			private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+			
+			if (player distance getMarkerPos _baseMarkerName > 50) then {
+				_teleporter = [getMarkerPos _baseMarkerName, false, false] new TeleportService;
+				call _teleporter.RunAsync;
 			};
+			
+			// Reset loadout
+			
+			if (playerSide == west) then {
+				player setUnitLoadout "B_Soldier_F";
+			}
+			else {
+				player setUnitLoadout "O_Soldier_F";
+			};
+		
+			// Remove eventual extraction symbol
+			call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar, "_isLastMission" as Boolean)
@@ -197,9 +196,6 @@ namespace Tvtcf.Client.Statics
 			// Show insertion menu option
 			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 			
-			// Delete tasks
-			call ClientObjects.TaskHandler.DeleteAllTasks;
-			
 			// Start the Next Mission Counter
 			if (!_isLastMission && CommonObjects.MissionParametersHandler.TimeBetweenMissions > 0) then {
 				call ClientObjects.WaitingForMissionCounter.RunAsync;
@@ -212,7 +208,7 @@ namespace Tvtcf.Client.Statics
 			
 			if (_side == playerSide) then
 			{
-				[_objectivePrio, _objectiveState] call ClientObjects.TaskHandler.SetTaskState;
+				[_objectivePrio, _objectiveState, true] call ClientObjects.TaskHandler.SetTaskState;
 				
 				if (_objectivePrio == ObjectivePrio.Return && _objectiveState == ObjectiveState.Succeeded) then
 				{

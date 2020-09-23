@@ -45,7 +45,8 @@ namespace Tvtcf.Client
 			
 			_missionBriefing = call PublicVariableHandler.GetMissionBriefing;
 			if (!isNull _missionBriefing) then {
-				_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, true] new MissionBriefingService;
+				var _objectiveStates = call PublicVariableHandler.GetObjectiveChangeCollection;
+				_briefingService = [_missionBriefing, ClientObjects.BriefingHandler, ClientObjects.TaskHandler, _objectiveStates, true] new MissionBriefingService;
 				call _briefingService.RunAsync;
 			};
 			
@@ -99,7 +100,7 @@ namespace Tvtcf.Client
 			call ClientObjects.CameraHandler.SetDeathCamera;
 			sleep 0.5;
 			
-	  		cutText ["JIP service","BLACK IN", 1];
+	  		cutText ["","BLACK IN", 1];
 		    
 		    call _base.Run;
 		};
