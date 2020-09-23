@@ -7,6 +7,9 @@
  * Description:
  * Handles the mission's briefing.
  */
+
+using Tvtcf.Common;
+
 namespace Tvtcf.Client
 {
 	public class BriefingHandler : IBriefingHandler
@@ -29,6 +32,17 @@ namespace Tvtcf.Client
         
 			private _diaryRecord = player createDiaryRecord ["Diary", [_missionName, _briefingInfo]];
 			_mDiaryReckords pushBack _diaryRecord;
+		};
+		
+		public method AddMissionResultToHistory("_missionResult" as MissionResult)
+		{
+			if (!(player diarySubjectExists "Results")) then {
+				player createDiarySubject ["Results", "Mission Results"];
+			};
+			
+			var _diaryText = [playerSide] call _missionResult.ToDiaryText;
+
+			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
 		};
 	};
 };

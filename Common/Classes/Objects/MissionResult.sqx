@@ -39,5 +39,32 @@ namespace Tvtcf.Common
 			
 			return _self.ResultInfoEast;
 		};
+		
+		public method String ToDiaryText("_side" as Side)
+		{
+			var _resultInfo = [_side] call _self.GetResultInfo;
+			
+			private _diaryText = _self.MissionName + "<br />";
+			_diaryText = _diaryText + "<br />" + _resultInfo.PrimaryObjectiveName + ": ";
+			_diaryText = _diaryText + ([_resultInfo.PrimaryObjectiveState] call ObjectiveStateMeta.ToLang);
+			
+			if (_resultInfo.SecondaryObjectiveName != "") then
+			{
+				_diaryText = _diaryText + "<br />" + _resultInfo.SecondaryObjectiveName + ": ";
+				_diaryText = _diaryText + ([_resultInfo.SecondaryObjectiveState] call ObjectiveStateMeta.ToLang);
+			};
+			
+			if (_resultInfo.UsingReturnObjective) then
+			{
+				_diaryText = _diaryText + "<br />Return to insertion point: ";
+				_diaryText = _diaryText + ([_resultInfo.ReturnObjectiveState] call ObjectiveStateMeta.ToLang);
+			};
+			
+			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
+			_diaryText = _diaryText + "<br /><br />Mission score: " + str _resultInfo.Score;
+			
+			_diaryText = _diaryText + "<br /><br />Total score";
+			_diaryText = _diaryText + "<br />West: " + str _self.TotalScoreWest + ". East: " + str _self.TotalScoreEast + ".";
+		};
 	};
 };

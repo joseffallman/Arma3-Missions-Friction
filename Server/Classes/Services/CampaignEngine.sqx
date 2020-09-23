@@ -20,7 +20,7 @@ namespace Tvtcf.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
-		private fields ["_mForceNextMission" as Boolean, "_mObjectiveChangeCollection" as ObjectiveChangeCollection];
+		private fields ["_mForceNextMission" as Boolean, "_mObjectiveChangeCollection" as ObjectiveChangeCollection, "_mMissionResults" as Array /* of MissionResult */];
 	
 		// Creates a Campaign object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar)
@@ -34,6 +34,7 @@ namespace Tvtcf.Server
 			_mTimeBetweenMissions = _timeBetweenMissions;
 			_mForceNextMission = false;
 			_mObjectiveChangeCollection = new ObjectiveChangeCollection;
+			_mMissionResults = [];
 			
 			_mServerActionHandler = new ServerActionHandler;
 			
@@ -489,6 +490,7 @@ namespace Tvtcf.Server
 			// Run each mission
 			
 			_mCurrentMission = [""] call _mCampaign.GetNextMission;
+			_mMissionResults = [];
 			private _isFirstMission = true;
 			
 			while {!isNull _mCurrentMission} do
@@ -602,7 +604,12 @@ namespace Tvtcf.Server
 				var _nextMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
 				var _isLastMission = isNull _nextMission;
 				
-				["ClientEventReciever.OnMissionEnded", [[_mCurrentMission.Name, _missionResultWest, _missionResultEast, _accumulatedScoreWest, _accumulatedScoreEast] new MissionResult, _isLastMission]] call Remote.Invoke;
+				var _missionResult = [_mCurrentMission.Name, _missionResultWest, _missionResultEast, _accumulatedScoreWest, _accumulatedScoreEast] new MissionResult;
+				
+				_mMissionResults pushBack _missionResult;				
+				[_mMissionResults] call PublicVariableHandler.BroadcastMissionResultArray;
+				
+				["ClientEventReciever.OnMissionEnded", [_missionResult, _isLastMission]] call Remote.Invoke;
 				
 				var _time = call Functions.GetMissionTime;
 				var _nextMissionStartTime = _time + _mTimeBetweenMissions;

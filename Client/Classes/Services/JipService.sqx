@@ -50,6 +50,14 @@ namespace Tvtcf.Client
 				call _briefingService.RunAsync;
 			};
 			
+			// Set historical mission results
+			
+			var _missionResultArray = call PublicVariableHandler.GetMissionResultArray;
+			
+			{
+				[_x] call ClientObjects.BriefingHandler.AddMissionResultToHistory;
+			} foreach _missionResultArray as MissionResult;
+			
 			// Set eventual next mission counter if the campaign is between two missions
 			
 			var _nextMissionStartTime = call PublicVariableHandler.GetNextMissionStartTime;
