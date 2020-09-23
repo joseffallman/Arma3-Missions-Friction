@@ -236,5 +236,25 @@ namespace Tvtcf.Communication
 
 			return classNull;
 		};		
+		
+		
+		public static method BroadcastMissionResultArray("_missionResultArray" as Array /* of MissionResult */)
+		{
+			PUBVAR_MissionResultArray = _missionResultArray;
+			publicVariable "PUBVAR_MissionResultArray";
+		};
+		
+		public static method Boolean HasValueMissionResultArray() {
+			return !isNil "PUBVAR_MissionResultArray";
+		};
+		
+		public static method Array GetMissionResultArray()
+		{
+			if (call _self.HasValueMissionResultArray) then {
+				return PUBVAR_MissionResultArray;
+			};
+
+			return [];
+		};		
 	};
 };

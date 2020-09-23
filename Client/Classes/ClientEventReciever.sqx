@@ -153,45 +153,14 @@ namespace Tvtcf.Client.Statics
 			call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
 		};
 		
-		public static method OnMissionEnded("_missionResult" as MissionResult, "_accumulatedScoreWest" as Scalar, "_accumulatedScoreEast" as Scalar, "_isLastMission" as Boolean)
+		public static method OnMissionEnded("_missionResult" as MissionResult, "_isLastMission" as Boolean)
 		{
-			private ["_resultInfo" as MissionResultInfo];
-			
 			// "Resurrect" player
 			ClientState.IsAlive = true;
 			call ClientObjects.CameraHandler.ResetPlayerCamera;
 			
-			// Show mission result
-			
-			if (!(player diarySubjectExists "Results")) then {
-				player createDiarySubject ["Results", "Mission Results"];
-			};
-			
-			_resultInfo = [playerSide] call _missionResult.GetResultInfo;
-			
-			private _diaryText = _missionResult.MissionName + "<br />";
-			_diaryText = _diaryText + "<br />" + _resultInfo.PrimaryObjectiveName + ": ";
-			_diaryText = _diaryText + ([_resultInfo.PrimaryObjectiveState] call ObjectiveStateMeta.ToLang);
-			
-			if (_resultInfo.SecondaryObjectiveName != "") then
-			{
-				_diaryText = _diaryText + "<br />" + _resultInfo.SecondaryObjectiveName + ": ";
-				_diaryText = _diaryText + ([_resultInfo.SecondaryObjectiveState] call ObjectiveStateMeta.ToLang);
-			};
-			
-			if (_resultInfo.UsingReturnObjective) then
-			{
-				_diaryText = _diaryText + "<br />Return to insertion point: ";
-				_diaryText = _diaryText + ([_resultInfo.ReturnObjectiveState] call ObjectiveStateMeta.ToLang);
-			};
-			
-			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
-			_diaryText = _diaryText + "<br /><br />Mission score: " + str _resultInfo.Score;
-			
-			_diaryText = _diaryText + "<br /><br />Total score";
-			_diaryText = _diaryText + "<br />West: " + str _accumulatedScoreWest + ". East: " + str _accumulatedScoreEast + ".";
-
-			player createDiaryRecord ["Results", [_missionResult.MissionName, _diaryText]];
+			// Add mission result to history briefing
+			[_missionResult] call ClientObjects.BriefingHandler.AddMissionResultToHistory;
 
 			// Show insertion menu option
 			call TvtcfActionMenuHandler.UpdateVisibleOptions;

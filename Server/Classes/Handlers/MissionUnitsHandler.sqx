@@ -39,6 +39,21 @@ namespace Tvtcf.Server
 			if (!isNil "b5" && { !isNull b5 }) then {
 				_switchableUnits pushBack b5;
 			};
+			if (!isNil "b6" && { !isNull b1 }) then {
+				_switchableUnits pushBack b1;
+			};
+			if (!isNil "b7" && { !isNull b2 }) then {
+				_switchableUnits pushBack b2;
+			};
+			if (!isNil "b8" && { !isNull b3 }) then {
+				_switchableUnits pushBack b3;
+			};
+			if (!isNil "b9" && { !isNull b4 }) then {
+				_switchableUnits pushBack b4;
+			};
+			if (!isNil "b10" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
 			
 			if (!isNil "o1" && { !isNull o1 }) then {
 				_switchableUnits pushBack o1;
@@ -53,6 +68,21 @@ namespace Tvtcf.Server
 				_switchableUnits pushBack o4;
 			};
 			if (!isNil "o5" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o6" && { !isNull o1 }) then {
+				_switchableUnits pushBack o1;
+			};
+			if (!isNil "o7" && { !isNull o2 }) then {
+				_switchableUnits pushBack o2;
+			};
+			if (!isNil "o8" && { !isNull o3 }) then {
+				_switchableUnits pushBack o3;
+			};
+			if (!isNil "o9" && { !isNull o4 }) then {
+				_switchableUnits pushBack o4;
+			};
+			if (!isNil "o10" && { !isNull o5 }) then {
 				_switchableUnits pushBack o5;
 			};
 			

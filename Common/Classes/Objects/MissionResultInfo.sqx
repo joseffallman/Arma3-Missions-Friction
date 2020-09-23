@@ -52,6 +52,7 @@ namespace Tvtcf.Common
 			};
 			
 			_self.Score = _score;
+			_self.TotalScore = _score;
 		};
 		
 		public property String PrimaryObjectiveName { get; private set; };
@@ -71,5 +72,7 @@ namespace Tvtcf.Common
 		public property Scalar MenAtEnd { get; private set; };
 		
 		public property Scalar Score { get; private set; };
+		
+		public property Scalar TotalScore { get; set; };
 	};
 };
