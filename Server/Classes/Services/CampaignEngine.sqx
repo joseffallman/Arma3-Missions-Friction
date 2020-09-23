@@ -20,7 +20,7 @@ namespace Tvtcf.Server
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
-		private fields ["_mForceNextMission" as Boolean];
+		private fields ["_mForceNextMission" as Boolean, "_mObjectiveChangeCollection" as ObjectiveChangeCollection];
 	
 		// Creates a Campaign object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar)
@@ -33,6 +33,7 @@ namespace Tvtcf.Server
 			_mAiUnitsEastCount = _aiUnitsEastCount;
 			_mTimeBetweenMissions = _timeBetweenMissions;
 			_mForceNextMission = false;
+			_mObjectiveChangeCollection = new ObjectiveChangeCollection;
 			
 			_mServerActionHandler = new ServerActionHandler;
 			
@@ -138,6 +139,9 @@ namespace Tvtcf.Server
 
 			[_missionBriefing] call PublicVariableHandler.BroadcastMissionBriefing;
 			["ClientEventReciever.OnMissionBriefing", [_missionBriefing, _serverTime]] call Remote.Invoke;
+			
+			_mObjectiveChangeCollection = new ObjectiveChangeCollection;
+			[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 		};
 
 		public method Array InsertGroup("_side" as Side, "_position" as Array)
@@ -230,25 +234,34 @@ namespace Tvtcf.Server
 			if (!_mWestPrimaryObjectiveCompleted) then {
 				_state = [west, ObjectivePrio.Primary] call _mission.CheckObjectiveState;
 				
-				if (_state != ObjectiveState.None) then {
+				if (_state != ObjectiveState.None) then
+				{
+					[west, ObjectivePrio.Primary, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
+					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Primary, _state]] call Remote.Invoke;
 					_mWestPrimaryObjectiveCompleted = true;
 				};
 			};
 		
-			if (!_mWestSecondaryObjectiveCompleted) then {
+			if (!_mWestSecondaryObjectiveCompleted) then
+			{
 				_state = [west, ObjectivePrio.Secondary] call _mission.CheckObjectiveState;
 				
 				if (_state != ObjectiveState.None) then {
+					[west, ObjectivePrio.Secondary, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
+					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Secondary, _state]] call Remote.Invoke;
 					_mWestSecondaryObjectiveCompleted = true;
 				};
 			};
 		
-			if (!_mWestReturnObjectiveCompleted) then {
+			if (!_mWestReturnObjectiveCompleted) then
+			{
 				_state = [west, ObjectivePrio.Return] call _mission.CheckObjectiveState;
 				
 				if (_state != ObjectiveState.None) then {
+					[west, ObjectivePrio.Return, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
+					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Return, _state]] call Remote.Invoke;
 					_mWestReturnObjectiveCompleted = true;
 				};
@@ -256,28 +269,37 @@ namespace Tvtcf.Server
 			
 			// East
 			
-			if (!_mEastPrimaryObjectiveCompleted) then {
+			if (!_mEastPrimaryObjectiveCompleted) then
+			{
 				_state = [east, ObjectivePrio.Primary] call _mission.CheckObjectiveState;
 				
 				if (_state != ObjectiveState.None) then {
+					[east, ObjectivePrio.Primary, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
+					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Primary, _state]] call Remote.Invoke;
 					_mEastPrimaryObjectiveCompleted = true;
 				};
 			};
 		
-			if (!_mEastSecondaryObjectiveCompleted) then {
+			if (!_mEastSecondaryObjectiveCompleted) then
+			{
 				_state = [east, ObjectivePrio.Secondary] call _mission.CheckObjectiveState;
 				
 				if (_state != ObjectiveState.None) then {
+					[east, ObjectivePrio.Secondary, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
+					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Secondary, _state]] call Remote.Invoke;
 					_mEastSecondaryObjectiveCompleted = true;
 				};
 			};
 		
-			if (!_mEastReturnObjectiveCompleted) then {
+			if (!_mEastReturnObjectiveCompleted) then
+			{
 				_state = [east, ObjectivePrio.Return] call _mission.CheckObjectiveState;
 				
 				if (_state != ObjectiveState.None) then {
+					[east, ObjectivePrio.Return, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
+					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [east, ObjectivePrio.Return, _state]] call Remote.Invoke;
 					_mEastReturnObjectiveCompleted = true;
 				};
@@ -485,14 +507,14 @@ namespace Tvtcf.Server
 				[true] call PublicVariableHandler.BroadcastMissionHasStarted;
 				["ClientEventReciever.OnMissionStarting", [_isFirstMission]] call Remote.Invoke;
 				
-				//sleep 2;
-				
 				// Create AI units
 				private _westlyGroup = [west] call _mMissionUnitsHandler.GetGroupBySide;
 				private _westlyAi = [west] call _mMissionUnitsHandler.GetAiUnitsBySide;
 				private _westRespawnPos = getMarkerPos ([west, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName);
 				
-				for "_i" from (count _westlyAi) to _mAiUnitsWestCount - 1 do {
+				for "_i" from (count _westlyAi) to _mAiUnitsWestCount - 1 do
+				{
+					player sideChat str _i;
 					private _aiUnit = _westlyGroup createUnit ["B_Soldier_F", _westRespawnPos, [], 0, "NONE"];
 					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
 				};
@@ -501,7 +523,8 @@ namespace Tvtcf.Server
 				private _eastlyAi = [east] call _mMissionUnitsHandler.GetAiUnitsBySide;
 				private _eastRespawnPos = getMarkerPos ([east, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName);
 				
-				for "_i" from (count _eastlyAi) to _mAiUnitsEastCount - 1 do {
+				for "_i" from (count _eastlyAi) to _mAiUnitsEastCount - 1 do
+				{
 					private _aiUnit = _eastlyGroup createUnit ["O_Soldier_F", _eastRespawnPos, [], 0, "NONE"];
 					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
 				};

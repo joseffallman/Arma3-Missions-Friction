@@ -12,6 +12,8 @@ call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResultInfo
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionResult.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionObjective.sqx";
 call compile preprocessFileLineNumbers "Common\Classes\Objects\MissionBriefing.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\ObjectiveChange.sqx";
+call compile preprocessFileLineNumbers "Common\Classes\Objects\ObjectiveChangeCollection.sqx";
 
 using Tvtcf.Common;
 using Tvtcf.Common.Statics;
@@ -23,7 +25,12 @@ namespace Mission
 		// Initializes the common objects on clients and server.
 		public static method Initialize()
 		{
-			// Bootstrap the common singletons
+			// Silence the AI radio chatter.
+			0 fadeRadio 0;
+			//enableRadio false;
+			enableSentences false;
+			
+			// Bootstrap the common singletons.
 			call CommonObjects.Init;
 			
 			// Initialize all server eventhandlers.
