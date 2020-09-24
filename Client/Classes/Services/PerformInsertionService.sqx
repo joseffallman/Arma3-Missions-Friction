@@ -17,13 +17,14 @@ namespace Tvtcf.Client
 {
 	public class PerformInsertionService : Service
 	{
-		private fields ["_mWaitingForMapClick" as Boolean, "_mMapPos" as Array, "_mInsertionMarkers" as Array, "_mMessageHandler" as ClientMessageHandler];
+		private fields ["_mWaitingForMapClick" as Boolean, "_mMapPos" as Array, "_mInsertionMarkers" as Array, "_mMessageHandler" as ClientMessageHandler, "_mMapMarkerHandler" as MapMarkerHandler];
 	
 		// Creates a PerformInsertionService object.
-		public constructor("_messageHandler" as ClientMessageHandler)
+		public constructor("_messageHandler" as ClientMessageHandler, "_mapMarkerHandler" as MapMarkerHandler)
 		{
 			call _base.Constructor;
 			_mMessageHandler = _messageHandler;
+			_mMapMarkerHandler = _mapMarkerHandler;
 		};
 		
 		public method Reset("_insertionMarkers" as Array /* of String */)
@@ -65,8 +66,14 @@ namespace Tvtcf.Client
 			else
 			{
 				// Open the map and ask player to select a position
-				openMap true;
 				
+				var _interpolatedInsertionPos = getMarkerPos _mMapMarkerHandler.InsertionMarker;
+				
+				openMap true;
+				mapAnimAdd [1, 0.2, _interpolatedInsertionPos];
+				mapAnimCommit;
+				//waitUntil { mapAnimDone };
+
 				// Wait for map click
 				
 				_mWaitingForMapClick = true;

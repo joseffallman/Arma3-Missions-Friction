@@ -45,13 +45,13 @@ namespace Tvtcf.Client.Statics
 			// Update the markers
 			
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
-			var _interpolatedInsertionPos = getMarkerPos ClientObjects.MapMarkerHandler.InsertionMarker;
+//			var _interpolatedInsertionPos = getMarkerPos ClientObjects.MapMarkerHandler.InsertionMarker;
 			
-			openMap true;
-			mapAnimAdd [0, 0.2, _interpolatedInsertionPos];
-			mapAnimCommit;
-			waitUntil { mapAnimDone };
-			openMap false;
+//			openMap true;
+//			mapAnimAdd [0, 0.2, _interpolatedInsertionPos];
+//			mapAnimCommit;
+//			waitUntil { mapAnimDone };
+//			openMap false;
 			
 			var _startMarkers = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
 			
