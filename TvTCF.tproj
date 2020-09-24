@@ -52,6 +52,9 @@
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Dialogs" FileName="Client\Classes\Dialogs">
                 <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="DebriefingDialog.sqx" FileName="Client\Classes\Dialogs\DebriefingDialog.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TutorialDialog.sqx" FileName="Client\Classes\Dialogs\TutorialDialog.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>

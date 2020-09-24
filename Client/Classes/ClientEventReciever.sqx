@@ -89,17 +89,6 @@ namespace Tvtcf.Client.Statics
 			call _briefingService.RunAsync;
 		};
 		
-		private static method Boolean AnyMemberIsPlayer("_group" as Group)
-		{
-			{
-				if (isPlayer _x) then {
-					return true;
-				};
-			} foreach units _group;
-			
-			return false;
-		};
-		
 		public static method OnInsertGroup("_group" as Group, "_position" as Array)
 		{
 			private ["_teleporter" as TeleportService];
@@ -121,6 +110,30 @@ namespace Tvtcf.Client.Statics
 			
 			// Hide insertion menu option
 			call TvtcfActionMenuHandler.UpdateVisibleOptions;
+		};
+		
+		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
+		{
+			private ["_teleporter" as TeleportService];
+			
+			if (_side == playerSide) then
+			{
+				[_objectivePrio, _objectiveState, true] call ClientObjects.TaskHandler.SetTaskState;
+				
+				if (_objectivePrio == ObjectivePrio.Return && _objectiveState == ObjectiveState.Succeeded) then
+				{
+					private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
+					
+					_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
+					
+					[_teleporter] spawn {
+						params ["_teleporter" as TeleportService];
+						
+						sleep 5;
+						call _teleporter.RunAsync;
+					};
+				};
+			};
 		};
 		
 		public static method OnMissionEnding()
@@ -155,43 +168,30 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_isLastMission" as Boolean)
 		{
-			// "Resurrect" player
+			// "Resurrect" player.
 			ClientState.IsAlive = true;
 			call ClientObjects.CameraHandler.ResetPlayerCamera;
 			
-			// Add mission result to history briefing
+			// Add mission result to history briefing.
 			[_missionResult] call ClientObjects.BriefingHandler.AddMissionResultToHistory;
 
-			// Show insertion menu option
+			// Show insertion menu option.
 			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 			
-			// Start the Next Mission Counter
+			// Start the Next Mission Counter.
 			if (!_isLastMission && CommonObjects.MissionParametersHandler.TimeBetweenMissions > 0) then {
 				call ClientObjects.WaitingForMissionCounter.RunAsync;
 			};
-		};
-		
-		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
-		{
-			private ["_teleporter" as TeleportService];
 			
-			if (_side == playerSide) then
-			{
-				[_objectivePrio, _objectiveState, true] call ClientObjects.TaskHandler.SetTaskState;
-				
-				if (_objectivePrio == ObjectivePrio.Return && _objectiveState == ObjectiveState.Succeeded) then
-				{
-					private _baseMarkerName = [playerSide, BaseMarker.Respawn] call CommonObjects.BaseMarkersConfig.GetMarkerName;
-					
-					_teleporter = [getMarkerPos _baseMarkerName] new TeleportService;
-					
-					[_teleporter] spawn {
-						params ["_teleporter" as TeleportService];
-						
-						sleep 5;
-						call _teleporter.RunAsync;
-					};
-				};
+			// Show the debriefing dialog.
+			var _debriefingText = [playerSide] call _missionResult.ToDiaryText;
+			var _debriefingDialog = [_missionResult.MissionName, _debriefingText] new DebriefingDialog;
+			
+			// Show the dialog with a few seconds delay.
+			[_debriefingDialog] spawn {
+				params ["_debriefingDialog" as DebriefingDialog];
+				sleep 3;
+				call _debriefingDialog.ShowDialog;
 			};
 		};
 		

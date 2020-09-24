@@ -8,6 +8,8 @@
  * Handles tutorials.
  */
 
+using Tvtcf.Common;
+
 namespace Tvtcf.Client
 {
 	public class TutorialHandler
