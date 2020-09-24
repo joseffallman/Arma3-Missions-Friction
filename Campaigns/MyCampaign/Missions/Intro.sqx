@@ -86,7 +86,7 @@ namespace Campaigns.MyCampaign
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			if (_self.RemainingTime <= 29) then {
+			if (_self.RemainingTime <= 28) then {
 				return ObjectiveState.Succeeded;
 			};
 
