@@ -48,19 +48,42 @@ namespace Tvtcf.Common
 			_diaryText = _diaryText + "<br />" + _resultInfo.PrimaryObjectiveName + ": ";
 			_diaryText = _diaryText + ([_resultInfo.PrimaryObjectiveState] call ObjectiveStateMeta.ToLang);
 			
+			if (_resultInfo.PrimaryObjectiveState == ObjectiveState.Succeeded) then {
+				_diaryText = _diaryText + " (+" + str _resultInfo.PrimaryObjectiveScore + ")";
+			};
+			
 			if (_resultInfo.SecondaryObjectiveName != "") then
 			{
 				_diaryText = _diaryText + "<br />" + _resultInfo.SecondaryObjectiveName + ": ";
 				_diaryText = _diaryText + ([_resultInfo.SecondaryObjectiveState] call ObjectiveStateMeta.ToLang);
+				
+				if (_resultInfo.SecondaryObjectiveState == ObjectiveState.Succeeded) then {
+					_diaryText = _diaryText + " (+" + str _resultInfo.SecondaryObjectiveScore + ")";
+				};
 			};
 			
 			if (_resultInfo.UsingReturnObjective) then
 			{
 				_diaryText = _diaryText + "<br />Return to insertion point: ";
 				_diaryText = _diaryText + ([_resultInfo.ReturnObjectiveState] call ObjectiveStateMeta.ToLang);
+				
+				if (_resultInfo.ReturnObjectiveState == ObjectiveState.Succeeded) then {
+					_diaryText = _diaryText + " (+" + str _resultInfo.ReturnObjectiveScore + ")";
+				};
 			};
 			
-			_diaryText = _diaryText + "<br />Men lost: " + str (_resultInfo.MenAtStart - _resultInfo.MenAtEnd);
+			var _menLostCount = _resultInfo.MenAtStart - _resultInfo.MenAtEnd;
+			_diaryText = _diaryText + "<br />Men lost: " + str _menLostCount;
+			
+			if (_menLostCount > 0) then {
+				_diaryText = _diaryText + " (" + str _menLostCount + " x -" + str _resultInfo.ReturnObjectiveScore + " = " + str (-_menLostCount * _resultInfo.ReturnObjectiveScore) + ")";
+			}
+			else {
+				if (_resultInfo.Score > 0) then {
+					_diaryText = _diaryText + " (Bonus for success and all survived: +" + str _resultInfo.AllSurvivedBonusScore + ")";
+				};
+			};
+				
 			_diaryText = _diaryText + "<br /><br />Mission score: " + str _resultInfo.Score;
 			
 			_diaryText = _diaryText + "<br /><br />Total score";
