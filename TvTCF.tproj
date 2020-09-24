@@ -298,6 +298,19 @@
           </ProjectNodeViewModel>
         </SubNodes>
       </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Dialogs" FileName="Dialogs">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Defines.hpp" FileName="Dialogs\Defines.hpp">
+            <SubNodes />
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="DialogControls.hpp" FileName="Dialogs\DialogControls.hpp">
+            <SubNodes />
+          </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TutorialDialog.hpp" FileName="Dialogs\TutorialDialog.hpp">
+            <SubNodes />
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Engima" FileName="Engima">
         <SubNodes>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="CommonLib" FileName="Engima\CommonLib">

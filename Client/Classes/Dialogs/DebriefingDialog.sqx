@@ -33,6 +33,8 @@ namespace Tvtcf.Client
 
             ctrlSetText [_dlgHeader, _mHeader];
             ctrlSetText [_dlgText, _mText];
+            
+            ctrlShow [45, false];
 
 			waitUntil { !dialog };
 			
