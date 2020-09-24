@@ -492,7 +492,7 @@ namespace Campaigns
 			var _daysToSkip = floor random 7;
 			var _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
 			
-			skipTime (24 * _daysToSkip) + _timeToSkip;
+			skipTime ((24 * _daysToSkip) + _timeToSkip);
 			
 			call _self.Setup;
 			call _self.CreateMissionObjectives;
