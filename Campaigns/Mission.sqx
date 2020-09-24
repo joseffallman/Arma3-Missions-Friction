@@ -489,10 +489,8 @@ namespace Campaigns
 			_self.GainedTokensOpposing = _gainedTokensOpposing;
 			_self.LostTokensOpposing = _lostTokensOpposing;
 			
-			var _daysToSkip = floor random 7;
 			var _timeToSkip = 24 - daytime + _self.StartTimeOfDay;
-			
-			skipTime ((24 * _daysToSkip) + _timeToSkip);
+			skipTime _timeToSkip;
 			
 			call _self.Setup;
 			call _self.CreateMissionObjectives;
