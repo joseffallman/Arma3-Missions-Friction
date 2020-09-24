@@ -186,7 +186,7 @@ namespace Tvtcf.Client.Statics
 			// Show the dialog with a few seconds delay.
 			[_debriefingDialog] spawn {
 				params ["_debriefingDialog" as DebriefingDialog];
-				sleep 4;
+				sleep 3;
 				call _debriefingDialog.ShowDialog;
 			};
 		};

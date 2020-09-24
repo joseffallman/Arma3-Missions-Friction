@@ -70,7 +70,7 @@ namespace Tvtcf.Client
 				var _interpolatedInsertionPos = getMarkerPos _mMapMarkerHandler.InsertionMarker;
 				
 				openMap true;
-				mapAnimAdd [1, 0.2, _interpolatedInsertionPos];
+				mapAnimAdd [1, 0.4, _interpolatedInsertionPos];
 				mapAnimCommit;
 				//waitUntil { mapAnimDone };
 
