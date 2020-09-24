@@ -1,20 +1,20 @@
 /*
- * Name:	Intro
- * Date:	2020-08-11
+ * Name:	Survive
+ * Date:	2020-09-24
  * Version: 1.0
  * Author:  Engima
  *
  * Description:
- * The first mission of my operation.
+ * Test mission.
  */
 
-using Tvtcf.Common;
-using Tvtcf.Server;
 using Campaigns;
+using Tvtcf.Server;
+using Tvtcf.Common;
 
 namespace Campaigns.MyCampaign
 {
-	public class Intro : Mission
+	public class Survive : Mission
 	{
 		private fields ["_mSecondarySucceeded" as Boolean];
 		
@@ -26,7 +26,7 @@ namespace Campaigns.MyCampaign
 		
 		protected override method InitMission("_mission" as MissionSettings)
 		{
-			_mission.Name = "Intro";
+			_mission.Name = "Survive";
 			_mission.StartMarkersActing = ["m06o_StartArea1"];
 			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
 			_mission.StartTimeOfDay = 12;

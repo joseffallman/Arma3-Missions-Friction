@@ -65,6 +65,8 @@ namespace Tvtcf.Common
 			
 			_diaryText = _diaryText + "<br /><br />Total score";
 			_diaryText = _diaryText + "<br />West: " + str _self.TotalScoreWest + ". East: " + str _self.TotalScoreEast + ".";
+			
+			return _diaryText;
 		};
 	};
 };

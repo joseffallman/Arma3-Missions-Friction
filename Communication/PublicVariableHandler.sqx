@@ -118,6 +118,46 @@ namespace Tvtcf.Communication
 		};
 		
 		
+		public static method BroadcastWestInsertionPos("_westInsertionPos" as Array)
+		{
+			PUBVAR_WestInsertionPos = _westInsertionPos;
+			publicVariable "PUBVAR_WestInsertionPos";
+		};
+		
+		public static method Boolean HasValueWestInsertionPos() {
+			return !isNil "PUBVAR_WestInsertionPos";
+		};
+		
+		public static method Array GetWestInsertionPos()
+		{
+			if (call _self.HasValueWestInsertionPos) then {
+				return PUBVAR_WestInsertionPos;
+			};
+
+			return [0, 0, 0];
+		};
+		
+		
+		public static method BroadcastEastInsertionPos("_eastInsertionPos" as Array)
+		{
+			PUBVAR_EastInsertionPos = _eastInsertionPos;
+			publicVariable "PUBVAR_EastInsertionPos";
+		};
+		
+		public static method Boolean HasValueEastInsertionPos() {
+			return !isNil "PUBVAR_EastInsertionPos";
+		};
+		
+		public static method Array GetEastInsertionPos()
+		{
+			if (call _self.HasValueEastInsertionPos) then {
+				return PUBVAR_EastInsertionPos;
+			};
+
+			return [0, 0, 0];
+		};
+		
+		
 		public static method BroadcastInsertedWestlyUnits("_insertedWestlyUnits" as Array)
 		{
 			PUBVAR_InsertedWestlyUnits = _insertedWestlyUnits;

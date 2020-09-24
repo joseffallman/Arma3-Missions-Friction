@@ -4,6 +4,7 @@ call compile preprocessFileLineNumbers "Client\Classes\ClientEventReciever.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\ClientEventHandlers.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Configs\TutorialConfig.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Dialogs\TutorialDialog.sqx";
+call compile preprocessFileLineNumbers "Client\Classes\Dialogs\DebriefingDialog.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TutorialHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\BriefingHandler.sqx";
 call compile preprocessFileLineNumbers "Client\Classes\Handlers\TaskHandler.sqx";

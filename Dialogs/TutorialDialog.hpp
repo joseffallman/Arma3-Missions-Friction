@@ -28,6 +28,7 @@ class IntTutorialDialog
 		
 		class IntTutorialDialog_TurnOffButton : IntBaseDialog_Button
 		{
+			idc = 45;
 			text = "Turn off tutorials";
 			x = 26.5 * GUI_GRID_W + GUI_GRID_X;
 			w = 8 * GUI_GRID_W;

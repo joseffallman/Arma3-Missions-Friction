@@ -60,10 +60,11 @@ namespace Tvtcf.Client
 			
 			// Set eventual next mission counter if the campaign is between two missions
 			
+			var _missionHasStarted = call PublicVariableHandler.GetMissionHasStarted;
 			var _nextMissionStartTime = call PublicVariableHandler.GetNextMissionStartTime;
 			var _remainingTime = floor (_nextMissionStartTime - (call Functions.GetMissionTime));
 			
-			if (_remainingTime > 0) then
+			if (!_missionHasStarted && _remainingTime > 0) then
 			{
 				[_remainingTime] call ClientObjects.WaitingForMissionCounter.SetRemainingTime;
 				call ClientObjects.WaitingForMissionCounter.RunAsync;
@@ -84,21 +85,41 @@ namespace Tvtcf.Client
 					var _hasInserted = false;
 					
 					if (playerSide == west) then {
-						_hasInserted = call publicVariableHandler.GetWestHasInserted;
+						_hasInserted = call PublicVariableHandler.GetWestHasInserted;
 					};
 					if (playerSide == east) then {
-						_hasInserted = call publicVariableHandler.GetEastHasInserted;
+						_hasInserted = call PublicVariableHandler.GetEastHasInserted;
 					};
 					
 					if (!_hasInserted) then {
 						call ClientObjects.BaseInsertionService.RunAsync;
 					};
-					
+
 					// Mission Prepare Counter
 				
 					var _briefingEndTime = call PublicVariableHandler.GetBriefingEndTime;
 					_missionPrepareCounter = [_mClientMessageHandler, _briefingEndTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
 					call _missionPrepareCounter.RunAsync;
+				};
+				
+				
+				// Set eventual extraction marker and symbol, if players have inserted
+				
+				var _extractionPos = [];
+				var _useExtractionMarker = false;
+				
+				if (playerSide == west) then {
+					_extractionPos = call PublicVariableHandler.GetWestInsertionPos;
+					_useExtractionMarker = _missionMarkersInfo.WestUseExtractionMarker;
+				};
+				if (playerSide == east) then {
+					_extractionPos = call PublicVariableHandler.GetEastInsertionPos;
+					_useExtractionMarker = _missionMarkersInfo.EastUseExtractionMarker;
+				};
+				
+				if (_useExtractionMarker) then {
+					[_extractionPos] call ClientObjects.MapMarkerHandler.AddExtractionMarker;
+					[_extractionPos] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
 				};
 			};
 			
@@ -111,6 +132,10 @@ namespace Tvtcf.Client
 	  		cutText ["","BLACK IN", 1];
 		    
 		    call _base.Run;
+		    
+		    // Update Mission Menu
+		    
+			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 		};
 	};
 };

@@ -26,7 +26,7 @@ namespace Tvtcf.Client.Statics
 			_self.TaskHandler = new TaskHandler;
 			_self.MapMarkerHandler = [new BaseMarkersConfig] new MapMarkerHandler;
 			_self.MessageHandler = new ClientMessageHandler;
-			_self.PerformInsertionService = [_self.MessageHandler] new PerformInsertionService;
+			_self.PerformInsertionService = [_self.MessageHandler, _self.MapMarkerHandler] new PerformInsertionService;
 			_self.CameraHandler = [_self.MessageHandler] new CameraHandler;
 			_self.JipService = [_self.MessageHandler] new JipService;
 			_self.ClientMissionActionHandler = new ClientMissionActionHandler;
