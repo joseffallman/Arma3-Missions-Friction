@@ -32,7 +32,7 @@ namespace Tvtcf.Client
 				var _basePos = getMarkerPos _respawnMarker;
 				
 				if (player distance2D _basePos > 100) then {
-					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _basePos]] call Remote.Invoke;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _basePos, false]] call Remote.Invoke;
 					call _self.Cancel;
 				};
 				

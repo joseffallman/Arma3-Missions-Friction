@@ -18,7 +18,7 @@ namespace Tvtcf.Server.Statics
 		// Called when a player is performing an insertion.
 		// _side (Side): The side to insert.
 		// _position (Array): The position where to insert all players on the side.
-		public static method OnPlayerPerformingInsertion("_side" as Side, "_position" as Array)
+		public static method OnPlayerPerformingInsertion("_side" as Side, "_position" as Array, "_doTeleport" as Boolean)
 		{
 			private _actualPos = [_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
 			
@@ -27,7 +27,7 @@ namespace Tvtcf.Server.Statics
 			{
 				if (side group _x == _side) then
 				{
-					["ClientEventReciever.OnInsertGroup", [group _x, _actualPos]] call Remote.Invoke;
+					["ClientEventReciever.OnInsertGroup", [group _x, _actualPos, _doTeleport]] call Remote.Invoke;
 					return;
 				};
 			} foreach _switchableUnits;

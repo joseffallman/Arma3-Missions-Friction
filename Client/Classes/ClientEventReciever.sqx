@@ -45,13 +45,6 @@ namespace Tvtcf.Client.Statics
 			// Update the markers
 			
 			[_missionMarkersInfo] call ClientObjects.MapMarkerHandler.UpdateMarkers;
-//			var _interpolatedInsertionPos = getMarkerPos ClientObjects.MapMarkerHandler.InsertionMarker;
-			
-//			openMap true;
-//			mapAnimAdd [0, 0.2, _interpolatedInsertionPos];
-//			mapAnimCommit;
-//			waitUntil { mapAnimDone };
-//			openMap false;
 			
 			var _startMarkers = [playerSide] call _missionMarkersInfo.GetStartMarkersBySide;
 			
@@ -62,7 +55,7 @@ namespace Tvtcf.Client.Statics
 			{
 				// If no insertion markers are specified, perform insertion immediately
 				if (player == leader group player) then {
-					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, getPos player]] call Remote.Invoke;
+					["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, getPos player, true]] call Remote.Invoke;
 				};
 			};
 			
@@ -89,7 +82,7 @@ namespace Tvtcf.Client.Statics
 			call _briefingService.RunAsync;
 		};
 		
-		public static method OnInsertGroup("_group" as Group, "_position" as Array)
+		public static method OnInsertGroup("_group" as Group, "_position" as Array, "_doTeleport" as Boolean)
 		{
 			private ["_teleporter" as TeleportService];
 			
@@ -100,8 +93,10 @@ namespace Tvtcf.Client.Statics
 			{
 				[_position] call ClientObjects.MapMarkerHandler.AddExtractionMarker;
 			
-				_teleporter = [_position] new TeleportService;
-				call _teleporter.RunAsync;
+				if (_doTeleport) then {
+					_teleporter = [_position] new TeleportService;
+					call _teleporter.RunAsync;
+				};
 				
 				if (ClientObjects.MapMarkerHandler.UseExtractionMarker) then {
 					[_position] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;

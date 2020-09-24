@@ -85,7 +85,7 @@ namespace Tvtcf.Client
 				if (!_mWaitingForMapClick) then
 				{
 					if ([_mMapPos, _mInsertionMarkers] call _self.InAnyMarker) then {
-						["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _mMapPos]] call Remote.Invoke;
+						["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _mMapPos, true]] call Remote.Invoke;
 					}
 					else {
 						["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
