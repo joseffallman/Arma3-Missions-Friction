@@ -167,6 +167,7 @@ namespace Tvtcf.Server
 					
 					_mWestHasInserted = true;
 					[true] call PublicVariableHandler.BroadcastWestHasInserted;
+					[_position] call PublicVariableHandler.BroadcastWestInsertionPos;
 					[_mWestlyUnits] call PublicVariableHandler.BroadcastInsertedWestlyUnits;
 				};
 			}
@@ -181,6 +182,7 @@ namespace Tvtcf.Server
 					
 					_mEastHasInserted = true;
 					[true] call PublicVariableHandler.BroadcastEastHasInserted;
+					[_position] call PublicVariableHandler.BroadcastEastInsertionPos;
 					[_mEastlyUnits] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
 				};
 			};

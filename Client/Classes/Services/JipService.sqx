@@ -94,19 +94,32 @@ namespace Tvtcf.Client
 					if (!_hasInserted) then {
 						call ClientObjects.BaseInsertionService.RunAsync;
 					};
-					
-					/*
-					PublicVariableHandler.Get
-					if (ClientObjects.MapMarkerHandler.UseExtractionMarker) then {
-						[_position] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
-					};
-					*/
 
 					// Mission Prepare Counter
 				
 					var _briefingEndTime = call PublicVariableHandler.GetBriefingEndTime;
 					_missionPrepareCounter = [_mClientMessageHandler, _briefingEndTime + CommonObjects.MissionParametersHandler.MandatoryPrepareTime] new MissionPrepareCounter;
 					call _missionPrepareCounter.RunAsync;
+				};
+				
+				
+				// Set eventual extraction marker and symbol, if players have inserted
+				
+				var _extractionPos = [];
+				var _useExtractionMarker = false;
+				
+				if (playerSide == west) then {
+					_extractionPos = call PublicVariableHandler.GetWestInsertionPos;
+					_useExtractionMarker = _missionMarkersInfo.WestUseExtractionMarker;
+				};
+				if (playerSide == east) then {
+					_extractionPos = call PublicVariableHandler.GetEastInsertionPos;
+					_useExtractionMarker = _missionMarkersInfo.EastUseExtractionMarker;
+				};
+				
+				if (_useExtractionMarker) then {
+					[_extractionPos] call ClientObjects.MapMarkerHandler.AddExtractionMarker;
+					[_extractionPos] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
 				};
 			};
 			
