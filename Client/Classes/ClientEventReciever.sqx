@@ -185,12 +185,13 @@ namespace Tvtcf.Client.Statics
 			
 			// Show the debriefing dialog.
 			var _debriefingText = [playerSide] call _missionResult.ToDiaryText;
-			var _debriefingDialog = [_missionResult.MissionName, _debriefingText] new DebriefingDialog;
+			_debriefingText = [_debriefingText, "<br />", "\n"] call Functions.StringReplace;
+			var _debriefingDialog = ["Mission Debriefing", _debriefingText] new DebriefingDialog;
 			
 			// Show the dialog with a few seconds delay.
 			[_debriefingDialog] spawn {
 				params ["_debriefingDialog" as DebriefingDialog];
-				sleep 3;
+				sleep 4;
 				call _debriefingDialog.ShowDialog;
 			};
 		};
