@@ -119,9 +119,14 @@ namespace Campaigns.ShoeLace
 		protected method SetIndependentAlliance("_missionSide" as MissionSide, "_setAsAllied" as Boolean)
 		{
 			var _side = [_missionSide] call _self.GetActualSide;
+			var _value = 1;
 			
-			resistance setFriend [_side, 0];
-			_side setFriend [resistance, 0];
+			if (!_setAsAllied) then {
+				_value = 0;
+			};
+			
+			resistance setFriend [_side, _value];
+			_side setFriend [resistance, _value];
 		};
 	};
 };
