@@ -12,12 +12,11 @@ namespace Tvtcf.Server
 	public class VehicleSideAlias
 	{
 		// Creates a VehicleSideAlias object.
-		public constructor("_name" as String, "_westVehicleType" as String, "_eastVehicleType" as String, "_guerillaVehicleType" as String)
+		public constructor("_name" as String, "_westVehicleType" as String, "_eastVehicleType" as String)
 		{
 			_self.Name = _name;
 			_self.WestVehicleType = _westVehicleType;
 			_self.EastVehicleType = _eastVehicleType;
-			_self.GuerillaVehicleType = _guerillaVehicleType;
 		};
 		
 		public property String Name { get; private set; };
@@ -26,19 +25,17 @@ namespace Tvtcf.Server
 		
 		public property String EastVehicleType { get; private set; };
 		
-		public property String GuerillaVehicleType { get; private set; };
-		
 		public method String GetVehicleType("_side" as Side)
 		{
-			if (_side == independent) then {
-				return _self.GuerillaVehicleType;
-			};
-			
 			if (_side == west) then {
 				return _self.WestVehicleType;
 			};
 			
-			return _self.EastVehicleType;
+			if (_side == east) then {
+				return _self.EastVehicleType;
+			};
+			
+			return "";
 		};
 	};
 };

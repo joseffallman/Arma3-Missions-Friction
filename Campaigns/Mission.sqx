@@ -311,10 +311,6 @@ namespace Campaigns
 		// Returns (Side): The actual side that corresponds to the mission side.
 		public method Side GetActualSide("_side" as MissionSide)
 		{
-			if (_side == MissionSide.Guerilla) then {
-				return independent;
-			};
-		
 			if (_mActingSide == west) then {
 				if (_side == MissionSide.Acting) then {
 					return west;
@@ -339,10 +335,6 @@ namespace Campaigns
 		// Returns (MissionSide): The mission side that corresponds to the actual side.
 		protected method MissionSide GetMissionSide("_side" as Side)
 		{
-			if (_side == independent) then {
-				return MissionSide.Guerilla;
-			};
-		
 			if (_side == _mActingSide) then {
 				return MissionSide.Acting;
 			};
