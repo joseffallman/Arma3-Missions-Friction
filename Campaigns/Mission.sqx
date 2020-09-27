@@ -144,27 +144,6 @@ namespace Campaigns
 			return _spawnpos;
 		};
 		
-		protected method Object CreateAiSoldier("_unitType" as String, "_position" as Array, "_group" as Group)
-		{
-			private _soldier = _group createUnit [_unitType, _position, [], 0, "NONE"];
-			_mSpawnedSoldiers pushBack _soldier;
-			
-			return _soldier;
-		};
-		
-		protected method Object CreateSideAiSoldier("_unitTypeAlias" as String, "_position" as Array, "_missionSide" as MissionSide, ["_group" as Group, grpNull])
-		{
-			private _side = [_missionSide] call _self.GetActualSide;
-			private _soldierType = [_unitTypeAlias, _side] call _self.SoldierTypeDictionary.GetSoldierType;
-			
-			if (isNull _group) then {
-				_group = createGroup [_side, true];
-			};
-			
-			return [_soldierType, _position, _group] call _self.CreateAiSoldier;
-		};
-		
-		
 		#endregion
 		
 		#region Settable Properties
@@ -302,6 +281,37 @@ namespace Campaigns
 			private _spawnMarker = [_side, _baseMarker] call _mBaseMarkersConfig.GetMarkerName;
 			
 			return [_vehicleType, _spawnMarker, _avoidCollision, _withCrew] call _self.CreateVehicleOnMarker;
+		};
+		
+		// Spawns an AI soldier unit on a given position.
+		// _unitClassName (String): The class name of the unit to spawn.
+		// _position (Array): The position where to spawn the unit.
+		// _group (Group): The group to which the unit should belong.
+		// Returns (Object): The spawned unit.
+		protected method Object CreateAiSoldier("_unitClassName" as String, "_position" as Array, "_group" as Group)
+		{
+			private _soldier = _group createUnit [_unitClassName, _position, [], 0, "NONE"];
+			_mSpawnedSoldiers pushBack _soldier;
+			
+			return _soldier;
+		};
+		
+		// Spawns an AI soldier unit on a given position.
+		// _unitTypeAlias (String): The unit type alias of the unit to spawn. The exact class name is the looked up using the object type dictionary.
+		// _position (Array): The position where to spawn the unit.
+		// _missionSide (MissionSide): The side (acting/opposing) to which the unit belongs.
+		// _group (Group): Optional. The group to which the unit should belong. grpNull if a new group are to be created. Default grpNull.
+		// Returns (Object): The spawned unit.
+		protected method Object CreateSideAiSoldier("_unitTypeAlias" as String, "_position" as Array, "_missionSide" as MissionSide, ["_group" as Group, grpNull])
+		{
+			private _side = [_missionSide] call _self.GetActualSide;
+			private _soldierType = [_unitTypeAlias, _side] call _self.SoldierTypeDictionary.GetSoldierType;
+			
+			if (isNull _group) then {
+				_group = createGroup [_side, true];
+			};
+			
+			return [_soldierType, _position, _group] call _self.CreateAiSoldier;
 		};
 		
 		// Gets the actual side (east or west) out of a mission side (acting or opposing).
