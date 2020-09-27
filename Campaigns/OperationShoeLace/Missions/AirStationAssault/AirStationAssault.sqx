@@ -131,9 +131,9 @@ namespace Campaigns.ShoeLace
 
 			// Add an AI group defending the area.
 			
-			private _guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m01o_startarea1"] call _self.CreateAiSoldierBySide;
+			private _guard = ["RIFLEMAN", getMarkerPos "m01o_startarea1", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			private _guardGroup = group _guard;
-			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m01o_startarea1", _guardGroup] call _self.CreateAiSoldierBySide;
+			["RIFLEMAN", getMarkerPos "m01o_startarea1", MissionSide.Opposing, _guardGroup] call _self.CreateSideAiSoldier;
 			[_guardGroup, "m01o_startarea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			call _base.Setup;

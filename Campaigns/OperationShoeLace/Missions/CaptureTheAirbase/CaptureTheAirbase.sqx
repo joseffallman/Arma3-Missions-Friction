@@ -73,10 +73,10 @@ namespace Campaigns.ShoeLace
 			
 			// Soldiers
 			
-			private _rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			private _rifleman1 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting] call _self.CreateSideAiSoldier;
 			_mActingGroup1 = group _rifleman1;
-			private _rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup1] call _self.CreateAiSoldierBySide;
-			private _rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup1] call _self.CreateAiSoldierBySide;
+			private _rifleman2 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup1] call _self.CreateSideAiSoldier;
+			private _rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup1] call _self.CreateSideAiSoldier;
 			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
@@ -84,10 +84,10 @@ namespace Campaigns.ShoeLace
 				_x assignAsCargo _mChopper1;
 			} foreach units _mActingGroup1 as Object;
 			
-			_rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting] call _self.CreateSideAiSoldier;
 			_mActingGroup2 = group _rifleman1;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup2] call _self.CreateAiSoldierBySide;
-			_rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup2] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup2] call _self.CreateSideAiSoldier;
+			_rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup2] call _self.CreateSideAiSoldier;
 			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
@@ -95,10 +95,10 @@ namespace Campaigns.ShoeLace
 				_x assignAsCargo _mChopper1;
 			} foreach units _mActingGroup2 as Object;
 			
-			_rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting] call _self.CreateSideAiSoldier;
 			_mActingGroup3 = group _rifleman1;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup3] call _self.CreateAiSoldierBySide;
-			_rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup3] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup3] call _self.CreateSideAiSoldier;
+			_rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup3] call _self.CreateSideAiSoldier;
 			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
@@ -106,10 +106,10 @@ namespace Campaigns.ShoeLace
 				_x assignAsCargo _mChopper2;
 			} foreach units _mActingGroup3 as Object;
 			
-			_rifleman1 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting] call _self.CreateSideAiSoldier;
 			_mActingGroup4 = group _rifleman1;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup4] call _self.CreateAiSoldierBySide;
-			_rifleman3 = ["RIFLEMAN AT", MissionSide.Acting, getMarkerPos "m11a_SoldierSpawnPoint", _mActingGroup4] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup4] call _self.CreateSideAiSoldier;
+			_rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11a_SoldierSpawnPoint", MissionSide.Acting, _mActingGroup4] call _self.CreateSideAiSoldier;
 			_mSpawnedActingSoldiers = _mSpawnedActingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
@@ -139,38 +139,35 @@ namespace Campaigns.ShoeLace
 			
 			// Soldiers
 			
-			_rifleman1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			_mOpposingGroup1 = group _rifleman1;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup1] call _self.CreateAiSoldierBySide;
-			_rifleman3 = ["RIFLEMAN AT", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup1] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing, _mOpposingGroup1] call _self.CreateSideAiSoldier;
+			_rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing, _mOpposingGroup1] call _self.CreateSideAiSoldier;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
-				//_x moveInCargo _mTruckTransport1;
 				_x assignAsCargo _mTruckTransport1;
 			} foreach units _mOpposingGroup1 as Object;
 			(units _mOpposingGroup1) orderGetIn true;
 			
-			_rifleman1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			_mOpposingGroup2 = group _rifleman1;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup2] call _self.CreateAiSoldierBySide;
-			_rifleman3 = ["RIFLEMAN AT", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup2] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing, _mOpposingGroup2] call _self.CreateSideAiSoldier;
+			_rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing, _mOpposingGroup2] call _self.CreateSideAiSoldier;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
-				//_x moveInCargo _mTruckTransport1;
 				_x assignAsCargo _mTruckTransport1;
 			} foreach units _mOpposingGroup2 as Object;
 			(units _mOpposingGroup2) orderGetIn true;
 			
-			_rifleman1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint"] call _self.CreateAiSoldierBySide;
+			_rifleman1 = ["RIFLEMAN", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			_mOpposingGroup3 = group _rifleman1;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup3] call _self.CreateAiSoldierBySide;
-			_rifleman3 = ["RIFLEMAN AT", MissionSide.Opposing, getMarkerPos "m11o_SoldierSpawnPoint", _mOpposingGroup3] call _self.CreateAiSoldierBySide;
+			_rifleman2 = ["RIFLEMAN", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing, _mOpposingGroup3] call _self.CreateSideAiSoldier;
+			_rifleman3 = ["RIFLEMAN AT", getMarkerPos "m11o_SoldierSpawnPoint", MissionSide.Opposing, _mOpposingGroup3] call _self.CreateSideAiSoldier;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + [_rifleman1, _rifleman2, _rifleman3];
 			
 			{
-				//_x moveInCargo _mTruckTransport1;
 				_x assignAsCargo _mTruckTransport1;
 			} foreach units _mOpposingGroup3 as Object;
 			(units _mOpposingGroup3) orderGetIn true;

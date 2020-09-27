@@ -76,9 +76,9 @@ namespace Campaigns.ShoeLace
 			["Land_BarGate_F", "m06o_RoadBlock_BarGate"] call _self.CreateVehicleOnMarker;
 			["RoadCone_L_F", "m06o_RoadBlock_RoadCone"] call _self.CreateVehicleOnMarker;
 			["MRAP HMG", "m06o_RoadBlock_Vehicle", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
-			private _guard1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_RoadBlock_Guard"] call _self.CreateAiSoldierBySide;
+			private _guard1 = ["RIFLEMAN", getMarkerPos "m06o_RoadBlock_Guard", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			_guard1 setDir markerDir "m06o_RoadBlock_Guard";
-			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_RoadBlock_Guard", group _guard1] call _self.CreateAiSoldierBySide;
+			["RIFLEMAN", getMarkerPos "m06o_RoadBlock_Guard", MissionSide.Opposing, group _guard1] call _self.CreateSideAiSoldier;
 			
 			// Desks and laptops
 			
@@ -101,16 +101,16 @@ namespace Campaigns.ShoeLace
 			
 			// Add an AI group that helps defending the area.
 			
-			var _guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_StartArea1"] call _self.CreateAiSoldierBySide;
+			var _guard = ["RIFLEMAN", getMarkerPos "m06o_StartArea1", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			var _guardGroup = group _guard;
-			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_StartArea1", _guardGroup] call _self.CreateAiSoldierBySide;
+			["RIFLEMAN", getMarkerPos "m06o_StartArea1", MissionSide.Opposing, _guardGroup] call _self.CreateSideAiSoldier;
 			[_guardGroup, "m06o_StartArea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			// Add another defending the helicopter
 			
-			_guard = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_HelicopterArea"] call _self.CreateAiSoldierBySide;
+			_guard = ["RIFLEMAN", getMarkerPos "m06o_HelicopterArea", MissionSide.Opposing] call _self.CreateSideAiSoldier;
 			_guardGroup = group _guard;
-			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_HelicopterArea", _guardGroup] call _self.CreateAiSoldierBySide;
+			["RIFLEMAN", getMarkerPos "m06o_HelicopterArea", MissionSide.Opposing, _guardGroup] call _self.CreateSideAiSoldier;
 			[_guardGroup, "m06o_HelicopterArea"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 
 			// Abient stuff
@@ -290,7 +290,7 @@ namespace Campaigns.ShoeLace
 				};
 				
 				[_mAmbientVehicle1] call _self.MoveAmbientVehicle;
-				_mAmbientVehicle1StartTime = _self.MissionTimeElapsed + ceil random 10;
+				_mAmbientVehicle1StartTime = _self.MissionTimeElapsed + ceil random 6;
 			};
 			
 			if (_self.MissionTimeElapsed >= _mAmbientVehicle2StartTime) then
@@ -304,7 +304,7 @@ namespace Campaigns.ShoeLace
 				};
 				
 				[_mAmbientVehicle2] call _self.MoveAmbientVehicle;
-				_mAmbientVehicle2StartTime = _self.MissionTimeElapsed + ceil random 10;
+				_mAmbientVehicle2StartTime = _self.MissionTimeElapsed + ceil random 6;
 			};
 		};
 		

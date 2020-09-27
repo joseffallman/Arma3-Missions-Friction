@@ -88,7 +88,7 @@ scopeName "mainScope";
 // Main loop
 
 _exitScript = false;
-while { !_exitScript && !isNull _group } do {
+while { !_exitScript && !isNull _group && { count units _group > 0 }} do {
     scopeName "mainScope";
     
     if (_debug) then {
@@ -162,6 +162,7 @@ while { !_exitScript && !isNull _group } do {
                 
                 if (count units _group == 0) then {
                     deleteGroup _group;
+                    _group = grpNull;
                     _exitScript = true;
                     breakTo "mainScope";
                 };
@@ -309,6 +310,10 @@ while { !_exitScript && !isNull _group } do {
         
         sleep random 10;
     };
+};
+
+if (!isNull _group) then {
+	deleteGroup _group;
 };
 
 if (_debug) then {
