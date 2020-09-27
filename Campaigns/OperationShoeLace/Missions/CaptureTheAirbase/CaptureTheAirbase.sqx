@@ -35,7 +35,7 @@ namespace Campaigns.ShoeLace
 			_mSpawnedIndepententSoldiers = [];
 			_mSpawnedActingSoldiers = [];
 			_mSpawnedOpposingSoldiers = [];
-			_mLeaningToSide = MissionSide.Guerilla;
+			_mLeaningToSide = MissionSide.Acting;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -177,51 +177,59 @@ namespace Campaigns.ShoeLace
 			
 			// Independent
 			
-			private _pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			var _pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
+			var _group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_Soldier_LAT_F", _pos, _group] call _self.CreateAiSoldier;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
+			
+			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_Soldier_LAT_F", _pos, _group] call _self.CreateAiSoldier;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
+			
+			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_Soldier_LAT_F", _pos, _group] call _self.CreateAiSoldier;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
+			
+			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_Soldier_LAT_F", _pos, _group] call _self.CreateAiSoldier;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 		
 			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
-			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
-			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
-		
-			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
-			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
-			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
-		
-			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN AT", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
-			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
-			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
-		
-			_pos = ["m_Airbase"] call Sqx.Markers.MarkerHelper.GetRandomPosInsideMarker;
-			_rifleman1 = ["RIFLEMAN", MissionSide.Guerilla, _pos] call _self.CreateAiSoldierBySide;
-			_rifleman2 = ["RIFLEMAN", MissionSide.Guerilla, _pos, group _rifleman1] call _self.CreateAiSoldierBySide;
+			_group = createGroup [independent, true];
+			_rifleman1 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
+			_rifleman2 = ["I_soldier_F", _pos, _group] call _self.CreateAiSoldier;
 			[group _rifleman1, "m_Airbase"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 			

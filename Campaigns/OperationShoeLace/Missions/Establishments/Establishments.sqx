@@ -72,7 +72,7 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForActing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Go to Point Delta and investigate the area. Search for at least two minutes, and confiscate anything that you find useful for the rest of the operation. You can confiscate things with the action menu. But be aware of the risk of possible hostile contacts!";
+			private _longDescription = "Go to Point Delta and investigate the area. Search for at least two minutes, and confiscate anything that you find useful - like guerilla ammo - for the rest of the operation. You can confiscate things that you find with the action menu. But be aware of the risk of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
@@ -88,29 +88,31 @@ namespace Campaigns.ShoeLace
 		protected override method MissionObjective CreateSecondaryObjectiveForOpposing()
 		{
 			private _shortDescription = "Investigate Point Delta";
-			private _longDescription = "Go to Point Delta and investigate the area. Search for at least two minutes, and confiscate anything that you find useful for the rest of the operation. You can confiscate things with the action menu. But be aware of the risk of possible hostile contacts!";
+			private _longDescription = "Go to Point Delta and investigate the area. Search for at least two minutes, and confiscate anything that you find useful - like guerilla ammo - for the rest of the operation. You can confiscate things that you find with the action menu. But be aware of the risk of possible hostile contacts!";
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
 		
 		protected override method Setup()
 		{
+			var _guerillaClassNames = ["I_G_Soldier_A_F", "I_G_Soldier_AR_F", "I_G_medic_F", "I_G_engineer_F", "I_G_Soldier_exp_F", "I_G_Soldier_GL_F", "I_G_Soldier_M_F", "I_G_officer_F", "I_G_Soldier_F", "I_G_Soldier_LAT_F", "I_G_Soldier_lite_F", "I_G_Soldier_SL_F", "I_G_Soldier_TL_F"];
+			
 			// Select two random fishy places to populate with guerillas (it might be different, it might be the same).
 			var _fishyPlaceMarkers = ["m_FishyPlaceCamoArea", "m_FishyPlaceCampingArea", "m_FishyPlaceRustyArea"];
 			var _populatedFishyPlaceMarker1 = selectRandom _fishyPlaceMarkers;
 			var _populatedFishyPlaceMarker2 = selectRandom _fishyPlaceMarkers;
 			
-			// Spawn guereillas at the selected fishy place and make them patrol
-			var _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1] call _self.CreateAiSoldierBySide;
-			var _guardGroup = group _guard;
-			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker1, _guardGroup] call _self.CreateAiSoldierBySide;
-			[_guardGroup, _populatedFishyPlaceMarker1] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			// Spawn guerillas at the selected fishy place and make them patrol
+			var _group = createGroup [independent, true];
+			[selectRandom _guerillaClassNames, getMarkerPos _populatedFishyPlaceMarker1, _group] call _self.CreateAiSoldier;
+			[selectRandom _guerillaClassNames, getMarkerPos _populatedFishyPlaceMarker1, _group] call _self.CreateAiSoldier;
+			[_group, _populatedFishyPlaceMarker1] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			// Spawn guereillas at the other selected fishy place and make them patrol
-			var _guard2 = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2] call _self.CreateAiSoldierBySide;
-			var _guardGroup2 = group _guard2;
-			["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _populatedFishyPlaceMarker2, _guardGroup2] call _self.CreateAiSoldierBySide;
-			[_guardGroup2, _populatedFishyPlaceMarker2] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+			_group = createGroup [independent, true];
+			[selectRandom _guerillaClassNames, getMarkerPos _populatedFishyPlaceMarker2, _group] call _self.CreateAiSoldier;
+			[selectRandom _guerillaClassNames, getMarkerPos _populatedFishyPlaceMarker2, _group] call _self.CreateAiSoldier;
+			[_group, _populatedFishyPlaceMarker2] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			// Spawn an ammo truck and vehicles in the acting base
 			_mAmmoTruck = ["AMMO TRUCK", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
@@ -133,8 +135,7 @@ namespace Campaigns.ShoeLace
 			
 			// Ambient Infantry
 			
-			var _ambientGroupsCount = 2 + floor random 6;
-			var _guerillaClassNames = ["I_G_Soldier_A_F", "I_G_Soldier_AR_F", "I_G_medic_F", "I_G_engineer_F", "I_G_Soldier_exp_F", "I_G_Soldier_GL_F", "I_G_Soldier_M_F", "I_G_officer_F", "I_G_Soldier_F", "I_G_Soldier_LAT_F", "I_G_Soldier_lite_F", "I_G_Soldier_SL_F", "I_G_Soldier_TL_F"];
+			var _ambientGroupsCount = 2 + floor random 10;
 			
 			for "_i" from 0 to _ambientGroupsCount - 1 do
 			{

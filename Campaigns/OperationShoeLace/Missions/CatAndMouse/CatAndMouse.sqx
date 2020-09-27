@@ -17,14 +17,14 @@ namespace Campaigns.ShoeLace
 {
 	public class CatAndMouse : ShoeLaceMission
 	{
-		private fields ["_mBox" as Object, "_mBoxOwnerSide" as MissionSide, "_mActingActionId" as Scalar, "_mOpposingActionId" as Scalar];
+		private fields ["_mBox" as Object, "_mBoxOwnerSide" as String, "_mActingActionId" as Scalar, "_mOpposingActionId" as Scalar];
 		private fields ["_mIndependentSpawnTime" as Scalar, "_mIndependentForceHasSpawned" as Boolean];
 	
 		// Creates a CatAndMouse object.
 		public constructor()
 		{
 			call _base.Constructor;
-			_mBoxOwnerSide = MissionSide.Guerilla;
+			_mBoxOwnerSide = "";
 			_mActingActionId = -1;
 			_mOpposingActionId = -1;
 			_mIndependentForceHasSpawned = false;
@@ -66,12 +66,12 @@ namespace Campaigns.ShoeLace
 		{
 			if (_actionId == _mActingActionId) then {
 				_mBox setPos [0, 0 ,0];
-				_mBoxOwnerSide = MissionSide.Acting;
+				_mBoxOwnerSide = "ACTING";
 			};
 			
 			if (_actionId == _mOpposingActionId) then {
 				_mBox setPos [0, 0 ,0];
-				_mBoxOwnerSide = MissionSide.Opposing;
+				_mBoxOwnerSide = "OPPOSING";
 			};
 		};
 		
@@ -121,7 +121,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			var _boxIsOurs = _mBoxOwnerSide == MissionSide.Acting;
+			var _boxIsOurs = _mBoxOwnerSide == "ACTING";
 			
 			if (_boxIsOurs && (_self.SecondaryObjectiveStateActing == ObjectiveState.Succeeded || _self.RemainingTime == 0)) then {
 				_self.GainedTokensActing pushBack "DRONE";
@@ -145,7 +145,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			var _boxIsOurs = _mBoxOwnerSide == MissionSide.Opposing;
+			var _boxIsOurs = _mBoxOwnerSide == "OPPOSING";
 			
 			if (_boxIsOurs && (_self.SecondaryObjectiveStateOpposing == ObjectiveState.Succeeded || _self.RemainingTime == 0)) then {
 				_self.GainedTokensOpposing pushBack "DRONE";
@@ -173,10 +173,10 @@ namespace Campaigns.ShoeLace
 			{
 				var _spawnMarker = selectRandom ["m09_IndependentSpawnMarker1", "m09_IndependentSpawnMarker2", "m09_IndependentSpawnMarker3", "m09_IndependentSpawnMarker4"];
 			
-				var _guard = ["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _spawnMarker] call _self.CreateAiSoldierBySide;
-				var _guardGroup = group _guard;
-				["RIFLEMAN", MissionSide.Guerilla, getMarkerPos _spawnMarker, _guardGroup] call _self.CreateAiSoldierBySide;
-				[_guardGroup, "m_Girna"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+				var _group = createGroup [independent, true];
+				["RIFLEMAN", getMarkerPos _spawnMarker, _group] call _self.CreateAiSoldier;
+				["RIFLEMAN", getMarkerPos _spawnMarker, _group] call _self.CreateAiSoldier;
+				[_group, "m_Girna"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 				
 				_mIndependentForceHasSpawned = true;
 			};
