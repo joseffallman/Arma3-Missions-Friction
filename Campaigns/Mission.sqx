@@ -152,7 +152,7 @@ namespace Campaigns
 			return _soldier;
 		};
 		
-		protected method Object CreateAiSoldierBySide("_unitTypeAlias" as String, "_missionSide" as MissionSide, "_position" as Array, ["_group" as Group, grpNull])
+		protected method Object CreateSideAiSoldier("_unitTypeAlias" as String, "_position" as Array, "_missionSide" as MissionSide, ["_group" as Group, grpNull])
 		{
 			private _side = [_missionSide] call _self.GetActualSide;
 			private _soldierType = [_unitTypeAlias, _side] call _self.SoldierTypeDictionary.GetSoldierType;
