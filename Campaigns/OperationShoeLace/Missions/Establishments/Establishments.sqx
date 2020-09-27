@@ -38,7 +38,7 @@ namespace Campaigns.ShoeLace
 		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Establishments";
-			_mission.StartTimeOfDay = 7;
+			_mission.StartTimeOfDay = 4 + floor random 8;
 			
 			_mission.SideMarkersActing = ["m07a_LimeriBay", "m07a_PointDelta"];
 			_mission.SideMarkersOpposing = ["m07o_MilitaryRange", "m07o_PointDelta"];

@@ -38,7 +38,7 @@ namespace Campaigns.ShoeLace
 			_mission.SideMarkersOpposing = ["m05_CrashSite"];
 			_mission.AddReturnObjectiveForActing = true;
 			_mission.AddReturnObjectiveForOpposing = true;
-			_mission.StartTimeOfDay = 5 + floor random 13; // Between 5 and 18.
+			_mission.StartTimeOfDay = 4 + floor random 17; // Between 4 and 20.
 		};
 		
 		protected override method Setup()

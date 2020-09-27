@@ -30,7 +30,7 @@ namespace Campaigns.ShoeLace
 			// The "opposing" side will be the side defending.
 			
 			_mission.Name = "Air Station Assault";
-			_mission.StartTimeOfDay = 1;
+			_mission.StartTimeOfDay = floor random 4;
 			_mission.StartMarkersActing = ["m01a_startarea1", "m01a_startarea2", "m01a_startarea3"];
 			_mission.StartMarkersOpposing = ["m01o_startarea1"];
 			_mission.SideMarkersActing = ["m01a_PrimaryTarget"];
