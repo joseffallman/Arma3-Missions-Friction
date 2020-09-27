@@ -174,8 +174,8 @@ namespace Campaigns.ShoeLace
 				var _spawnMarker = selectRandom ["m09_IndependentSpawnMarker1", "m09_IndependentSpawnMarker2", "m09_IndependentSpawnMarker3", "m09_IndependentSpawnMarker4"];
 			
 				var _group = createGroup [independent, true];
-				["RIFLEMAN", getMarkerPos _spawnMarker, _group] call _self.CreateAiSoldier;
-				["RIFLEMAN", getMarkerPos _spawnMarker, _group] call _self.CreateAiSoldier;
+				["I_soldier_F", getMarkerPos _spawnMarker, _group] call _self.CreateAiSoldier;
+				["I_soldier_F", getMarkerPos _spawnMarker, _group] call _self.CreateAiSoldier;
 				[_group, "m_Girna"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 				
 				_mIndependentForceHasSpawned = true;
