@@ -113,21 +113,21 @@ namespace Campaigns.ShoeLace
 			[_guardGroup2, _populatedFishyPlaceMarker2] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
 			// Spawn an ammo truck and vehicles in the acting base
-			_mAmmoTruck = ["AMMO TRUCK", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_mAmmoTruck = ["AMMO TRUCK", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			
 			// Create mail box at Military Range
 			private _mailBoxPosition = ["m_MilitaryRangeArea"] call MarkerHelper.GetRandomPosInsideMarker;
-			_mMailBox = ["Land_PaperBox_closed_F", _mailBoxPosition, random 360] call _self.CreateVehicleOnPosition;
+			_mMailBox = ["Land_PaperBox_closed_F", _mailBoxPosition, random 360] call _self.CreateVehicle;
 			_mCheckMailActionId = [_mMailBox, "Collect mail", MissionSide.Opposing] call _self.AddAction;
 			
 			// Create vehicles at Limeri Bay
-			["MRAP", MissionSide.Acting, "m07a_LimeriBayMrap"] call _self.CreateSideVehicleOnMarker;
-			["QUADBIKE", MissionSide.Acting, "m07a_LimeriBayQuadBike"] call _self.CreateSideVehicleOnMarker;
+			["MRAP", "m07a_LimeriBayMrap", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
+			["QUADBIKE", "m07a_LimeriBayQuadBike", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
 			
 			// Create AAF Explosives box that may be found at point Delta
 			private _explosivesBoxAreaMarker = selectRandom [_mDeltaActingAreaMarker, _mDeltaOpposingAreaMarker];
 			
-			_mExplosivesBox = ["Box_IND_AmmoOrd_F", [_explosivesBoxAreaMarker] call MarkerHelper.GetRandomPosInsideMarker, random 360] call _self.CreateVehicleOnPosition;
+			_mExplosivesBox = ["Box_IND_AmmoOrd_F", [_explosivesBoxAreaMarker] call MarkerHelper.GetRandomPosInsideMarker, random 360] call _self.CreateVehicle;
 			_mConfiscateActionActing = [_mExplosivesBox, "Confiscate ammo box", MissionSide.Acting] call _self.AddAction;
 			_mConfiscateActionOpposing = [_mExplosivesBox, "Confiscate ammo box", MissionSide.Opposing] call _self.AddAction;
 			

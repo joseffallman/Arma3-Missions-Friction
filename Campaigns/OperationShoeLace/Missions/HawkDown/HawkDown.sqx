@@ -44,12 +44,12 @@ namespace Campaigns.ShoeLace
 		protected override method Setup()
 		{
 			// Spawn acting side's objects
-			private _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			private _ammoBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			
 			// Spawn ordnance for opposing if they have the AAF EXPLOSIVES.
 			
 			if ("AAF EXPLOSIVES" in _self.GainedTokensOpposing) then {
-				["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+				["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing] call _self.CreateSideVehicleInBase;
 			};
 			
 			// Add a backpack to the ammo box
@@ -57,7 +57,7 @@ namespace Campaigns.ShoeLace
 
 			_mGreyHawkMarker = selectRandom ["m05_HawkLocation1", "m05_HawkLocation2", "m05_HawkLocation3", "m05_HawkLocation4", "m05_HawkLocation5", "m05_HawkLocation6", "m05_HawkLocation7", "m05_HawkLocation8", "m05_HawkLocation9", "m05_HawkLocation10", "m05_HawkLocation11", "m05_HawkLocation12", "m05_HawkLocation13", "m05_HawkLocation14", "m05_HawkLocation15"];
 			
-			_mGreyHawk = ["TRANSPORT HELICOPTER", MissionSide.Acting, _mGreyHawkMarker] call _self.CreateSideVehicleOnMarker;
+			_mGreyHawk = ["TRANSPORT HELICOPTER", _mGreyHawkMarker, MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
 			_mGreyHawk setDamage [0.8, false];
 			
 			_mStealIntelActionId = [_mGreyHawk, "Investigate wreckage", MissionSide.Opposing] call _self.AddAction;

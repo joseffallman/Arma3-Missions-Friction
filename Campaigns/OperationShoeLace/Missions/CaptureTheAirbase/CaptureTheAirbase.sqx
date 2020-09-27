@@ -54,19 +54,19 @@ namespace Campaigns.ShoeLace
 			
 			// Helicopters
 			
-			_mChopper1 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter1", false, true] call _self.CreateSideVehicleOnMarker;
+			_mChopper1 = ["TRANSPORT HELICOPTER", "m11a_Helicopter1", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper1 engineOn true;
 			_mChopper1 lock true;
 			_mChopper1State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper1;
 			
-			_mChopper2 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter2", false, true] call _self.CreateSideVehicleOnMarker;
+			_mChopper2 = ["TRANSPORT HELICOPTER", "m11a_Helicopter2", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper2 engineOn true;
 			_mChopper2 lock true;
 			_mChopper2State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper2;
 			
-			_mChopper3 = ["TRANSPORT HELICOPTER", MissionSide.Acting, "m11a_Helicopter3", false, true] call _self.CreateSideVehicleOnMarker;
+			_mChopper3 = ["TRANSPORT HELICOPTER", "m11a_Helicopter3", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper3 engineOn true;
 			_mChopper3State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper3;
@@ -123,16 +123,16 @@ namespace Campaigns.ShoeLace
 			
 			// Other
 			
-			["AMMOBOX LAUNCHERS", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			
 			// Opposing
 			
-			_mArmoredTransport1 = ["APC TRANSPORT CANNON", MissionSide.Opposing, "m11o_ArmoredTransport1", false, true] call _self.CreateSideVehicleOnMarker;
+			_mArmoredTransport1 = ["APC TRANSPORT CANNON", "m11o_ArmoredTransport1", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 			_mArmoredTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mArmoredTransport1;
 			{ _x setCaptive true; } foreach crew _mArmoredTransport1;
 			
-			_mTruckTransport1 = ["TRANSPORT TRUCK", MissionSide.Opposing, "m11o_TransportTruck", false, true] call _self.CreateSideVehicleOnMarker;
+			_mTruckTransport1 = ["TRANSPORT TRUCK", "m11o_TransportTruck", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 			_mTruckTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mTruckTransport1;
 			{ _x setCaptive true; } foreach crew _mTruckTransport1;

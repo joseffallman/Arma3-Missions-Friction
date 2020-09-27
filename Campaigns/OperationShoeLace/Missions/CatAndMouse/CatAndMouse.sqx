@@ -48,7 +48,7 @@ namespace Campaigns.ShoeLace
 		{
 			var _boxPos = ["m_Girna"] call MarkerHelper.GetRandomPosInsideMarker;
 		
-			_mBox = ["Land_WoodenBox_F", _boxPos, random 360, true] call _self.CreateVehicleOnPosition;
+			_mBox = ["Land_WoodenBox_F", _boxPos, random 360, true] call _self.CreateVehicle;
 			
 			_mActingActionId = [_mBox, "Take drone equipment", MissionSide.Acting] call _self.AddAction;
 			_mOpposingActionId = [_mBox, "Take drone equipment", MissionSide.Opposing] call _self.AddAction;

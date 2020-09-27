@@ -68,7 +68,7 @@ namespace Campaigns.ShoeLace
 		
 			// Spawn acting side's base objects
 			
-			var _ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			var _ammoBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			
 			if ("DRONE" in _self.GainedTokensActing) then {
 				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
@@ -79,7 +79,7 @@ namespace Campaigns.ShoeLace
 			
 			// Spawn opposing side's base objects
 			
-			_ammoBox = ["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate] call _self.CreateSideVehicleOnBaseMarker;
+			_ammoBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing] call _self.CreateSideVehicleInBase;
 			
 			if ("DRONE" in _self.GainedTokensOpposing) then {
 				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
@@ -96,32 +96,32 @@ namespace Campaigns.ShoeLace
 			
 			[_vehicleMarkers] call OperationShoeLace.ShuffleArray;
 			
-			_vehicle = ["AMMO TRUCK", MissionSide.Opposing, _vehicleMarkers select 0] call _self.CreateSideVehicleOnMarker;
+			_vehicle = ["AMMO TRUCK", _vehicleMarkers select 0, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy ammo truck"];
 			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
-			_vehicle = ["DEVICE TRUCK", MissionSide.Opposing, _vehicleMarkers select 1] call _self.CreateSideVehicleOnMarker;
+			_vehicle = ["DEVICE TRUCK", _vehicleMarkers select 1, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy device truck"];
 			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
-			_vehicle = ["REPAIR TRUCK", MissionSide.Opposing, _vehicleMarkers select 2] call _self.CreateSideVehicleOnMarker;
+			_vehicle = ["REPAIR TRUCK", _vehicleMarkers select 2, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy repair truck"];
 			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
-			_vehicle = ["MEDICAL TRUCK", MissionSide.Opposing, _vehicleMarkers select 3] call _self.CreateSideVehicleOnMarker;
+			_vehicle = ["MEDICAL TRUCK", _vehicleMarkers select 3, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle lock true;
 			_mAllVehicles pushBack _vehicle;
 			
-			_vehicle = ["MRAP", MissionSide.Opposing, _vehicleMarkers select 4] call _self.CreateSideVehicleOnMarker;
+			_vehicle = ["MRAP", _vehicleMarkers select 4, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_mAllVehicles pushBack _vehicle;
 			
-			_vehicle = ["QUADBIKE", MissionSide.Opposing, _vehicleMarkers select 5] call _self.CreateSideVehicleOnMarker;
+			_vehicle = ["QUADBIKE", _vehicleMarkers select 5, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_mAllVehicles pushBack _vehicle;
 			
 			[_targetVehicles] call OperationShoeLace.ShuffleArray;

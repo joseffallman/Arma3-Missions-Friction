@@ -89,29 +89,29 @@ namespace Campaigns.ShoeLace
 			[MissionSide.Opposing, false] call _self.SetIndependentAlliance;
 			
 			if ("BASIC WEAPONS" in _self.GainedTokensActing) then {
-				["AMMOBOX BASIC WEAPONS", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
-				["AMMOBOX BASIC AMMO", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				["AMMOBOX BASIC WEAPONS", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+				["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			};
 			
 			if ("BASIC WEAPONS" in _self.GainedTokensOpposing) then {
-				["AMMOBOX BASIC WEAPONS", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
-				["AMMOBOX BASIC AMMO", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				["AMMOBOX BASIC WEAPONS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+				["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			};
 			
 			if ("AAF EXPLOSIVES" in _self.GainedTokensActing) then {
-				var _box = ["AMMOBOX ORDNANCE", MissionSide.Acting, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				var _box = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
 			if ("AAF EXPLOSIVES" in _self.GainedTokensOpposing) then {
-				var _box = ["AMMOBOX ORDNANCE", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+				var _box = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
-			_self.ActingsQuadbike = ["QUADBIKE", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			_self.ActingsMrap = ["MRAP", MissionSide.Acting, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			_self.OpposingsQuadbike = ["QUADBIKE", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
-			_self.OpposingsMrap = ["MRAP", MissionSide.Opposing, BaseMarker.LandVehicles, true] call _self.CreateSideVehicleOnBaseMarker;
+			_self.ActingsQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+			_self.ActingsMrap = ["MRAP", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+			_self.OpposingsQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+			_self.OpposingsMrap = ["MRAP", BaseMarker.LandVehicles, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			
 			call _base.Setup;
 		};

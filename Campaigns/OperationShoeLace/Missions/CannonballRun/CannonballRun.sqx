@@ -55,22 +55,22 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
-			_mTruck = ["DEVICE TRUCK", MissionSide.Acting, "m10a_TruckStartMarker"] call _self.CreateSideVehicleOnMarker;
-			["MRAP HMG", MissionSide.Acting, "m10a_EscortStartMarker"] call _self.CreateSideVehicleOnMarker;
+			_mTruck = ["DEVICE TRUCK", "m10a_TruckStartMarker", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
+			["MRAP HMG", "m10a_EscortStartMarker", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
 			
 			if ("HELICOPTER" in _self.LostTokensOpposing) then
 			{
-				["HELICOPTER WRECK", MissionSide.Opposing, "m_AirbaseHelipad1"] call _self.CreateSideVehicleOnMarker;
+				["HELICOPTER WRECK", "m_AirbaseHelipad1", MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			}
 			else {
-				["HEAVY ATTACK HELICOPTER", MissionSide.Opposing, "m_AirbaseHelipad1"] call _self.CreateSideVehicleOnMarker;
+				["HEAVY ATTACK HELICOPTER", "m_AirbaseHelipad1", MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			};
 		
-			["TRANSPORT HELICOPTER", MissionSide.Opposing, "m_AirbaseHelipad2"] call _self.CreateSideVehicleOnMarker;
+			["TRANSPORT HELICOPTER", "m_AirbaseHelipad2", MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			
 			// An extra ordnance ammo box
 			
-			["AMMOBOX LAUNCHERS", MissionSide.Opposing, BaseMarker.AmmoCrate, true] call _self.CreateSideVehicleOnBaseMarker;
+			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			
 			call _base.Setup;
 			

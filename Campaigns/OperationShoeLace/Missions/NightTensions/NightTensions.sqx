@@ -69,13 +69,13 @@ namespace Campaigns.ShoeLace
 			_mPrimaryObjectiveNumber = selectRandom [1,2,3,4,5];
 			_mPrimaryObjectiveMarker = "m06a_PrimaryObjective" + str _mPrimaryObjectiveNumber;
 			
-			["ASSAULT BOAT", MissionSide.Acting, BaseMarker.Naval] call _self.CreateSideVehicleOnBaseMarker;
+			["ASSAULT BOAT", BaseMarker.Naval, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			
 			// Road Block defending airport entry
 			
 			["Land_BarGate_F", "m06o_RoadBlock_BarGate"] call _self.CreateVehicleOnMarker;
 			["RoadCone_L_F", "m06o_RoadBlock_RoadCone"] call _self.CreateVehicleOnMarker;
-			["MRAP HMG", MissionSide.Opposing, "m06o_RoadBlock_Vehicle", false, true] call _self.CreateSideVehicleOnMarker;
+			["MRAP HMG", "m06o_RoadBlock_Vehicle", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 			private _guard1 = ["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_RoadBlock_Guard"] call _self.CreateAiSoldierBySide;
 			_guard1 setDir markerDir "m06o_RoadBlock_Guard";
 			["RIFLEMAN", MissionSide.Opposing, getMarkerPos "m06o_RoadBlock_Guard", group _guard1] call _self.CreateAiSoldierBySide;
@@ -96,7 +96,7 @@ namespace Campaigns.ShoeLace
 			
 			// Helicopter
 			
-			_mHelicopter = ["HEAVY ATTACK HELICOPTER", MissionSide.Opposing, "m_AirbaseHelipad1", false, false] call _self.CreateSideVehicleOnMarker;
+			_mHelicopter = ["HEAVY ATTACK HELICOPTER", "m_AirbaseHelipad1", MissionSide.Opposing, false, false] call _self.CreateSideVehicleOnMarker;
 			_mHelicopter lock true;
 			
 			// Add an AI group that helps defending the area.
@@ -114,7 +114,7 @@ namespace Campaigns.ShoeLace
 			[_guardGroup, "m06o_HelicopterArea"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 
 			// Abient stuff
-			_mAmbientChopper = ["TRANSPORT HELICOPTER", MissionSide.Opposing, "m06o_AmbientHelicopter", false, true] call _self.CreateSideVehicleOnMarker;
+			_mAmbientChopper = ["TRANSPORT HELICOPTER", "m06o_AmbientHelicopter", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 			_mAmbientChopperStartTime = floor random 40;
 			
 			_mAmbientVehicle1StartTime = ceil random 10;
@@ -137,7 +137,7 @@ namespace Campaigns.ShoeLace
 				var _marker = _parkedVehicleMarkers select _i;
 				var _vehicleType = selectRandom _vehicleTypes;
 				
-				[_vehicleType, MissionSide.Opposing, _marker] call _self.CreateSideVehicleOnMarker;
+				[_vehicleType, _marker, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			};
 			
 			call _base.Setup;
@@ -286,7 +286,7 @@ namespace Campaigns.ShoeLace
 					var _vehicleType = selectRandom ["MRAP", "MRAP", "QUADBIKE", "QUADBIKE", "FUEL TRUCK", "TRANSPORT TRUCK", "MRAP HMG"];
 					var _spawnMarker = selectRandom ["m06o_AmbientVehiclePos1", "m06o_AmbientVehiclePos2", "m06o_AmbientVehiclePos3", "m06o_AmbientVehiclePos4", "m06o_AmbientVehiclePos5", "m06o_AmbientVehiclePos6"];
 					
-					_mAmbientVehicle1 = [_vehicleType, MissionSide.Opposing, _spawnMarker, false, true] call _self.CreateSideVehicleOnMarker;
+					_mAmbientVehicle1 = [_vehicleType, _spawnMarker, MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 				};
 				
 				[_mAmbientVehicle1] call _self.MoveAmbientVehicle;
@@ -300,7 +300,7 @@ namespace Campaigns.ShoeLace
 					var _vehicleType = selectRandom ["MRAP", "MRAP", "QUADBIKE", "QUADBIKE", "FUEL TRUCK", "TRANSPORT TRUCK", "MRAP HMG"];
 					var _spawnMarker = selectRandom ["m06o_AmbientVehiclePos1", "m06o_AmbientVehiclePos2", "m06o_AmbientVehiclePos3", "m06o_AmbientVehiclePos4", "m06o_AmbientVehiclePos5", "m06o_AmbientVehiclePos6"];
 					
-					_mAmbientVehicle2 = [_vehicleType, MissionSide.Opposing, _spawnMarker, false, true] call _self.CreateSideVehicleOnMarker;
+					_mAmbientVehicle2 = [_vehicleType, _spawnMarker, MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 				};
 				
 				[_mAmbientVehicle2] call _self.MoveAmbientVehicle;
