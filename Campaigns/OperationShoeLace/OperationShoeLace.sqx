@@ -86,6 +86,9 @@ namespace Campaigns.ShoeLace
 		
 		public override method Mission GetNextMission("_lastMissionEndNarrative" as String)
 		{
+			[east] call _mCannonballRun.SetActingSide;
+			return _mCannonballRun;
+		
 			var _mission = [_lastMissionEndNarrative] call _base.GetNextMission;
 			
 			if (!isNull _mission) then

@@ -131,9 +131,8 @@ namespace Campaigns.ShoeLace
 			};
 			
 			var _truckCanMove = canMove _mTruck;
-			var _allEnemyUnitsAreDead = (call _self.CountUnitsAliveActing) == 0;
 			
-			if (!_truckCanMove || _allEnemyUnitsAreDead) then
+			if (!_truckCanMove) then
 			{
 				if (!_mOpposingHasKilledAmbientUnit) then {
 					_self.GainedTokensOpposing pushBack "AAF ALLIANCE";
