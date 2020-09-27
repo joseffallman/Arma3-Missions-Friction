@@ -12,7 +12,6 @@ namespace Tvtcf.Server
 	public enum MissionSide
 	{
 		Acting,
-		Opposing,
-		Guerilla
+		Opposing
 	};
 };
