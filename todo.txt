@@ -1,14 +1,8 @@
-Scoreboard
-*Det står -50 för en död, men det räknas med -40.
-
 Establishments
 *Finns det en lastbil?
 
 Night Tensions
 *Ingen insertion point när jag åkte från basen.
-
-Welcome dialog
-*Add info about the order in which to check 1. briefing, 2. tasks.
 
 Insertion point
 *No insertion point at start. Start markers are enough. Insertion icon when inserting and no return objective. Extraction icon when inserting with return objective.
