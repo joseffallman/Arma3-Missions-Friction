@@ -43,7 +43,7 @@ namespace Campaigns.ShoeLace
 			_mission.StartMarkersActing = ["m10a_StartArea1"];
 			_mission.StartMarkersOpposing = ["m10o_StartArea"];
 			_mission.SideMarkersActing = ["m10_TruckStartPosition", "m10_SouthernLighthouse"];
-			_mission.SideMarkersOpposing = ["m10_TruckStartPosition", "m10_SouthernLighthouse", "m10o_PrimaryHelicopter", "m10o_SecondaryHelicopter"];
+			_mission.SideMarkersOpposing = ["m10_TruckStartPosition", "m10_SouthernLighthouse", "m10o_PrimaryHelicopter", "m10o_SecondaryHelicopter", "m10_AaMarker"];
 			
 			// Ambient traffic
 			_mLocationMarkers = ["m_AirportRoadMarker", "m_NisiBayRoadMarker", "m_GirnaRoadMarker", "m_JayCoveRoadMarker", "m_TheSpartanRoadMarker", "m_LimeriBayRoadMarker", "m_CaminoTwinRoadMarker", "m_KillFarmRoadMarker", "m_NorthWestRoadMarker", "m_AgiaMarinaRoadMarker", "m_ComMastRoadMarker", "m_OldOutpostRoadMarker"];
@@ -68,6 +68,10 @@ namespace Campaigns.ShoeLace
 		
 			["TRANSPORT HELICOPTER", "m_AirbaseHelipad2", MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			
+			// AA
+			
+			["STATIC AA LAUNCHER", "m10_AaMarker", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
+			
 			// An extra ordnance ammo box
 			
 			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
@@ -87,12 +91,14 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForOpposing()
 		{
 			var _p1 = "Intelligence has found that the enemy is about to deliver booby-trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
-			
+			var _p2 = "<br /><br />Be aware of enemy AA defence at the southern Island. At least one AA battery has been spotted in the area around the southern lighthouse.";
+
+			var _p3 = "";			
 			if ("HELICOPTER" in _self.LostTokensOpposing) then {
-				_p1 = _p1 + "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
+				_p3 = "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
 			};
 			
-			return _p1 + call _base.AddBriefingInfoForOpposing;
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
