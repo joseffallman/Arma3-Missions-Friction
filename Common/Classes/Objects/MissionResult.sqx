@@ -76,7 +76,7 @@ namespace Tvtcf.Common
 			_diaryText = _diaryText + "<br />Men lost: " + str _menLostCount;
 			
 			if (_menLostCount > 0) then {
-				_diaryText = _diaryText + " (" + str _menLostCount + " x -" + str _resultInfo.ReturnObjectiveScore + " = " + str (-_menLostCount * _resultInfo.ReturnObjectiveScore) + ")";
+				_diaryText = _diaryText + " (" + str _menLostCount + " x -" + str _resultInfo.MenLostScore + " = " + str (-_menLostCount * _resultInfo.MenLostScore) + ")";
 			}
 			else {
 				if (_resultInfo.Score > 0) then {
