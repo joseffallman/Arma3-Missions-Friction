@@ -16,28 +16,31 @@ namespace Tvtcf.Client
 {
 	public class TvtcfActionMenuHandler
 	{
-		private static fields ["_mMissionMenuActionId" as Scalar];
+		private static fields ["_mMissionMenuActionId" as Scalar, "_player" as Object];
 		
         // Initializes the TvTCF Menu for the player and adds the "Open Mission Menu" action.
         public static method Init()
         {
         	_mMissionMenuActionId = -1;
+        	_player = objNull;
         	_self.OptionPerformInsertionVisible = false;
         	call _self.UpdateVisibleOptions;
 		};
 		
 		private static method ShowAction()
 		{
-			if (_mMissionMenuActionId < 0) then {
+			if (_mMissionMenuActionId < 0 || isNull _player || { _player != player }) then {
 				_mMissionMenuActionId = player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }, nil, 100];
+				_player = player;
 			};
 		};
 		
 		private static method HideAction()
 		{
-			if (_mMissionMenuActionId >= 0) then {
-				player removeAction _mMissionMenuActionId;
+			if (_mMissionMenuActionId >= 0 && !isNull _player) then {
+				_player removeAction _mMissionMenuActionId;
 				_mMissionMenuActionId = -1;
+				_player = objNull;
 			};
 		};
 		
