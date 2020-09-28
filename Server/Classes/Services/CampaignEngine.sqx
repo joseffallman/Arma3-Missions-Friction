@@ -491,7 +491,7 @@ namespace Tvtcf.Server
 			
 			// Run each mission
 			
-			_mCurrentMission = [""] call _mCampaign.GetNextMission;
+			_mCurrentMission = call _mCampaign.GetNextMission;
 			_mMissionResults = [];
 			private _isFirstMission = true;
 			
@@ -603,7 +603,7 @@ namespace Tvtcf.Server
 				call _mCurrentMission.Cleanup;
 				call _self.CleanupItemsOnTheGround;
 				
-				var _nextMission = [_mCurrentMission.EndNarrative] call _mCampaign.GetNextMission;
+				var _nextMission = call _mCampaign.GetNextMission;
 				var _isLastMission = isNull _nextMission;
 				
 				var _missionResult = [_mCurrentMission.Name, _missionResultWest, _missionResultEast, _accumulatedScoreWest, _accumulatedScoreEast] new MissionResult;
