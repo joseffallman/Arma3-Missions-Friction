@@ -52,7 +52,6 @@ namespace Campaigns
 			_self.SecondaryObjectiveStateOpposing = ObjectiveState.None;
 			_self.ReturnObjectiveStateOpposing = ObjectiveState.None;
 			_self.MissionTimeElapsed = 0;
-			_self.EndNarrative = "";
 			
 			_missionSettings = new MissionSettings;
 			[_missionSettings] call _self.InitMission;
@@ -486,10 +485,6 @@ namespace Campaigns
 		// Gets whether the mission will add a last objective to return to the insertion point after completing the
 		// other objectives.
 		public property Boolean HasReturnObjectiveForOpposing { get; private set; };
-		
-		// Gets (or sets) the mission's end narrative. This value is set by the mission, and can be used in the Campaign 
-		// object to alter mission order or acting sides of future missions.
-		public property String EndNarrative { get; protected set; };
 		
 		#endregion
 		
