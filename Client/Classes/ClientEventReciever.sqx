@@ -20,6 +20,10 @@ namespace Tvtcf.Client.Statics
 		// Called when the mission engine on the server starts.
 		public static method OnCampaignStart()
 		{
+			var _welcomeTutorial = [TutorialType.Welcome] call TutorialConfig.GetTutorial;
+			var _briefingText = call _welcomeTutorial.ToBriefingText;
+			[_briefingText] call ClientObjects.BriefingHandler.CreateWelcomeBriefing;
+
 			[] spawn {
 				sleep 6;
 				[TutorialType.Welcome] call TutorialHandler.ShowTutorial;

@@ -34,6 +34,13 @@ namespace Tvtcf.Client
 			_mDiaryReckords pushBack _diaryRecord;
 		};
 		
+		public method CreateWelcomeBriefing("_welcomeText" as String)
+		{
+			player createDiarySubject ["Welcome", "Welcome"];
+			
+			player createDiaryRecord ["Welcome", ["Welcome", _welcomeText]];
+		};
+		
 		public method AddMissionResultToHistory("_missionResult" as MissionResult)
 		{
 			if (!(player diarySubjectExists "Results")) then {

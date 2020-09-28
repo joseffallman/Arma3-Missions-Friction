@@ -18,5 +18,7 @@ namespace Tvtcf.Client
         method CreateBriefing("_missionName" as String, "_briefingInfo" as String);
         
         method AddMissionResultToHistory("_missionResult" as MissionResult);
+        
+        method CreateWelcomeBriefing("_welcomeText" as String);
 	};
 };
