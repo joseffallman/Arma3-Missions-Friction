@@ -71,8 +71,11 @@ namespace Campaigns.ShoeLace
 			var _ammoBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			
 			if ("DRONE" in _self.GainedTokensActing) then {
-				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
-				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
+				var _actualSide = [MissionSide.Acting] call _self.GetActualSide;
+				var _uavBackpackClassName = ["UAV BACKPACK", _actualSide] call _self.ObjectTypeDictionary.GetVehicleType;
+				var _uavTerminalClassName = ["UAV TERMINAL", _actualSide] call _self.ObjectTypeDictionary.GetVehicleType;
+				_ammoBox addBackpackCargoGlobal [_uavBackpackClassName, 1];
+				_ammoBox addItemCargoGlobal [_uavTerminalClassName, 1];
 			};
 			
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
@@ -82,8 +85,11 @@ namespace Campaigns.ShoeLace
 			_ammoBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing] call _self.CreateSideVehicleInBase;
 			
 			if ("DRONE" in _self.GainedTokensOpposing) then {
-				_ammoBox addBackpackCargoGlobal ["B_UAV_01_backpack_F", 1];
-				_ammoBox addItemCargoGlobal ["B_UavTerminal", 1];
+				var _actualSide = [MissionSide.Opposing] call _self.GetActualSide;
+				var _uavBackpackClassName = ["UAV BACKPACK", _actualSide] call _self.ObjectTypeDictionary.GetVehicleType;
+				var _uavTerminalClassName = ["UAV TERMINAL", _actualSide] call _self.ObjectTypeDictionary.GetVehicleType;
+				_ammoBox addBackpackCargoGlobal [_uavBackpackClassName];
+				_ammoBox addItemCargoGlobal [_uavTerminalClassName, 1];
 			};
 			
 			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];

@@ -529,6 +529,9 @@
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="README.sqx" FileName="README.sqx">
         <SubNodes />
       </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="todo_shoelace.txt" FileName="todo_shoelace.txt">
+        <SubNodes />
+      </ProjectNodeViewModel>
     </SubNodes>
   </ProjectRootNode>
   <FilteredAnalyzerResultItems>
