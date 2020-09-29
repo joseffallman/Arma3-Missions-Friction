@@ -21,31 +21,35 @@ namespace Tvtcf.Client
 		{
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mLocalMarkers = [];
-			_self.UseExtractionMarker = false;
-			_self.InsertionMarker = "";
+			_self.MissionHasReturnObjective = false;
+			_self.InsertionMapPosition = [];
+			_self.BaseMarker = "";
 		};
 		
-		public property String InsertionMarker { get; private set; };
+		public property Array InsertionMapPosition { get; private set; };
 		
-		public property Boolean UseExtractionMarker { get; private set; };
+		public property String BaseMarker { get; private set; };
+		
+		public property Boolean MissionHasReturnObjective { get; private set; };
 		
 		public method AddExtractionMarker("_position" as Array)
 		{
-			if (_self.UseExtractionMarker) then
-			{
-				private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
-				_marker setMarkerShapeLocal "ICON";
-				_marker setMarkerTypeLocal "mil_end";
-				
-				_mLocalMarkers pushBack _marker;
-			};
+			private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
+			_marker setMarkerShapeLocal "ICON";
+			_marker setMarkerTypeLocal "mil_start";
+			
+			_mLocalMarkers pushBack _marker;
 		};
 		
 		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
 		{
-			_self.UseExtractionMarker = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
+			_self.MissionHasReturnObjective = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
 		
 			// Remove all earlier markers
+			
+			if (_self.BaseMarker != "") then {
+				deleteMarkerLocal _self.BaseMarker;
+			};
 			
 			{
 				deleteMarkerLocal _x;
@@ -53,11 +57,6 @@ namespace Tvtcf.Client
 			
 			_mLocalMarkers = [];
 			
-			if (_self.InsertionMarker != "") then {
-				deleteMarkerLocal _self.InsertionMarker;
-				_self.InsertionMarker = "";
-			};
-		
 			// Draw start markers
 			
 			private _startMarkerColor = if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
@@ -81,6 +80,12 @@ namespace Tvtcf.Client
 				};
 			} foreach _missionMarkersInfo.StartMarkers as MarkerInfo;
 			
+			// Base marker
+			
+			var _respawnMarker = [playerSide, BaseMarker.Respawn] call _mBaseMarkersConfig.GetMarkerName;
+			_self.BaseMarker = createMarkerLocal ["_baseMarkerLocal", getMarkerPos _respawnMarker];
+			_self.BaseMarker setMarkerTypeLocal "b_hq";
+			
 			// Insertion marker
 			
 			var _pos = [0, 0, 0];
@@ -93,9 +98,7 @@ namespace Tvtcf.Client
 				_pos = getMarkerPos _respawnMarker;
 			};
 			
-			_self.InsertionMarker = createMarkerLocal ["_insertionMarkerLocal", _pos];
-			_self.InsertionMarker setMarkerShapeLocal "ICON";
-			_self.InsertionMarker setMarkerTypeLocal "mil_start";
+			_self.InsertionMapPosition = _pos;
 			
 			// Draw other markers
 			

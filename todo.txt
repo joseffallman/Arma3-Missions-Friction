@@ -1,8 +1,0 @@
-Establishments
-*Finns det en lastbil?
-
-Night Tensions
-*Ingen insertion point när jag åkte från basen.
-
-Insertion point
-*No insertion point at start. Start markers are enough. Insertion icon when inserting and no return objective. Extraction icon when inserting with return objective.

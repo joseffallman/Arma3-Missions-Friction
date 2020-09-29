@@ -102,7 +102,7 @@ namespace Tvtcf.Client.Statics
 					call _teleporter.RunAsync;
 				};
 				
-				if (ClientObjects.MapMarkerHandler.UseExtractionMarker) then {
+				if (ClientObjects.MapMarkerHandler.MissionHasReturnObjective) then {
 					[_position] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
 				};
 			};
