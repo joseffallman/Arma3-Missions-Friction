@@ -518,10 +518,10 @@ namespace Campaigns.ShoeLace
 		
 		public override method Cleanup()
 		{
-			call _base.Cleanup;
 			deleteVehicle _mHelipad1;
 			deleteVehicle _mHelipad2;
 			deleteVehicle _mHelipad3;
+			call _base.Cleanup;
 		};
 	};
 };

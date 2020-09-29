@@ -184,10 +184,9 @@ namespace Campaigns.ShoeLace
 		
 		public override method Cleanup()
 		{
-			call _base.Cleanup;
-			
 			[MissionSide.Acting, false] call _self.SetIndependentAlliance;
 			[MissionSide.Opposing, false] call _self.SetIndependentAlliance;
+			call _base.Cleanup;
 		};
 	};
 };

@@ -1,8 +1,7 @@
 *Drönaren måste vara CSAT för att man ska kunna använda den. (test)
-*Rocket launcher-lådan och explosives ökar i antal för varje mission.
-*Sista uppdraget avslutades inte när anfallarna hade avslutat uppdraget.
-*Kolla vapenlådor. AT-launchers i sista uppdraget?
+*Sista uppdraget avslutades inte när anfallarna hade avslutat uppdraget. (test)
+*Kolla vapenlådor. AT-launchers i sista uppdraget? (test)
+*Rocket launcher-lådan och explosives ökar i antal för varje mission. (kanske samma som ovan). (test)
+*För mycket vapen på AirStationAssault. (test)
 *Lite mer variation på vapen.
-*Hemitten som sköts ut borde ha tagits bort mellan uppdragen.
 *Texterna Gained Tokens och Lost Tokens ska bort om man inte har några tokens.
-*Kolla upp fordon som spawnas, de verkar få fel z-koordinat.
