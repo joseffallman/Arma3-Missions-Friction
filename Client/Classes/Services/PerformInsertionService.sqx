@@ -67,12 +67,9 @@ namespace Tvtcf.Client
 			{
 				// Open the map and ask player to select a position
 				
-				var _interpolatedInsertionPos = getMarkerPos _mMapMarkerHandler.InsertionMarker;
-				
 				openMap true;
-				mapAnimAdd [1, 0.25, _interpolatedInsertionPos];
+				mapAnimAdd [1, 0.25, _mMapMarkerHandler.InsertionMapPosition];
 				mapAnimCommit;
-				//waitUntil { mapAnimDone };
 
 				// Wait for map click
 				
