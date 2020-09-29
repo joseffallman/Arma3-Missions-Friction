@@ -222,7 +222,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			// If the acting side has extracted, the opposing side has failed to hunt them down.
-			if (_self.ReturnObjectiveStateOpposing == ObjectiveState.Succeeded) then {
+			if (_self.ReturnObjectiveStateActing == ObjectiveState.Succeeded) then {
 				return ObjectiveState.Failed;
 			};
 			
