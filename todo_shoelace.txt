@@ -5,3 +5,4 @@
 *För mycket vapen på AirStationAssault. (test)
 *Lite mer variation på vapen.
 *Texterna Gained Tokens och Lost Tokens ska bort om man inte har några tokens.
+*I Hawk Down verkar helikoptern vara trasig från början...

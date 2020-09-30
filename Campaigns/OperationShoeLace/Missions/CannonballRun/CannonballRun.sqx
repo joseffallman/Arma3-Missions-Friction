@@ -72,7 +72,7 @@ namespace Campaigns.ShoeLace
 			
 			["STATIC AA LAUNCHER", "m10_AaMarker", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			
-			// An extra ordnance ammo box
+			// An extra launchers box
 			
 			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			

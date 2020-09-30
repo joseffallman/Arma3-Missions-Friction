@@ -20,6 +20,18 @@ namespace Campaigns.ShoeLace
 		public constructor()
 		{
 			call _base.Constructor;
+			
+			_self.ActingQuadbike = objNull;
+			_self.ActingMrap = objNull;
+			_self.ActingBasicWeaponsBox = objNull;
+			_self.ActingBasicAmmoBox = objNull;
+			_self.ActingOrdnanceBox = objNull;
+			
+			_self.OpposingQuadbike = objNull;
+			_self.OpposingMrap = objNull;
+			_self.OpposingBasicWeaponsBox = objNull;
+			_self.OpposingBasicAmmoBox = objNull;
+			_self.OpposingOrdnanceBox = objNull;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -27,13 +39,25 @@ namespace Campaigns.ShoeLace
 			_mission.Name = "A Shoe Lace Mission";
 		};
 		
-		protected property Object ActingsQuadbike { get; private set; };
+		protected property Object ActingQuadbike { get; set; };
 		
-		protected property Object OpposingsQuadbike { get; private set; };
+		protected property Object OpposingQuadbike { get; set; };
 		
-		protected property Object ActingsMrap { get; private set; };
+		protected property Object ActingMrap { get; set; };
 		
-		protected property Object OpposingsMrap { get; private set; };
+		protected property Object OpposingMrap { get; set; };
+		
+		protected property Object ActingBasicWeaponsBox { get; set; };
+		
+		protected property Object ActingBasicAmmoBox { get; set; };
+		
+		protected property Object ActingOrdnanceBox { get; set; };
+		
+		protected property Object OpposingBasicWeaponsBox { get; set; };
+		
+		protected property Object OpposingBasicAmmoBox { get; set; };
+		
+		protected property Object OpposingOrdnanceBox { get; set; };
 		
 		protected override method String AddBriefingInfoForActing()
 		{
@@ -89,29 +113,29 @@ namespace Campaigns.ShoeLace
 			[MissionSide.Opposing, false] call _self.SetIndependentAlliance;
 			
 			if ("BASIC WEAPONS" in _self.GainedTokensActing) then {
-				["AMMOBOX BASIC WEAPONS", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-				["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+				_self.ActingBasicWeaponsBox = ["AMMOBOX BASIC WEAPONS", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+				_self.ActingBasicAmmoBox = ["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			};
 			
 			if ("BASIC WEAPONS" in _self.GainedTokensOpposing) then {
-				["AMMOBOX BASIC WEAPONS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
-				["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+				_self.OpposingBasicWeaponsBox = ["AMMOBOX BASIC WEAPONS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+				_self.OpposingBasicAmmoBox = ["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			};
 			
 			if ("AAF EXPLOSIVES" in _self.GainedTokensActing) then {
-				var _box = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+				_self.ActingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+				_self.ActingOrdnanceBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
 			if ("AAF EXPLOSIVES" in _self.GainedTokensOpposing) then {
-				var _box = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
-				_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+				_self.OpposingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+				_self.OpposingOrdnanceBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			};
 		
-			_self.ActingsQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-			_self.ActingsMrap = ["MRAP", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-			_self.OpposingsQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
-			_self.OpposingsMrap = ["MRAP", BaseMarker.LandVehicles, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+			_self.ActingQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+			_self.ActingMrap = ["MRAP", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+			_self.OpposingQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
+			_self.OpposingMrap = ["MRAP", BaseMarker.LandVehicles, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			
 			call _base.Setup;
 		};
@@ -127,6 +151,14 @@ namespace Campaigns.ShoeLace
 			
 			resistance setFriend [_side, _value];
 			_side setFriend [resistance, _value];
+		};
+		
+		protected method MakeEmptyAmmoBox("_ammoBox" as Object)
+		{
+			clearWeaponCargoGlobal _ammoBox;
+			clearMagazineCargoGlobal _ammoBox;
+			clearBackpackCargoGlobal _ammoBox;
+			clearItemCargoGlobal _ammoBox;
 		};
 	};
 };

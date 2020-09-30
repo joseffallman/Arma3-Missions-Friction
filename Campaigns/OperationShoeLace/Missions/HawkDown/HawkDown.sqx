@@ -43,26 +43,19 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
-			// Spawn acting side's objects
-			private _ammoBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
-			
-			// Spawn ordnance for opposing if they have the AAF EXPLOSIVES.
-			
-			if ("AAF EXPLOSIVES" in _self.GainedTokensOpposing) then {
-				["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing] call _self.CreateSideVehicleInBase;
-			};
-			
-			// Add a backpack to the ammo box
-			_ammoBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
-
 			_mGreyHawkMarker = selectRandom ["m05_HawkLocation1", "m05_HawkLocation2", "m05_HawkLocation3", "m05_HawkLocation4", "m05_HawkLocation5", "m05_HawkLocation6", "m05_HawkLocation7", "m05_HawkLocation8", "m05_HawkLocation9", "m05_HawkLocation10", "m05_HawkLocation11", "m05_HawkLocation12", "m05_HawkLocation13", "m05_HawkLocation14", "m05_HawkLocation15"];
 			
 			_mGreyHawk = ["TRANSPORT HELICOPTER", _mGreyHawkMarker, MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
-			_mGreyHawk setDamage [0.8, false];
+			_mGreyHawk setDamage [0.7, false];
 			
 			_mStealIntelActionId = [_mGreyHawk, "Investigate wreckage", MissionSide.Opposing] call _self.AddAction;
 
 			call _base.Setup;
+			
+			// Spawn acting side's objects
+			if (isNull _self.ActingOrdnanceBox) then {
+				_self.ActingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
+			};
 		};
 		
 		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
@@ -111,12 +104,13 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			if (_mIntelCollected) then {
-				return ObjectiveState.Failed;
-			};
-			
 			if (!alive _mGreyHawk) then {
-				return ObjectiveState.Succeeded;
+				if (_mIntelCollected) then {
+					return ObjectiveState.Failed;
+				}
+				else {
+					return ObjectiveState.Succeeded;
+				};
 			};
 			
 			return ObjectiveState.None;
@@ -126,12 +120,12 @@ namespace Campaigns.ShoeLace
 		{
 			private _greyHawkAlive = alive _mGreyHawk;
 			
-			if (!_greyHawkAlive) then {
-				return ObjectiveState.Failed;
-			};
-			
 			if (_mIntelCollected) then {
 				return ObjectiveState.Succeeded;
+			};
+			
+			if (!_greyHawkAlive) then {
+				return ObjectiveState.Failed;
 			};
 			
 			return ObjectiveState.None;
