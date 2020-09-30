@@ -19,7 +19,7 @@ namespace Campaigns
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
-		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object, "_mMissionIsPrepared" as Boolean];
+		private fields ["_mSpawnedSoldiers" as Array, "_mMissionIsPrepared" as Boolean];
 		
 		#region Initialization
 		
@@ -40,8 +40,6 @@ namespace Campaigns
 			_mActingSide = west;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
-			_mActingInsertionObject = objNull;
-			_mOpposingInsertionObject = objNull;
 			_mMissionIsPrepared = false;
 			_self.ActingUnits = [];
 			_self.OpposingUnits = [];
@@ -1215,16 +1213,6 @@ namespace Campaigns
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedVehicles as Object;
-			
-			if (!isNull _mActingInsertionObject) then {
-				deleteVehicle _mActingInsertionObject;
-				_mActingInsertionObject = objNull;
-			};
-			
-			if (!isNull _mOpposingInsertionObject) then {
-				deleteVehicle _mOpposingInsertionObject;
-				_mOpposingInsertionObject = objNull;
-			};
 		};
 
 		#endregion
