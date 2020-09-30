@@ -238,8 +238,6 @@ namespace Campaigns.ShoeLace
 		{
 			[MissionSide.Acting, false] call _base.SetIndependentAlliance;
 			[MissionSide.Opposing, false] call _base.SetIndependentAlliance;
-			
-			call _base.Cleanup;
 		};
 	};
 };

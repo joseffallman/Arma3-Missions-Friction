@@ -311,7 +311,6 @@ namespace Campaigns.ShoeLace
 		public override method Cleanup()
 		{
 			deleteVehicle _mSoundSource;
-			call _base.Cleanup;
 		};
 	};
 };
