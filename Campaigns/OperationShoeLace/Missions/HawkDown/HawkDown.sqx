@@ -18,14 +18,12 @@ namespace Campaigns.ShoeLace
 {
 	public class HawkDown : ShoeLaceMission
 	{
-		private fields ["_mGreyHawk" as Object, "_mGreyHawkMarker" as String, "_mIntelCollected" as Boolean, "_mStealIntelActionId" as Scalar];
+		private fields ["_mGreyHawk" as Object, "_mIntelCollected" as Boolean, "_mStealIntelActionId" as Scalar];
 		
 		// Creates a AirBaseMadness object.
 		public constructor()
 		{
 			call _base.Constructor;
-			
-			_mGreyHawkMarker = "";
 			_mIntelCollected = false;
 		};
 		
@@ -41,15 +39,24 @@ namespace Campaigns.ShoeLace
 			_mission.StartTimeOfDay = 4 + floor random 17; // Between 4 and 20.
 		};
 		
-		protected override method Setup()
+		private method SpawnHawk()
 		{
-			_mGreyHawkMarker = selectRandom ["m05_HawkLocation1", "m05_HawkLocation2", "m05_HawkLocation3", "m05_HawkLocation4", "m05_HawkLocation5", "m05_HawkLocation6", "m05_HawkLocation7", "m05_HawkLocation8", "m05_HawkLocation9", "m05_HawkLocation10", "m05_HawkLocation11", "m05_HawkLocation12", "m05_HawkLocation13", "m05_HawkLocation14", "m05_HawkLocation15"];
+			if (!isNull _mGreyHawk) then {
+				deleteVehicle _mGreyHawk;
+			};
+		
+			var _hawkMarker = selectRandom ["m05_HawkLocation1", "m05_HawkLocation2", "m05_HawkLocation3", "m05_HawkLocation4", "m05_HawkLocation5", "m05_HawkLocation6", "m05_HawkLocation7", "m05_HawkLocation8", "m05_HawkLocation9", "m05_HawkLocation10", "m05_HawkLocation11", "m05_HawkLocation12", "m05_HawkLocation13", "m05_HawkLocation14", "m05_HawkLocation15"];
 			
-			_mGreyHawk = ["TRANSPORT HELICOPTER", _mGreyHawkMarker, MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
-			_mGreyHawk setDamage [0.7, false];
+			_mGreyHawk = ["TRANSPORT HELICOPTER", _hawkMarker, MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
+			_mGreyHawk setDamage [0.8, false];
 			
 			_mStealIntelActionId = [_mGreyHawk, "Investigate wreckage", MissionSide.Opposing] call _self.AddAction;
-
+		};
+		
+		protected override method Setup()
+		{
+			call _self.SpawnHawk;
+		
 			call _base.Setup;
 			
 			// Spawn acting side's objects
@@ -104,12 +111,12 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			if (!alive _mGreyHawk) then {
-				if (_mIntelCollected) then {
-					return ObjectiveState.Failed;
+			if (_self.MissionTimeElapsed > 1 && !alive _mGreyHawk) then {
+				if (!_mIntelCollected) then {
+					return ObjectiveState.Succeeded;
 				}
 				else {
-					return ObjectiveState.Succeeded;
+					return ObjectiveState.Failed;
 				};
 			};
 			
@@ -129,6 +136,17 @@ namespace Campaigns.ShoeLace
 			};
 			
 			return ObjectiveState.None;
+		};
+		
+		protected override method OnEachIteration()
+		{
+			// If hawk somehow is destroyed during the first minute, spawn it again.
+			
+			if (_self.MissionTimeElapsed < 1) then {
+				if (!alive _mGreyHawk) then {
+					call _self.SpawnHawk;
+				};
+			};
 		};
 	};
 };

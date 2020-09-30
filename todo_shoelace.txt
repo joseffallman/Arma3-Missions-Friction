@@ -1,8 +1,2 @@
-*Drönaren måste vara CSAT för att man ska kunna använda den. (test)
-*Sista uppdraget avslutades inte när anfallarna hade avslutat uppdraget. (test)
-*Kolla vapenlådor. AT-launchers i sista uppdraget? (test)
-*Rocket launcher-lådan och explosives ökar i antal för varje mission. (kanske samma som ovan). (test)
-*För mycket vapen på AirStationAssault. (test)
 *Lite mer variation på vapen.
 *Texterna Gained Tokens och Lost Tokens ska bort om man inte har några tokens.
-*I Hawk Down verkar helikoptern vara trasig från början...
