@@ -1199,20 +1199,43 @@ namespace Campaigns
 			call _base.Run;
 		};
 		
-		// Cleans up everything that was created in the Setup method.
-		// Default behavior is to delete all vehicles that are created using the spawn methods of this
-		// mission base class.
-		// Override this if you need to clean up stuff that has been created elsewhere. Remember to call
-		// _base.Cleanup.
+		// Cleans up everything that has been created manually (and not by the create methods of the base Mission class).
+		// Called after mission end. Override this if you need to clean up stuff that added in other ways.
 		public virtual method Cleanup()
 		{
+		};
+		
+		// Cleans up everything that has been created with the create methods of the base Mission class.
+		// Default behavior is to delete all soldiers and vehicles that have been created using the create 
+		// methods of this mission base class.
+		// Only override this if you want to control the base Dispose behavior concerning created units.
+		// Remember to call _base.Cleanup.
+		public virtual method Dispose()
+		{
+			// Delete AI soldiers
+			
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedSoldiers as Object;
 			
+			// Delete vehicles
+			
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedVehicles as Object;
+			
+			// Delete items left on the ground
+			
+			var _mapCenterPos = [worldSize / 2, worldSize / 2];
+			var _mapCenterPosDistance = (worldSize) * 1.475;
+			var _list = nearestObjects [_mapCenterPos, ["WeaponHolderSimulated","GroundWeaponHolder"], _mapCenterPosDistance];
+			
+			{
+				deleteVehicle _x;
+			} foreach _list as Object;
+			
+			// Call the customized cleanup method to remove extra stuff created by a sub class.
+			call _self.Cleanup;
 		};
 
 		#endregion

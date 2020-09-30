@@ -1,3 +1,2 @@
 *Kameran nollställs inte när man spawnade tillbaka till basen
 *Kolla upp fordon som spawnas, så att de spawnas högt och sedan ställs ner.
-*Ta bort _mActingInsertionObject (och opposing) från Mission.
