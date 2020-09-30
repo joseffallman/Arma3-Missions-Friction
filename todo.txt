@@ -1,1 +1,0 @@
-*Kameran nollställs inte när man spawnade tillbaka till basen

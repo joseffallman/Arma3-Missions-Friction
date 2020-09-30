@@ -129,6 +129,7 @@ namespace Tvtcf.Client.Statics
 						params ["_teleporter" as TeleportService];
 						
 						sleep 5;
+						call ClientObjects.CameraHandler.ResetPlayerCamera;
 						call _teleporter.RunAsync;
 					};
 				};

@@ -99,5 +99,10 @@ namespace Campaigns.MyCampaign
 			
 			_mSeconds = _mSeconds + 1;
 		};
+		
+		protected override method Boolean ShouldMissionShutDown()
+		{
+			return false;
+		};
 	};
 };
