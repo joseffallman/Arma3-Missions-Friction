@@ -262,7 +262,12 @@ namespace Tvtcf.Server
 			{
 				_state = [west, ObjectivePrio.Return] call _mission.CheckObjectiveState;
 				
-				if (_state != ObjectiveState.None) then {
+				if (_state == ObjectiveState.Succeeded) then {
+					[true] call PublicVariableHandler.BroadcastWestHasReturned;
+				};
+				
+				if (_state != ObjectiveState.None) then
+				{
 					[west, ObjectivePrio.Return, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
 					[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 					["ClientEventReciever.OnTaskStateChanged", [west, ObjectivePrio.Return, _state]] call Remote.Invoke;
@@ -299,6 +304,10 @@ namespace Tvtcf.Server
 			if (!_mEastReturnObjectiveCompleted) then
 			{
 				_state = [east, ObjectivePrio.Return] call _mission.CheckObjectiveState;
+				
+				if (_state == ObjectiveState.Succeeded) then {
+					[true] call PublicVariableHandler.BroadcastEastHasReturned;
+				};
 				
 				if (_state != ObjectiveState.None) then {
 					[east, ObjectivePrio.Return, _state] call _mObjectiveChangeCollection.AddObjectiveChange;
@@ -467,17 +476,6 @@ namespace Tvtcf.Server
 			};
 		};
 		
-		private method CleanupItemsOnTheGround()
-		{
-			var _mapCenterPos = [worldSize / 2, worldSize / 2];
-			var _mapCenterPosDistance = (worldSize) * 1.475;
-			var _list = nearestObjects [_mapCenterPos, ["WeaponHolderSimulated","GroundWeaponHolder"], _mapCenterPosDistance];
-			
-			{
-				deleteVehicle _x;
-			} foreach _list as Object;
-		};
-		
 		protected override method Run()
 		{
 			private ["_missionResultWest" as MissionResultInfo, "_missionResultEast" as MissionResultInfo];
@@ -597,11 +595,12 @@ namespace Tvtcf.Server
 				[false] call PublicVariableHandler.BroadcastEastHasInserted;
 				[[]] call PublicVariableHandler.BroadcastInsertedWestlyUnits;
 				[[]] call PublicVariableHandler.BroadcastInsertedEastlyUnits;
+				[false] call PublicVariableHandler.BroadcastWestHasReturned;
+				[false] call PublicVariableHandler.BroadcastEastHasReturned;
 				
 				sleep 2;
 				
-				call _mCurrentMission.Cleanup;
-				call _self.CleanupItemsOnTheGround;
+				call _mCurrentMission.Dispose;
 				
 				var _nextMission = call _mCampaign.GetNextMission;
 				var _isLastMission = isNull _nextMission;

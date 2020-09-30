@@ -118,6 +118,56 @@ namespace Tvtcf.Communication
 		};
 		
 		
+		// Sets and broadcasts whether west has returned across the network.
+		// _hasReturned (Boolean): Whether west has returned from the mission or not.
+		public static method BroadcastWestHasReturned("_hasReturned" as Boolean)
+		{
+			PUBVAR_WestHasReturned = _hasReturned;
+			publicVariable "PUBVAR_WestHasReturned";
+		};
+		
+		// Gets whether west has returned from the mission at lwest once, so it actually has a value.
+		public static method Boolean HasValueWestHasReturned() {
+			return !isNil "PUBVAR_WestHasReturned";
+		};
+		
+		// Gets whether west has returned from the public network synchronized variable.
+		// Returns: true if west has returned, otherwise false.
+		public static method Boolean GetWestHasReturned()
+		{
+			if (call _self.HasValueWestHasReturned) then {
+				return PUBVAR_WestHasReturned;
+			};
+
+			return false;
+		};
+		
+		
+		// Sets and broadcasts whether east has returned across the network.
+		// _hasReturned (Boolean): Whether east has returned from the mission or not.
+		public static method BroadcastEastHasReturned("_hasReturned" as Boolean)
+		{
+			PUBVAR_EastHasReturned = _hasReturned;
+			publicVariable "PUBVAR_EastHasReturned";
+		};
+		
+		// Gets whether east has returned from the mission at least once, so it actually has a value.
+		public static method Boolean HasValueEastHasReturned() {
+			return !isNil "PUBVAR_EastHasReturned";
+		};
+		
+		// Gets whether east has returned from the public network synchronized variable.
+		// Returns: true if east has returned, otherwise false.
+		public static method Boolean GetEastHasReturned()
+		{
+			if (call _self.HasValueEastHasReturned) then {
+				return PUBVAR_EastHasReturned;
+			};
+
+			return false;
+		};
+		
+		
 		public static method BroadcastWestInsertionPos("_westInsertionPos" as Array)
 		{
 			PUBVAR_WestInsertionPos = _westInsertionPos;

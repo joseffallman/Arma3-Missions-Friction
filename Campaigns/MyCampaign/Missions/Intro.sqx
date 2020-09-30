@@ -16,12 +16,13 @@ namespace Campaigns.MyCampaign
 {
 	public class Intro : Mission
 	{
-		private fields ["_mSecondarySucceeded" as Boolean];
+		private fields ["_mSecondarySucceeded" as Boolean, "_mSeconds" as Scalar];
 		
 		// Creates a Intro object.
 		public constructor()
 		{
 			call _base.Constructor;
+			_mSeconds = 0;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -36,12 +37,9 @@ namespace Campaigns.MyCampaign
 		
 		protected override method Setup()
 		{
-			var _mrap = ["MRAP HMG", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			
 			["ASSAULT BOAT", BaseMarker.Naval, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			["AMMOBOX SPECIAL WEAPONS", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
-			
-			[_mrap, "Select this MRAP", MissionSide.Acting] call _self.AddAction;
 			
 			call _base.Setup;
 		};
@@ -91,6 +89,20 @@ namespace Campaigns.MyCampaign
 			};
 
 			return ObjectiveState.None;
+		};
+		
+		protected override method OnEachIteration()
+		{
+			if (_mSeconds == 10) then {
+				["MRAP HMG", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+			};
+			
+			_mSeconds = _mSeconds + 1;
+		};
+		
+		protected override method Boolean ShouldMissionShutDown()
+		{
+			return false;
 		};
 	};
 };

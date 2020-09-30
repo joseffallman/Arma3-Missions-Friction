@@ -19,7 +19,7 @@ namespace Campaigns
 	public class Mission : Service
 	{
 		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mActingSide" as Side, "_mSpawnedVehicles" as Array /* of Object */];
-		private fields ["_mSpawnedSoldiers" as Array, "_mActingInsertionObject" as Object, "_mOpposingInsertionObject" as Object, "_mMissionIsPrepared" as Boolean];
+		private fields ["_mSpawnedSoldiers" as Array, "_mMissionIsPrepared" as Boolean];
 		
 		#region Initialization
 		
@@ -40,8 +40,6 @@ namespace Campaigns
 			_mActingSide = west;
 			_mSpawnedVehicles = [];
 			_mSpawnedSoldiers = [];
-			_mActingInsertionObject = objNull;
-			_mOpposingInsertionObject = objNull;
 			_mMissionIsPrepared = false;
 			_self.ActingUnits = [];
 			_self.OpposingUnits = [];
@@ -176,9 +174,10 @@ namespace Campaigns
 				_position = [_position] call _self.FindSpawnPos;
 			};
 			
-			private _vehicle = _vehicleClassName createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
+			var _vehicle = createVehicle [_vehicleClassName, [_position select 0, _position select 1, 1000]];
+
 			_vehicle setDir _direction;
-			_vehicle setPos _position;
+			_vehicle setPos [_position select 0, _position select 1, 0.1];
 			
 			_mSpawnedVehicles pushBack _vehicle;
 			
@@ -214,22 +213,22 @@ namespace Campaigns
 		// Returns (Object): The spawned vehicle.
 		protected method Object CreateVehicleOnMarker("_vehicleClassName" as String, "_markerName" as String, ["_avoidCollision" as Boolean, false], ["_withCrew" as Boolean, false])
 		{
-			private _position = getMarkerPos _markerName;
+			var _position = getMarkerPos _markerName;
+			var _direction = markerDir _markerName;
 			
 			if (_avoidCollision) then {
 				_position = [_position] call _self.FindSpawnPos;
 			};
 			
-			private _direction = markerDir _markerName;
+			var _vehicle = createVehicle [_vehicleClassName, [_position select 0, _position select 1, 1000]];
 			
-			private _vehicle = _vehicleClassName createVehicle [_position select 0, _position select 1, (_position select 2) - 100];
 			_vehicle setDir _direction;
-			_vehicle setPos _position;
+			_vehicle setPos [_position select 0, _position select 1, 0.1];
 			
 			_mSpawnedVehicles pushBack _vehicle;
 			
 			if (_withCrew) then {
-				private _crewGroup = createVehicleCrew _vehicle;
+				var _crewGroup = createVehicleCrew _vehicle;
 				_mSpawnedSoldiers = _mSpawnedSoldiers + units _crewGroup;
 			};
 			
@@ -1201,30 +1200,43 @@ namespace Campaigns
 			call _base.Run;
 		};
 		
-		// Cleans up everything that was created in the Setup method.
-		// Default behavior is to delete all vehicles that are created using the spawn methods of this
-		// mission base class.
-		// Override this if you need to clean up stuff that has been created elsewhere. Remember to call
-		// _base.Cleanup.
+		// Cleans up everything that has been created manually (and not by the create methods of the base Mission class).
+		// Called after mission end. Override this if you need to clean up stuff that added in other ways.
 		public virtual method Cleanup()
 		{
+		};
+		
+		// Cleans up everything that has been created with the create methods of the base Mission class.
+		// Default behavior is to delete all soldiers and vehicles that have been created using the create 
+		// methods of this mission base class.
+		// Only override this if you want to control the base Dispose behavior concerning created units.
+		// Remember to call _base.Cleanup.
+		public virtual method Dispose()
+		{
+			// Delete AI soldiers
+			
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedSoldiers as Object;
+			
+			// Delete vehicles
 			
 			{
 				deleteVehicle _x;
 			} foreach _mSpawnedVehicles as Object;
 			
-			if (!isNull _mActingInsertionObject) then {
-				deleteVehicle _mActingInsertionObject;
-				_mActingInsertionObject = objNull;
-			};
+			// Delete items left on the ground
 			
-			if (!isNull _mOpposingInsertionObject) then {
-				deleteVehicle _mOpposingInsertionObject;
-				_mOpposingInsertionObject = objNull;
-			};
+			var _mapCenterPos = [worldSize / 2, worldSize / 2];
+			var _mapCenterPosDistance = (worldSize) * 1.475;
+			var _list = nearestObjects [_mapCenterPos, ["WeaponHolderSimulated","GroundWeaponHolder"], _mapCenterPosDistance];
+			
+			{
+				deleteVehicle _x;
+			} foreach _list as Object;
+			
+			// Call the customized cleanup method to remove extra stuff created by a sub class.
+			call _self.Cleanup;
 		};
 
 		#endregion
