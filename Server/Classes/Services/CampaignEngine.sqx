@@ -516,7 +516,6 @@ namespace Tvtcf.Server
 				
 				for "_i" from (count _westlyAi) to _mAiUnitsWestCount - 1 do
 				{
-					player sideChat str _i;
 					private _aiUnit = _westlyGroup createUnit ["B_Soldier_F", _westRespawnPos, [], 0, "NONE"];
 					[_aiUnit] call _mMissionUnitsHandler.AddAiUnit;
 				};
