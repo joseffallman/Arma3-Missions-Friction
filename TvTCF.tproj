@@ -24,6 +24,16 @@
               </ProjectNodeViewModel>
             </SubNodes>
           </ProjectNodeViewModel>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Network" FileName="Campaigns\Network">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Campaigns\Network\ClientEventReciever.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Remote.sqx" FileName="Campaigns\Network\Remote.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
+          </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Shared" FileName="Campaigns\Shared">
             <SubNodes>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Campaigns\Shared\ObjectTypeDictionary.sqx">
@@ -284,6 +294,9 @@
       </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Communication" FileName="Communication">
         <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignRemote.sqx" FileName="Communication\CampaignRemote.sqx">
+            <SubNodes />
+          </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="InitCommunication.sqx" FileName="Communication\InitCommunication.sqx">
             <SubNodes />
           </ProjectNodeViewModel>

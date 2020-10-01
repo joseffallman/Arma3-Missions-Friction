@@ -11,6 +11,7 @@
 using Tvtcf.Common;
 using Tvtcf.Server;
 using Campaigns;
+using Campaigns.Network;
 
 namespace Campaigns.MyCampaign
 {
@@ -93,16 +94,13 @@ namespace Campaigns.MyCampaign
 		
 		protected override method OnEachIteration()
 		{
-			if (_mSeconds == 10) then {
-				["MRAP HMG", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+			if (_mSeconds == 10) then
+			{
+				var _car = ["MRAP HMG", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
+				[_car] call _self.Remote.OnLockVehicle;
 			};
 			
 			_mSeconds = _mSeconds + 1;
-		};
-		
-		protected override method Boolean ShouldMissionShutDown()
-		{
-			return false;
 		};
 	};
 };
