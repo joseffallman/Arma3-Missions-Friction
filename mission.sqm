@@ -126,24 +126,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnTemplates";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"ARRAY"
-						};
-					};
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnButton";
 			expression="true";
 			class Value
@@ -158,6 +140,24 @@ class CustomAttributes
 						};
 					};
 					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
+			property="RespawnTemplates";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"ARRAY"
+						};
+					};
 				};
 			};
 		};
@@ -1222,13 +1222,12 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1925.4462,2.5663681,3476.5945};
+						position[]={1925.446,2.5663638,3476.594};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
-						init="_nil = [group this, ""west_base_Marker""] execVM ""Engima\SearchPatrol\SearchPatrol.sqf"";";
 					};
 					id=87;
 					type="B_Soldier_F";
@@ -1336,13 +1335,12 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2037.2173,3.4105623,3548.8616};
+						position[]={2037.217,3.4105661,3548.8621};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
-						init="_nil = [group this, ""west_base_Marker""] execVM ""Engima\SearchPatrol\SearchPatrol.sqf"";";
 					};
 					id=92;
 					type="B_Soldier_F";
@@ -1449,13 +1447,12 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6396.6968,7.9882917,5338.9043};
+						position[]={6396.6968,7.9882898,5338.9038};
 					};
 					side="East";
 					flags=7;
 					class Attributes
 					{
-						init="_nil = [group this, ""east_base_Marker""] execVM ""Engima\SearchPatrol\SearchPatrol.sqf"";";
 					};
 					id=100;
 					type="O_Soldier_SL_F";
@@ -1551,16 +1548,16 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6450.3511,8.3208265,5338.3975};
+						position[]={6450.3511,8.3207636,5338.3979};
 					};
 					side="East";
 					flags=7;
 					class Attributes
 					{
-						init="_nil = [group this, ""east_base_Marker""] execVM ""Engima\SearchPatrol\SearchPatrol.sqf"";";
 					};
 					id=104;
 					type="O_Soldier_SL_F";
+					atlOffset=9.5367432e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1639,6 +1636,7 @@ class Mission
 			{
 			};
 			id=103;
+			atlOffset=9.5367432e-007;
 		};
 		class Item40
 		{
@@ -2299,6 +2297,7 @@ class Mission
 			a=3;
 			b=3;
 			id=211;
+			atlOffset=0.40145493;
 		};
 		class Item93
 		{
