@@ -1,0 +1,47 @@
+/*
+ * Name:	Remote
+ * Date:	2020-10-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Handles custom remote execution used for campaigns in the current project.
+ */
+
+using Tvtcf.Communication;
+
+namespace Campaigns.Network
+{
+	public class Remote : CampaignRemote
+	{
+		// Remotely called by the invoking machine and executed locally. Fires the intended invoked method.
+		// _methodFullName (String): The name of the method (including class name) to execute on this current machine.
+		// _parameter (Any): The parameter (or list of parameters) to use in the method call.
+		public static method Recieve("_methodFullName" as String, "_parameters" as Any)
+		{
+			if (!isDedicated) then
+			{
+				// Messages routed to clients (or to a hosted server)
+				// All remote methods below this method need to be declared in this switch.
+			
+				switch (_methodFullName) do
+				{
+					case "ClientEventReciever.OnLockVehicle": { _parameters spawn Campaigns.Network.ClientEventReciever.OnLockVehicle; };
+				};
+			};
+		};
+		
+		// Add remote methods below (OnLockVehicle):
+		// These methods should only contain one line, a call to the remote invocation method, _self.Invoke.
+		// All these methods start with "On", since they are informing the client of an event rather than demanding something to be done.
+		
+		// Informing the clients that a vehicle needs to be locked.
+		// _vehicle (Object): The vehicle to lock.
+		public method OnLockVehicle("_vehicle" as Object)
+		{
+			// We send the name of the client reciever method along with the parameters to the remote invocation call.
+			// Always name this method "On" plus the name of this method (in this case "LockVehicle").
+			["OnLockVehicle", _this] call _self.Invoke;
+		};
+	};
+};

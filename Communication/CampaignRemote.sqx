@@ -1,0 +1,25 @@
+/*
+ * Name:	CampaignRemote
+ * Date:	2020-10-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Base class for custom remove invocations used in campaings.
+ */
+
+using Campaigns.Network;
+
+namespace Tvtcf.Communication
+{
+	public class CampaignRemote
+	{
+		// Invokes a method on another machine.
+		// _methodName (String): The name of the method to execute on the client.
+		// _parameter (Any): The parameter (or list of parameters) to use in the method call.
+		public method Invoke("_methodName" as String, ["_parameter" as Any, []])
+		{
+			["ClientEventReciever." + _methodName, _parameter] remoteExec ["Campaigns_Network_Remote_Recieve", Tvtcf.Communication.RemoteTargetOptions.All];
+		};
+	};
+};

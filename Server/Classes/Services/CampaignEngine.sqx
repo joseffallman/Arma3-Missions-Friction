@@ -469,10 +469,10 @@ namespace Tvtcf.Server
 			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
 			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
-				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, new Campaigns.Network.Remote] call _mission.Prepare;
 			}
 			else {
-				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, new Campaigns.Network.Remote] call _mission.Prepare;
 			};
 		};
 		

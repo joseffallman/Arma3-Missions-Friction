@@ -1,0 +1,29 @@
+/*
+ * Name:	ClientEventReciever
+ * Date:	2020-10-01
+ * Version: 1.0
+ * Author:  Engima
+ *
+ * Description:
+ * Static class that handles all remote campaign events sent from the server to client machines.
+ */
+
+using Tvtcf.Common;
+using Tvtcf.Common.Statics;
+using Tvtcf.Client;
+using Tvtcf.Communication;
+
+namespace Campaigns.Network
+{
+	public class ClientEventReciever
+	{
+		// All client event methods in this class start with "On", since they are recieving information about an event,
+		// rather than being demanded to perform some particular action.
+		
+		// Called on all clients when a vehicle needs to be locked.
+		public static method OnLockVehicle("_vehicle" as Object)
+		{
+			_vehicle lock true;
+		};
+	};
+};
