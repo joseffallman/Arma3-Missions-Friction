@@ -184,7 +184,7 @@ namespace Campaigns.ShoeLace
 			var _crewHasLeftTruck = (count crew _mAmmoTruck) == 0;
 			
 			if (_ammoTruckAtDestination && _crewHasLeftTruck) then {
-				_mAmmoTruck lock true;
+				[_mAmmoTruck] call _self.Remote.OnLockVehicle;
 				_self.GainedTokensActing pushBack "BASIC WEAPONS";
 				return ObjectiveState.Succeeded;
 			};

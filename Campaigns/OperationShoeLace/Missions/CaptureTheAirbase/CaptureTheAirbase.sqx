@@ -56,17 +56,19 @@ namespace Campaigns.ShoeLace
 			
 			_mChopper1 = ["TRANSPORT HELICOPTER", "m11a_Helicopter1", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper1 engineOn true;
-			_mChopper1 lock true;
+			[_mChopper1] call _self.Remote.OnLockVehicle;
 			_mChopper1State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper1;
 			
 			_mChopper2 = ["TRANSPORT HELICOPTER", "m11a_Helicopter2", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper2 engineOn true;
-			_mChopper2 lock true;
+			[_mChopper2] call _self.Remote.OnLockVehicle;
 			_mChopper2State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper2;
 			
 			_mChopper3 = ["TRANSPORT HELICOPTER", "m11a_Helicopter3", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
+			_mChopper3 lockTurret [[0], true];
+			_mChopper3 lockTurret [[1], true];
 			_mChopper3 engineOn true;
 			_mChopper3State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper3;
@@ -128,6 +130,7 @@ namespace Campaigns.ShoeLace
 			// Opposing
 			
 			_mArmoredTransport1 = ["APC TRANSPORT CANNON", "m11o_ArmoredTransport1", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
+			_mArmoredTransport1 lockTurret [[0], true];
 			_mArmoredTransportState = TransportState.Waiting;
 			_mSpawnedOpposingSoldiers = _mSpawnedOpposingSoldiers + units group _mArmoredTransport1;
 			{ _x setCaptive true; } foreach crew _mArmoredTransport1;
