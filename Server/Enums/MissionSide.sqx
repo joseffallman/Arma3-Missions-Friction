@@ -15,4 +15,3 @@ namespace Tvtcf.Server
 		Opposing
 	};
 };
-
