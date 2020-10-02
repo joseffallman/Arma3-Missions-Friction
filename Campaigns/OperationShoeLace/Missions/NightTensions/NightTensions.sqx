@@ -54,12 +54,17 @@ namespace Campaigns.ShoeLace
 			var _desk = "Land_TableDesk_F" createVehicle [_buildingPos select 0, _buildingPos select 1, 100];
 			_desk setDir getDir _building;
 			_desk setPosATL _buildingPos;
-			_desk setVariable ["ObjectiveMarker", _marker];
 			
 			var _laptop = "Item_Laptop_Unfolded" createVehicle _buildingPos;
 
 			_laptop attachTo [_desk, [0, 0, 0.7]];
 			_laptop setDir 180;
+
+			_desk setVariable ["ObjectiveMarker", _marker];
+			_laptop setVariable ["ObjectiveMarker", _marker];
+
+			[_desk, "Search for military drawings", MissionSide.Acting] call _self.AddAction;
+			[_laptop, "Search for military drawings", MissionSide.Acting] call _self.AddAction;
 			
 			return _desk;
 		};
@@ -82,17 +87,11 @@ namespace Campaigns.ShoeLace
 			
 			// Desks and laptops
 			
-			var _desk1 = ["m06a_PrimaryObjective1"] call _self.CreateTableWithLaptop;
-			var _desk2 = ["m06a_PrimaryObjective2"] call _self.CreateTableWithLaptop;
-			var _desk3 = ["m06a_PrimaryObjective3"] call _self.CreateTableWithLaptop;
-			var _desk4 = ["m06a_PrimaryObjective4"] call _self.CreateTableWithLaptop;
-			var _desk5 = ["m06a_PrimaryObjective5"] call _self.CreateTableWithLaptop;
-			
-			[_desk1, "Search desk", MissionSide.Acting] call _self.AddAction;
-			[_desk2, "Search desk", MissionSide.Acting] call _self.AddAction;
-			[_desk3, "Search desk", MissionSide.Acting] call _self.AddAction;
-			[_desk4, "Search desk", MissionSide.Acting] call _self.AddAction;
-			[_desk5, "Search desk", MissionSide.Acting] call _self.AddAction;
+			["m06a_PrimaryObjective1"] call _self.CreateTableWithLaptop;
+			["m06a_PrimaryObjective2"] call _self.CreateTableWithLaptop;
+			["m06a_PrimaryObjective3"] call _self.CreateTableWithLaptop;
+			["m06a_PrimaryObjective4"] call _self.CreateTableWithLaptop;
+			["m06a_PrimaryObjective5"] call _self.CreateTableWithLaptop;
 			
 			// Helicopter
 			
