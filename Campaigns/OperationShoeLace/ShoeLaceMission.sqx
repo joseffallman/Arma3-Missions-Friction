@@ -87,7 +87,11 @@ namespace Campaigns.ShoeLace
 				} foreach _self.GainedTokensOpposing as String;
 			};
 			
-			_info = _info + ".<br />Lost tokens: ";
+			if (_comma == "") then {
+				_info = _info + "None";
+			};
+			
+			_info = _info + "<br />Lost tokens: ";
 			
 			_comma = "";
 			
@@ -102,6 +106,10 @@ namespace Campaigns.ShoeLace
 					_info = _info + _comma + _x;
 					_comma = ", ";
 				} foreach _self.LostTokensOpposing as String;
+			};
+			
+			if (_comma == "") then {
+				_info = _info + "None";
 			};
 			
 			return _info;
