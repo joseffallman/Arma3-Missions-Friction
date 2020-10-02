@@ -10,7 +10,6 @@
  * start a custom campaign, without it interfering with new CPack versions of the TvTCF framework.
  */
 
-call compile preprocessFileLineNumbers "Campaigns\MyCampaign\InitCampaign.sqx";
 call compile preprocessFileLineNumbers "Campaigns\OperationShoeLace\InitCampaign.sqx";
 
 using Tvtcf.Common;
