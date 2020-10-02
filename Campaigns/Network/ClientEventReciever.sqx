@@ -5,7 +5,9 @@
  * Author:  Engima
  *
  * Description:
- * Static class that handles all remote campaign events sent from the server to client machines.
+ * Static class that executes on the client remote campaign events sent from the server.
+ * Add more event methods in this file, and make the corresponding additions in Remote.sqx.
+ * These methods are executed on the clients.
  */
 
 using Tvtcf.Common;

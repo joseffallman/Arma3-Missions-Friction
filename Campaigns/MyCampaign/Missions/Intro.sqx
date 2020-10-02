@@ -97,7 +97,7 @@ namespace Campaigns.MyCampaign
 			if (_mSeconds == 10) then
 			{
 				var _car = ["MRAP HMG", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-				[_car] call _self.Remote.OnLockVehicle;
+				[_car] call _self.Remote.SendLockVehicle;
 			};
 			
 			_mSeconds = _mSeconds + 1;

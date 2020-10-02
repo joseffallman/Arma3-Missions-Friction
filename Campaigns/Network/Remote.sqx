@@ -5,7 +5,9 @@
  * Author:  Engima
  *
  * Description:
- * Handles custom remote execution used for campaigns in the current project.
+ * Contains custom remote event execution calls for the campaings in this project.
+ * Add more event methods in this file, and make the corresponding additions in ClientEventReciever.sqx.
+ * These methods are executed on the server.
  */
 
 using Tvtcf.Communication;
@@ -31,13 +33,13 @@ namespace Campaigns.Network
 			};
 		};
 		
-		// Add remote methods below (OnLockVehicle):
+		// Add remote methods below (SendLockVehicle):
 		// These methods should only contain one line, a call to the remote invocation method, _self.Invoke.
-		// All these methods start with "On", since they are informing the client of an event rather than demanding something to be done.
+		// All these methods start with "Send[WhatHappened]", and transforms the name to "On[WhatHappened]".
 		
-		// Informing the clients that a vehicle needs to be locked.
+		// Sending information to the clients that a vehicle needs to be locked.
 		// _vehicle (Object): The vehicle to lock.
-		public method OnLockVehicle("_vehicle" as Object)
+		public method SendLockVehicle("_vehicle" as Object)
 		{
 			// We send the name of the client reciever method along with the parameters to the remote invocation call.
 			// Always name this method "On" plus the name of this method (in this case "LockVehicle").
