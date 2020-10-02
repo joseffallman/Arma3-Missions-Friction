@@ -18,7 +18,7 @@ namespace Tvtcf.Common
 			_self.SecondaryObjectiveScore = 50;
 			_self.ReturnObjectiveScore = 50;
 			_self.AllSurvivedBonusScore = 50;
-			_self.MenLostScore = 40;
+			_self.MenLostScore = 25;
 		
 			_self.PrimaryObjectiveName = _primaryObjectiveName;
 			_self.PrimaryObjectiveState = _primaryObjectiveState;
