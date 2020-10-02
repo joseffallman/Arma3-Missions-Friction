@@ -25,7 +25,7 @@ namespace Campaigns.ShoeLace
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group, "_mActingGroup3" as Group, "_mActingGroup4" as Group];
 		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
-		private fields ["_mLeaningToSide" as MissionSide];
+		private fields ["_mLeaningToSide" as MissionSide, "_mIsEven" as Boolean];
 		
 		// Creates a CaptureTheAirbase object.
 		public constructor()
@@ -36,6 +36,7 @@ namespace Campaigns.ShoeLace
 			_mSpawnedActingSoldiers = [];
 			_mSpawnedOpposingSoldiers = [];
 			_mLeaningToSide = MissionSide.Acting;
+			_mIsEven = true;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -46,6 +47,8 @@ namespace Campaigns.ShoeLace
 			_mission.StartMarkersOpposing = ["m11o_StartMarker"];
 			_mission.SideMarkersActing = ["m11_AirbaseTowerVincinity"];
 			_mission.SideMarkersOpposing = ["m11_AirbaseTowerVincinity"];
+			
+			//"m11a_WeaponCacheMarker" setMarkerPos
 		};
 		
 		protected override method Setup()
@@ -279,7 +282,7 @@ namespace Campaigns.ShoeLace
 				return ObjectiveState.Failed;
 			};
 			
-			if (_mLeaningToSide == MissionSide.Acting) then {
+			if (!_mIsEven && _mLeaningToSide == MissionSide.Acting) then {
 				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
 				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
 				_self.GainedTokensActing pushBack "AIRBASE";
@@ -304,7 +307,7 @@ namespace Campaigns.ShoeLace
 				return ObjectiveState.Failed;
 			};
 			
-			if (_mLeaningToSide == MissionSide.Opposing) then {
+			if (!_mIsEven && _mLeaningToSide == MissionSide.Opposing) then {
 				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
 				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
 					_self.GainedTokensOpposing pushBack "AIRBASE";
@@ -345,14 +348,16 @@ namespace Campaigns.ShoeLace
 			//hint ("A: " + str _actingCloseToTowerCount + ", O: " + str _opposingCloseToTowerCount + ", I: " + str _indepentendCloseToTowerCount + ", T: " + str _total);
 		
 			// Check if one of the sides are about to win
-			if (_actingCloseToTowerCount > (_opposingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && _mLeaningToSide != MissionSide.Acting) then {
+			if (_actingCloseToTowerCount > (_opposingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && !_mIsEven && _mLeaningToSide != MissionSide.Acting) then {
 				[MissionSide.Acting, "Winning momentum."] call _self.ShowNotification;
 				[MissionSide.Opposing, "Loosing momentum."] call _self.ShowNotification;
+				_mIsEven = false;
 				_mLeaningToSide = MissionSide.Acting;
 			};
-			if (_opposingCloseToTowerCount > (_actingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && _mLeaningToSide != MissionSide.Opposing) then {
+			if (_opposingCloseToTowerCount > (_actingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && !_mIsEven && _mLeaningToSide != MissionSide.Opposing) then {
 				[MissionSide.Acting, "Loosing momentum."] call _self.ShowNotification;
 				[MissionSide.Opposing, "Winning momentum."] call _self.ShowNotification;
+				_mIsEven = false;
 				_mLeaningToSide = MissionSide.Opposing;
 			};
 		
