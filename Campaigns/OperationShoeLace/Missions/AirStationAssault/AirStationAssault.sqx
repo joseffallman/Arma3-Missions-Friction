@@ -17,12 +17,15 @@ namespace Campaigns.ShoeLace
 {
 	public class AirStationAssault : ShoeLaceMission
 	{
-		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array];
+		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array, "_mAllOpposingUnits" as Array /* of Object */];
+		private fields ["_mReinforcementsAlerted" as Boolean];
 		
 		// Creates a AirStationAssault object.
 		public constructor()
 		{
 			call _base.Constructor;
+			_mAllOpposingUnits = [];
+			_mReinforcementsAlerted = false;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -114,7 +117,17 @@ namespace Campaigns.ShoeLace
 			["RIFLEMAN", getMarkerPos "m01o_startarea1", MissionSide.Opposing, _guardGroup] call _self.CreateSideAiSoldier;
 			[_guardGroup, "m01o_startarea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
 			
-			call _base.Setup;
+			// Add eventhandlers to AI
+			
+			{
+				_mAllOpposingUnits pushBack _x;
+				
+				_x setVariable ["UnitSide", side group _x];
+				_x addEventHandler ["Killed", {
+					params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
+					_unit setVariable ["KilledBySide", side group _killer];
+				}];
+			} foreach units _guardGroup as Object;
 		
 			// Spawn acting side's base objects
 			
@@ -148,6 +161,23 @@ namespace Campaigns.ShoeLace
 				_self.OpposingOrdnanceBox addBackpackCargoGlobal [_uavBackpackClassName];
 				_self.OpposingOrdnanceBox addItemCargoGlobal [_uavTerminalClassName, 1];
 			};
+		};
+		
+		protected override method OnOpposingGroupInserted("_e" as InsertionEventArgs)
+		{
+			// Add eventhandlers to player group
+			
+			{
+				_mAllOpposingUnits pushBack _x;
+				
+				_x setVariable ["UnitSide", side group _x];
+				_x addEventHandler ["Killed", {
+					params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
+					_unit setVariable ["KilledBySide", side group _killer];
+				}];
+			} foreach _self.OpposingUnits as Object;
+			
+			call _base.Setup;
 		};
 
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
@@ -232,6 +262,44 @@ namespace Campaigns.ShoeLace
 			};
 			
 			return ObjectiveState.None;
+		};
+		
+		private method Boolean IsAnyOpposingKilledByIntruder()
+		{
+			var _killedByIntruder = false;
+			var _opposingActualSide = [MissionSide.Opposing] call _self.GetActualSide;
+			
+			{
+				if (!alive _x) then
+				{
+					var _killedBySide = _x getVariable ["KilledBySide", _opposingActualSide];
+					
+					if (_killedBySide != _opposingActualSide) then {
+						_killedByIntruder = true;
+					};
+				};
+			} foreach _mAllOpposingUnits as Object;
+			
+			return _killedByIntruder;
+		};
+		
+		private method CreateAndStartReinforcements()
+		{
+			
+		};
+		
+		protected override method OnEachIteration()
+		{
+			if (!_mReinforcementsAlerted) then
+			{
+				private _allVehiclesAlive = { alive _x } count _mAllVehicles == count _mAllVehicles;
+				
+				if (!_allVehiclesAlive || { call _self.IsAnyOpposingKilledByIntruder }) then
+				{
+					call _self.CreateAndStartReinforcements;
+					_mReinforcementsAlerted = true;
+				};
+			};
 		};
 	};
 };

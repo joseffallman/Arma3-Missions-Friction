@@ -170,13 +170,13 @@ namespace Campaigns.ShoeLace
 			
 			{
 				_mAmbientUnits pushBack _x;
+				
 				_x setVariable ["UnitSide", side group _x];
 				
 				_x addEventHandler ["Killed", {
 					params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
 					_unit setVariable ["KilledBySide", side group _killer];
 				}];
-				
 			} foreach crew _vehicle as Object;
 			
 			for "_i" from 0 to 9 do {
