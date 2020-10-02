@@ -44,6 +44,9 @@ namespace Campaigns
 				["MRAP", "B_MRAP_01_F", "O_MRAP_02_F"] new VehicleSideAlias,
 				["MRAP HMG", "B_MRAP_01_hmg_F", "O_MRAP_02_hmg_F"] new VehicleSideAlias,
 				["QUADBIKE", "B_Quadbike_01_F", "O_Quadbike_01_F"] new VehicleSideAlias,
+				["PROWLER", "B_LSV_01_unarmed_F", "O_LSV_02_unarmed_F"] new VehicleSideAlias,
+				["PROWLER ARMED", "B_LSV_01_armed_F", "O_LSV_02_armed_F"] new VehicleSideAlias,
+				["PROWLER AT", "B_LSV_01_AT_F", "O_LSV_02_AT_F"] new VehicleSideAlias,
 				
 				// APC
 				["APC TRANSPORT CANNON", "B_APC_Wheeled_01_cannon_F", "O_APC_Tracked_02_cannon_F"] new VehicleSideAlias,
