@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=372;
+		nextID=374;
 	};
 	class MarkerIDProvider
 	{
-		nextID=66;
+		nextID=67;
 	};
 	class Camera
 	{
-		pos[]={2657.1306,75.312004,649.77594};
-		dir[]={0.15466809,-0.6414547,0.75145936};
-		up[]={0.12931637,0.76715869,0.62828171};
-		aside[]={0.97950804,1.0623717e-006,-0.20160851};
+		pos[]={3742.6401,176.50253,3192.6782};
+		dir[]={0.57006431,-0.38447362,0.72611004};
+		up[]={0.23742004,0.92313528,0.30240935};
+		aside[]={0.78656638,1.0538497e-007,-0.61752874};
 	};
 };
 binarizationWanted=0;
@@ -132,6 +132,25 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -166,25 +185,6 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute1
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
 		nAttributes=2;
 	};
 };
@@ -211,11 +211,11 @@ class Mission
 	};
 	class Entities
 	{
-		items=168;
+		items=170;
 		class Item0
 		{
 			dataType="Marker";
-			position[]={4342.3823,225.1629,3809.5322};
+			position[]={4342.3818,225.16299,3809.532};
 			name="m01o_startarea1";
 			markerType="ELLIPSE";
 			type="rectangle";
@@ -223,10 +223,10 @@ class Mission
 			fillName="SolidBorder";
 			a=150;
 			b=70;
-			angle=257.69315;
+			angle=257.6929;
 			drawBorder=1;
 			id=0;
-			atlOffset=-0.87602234;
+			atlOffset=-0.87586975;
 		};
 		class Item1
 		{
@@ -3069,6 +3069,26 @@ class Mission
 			type="mil_warning";
 			id=371;
 			atlOffset=-3.4770241;
+		};
+		class Item168
+		{
+			dataType="Marker";
+			position[]={5019.1289,177.10201,4526.1079};
+			name="m01o_ReinforcementStartMarker1";
+			type="Empty";
+			angle=236.36301;
+			id=372;
+			atlOffset=-0.95292664;
+		};
+		class Item169
+		{
+			dataType="Marker";
+			position[]={3749.4185,166.38391,3211.3149};
+			name="m01o_ReinforcementStartMarker2";
+			type="Empty";
+			angle=20.560127;
+			id=373;
+			atlOffset=-2.9142303;
 		};
 	};
 };

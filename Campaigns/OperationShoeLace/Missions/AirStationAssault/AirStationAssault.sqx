@@ -18,7 +18,7 @@ namespace Campaigns.ShoeLace
 	public class AirStationAssault : ShoeLaceMission
 	{
 		private fields ["_mPrimaryTargetVehicle" as Object, "_mSecondaryTargetVehicle" as Object, "_mAllVehicles" as Array, "_mAllOpposingUnits" as Array /* of Object */];
-		private fields ["_mReinforcementsAlerted" as Boolean];
+		private fields ["_mReinforcementsAlerted" as Boolean, "_mProwler" as Object, "_mReinforcementsArrived" as Boolean, "_mReinforcementGroup" as Group];
 		
 		// Creates a AirStationAssault object.
 		public constructor()
@@ -26,6 +26,9 @@ namespace Campaigns.ShoeLace
 			call _base.Constructor;
 			_mAllOpposingUnits = [];
 			_mReinforcementsAlerted = false;
+			_mReinforcementsArrived = false;
+			_mProwler = objNull;
+			_mReinforcementGroup = grpNull;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -41,26 +44,28 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForActing()
 		{
 			var _p1 = "A lot of enemy supply trucks have been spotted entering Air Station Mike lately. Our enemies are obviously up to something. Let's hit while we have a good chance of make some damage.";
-			var _p2 = "<br /><br />Remember to bring explosives!";
-			var _p3 = "";
+			var _p2 = "<br /><br />Important! Keep this operation clean. When the first thing blows, or when the first enemy is killed, they will have reinforcements all over the place.";
+			var _p3 = "<br /><br />Remember to bring explosives!";
+			var _p4 = "";
 			
 			if ("DRONE" in _self.GainedTokensActing) then {
-				_p3 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+				_p4 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
-			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
+			return _p1 + _p2 + _p3 + _p4 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
 			var _p1 = "We have tried to keep this operation as secret as we can. If we keep Air Station Mike safe until tomorrow, we are in a good position to soon advance into enemy territory.";
-			var _p2 = "";
+			var _p2 = "<br /><br />Friendly forces are on high alert. If you or any equipment are attacked then expect immediate arrival of reinforcements.";
+			var _p3 = "";
 			
 			if ("DRONE" in _self.GainedTokensOpposing) then {
-				_p2 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
+				_p3 = "<br /><br />Earlier success has given you access to a UAV of type Darter.";
 			};
 			
-			return _p1 + _p2 + call _base.AddBriefingInfoForOpposing;
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method Setup()
@@ -266,7 +271,6 @@ namespace Campaigns.ShoeLace
 		
 		private method Boolean IsAnyOpposingKilledByIntruder()
 		{
-			var _killedByIntruder = false;
 			var _opposingActualSide = [MissionSide.Opposing] call _self.GetActualSide;
 			
 			{
@@ -275,19 +279,36 @@ namespace Campaigns.ShoeLace
 					var _killedBySide = _x getVariable ["KilledBySide", _opposingActualSide];
 					
 					if (_killedBySide != _opposingActualSide) then {
-						_killedByIntruder = true;
+						return true;;
 					};
 				};
 			} foreach _mAllOpposingUnits as Object;
 			
-			return _killedByIntruder;
+			return false;
 		};
 		
 		private method CreateAndStartReinforcements()
 		{
-			
-		};
+			var _reinforcementStartMarker = selectRandom ["m01o_ReinforcementStartMarker1", "m01o_ReinforcementStartMarker2"];
+			_mProwler = ["PROWLER", _reinforcementStartMarker, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 		
+			var _rifleman = ["RIFLEMAN", getMarkerPos "m01o_ReinforcementStartMarker1", MissionSide.Opposing] call _self.CreateSideAiSoldier;
+			_mReinforcementGroup = group _rifleman;
+			
+			_rifleman assignAsDriver _mProwler;
+			_rifleman moveInDriver _mProwler;
+			
+			for "_i" from 1 to 4 do {
+				_rifleman = ["RIFLEMAN", getMarkerPos "m01o_ReinforcementStartMarker1", MissionSide.Opposing, _mReinforcementGroup] call _self.CreateSideAiSoldier;
+				_rifleman assignAsCargo _mProwler;
+				_rifleman moveInCargo _mProwler;
+			};
+			
+			var _waypoint = _mReinforcementGroup addWaypoint [getMarkerPos "m01o_startarea1", 40];
+			_waypoint setWaypointSpeed "FULL";
+			_waypoint setWaypointBehaviour "SAFE";
+		};
+
 		protected override method OnEachIteration()
 		{
 			if (!_mReinforcementsAlerted) then
@@ -297,7 +318,21 @@ namespace Campaigns.ShoeLace
 				if (!_allVehiclesAlive || { call _self.IsAnyOpposingKilledByIntruder }) then
 				{
 					call _self.CreateAndStartReinforcements;
+					player sideChat "reinforcements on the way";
 					_mReinforcementsAlerted = true;
+				};
+			};
+			
+			if (_mReinforcementsAlerted && !_mReinforcementsArrived) then
+			{
+				player sideChat str (_mProwler distance getMarkerPos "m01o_startarea1");
+				player sideChat str (speed _mProwler);
+			
+				if (_mProwler distance getMarkerPos "m01o_startarea1" < 200 && speed _mProwler < 1) then
+				{
+					_mReinforcementGroup leaveVehicle _mProwler;
+					[_mReinforcementGroup, "m01o_startarea1"] execVM "Engima\SearchPatrol\SearchPatrol.sqf";
+					_mReinforcementsArrived = true;
 				};
 			};
 		};
