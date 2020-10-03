@@ -51,7 +51,7 @@ namespace Campaigns.ShoeLace
 			_missions pushBack _mEstablishments;
 			
 			// Winner gets AIRBASE.
-			// Both sides can get one of BASIC WEAPONS, EXPLOSIVES, SCOPES, SUPPLIES.
+			// Both sides can get one of BASIC WEAPONS, EXPLOSIVES, OPTICS, SUPPLIES.
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;

@@ -133,11 +133,11 @@ namespace Campaigns.ShoeLace
 			return _box;
 		};
 		
-		protected method Object CreateScopesBoxInBase("_missionSide" as MissionSide)
+		protected method Object CreateOpticsBoxInBase("_missionSide" as MissionSide)
 		{
 			var _box = ["AMMOBOX SPECIAL WEAPONS", BaseMarker.AmmoCrate, _missionSide, true] call _self.CreateSideVehicleInBase;
 			[_box] call _self.MakeEmptyAmmoBox;
-			[_box, _missionSide] call _self.FillBoxWithScopes;
+			[_box, _missionSide] call _self.FillBoxWithOptics;
 			
 			return _box;
 		};
@@ -176,14 +176,14 @@ namespace Campaigns.ShoeLace
 				_self.ActingOrdnanceBox = [MissionSide.Opposing] call _self.CreateExplosivesBoxInBase;
 			};
 			
-			if ("SCOPES" in _self.GainedTokensActing) then
+			if ("OPTICS" in _self.GainedTokensActing) then
 			{
-				_self.ActingSpecialWeaponsBox = [MissionSide.Acting] call _self.CreateScopesBoxInBase;
+				_self.ActingSpecialWeaponsBox = [MissionSide.Acting] call _self.CreateOpticsBoxInBase;
 			};
 		
-			if ("SCOPES" in _self.GainedTokensOpposing) then
+			if ("OPTICS" in _self.GainedTokensOpposing) then
 			{
-				_self.OpposingSpecialWeaponsBox = [MissionSide.Opposing] call _self.CreateScopesBoxInBase;
+				_self.OpposingSpecialWeaponsBox = [MissionSide.Opposing] call _self.CreateOpticsBoxInBase;
 			};
 			
 			if ("SUPPLIES" in _self.GainedTokensActing) then
@@ -236,7 +236,7 @@ namespace Campaigns.ShoeLace
 			_ammoBox addItemCargoGlobal [_scope, 2];
 		};
 		
-		protected method FillBoxWithScopes("_ammoBox" as Object, "_missionSide" as MissionSide)
+		protected method FillBoxWithOptics("_ammoBox" as Object, "_missionSide" as MissionSide)
 		{
 			var _side = [_missionSide] call _self.GetActualSide;
 			

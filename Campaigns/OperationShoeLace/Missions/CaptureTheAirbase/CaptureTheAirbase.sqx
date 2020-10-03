@@ -26,8 +26,8 @@ namespace Campaigns.ShoeLace
 		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
 		private fields ["_mLeaningToSide" as MissionSide, "_mIsEven" as Boolean, "_mWeaponCacheMarkerActing" as String, "_mWeaponCacheMarkerOpposing" as String];
-		private fields ["_mBasicWeaponsActingActionId" as Scalar, "_mExplosivesActingActionId" as Scalar, "_mScopesActingActionId" as Scalar, "_mSuppliesActingActionId" as Scalar];
-		private fields ["_mBasicWeaponsOpposingActionId" as Scalar, "_mExplosivesOpposingActionId" as Scalar, "_mScopesOpposingActionId" as Scalar, "_mSuppliesOpposingActionId" as Scalar];
+		private fields ["_mBasicWeaponsActingActionId" as Scalar, "_mExplosivesActingActionId" as Scalar, "_mOpticsActingActionId" as Scalar, "_mSuppliesActingActionId" as Scalar];
+		private fields ["_mBasicWeaponsOpposingActionId" as Scalar, "_mExplosivesOpposingActionId" as Scalar, "_mOpticsOpposingActionId" as Scalar, "_mSuppliesOpposingActionId" as Scalar];
 		private fields ["_mAmmoBoxActing" as Object, "_mAmmoBoxOpposing" as Object];
 		
 		// Creates a CaptureTheAirbase object.
@@ -67,7 +67,7 @@ namespace Campaigns.ShoeLace
 			
 			var _box = "I_supplyCrate_F" createVehicle getMarkerPos _mWeaponCacheMarkerActing;
 			[_box] call _self.MakeEmptyAmmoBox;
-			[_box, MissionSide.Acting] call _self.FillBoxWithScopes;
+			[_box, MissionSide.Acting] call _self.FillBoxWithOptics;
 			[_box, MissionSide.Acting] call _self.FillBoxWithSupplies;
 			[_box, MissionSide.Acting] call _self.FillBoxWithExplosives;
 
@@ -76,7 +76,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			_mExplosivesActingActionId = [_box, "Take Explosives", MissionSide.Acting] call _self.AddAction;
-			_mScopesActingActionId = [_box, "Take Scopes", MissionSide.Acting] call _self.AddAction;
+			_mOpticsActingActionId = [_box, "Take Optics", MissionSide.Acting] call _self.AddAction;
 			_mSuppliesActingActionId = [_box, "Take Supplies", MissionSide.Acting] call _self.AddAction;
 
 			_mAmmoBoxActing = _box;
@@ -162,7 +162,7 @@ namespace Campaigns.ShoeLace
 			
 			_box = "I_supplyCrate_F" createVehicle getMarkerPos _mWeaponCacheMarkerOpposing;
 			[_box] call _self.MakeEmptyAmmoBox;
-			[_box, MissionSide.Opposing] call _self.FillBoxWithScopes;
+			[_box, MissionSide.Opposing] call _self.FillBoxWithOptics;
 			[_box, MissionSide.Opposing] call _self.FillBoxWithSupplies;
 			[_box, MissionSide.Opposing] call _self.FillBoxWithExplosives;
 
@@ -171,7 +171,7 @@ namespace Campaigns.ShoeLace
 			};
 			
 			_mExplosivesOpposingActionId = [_box, "Take Explosives", MissionSide.Opposing] call _self.AddAction;
-			_mScopesOpposingActionId = [_box, "Take Scopes", MissionSide.Opposing] call _self.AddAction;
+			_mOpticsOpposingActionId = [_box, "Take Optics", MissionSide.Opposing] call _self.AddAction;
 			_mSuppliesOpposingActionId = [_box, "Take Supplies", MissionSide.Opposing] call _self.AddAction;
 
 			_mAmmoBoxOpposing = _box;
@@ -294,7 +294,7 @@ namespace Campaigns.ShoeLace
 				switch (_actionId) do {
 					case _mBasicWeaponsActingActionId: { _token = "BASIC WEAPONS" };
 					case _mExplosivesActingActionId: { _token = "EXPLOSIVES" };
-					case _mScopesActingActionId: { _token = "SCOPES" };
+					case _mOpticsActingActionId: { _token = "OPTICS" };
 					case _mSuppliesActingActionId: { _token = "SUPPLIES" };
 				};
 				
@@ -305,7 +305,7 @@ namespace Campaigns.ShoeLace
 					[[
 						_mBasicWeaponsActingActionId,
 						_mExplosivesActingActionId,
-						_mScopesActingActionId,
+						_mOpticsActingActionId,
 						_mSuppliesActingActionId]
 					] call _self.DeleteActions;
 				};
@@ -318,7 +318,7 @@ namespace Campaigns.ShoeLace
 				switch (_actionId) do {
 					case _mBasicWeaponsOpposingActionId: { _token = "BASIC WEAPONS" };
 					case _mExplosivesOpposingActionId: { _token = "EXPLOSIVES" };
-					case _mScopesOpposingActionId: { _token = "SCOPES" };
+					case _mOpticsOpposingActionId: { _token = "OPTICS" };
 					case _mSuppliesOpposingActionId: { _token = "SUPPLIES" };
 				};
 				
@@ -329,7 +329,7 @@ namespace Campaigns.ShoeLace
 					[[
 						_mBasicWeaponsOpposingActionId,
 						_mExplosivesOpposingActionId,
-						_mScopesOpposingActionId,
+						_mOpticsOpposingActionId,
 						_mSuppliesOpposingActionId]
 					] call _self.DeleteActions;
 				};
