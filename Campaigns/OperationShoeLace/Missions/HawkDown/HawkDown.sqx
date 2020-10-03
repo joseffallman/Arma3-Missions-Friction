@@ -61,7 +61,7 @@ namespace Campaigns.ShoeLace
 			
 			// Spawn acting side's objects
 			if (isNull _self.ActingOrdnanceBox) then {
-				_self.ActingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
+				_self.ActingOrdnanceBox = [MissionSide.Acting] call _self.CreateExplosivesBoxInBase;
 			};
 		};
 		
