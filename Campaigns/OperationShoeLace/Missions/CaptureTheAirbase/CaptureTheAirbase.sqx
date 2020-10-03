@@ -339,15 +339,18 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForActing()
 		{
 			var _p1 = "The Stratis Airbase is one of the keys in our operation. We need to capture it to enable an easier resupply chain from our main forces, and so that we do not risk it falling into enemy hands.";
-			var _p2 = "<br /><br />Remember to bring AT launchers!";
+			var _p2 = "<br /><br />We know about an ammo cache. If you find an opportunity you may try to go there and secure something of interest for the rest of our operation.";
+			var _p3 = "<br /><br />Remember to bring AT launchers!";
 		
-			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
 		{
 			var _p1 = "The Stratis Airbase is one of the keys in our operation. We need to capture it to enable an easier resupply chain from our main forces, and so that we do not risk it falling into enemy hands.";
-			return _p1 + call _base.AddBriefingInfoForOpposing;
+			var _p2 = "<br /><br />We know about an ammo cache. If you find an opportunity you may try to go there and secure something of interest for the rest of our operation.";
+			
+			return _p1 + _p2 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
