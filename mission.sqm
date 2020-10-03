@@ -8,11 +8,11 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=384;
+		nextID=401;
 	};
 	class MarkerIDProvider
 	{
-		nextID=69;
+		nextID=70;
 	};
 	class Camera
 	{
@@ -132,25 +132,6 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
-		{
 			property="RespawnTemplates";
 			expression="true";
 			class Value
@@ -185,6 +166,25 @@ class CustomAttributes
 				};
 			};
 		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
+				};
+			};
+		};
 		nAttributes=2;
 	};
 };
@@ -211,7 +211,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=178;
+		items=195;
 		class Item0
 		{
 			dataType="Marker";
@@ -962,15 +962,16 @@ class Mission
 		class Item11
 		{
 			dataType="Marker";
-			position[]={6434.3525,7.8141088,5416.0186};
+			position[]={6410.6514,7.5452685,5419.4316};
 			name="base_east_AmmoCrateMarker";
 			type="Empty";
+			angle=75.34053;
 			id=35;
 		};
 		class Item12
 		{
 			dataType="Marker";
-			position[]={1976.1276,3.0388715,3538.4902};
+			position[]={1978.7363,2.6653676,3529.7456};
 			name="base_west_AmmoCrateMarker";
 			type="Empty";
 			id=36;
@@ -3093,75 +3094,224 @@ class Mission
 		class Item170
 		{
 			dataType="Marker";
-			position[]={1942.139,2.8959999,3529.834};
+			position[]={1954.356,5.9369998,5629.3828};
 			name="m11a_AmmoCache1";
 			type="Empty";
 			id=374;
-			atlOffset=0.00015044212;
+			atlOffset=8.5830688e-005;
 		};
 		class Item171
 		{
 			dataType="Marker";
-			position[]={1891.6731,11.845852,3602.8398};
+			position[]={1786.754,25.870001,5400};
 			name="m11a_WeaponCache";
 			text="Weapon Cache";
-			type="mil_box";
+			type="mil_triangle";
 			id=376;
+			atlOffset=20.370001;
 		};
 		class Item172
 		{
 			dataType="Marker";
-			position[]={2079.512,7.7839999,3594.2251};
+			position[]={2155.4956,0,6052.6445};
 			name="m11o_WeaponCache";
 			text="Weapon Cache";
 			type="mil_box";
 			id=377;
-			atlOffset=-0.00047206879;
+			atlOffset=14.613384;
 		};
 		class Item173
 		{
 			dataType="Marker";
-			position[]={1936.479,2.585,3549.717};
+			position[]={1931.4302,5.1996689,5427.3208};
 			name="m11a_AmmoCache2";
 			type="Empty";
 			id=379;
-			atlOffset=-7.0095062e-005;
 		};
 		class Item174
 		{
 			dataType="Marker";
-			position[]={1949.116,3.0550001,3504.3479};
+			position[]={1995.8392,6.2809472,5487.6968};
 			name="m11a_AmmoCache3";
 			type="Empty";
 			id=380;
-			atlOffset=0.00036144257;
 		};
 		class Item175
 		{
 			dataType="Marker";
-			position[]={2047.631,7.0170002,3576.135};
+			position[]={1936.0065,0,5913.2783};
 			name="m11o_AmmoCache1";
 			type="Empty";
 			id=381;
-			atlOffset=0.00033044815;
+			atlOffset=-5.5002427;
 		};
 		class Item176
 		{
 			dataType="Marker";
-			position[]={1992.486,3.8099999,3568.095};
+			position[]={1923.7688,10.206919,5863.7524};
 			name="m11o_AmmoCache2";
 			type="Empty";
 			id=382;
-			atlOffset=-0.95130444;
+			atlOffset=4.7069187;
 		};
 		class Item177
 		{
 			dataType="Marker";
-			position[]={2031.835,3.0139999,3523.874};
+			position[]={2122.2112,6.6276627,5872.6069};
 			name="m11o_AmmoCache3";
 			type="Empty";
 			id=383;
-			atlOffset=0.00036215782;
+			atlOffset=2.4630752;
+		};
+		class Item178
+		{
+			dataType="Marker";
+			position[]={1900.879,5.8699999,5504.0508};
+			name="m11a_AmmoCache4";
+			type="Empty";
+			id=384;
+			atlOffset=-0.00025367737;
+		};
+		class Item179
+		{
+			dataType="Marker";
+			position[]={1857.905,5.6170001,5515.4502};
+			name="m11a_AmmoCache5";
+			type="Empty";
+			id=385;
+			atlOffset=-0.00025081635;
+		};
+		class Item180
+		{
+			dataType="Marker";
+			position[]={1868.0699,5.6170001,5560.625};
+			name="m11a_AmmoCache6";
+			type="Empty";
+			id=386;
+			atlOffset=-0.00060033798;
+		};
+		class Item181
+		{
+			dataType="Marker";
+			position[]={2054.8159,6.6630001,5494.791};
+			name="m11a_AmmoCache7";
+			type="Empty";
+			id=387;
+			atlOffset=4.0054321e-005;
+		};
+		class Item182
+		{
+			dataType="Marker";
+			position[]={2182.8149,6.5229998,5564.5991};
+			name="m11a_AmmoCache8";
+			type="Empty";
+			id=388;
+			atlOffset=0.00043487549;
+		};
+		class Item183
+		{
+			dataType="Marker";
+			position[]={2216.2859,6,5684.4702};
+			name="m11a_AmmoCache9";
+			type="Empty";
+			id=389;
+		};
+		class Item184
+		{
+			dataType="Marker";
+			position[]={2048.7671,5.545753,5680.3765};
+			name="m11a_AmmoCache10";
+			type="Empty";
+			id=390;
+		};
+		class Item185
+		{
+			dataType="Marker";
+			position[]={1995.024,5.6999998,5694.543};
+			name="m11a_AmmoCache11";
+			type="Empty";
+			id=391;
+		};
+		class Item186
+		{
+			dataType="Marker";
+			position[]={1913.432,10.207,5819.584};
+			name="m11o_AmmoCache4";
+			type="Empty";
+			id=392;
+			atlOffset=4.7069998;
+		};
+		class Item187
+		{
+			dataType="Marker";
+			position[]={2059.5391,10.372,5862.9038};
+			name="m11o_AmmoCache5";
+			type="Empty";
+			id=393;
+			atlOffset=4.7073903;
+		};
+		class Item188
+		{
+			dataType="Marker";
+			position[]={2078.3359,10.207,5804.98};
+			name="m11o_AmmoCache6";
+			type="Empty";
+			id=394;
+			atlOffset=4.7069998;
+		};
+		class Item189
+		{
+			dataType="Marker";
+			position[]={2181.304,10.54,5783.9692};
+			name="m11o_AmmoCache7";
+			type="Empty";
+			id=395;
+			atlOffset=4.7066631;
+		};
+		class Item190
+		{
+			dataType="Marker";
+			position[]={2149.521,10.707,5674.6802};
+			name="m11o_AmmoCache8";
+			type="Empty";
+			id=396;
+			atlOffset=4.7069998;
+		};
+		class Item191
+		{
+			dataType="Marker";
+			position[]={2149.8359,10.707,5691.356};
+			name="m11o_AmmoCache9";
+			type="Empty";
+			id=397;
+			atlOffset=4.7069998;
+		};
+		class Item192
+		{
+			dataType="Marker";
+			position[]={2053.761,10.374,5761.48};
+			name="m11o_AmmoCache10";
+			type="Empty";
+			id=398;
+			atlOffset=4.7065043;
+		};
+		class Item193
+		{
+			dataType="Marker";
+			position[]={2149.6289,8.2559996,5299.0591};
+			name="m11a_InsertionPos";
+			type="mil_start";
+			id=399;
+			atlOffset=-0.83202839;
+		};
+		class Item194
+		{
+			dataType="Marker";
+			position[]={2367.0129,2.7449999,5821.689};
+			name="m11o_InsertionPos";
+			type="mil_start";
+			id=400;
+			atlOffset=-0.65500021;
 		};
 	};
 };

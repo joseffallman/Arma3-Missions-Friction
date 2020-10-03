@@ -49,11 +49,11 @@ namespace Campaigns.ShoeLace
 			_mission.StartTimeOfDay = 5;
 			_mission.StartMarkersActing = ["m11a_StartMarker"];
 			_mission.StartMarkersOpposing = ["m11o_StartMarker"];
-			_mission.SideMarkersActing = ["m11_AirbaseTowerVincinity", "m11a_WeaponCache"];
-			_mission.SideMarkersOpposing = ["m11_AirbaseTowerVincinity", "m11o_WeaponCache"];
+			_mission.SideMarkersActing = ["m11_AirbaseTowerVincinity", "m11a_WeaponCache", "m11a_InsertionPos"];
+			_mission.SideMarkersOpposing = ["m11_AirbaseTowerVincinity", "m11o_WeaponCache", "m11o_InsertionPos"];
 			
-			_mWeaponCacheMarkerActing = selectRandom ["m11a_AmmoCache1", "m11a_AmmoCache2", "m11a_AmmoCache3"];
-			_mWeaponCacheMarkerOpposing = selectRandom ["m11o_AmmoCache1", "m11o_AmmoCache2", "m11o_AmmoCache3"];
+			_mWeaponCacheMarkerActing = selectRandom ["m11a_AmmoCache1", "m11a_AmmoCache2", "m11a_AmmoCache3", "m11a_AmmoCache4", "m11a_AmmoCache5", "m11a_AmmoCache6", "m11a_AmmoCache7", "m11a_AmmoCache8", "m11a_AmmoCache9", "m11a_AmmoCache10", "m11a_AmmoCache11"];
+			_mWeaponCacheMarkerOpposing = selectRandom ["m11o_AmmoCache1", "m11o_AmmoCache2", "m11o_AmmoCache3", "m11o_AmmoCache4", "m11o_AmmoCache5", "m11o_AmmoCache6", "m11o_AmmoCache7", "m11o_AmmoCache8", "m11o_AmmoCache9", "m11o_AmmoCache10"];
 			
 			"m11a_WeaponCache" setMarkerPos markerPos _mWeaponCacheMarkerActing;
 			"m11o_WeaponCache" setMarkerPos markerPos _mWeaponCacheMarkerOpposing;
@@ -69,8 +69,12 @@ namespace Campaigns.ShoeLace
 			[_box] call _self.MakeEmptyAmmoBox;
 			[_box, MissionSide.Acting] call _self.FillBoxWithScopes;
 			[_box, MissionSide.Acting] call _self.FillBoxWithSupplies;
+			[_box, MissionSide.Acting] call _self.FillBoxWithExplosives;
 
-			_mBasicWeaponsActingActionId = [_box, "Take Basic Weapons", MissionSide.Acting] call _self.AddAction;
+			if (!("BASIC WEAPONS" in _self.GainedTokensActing)) then {
+				_mBasicWeaponsActingActionId = [_box, "Take Basic Weapons", MissionSide.Acting] call _self.AddAction;
+			};
+			
 			_mExplosivesActingActionId = [_box, "Take Explosives", MissionSide.Acting] call _self.AddAction;
 			_mScopesActingActionId = [_box, "Take Scopes", MissionSide.Acting] call _self.AddAction;
 			_mSuppliesActingActionId = [_box, "Take Supplies", MissionSide.Acting] call _self.AddAction;
@@ -150,7 +154,7 @@ namespace Campaigns.ShoeLace
 			
 			// Other
 			
-			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
+			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			
 			// Opposing
 			
@@ -160,8 +164,12 @@ namespace Campaigns.ShoeLace
 			[_box] call _self.MakeEmptyAmmoBox;
 			[_box, MissionSide.Opposing] call _self.FillBoxWithScopes;
 			[_box, MissionSide.Opposing] call _self.FillBoxWithSupplies;
+			[_box, MissionSide.Opposing] call _self.FillBoxWithExplosives;
 
-			_mBasicWeaponsOpposingActionId = [_box, "Take Basic Weapons", MissionSide.Opposing] call _self.AddAction;
+			if (!("BASIC WEAPONS" in _self.GainedTokensOpposing)) then {
+				_mBasicWeaponsOpposingActionId = [_box, "Take Basic Weapons", MissionSide.Opposing] call _self.AddAction;
+			};
+			
 			_mExplosivesOpposingActionId = [_box, "Take Explosives", MissionSide.Opposing] call _self.AddAction;
 			_mScopesOpposingActionId = [_box, "Take Scopes", MissionSide.Opposing] call _self.AddAction;
 			_mSuppliesOpposingActionId = [_box, "Take Supplies", MissionSide.Opposing] call _self.AddAction;

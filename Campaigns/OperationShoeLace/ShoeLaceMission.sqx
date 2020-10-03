@@ -53,11 +53,19 @@ namespace Campaigns.ShoeLace
 		
 		protected property Object ActingOrdnanceBox { get; set; };
 		
+		protected property Object ActingSpecialWeaponsBox { get; set; };
+		
+		protected property Object ActingSupportBox { get; set; };
+		
 		protected property Object OpposingBasicWeaponsBox { get; set; };
 		
 		protected property Object OpposingBasicAmmoBox { get; set; };
 		
 		protected property Object OpposingOrdnanceBox { get; set; };
+		
+		protected property Object OpposingSpecialWeaponsBox { get; set; };
+		
+		protected property Object OpposingSupportBox { get; set; };
 		
 		protected override method String AddBriefingInfoForActing()
 		{
@@ -115,6 +123,34 @@ namespace Campaigns.ShoeLace
 			return _info;
 		};
 		
+		protected method Object CreateExplosivesBoxInBase("_missionSide" as MissionSide)
+		{
+			var _box = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, _missionSide, true] call _self.CreateSideVehicleInBase;
+			[_box] call _self.MakeEmptyAmmoBox;
+			[_box, _missionSide] call _self.FillBoxWithExplosives;
+			_box addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			
+			return _box;
+		};
+		
+		protected method Object CreateScopesBoxInBase("_missionSide" as MissionSide)
+		{
+			var _box = ["AMMOBOX SPECIAL WEAPONS", BaseMarker.AmmoCrate, _missionSide, true] call _self.CreateSideVehicleInBase;
+			[_box] call _self.MakeEmptyAmmoBox;
+			[_box, _missionSide] call _self.FillBoxWithScopes;
+			
+			return _box;
+		};
+		
+		protected method Object CreateSupplyBoxInBase("_missionSide" as MissionSide)
+		{
+			var _box = ["AMMOBOX SUPPORT", BaseMarker.AmmoCrate, _missionSide, true] call _self.CreateSideVehicleInBase;
+			[_box] call _self.MakeEmptyAmmoBox;
+			[_box, _missionSide] call _self.FillBoxWithSupplies;
+			
+			return _box;
+		};
+		
 		protected override method Setup()
 		{
 			[MissionSide.Acting, false] call _self.SetIndependentAlliance;
@@ -130,14 +166,34 @@ namespace Campaigns.ShoeLace
 				_self.OpposingBasicAmmoBox = ["AMMOBOX BASIC AMMO", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			};
 			
-			if ("EXPLOSIVES" in _self.GainedTokensActing) then {
-				_self.ActingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-				_self.ActingOrdnanceBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			if ("EXPLOSIVES" in _self.GainedTokensActing) then
+			{
+				_self.ActingOrdnanceBox = [MissionSide.Acting] call _self.CreateExplosivesBoxInBase;
 			};
 		
-			if ("EXPLOSIVES" in _self.GainedTokensOpposing) then {
-				_self.OpposingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
-				_self.OpposingOrdnanceBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
+			if ("EXPLOSIVES" in _self.GainedTokensOpposing) then
+			{
+				_self.ActingOrdnanceBox = [MissionSide.Opposing] call _self.CreateExplosivesBoxInBase;
+			};
+			
+			if ("SCOPES" in _self.GainedTokensActing) then
+			{
+				_self.ActingSpecialWeaponsBox = [MissionSide.Acting] call _self.CreateScopesBoxInBase;
+			};
+		
+			if ("SCOPES" in _self.GainedTokensOpposing) then
+			{
+				_self.OpposingSpecialWeaponsBox = [MissionSide.Opposing] call _self.CreateScopesBoxInBase;
+			};
+			
+			if ("SUPPLIES" in _self.GainedTokensActing) then
+			{
+				_self.ActingSupportBox = [MissionSide.Acting] call _self.CreateSupplyBoxInBase;
+			};
+		
+			if ("SUPPLIES" in _self.GainedTokensOpposing) then
+			{
+				_self.OpposingSupportBox = [MissionSide.Opposing] call _self.CreateSupplyBoxInBase;
 			};
 		
 			_self.ActingQuadbike = ["QUADBIKE", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
@@ -169,8 +225,15 @@ namespace Campaigns.ShoeLace
 			clearItemCargoGlobal _ammoBox;
 		};
 		
-		protected method FillBoxWithExplosives("_ammoBox" as Object)
-		{		
+		protected method FillBoxWithExplosives("_ammoBox" as Object, "_missionSide" as MissionSide)
+		{
+			var _side = [_missionSide] call _self.GetActualSide;
+			
+			var _scope = ["EXPLOSIVE CHARGE", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 5];
+			
+			_scope = ["SATCHEL CHARGE", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 2];
 		};
 		
 		protected method FillBoxWithScopes("_ammoBox" as Object, "_missionSide" as MissionSide)

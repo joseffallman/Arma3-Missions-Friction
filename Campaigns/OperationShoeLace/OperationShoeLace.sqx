@@ -44,7 +44,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
-			// One side can get AAF EXPLOSIVES (for every future mission).
+			// One side can get EXPLOSIVES (for every future mission).
 			// Both side can get BASIC WEAPONS (for every future mission).
 			_mEstablishments = new Establishments;
 			[selectRandom [west, east]] call _mEstablishments.SetActingSide;
@@ -87,7 +87,7 @@ namespace Campaigns.ShoeLace
 		
 		public override method Mission GetNextMission()
 		{
-			//[east] call _mCaptureTheAirbase.SetActingSide;
+			[west] call _mCaptureTheAirbase.SetActingSide;
 			return _mCaptureTheAirbase;
 			var _mission = call _base.GetNextMission;
 			

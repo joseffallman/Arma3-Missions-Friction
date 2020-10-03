@@ -126,7 +126,7 @@ namespace Campaigns.ShoeLace
 			["MRAP", "m07a_LimeriBayMrap", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
 			["QUADBIKE", "m07a_LimeriBayQuadBike", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
 			
-			// Create AAF Explosives box that may be found at point Delta
+			// Create Explosives box that may be found at point Delta
 			private _explosivesBoxAreaMarker = selectRandom [_mDeltaActingAreaMarker, _mDeltaOpposingAreaMarker];
 			
 			_mExplosivesBox = ["Box_IND_AmmoOrd_F", [_explosivesBoxAreaMarker] call MarkerHelper.GetRandomPosInsideMarker, random 360] call _self.CreateVehicle;
