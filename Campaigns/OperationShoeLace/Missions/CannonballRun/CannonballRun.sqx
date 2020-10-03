@@ -52,9 +52,10 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForActing()
 		{
 			var _p1 = "The diplomacy with AAF has been making progress, and a ceasefire agreement is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to improve our relations, so can they help us if we need it later. The only problem now should be the enemy air superiority.";
-			var _p2 = "<br /><br />Remember to bring an anti air launcher.";
+			var _p2 = "<br /><br />Note that an armed vehicle is loaded and stands ready for your disposal at the area of the truck.";
+			var _p3 = "<br /><br />Remember to bring and anti air launcher.";
 			
-			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
 		};
 		
 		protected override method String AddBriefingInfoForOpposing()
@@ -89,12 +90,12 @@ namespace Campaigns.ShoeLace
 			
 			["STATIC AA LAUNCHER", "m10_AaMarker", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			
+			call _base.Setup;
+			
 			// An extra launchers box
 			
 			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
-			
-			call _base.Setup;
 			
 			[MissionSide.Acting, true] call _base.SetIndependentAlliance;
 			[MissionSide.Opposing, true] call _base.SetIndependentAlliance;
@@ -107,7 +108,7 @@ namespace Campaigns.ShoeLace
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
 		{
-			return ["Destroy the enemy truck.", "Take the helicopter, perform a search for the enemy vehicle and take it out. Just make sure that you under no circumstances kills any civilian or AAF personel."] new MissionObjective;
+			return ["Destroy the enemy truck.", "Take the helicopter, perform a search for the enemy vehicle and take it out. Just make sure that you under no circumstances kill any civilians or any AAF personel."] new MissionObjective;
 		};
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
