@@ -173,12 +173,56 @@ namespace Campaigns.ShoeLace
 		{		
 		};
 		
-		protected method FillBoxWithScopes("_ammoBox" as Object)
-		{		
+		protected method FillBoxWithScopes("_ammoBox" as Object, "_missionSide" as MissionSide)
+		{
+			var _side = [_missionSide] call _self.GetActualSide;
+			
+			var _scope = ["OPTIC ACO", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
+			
+			_scope = ["OPTIC ACO SMG", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
+			
+			_scope = ["OPTIC RCO", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
+			
+			_scope = ["OPTIC MOS", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
+			
+			_scope = ["OPTIC LRPS", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
 		};
 		
-		protected method FillBoxWithSupport("_ammoBox" as Object)
-		{		
+		protected method FillBoxWithSupplies("_ammoBox" as Object, "_missionSide" as MissionSide)
+		{
+			var _side = [_missionSide] call _self.GetActualSide;
+			
+			var _scope = ["BINOCULAR", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 3];
+			
+			_scope = ["LASER DESIGNATOR", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
+			
+			_scope = ["DESIGNATOR BATTERIES", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 5];
+			
+			_scope = ["RANGE FINDER", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
+			
+			_scope = ["FIRST AID KIT", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 10];
+			
+			_scope = ["GPS", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 10];
+			
+			_scope = ["FLASHLIGHT", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 10];
+			
+			_scope = ["IR LASER POINTER", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 10];
+			
+			_scope = ["BIPOD", _side] call _self.ObjectTypeDictionary.GetVehicleType;
+			_ammoBox addItemCargoGlobal [_scope, 1];
 		};
 	};
 };
