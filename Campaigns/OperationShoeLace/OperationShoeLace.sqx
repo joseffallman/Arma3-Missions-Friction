@@ -51,6 +51,7 @@ namespace Campaigns.ShoeLace
 			_missions pushBack _mEstablishments;
 			
 			// Winner gets AIRBASE.
+			// Both sides can get one of BASIC WEAPONS, EXPLOSIVES, SCOPES, SUPPLIES.
 			_mCaptureTheAirbase = new CaptureTheAirbase;
 			[selectRandom [west, east]] call _mCaptureTheAirbase.SetActingSide;
 			_missions pushBack _mCaptureTheAirbase;
@@ -86,6 +87,8 @@ namespace Campaigns.ShoeLace
 		
 		public override method Mission GetNextMission()
 		{
+			[east] call _mCaptureTheAirbase.SetActingSide;
+			return _mCaptureTheAirbase;
 			var _mission = call _base.GetNextMission;
 			
 			if (!isNull _mission) then

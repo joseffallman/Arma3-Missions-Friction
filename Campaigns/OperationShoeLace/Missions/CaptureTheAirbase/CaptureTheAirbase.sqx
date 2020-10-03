@@ -25,7 +25,10 @@ namespace Campaigns.ShoeLace
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group, "_mActingGroup3" as Group, "_mActingGroup4" as Group];
 		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
-		private fields ["_mLeaningToSide" as MissionSide, "_mIsEven" as Boolean];
+		private fields ["_mLeaningToSide" as MissionSide, "_mIsEven" as Boolean, "_mWeaponCacheMarkerActing" as String, "_mWeaponCacheMarkerOpposing" as String];
+		private fields ["_mBasicWeaponsActingActionId" as Scalar, "_mExplosivesActingActionId" as Scalar, "_mScopesActingActionId" as Scalar, "_mSuppliesActingActionId" as Scalar];
+		private fields ["_mBasicWeaponsOpposingActionId" as Scalar, "_mExplosivesOpposingActionId" as Scalar, "_mScopesOpposingActionId" as Scalar, "_mSuppliesOpposingActionId" as Scalar];
+		private fields ["_mAmmoBoxActing" as Object, "_mAmmoBoxOpposing" as Object];
 		
 		// Creates a CaptureTheAirbase object.
 		public constructor()
@@ -37,6 +40,7 @@ namespace Campaigns.ShoeLace
 			_mSpawnedOpposingSoldiers = [];
 			_mLeaningToSide = MissionSide.Acting;
 			_mIsEven = true;
+			_mAmmoBoxActing = objNull;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -45,16 +49,33 @@ namespace Campaigns.ShoeLace
 			_mission.StartTimeOfDay = 5;
 			_mission.StartMarkersActing = ["m11a_StartMarker"];
 			_mission.StartMarkersOpposing = ["m11o_StartMarker"];
-			_mission.SideMarkersActing = ["m11_AirbaseTowerVincinity"];
-			_mission.SideMarkersOpposing = ["m11_AirbaseTowerVincinity"];
+			_mission.SideMarkersActing = ["m11_AirbaseTowerVincinity", "m11a_WeaponCache"];
+			_mission.SideMarkersOpposing = ["m11_AirbaseTowerVincinity", "m11o_WeaponCache"];
 			
-			//"m11a_WeaponCacheMarker" setMarkerPos
+			_mWeaponCacheMarkerActing = selectRandom ["m11a_AmmoCache1", "m11a_AmmoCache2", "m11a_AmmoCache3"];
+			_mWeaponCacheMarkerOpposing = selectRandom ["m11o_AmmoCache1", "m11o_AmmoCache2", "m11o_AmmoCache3"];
+			
+			"m11a_WeaponCache" setMarkerPos markerPos _mWeaponCacheMarkerActing;
+			"m11o_WeaponCache" setMarkerPos markerPos _mWeaponCacheMarkerOpposing;
 		};
 		
 		protected override method Setup()
 		{
 			// Acting
 			
+			// Weapon Cache
+			
+			var _box = "I_supplyCrate_F" createVehicle getMarkerPos _mWeaponCacheMarkerActing;
+			[_box] call _self.MakeEmptyAmmoBox;
+			//[_box] call _self.FillBoxWithExplosives;
+
+			_mBasicWeaponsActingActionId = [_box, "Take Basic Weapons", MissionSide.Acting] call _self.AddAction;
+			_mExplosivesActingActionId = [_box, "Take Explosives", MissionSide.Acting] call _self.AddAction;
+			_mScopesActingActionId = [_box, "Take Scopes", MissionSide.Acting] call _self.AddAction;
+			_mSuppliesActingActionId = [_box, "Take Supplies", MissionSide.Acting] call _self.AddAction;
+
+			_mAmmoBoxActing = _box;
+
 			// Helicopters
 			
 			_mChopper1 = ["TRANSPORT HELICOPTER", "m11a_Helicopter1", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
@@ -131,6 +152,21 @@ namespace Campaigns.ShoeLace
 			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
 			
 			// Opposing
+			
+			// Weapon Cache
+			
+			_box = "I_supplyCrate_F" createVehicle getMarkerPos _mWeaponCacheMarkerOpposing;
+			[_box] call _self.MakeEmptyAmmoBox;
+			//[_box] call _self.FillBoxWithExplosives;
+
+			_mBasicWeaponsOpposingActionId = [_box, "Take Basic Weapons", MissionSide.Opposing] call _self.AddAction;
+			_mExplosivesOpposingActionId = [_box, "Take Explosives", MissionSide.Opposing] call _self.AddAction;
+			_mScopesOpposingActionId = [_box, "Take Scopes", MissionSide.Opposing] call _self.AddAction;
+			_mSuppliesOpposingActionId = [_box, "Take Supplies", MissionSide.Opposing] call _self.AddAction;
+
+			_mAmmoBoxOpposing = _box;
+			
+			// Armored Transport
 			
 			_mArmoredTransport1 = ["APC TRANSPORT CANNON", "m11o_ArmoredTransport1", MissionSide.Opposing, false, true] call _self.CreateSideVehicleOnMarker;
 			_mArmoredTransport1 lockTurret [[0], true];
@@ -237,6 +273,57 @@ namespace Campaigns.ShoeLace
 			_mSpawnedIndepententSoldiers = _mSpawnedIndepententSoldiers + [_rifleman1, _rifleman2];
 			
 			call _base.Setup;
+		};
+		
+		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
+		{
+			if (_target == _mAmmoBoxActing) then
+			{
+				var _token = "";
+			
+				switch (_actionId) do {
+					case _mBasicWeaponsActingActionId: { _token = "BASIC WEAPONS" };
+					case _mExplosivesActingActionId: { _token = "EXPLOSIVES" };
+					case _mScopesActingActionId: { _token = "SCOPES" };
+					case _mSuppliesActingActionId: { _token = "SUPPLIES" };
+				};
+				
+				if (_token != "") then {
+					_self.GainedTokensActing pushBack _token;
+					[MissionSide.Acting, "Gained: " + _token] call _self.ShowNotification;
+					
+					[[
+						_mBasicWeaponsActingActionId,
+						_mExplosivesActingActionId,
+						_mScopesActingActionId,
+						_mSuppliesActingActionId]
+					] call _self.DeleteActions;
+				};
+			};
+			
+			if (_target == _mAmmoBoxOpposing) then
+			{
+				var _token = "";
+			
+				switch (_actionId) do {
+					case _mBasicWeaponsOpposingActionId: { _token = "BASIC WEAPONS" };
+					case _mExplosivesOpposingActionId: { _token = "EXPLOSIVES" };
+					case _mScopesOpposingActionId: { _token = "SCOPES" };
+					case _mSuppliesOpposingActionId: { _token = "SUPPLIES" };
+				};
+				
+				if (_token != "") then {
+					_self.GainedTokensOpposing pushBack _token;
+					[MissionSide.Opposing, "Gained: " + _token] call _self.ShowNotification;
+					
+					[[
+						_mBasicWeaponsOpposingActionId,
+						_mExplosivesOpposingActionId,
+						_mScopesOpposingActionId,
+						_mSuppliesOpposingActionId]
+					] call _self.DeleteActions;
+				};
+			};
 		};
 		
 		protected override method String AddBriefingInfoForActing()

@@ -109,7 +109,7 @@ namespace Tvtcf.Client
 					
 					private _marker = createMarkerLocal [_name, _pos];
 					_mLocalMarkers pushBack _marker;
-					
+
 					_marker setMarkerShapeLocal (markerShape _x.Name);
 					_marker setMarkerSizeLocal (markerSize _x.Name);
 					_marker setMarkerDirLocal (markerDir _x.Name);
