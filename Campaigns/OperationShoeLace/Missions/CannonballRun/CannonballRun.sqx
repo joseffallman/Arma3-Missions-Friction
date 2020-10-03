@@ -7,10 +7,6 @@
  * Description:
  * A mission in which one side chases the other with a helicopter.
  * Sides: ACTING is running and OPPOSING is hunting.
- *
- * TODO
- * Randomize start and end for the run.
- * Add AA at AAF base.
  */
 
 using Tvtcf.Common;
@@ -53,6 +49,27 @@ namespace Campaigns.ShoeLace
 			_mAmbientAafVehicleTypes = ["O_Truck_03_ammo_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_Quadbike_01_F"];
 		};
 		
+		protected override method String AddBriefingInfoForActing()
+		{
+			var _p1 = "The diplomacy with AAF has been making progress, and a ceasefire agreement is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to improve our relations, so can they help us if we need it later. The only problem now should be the enemy air superiority.";
+			var _p2 = "<br /><br />Remember to bring an anti air launcher.";
+			
+			return _p1 + _p2 + call _base.AddBriefingInfoForActing;
+		};
+		
+		protected override method String AddBriefingInfoForOpposing()
+		{
+			var _p1 = "Intelligence has found that the enemy is about to deliver booby-trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
+			var _p2 = "<br /><br />Be aware of enemy AA defence at the southern Island. At least one AA battery has been spotted in the area around the southern lighthouse.";
+
+			var _p3 = "";			
+			if ("HELICOPTER" in _self.LostTokensOpposing) then {
+				_p3 = "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
+			};
+			
+			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForOpposing;
+		};
+		
 		protected override method Setup()
 		{
 			_mTruck = ["DEVICE TRUCK", "m10a_TruckStartMarker", MissionSide.Acting] call _self.CreateSideVehicleOnMarker;
@@ -74,31 +91,13 @@ namespace Campaigns.ShoeLace
 			
 			// An extra launchers box
 			
+			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
 			["AMMOBOX LAUNCHERS", BaseMarker.AmmoCrate, MissionSide.Opposing, true] call _self.CreateSideVehicleInBase;
 			
 			call _base.Setup;
 			
 			[MissionSide.Acting, true] call _base.SetIndependentAlliance;
 			[MissionSide.Opposing, true] call _base.SetIndependentAlliance;
-		};
-		
-		protected override method String AddBriefingInfoForActing()
-		{
-			var _p1 = "The diplomacy with AAF has been making progress, and a ceasefire agreement is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to improve our relations, so can they help us if we need it later.";
-			return _p1 + call _base.AddBriefingInfoForActing;
-		};
-		
-		protected override method String AddBriefingInfoForOpposing()
-		{
-			var _p1 = "Intelligence has found that the enemy is about to deliver booby-trapped equipment to AAF. This is a very good chance to make better relations to AAF. Since we have air superiority for the moment we will send the Hawk and try to take them out. But we will need to hurry, the enemy is already moving. An extra box with launchers has also arrived.";
-			var _p2 = "<br /><br />Be aware of enemy AA defence at the southern Island. At least one AA battery has been spotted in the area around the southern lighthouse.";
-
-			var _p3 = "";			
-			if ("HELICOPTER" in _self.LostTokensOpposing) then {
-				_p3 = "<br /><br />Since you lost your helicopter in an earlier mission, you only option now is the transport helicopter at the secondary helipad marked on the map.";
-			};
-			
-			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForOpposing;
 		};
 		
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
