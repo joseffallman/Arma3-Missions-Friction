@@ -134,11 +134,15 @@ namespace Campaigns.ShoeLace
 				}];
 			} foreach units _guardGroup as Object;
 		
+			call _base.Setup;
+		
 			// Spawn acting side's base objects
 			
 			if (isNull _self.ActingOrdnanceBox) then {
-				_self.ActingOrdnanceBox = ["AMMOBOX ORDNANCE", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
+				_self.ActingOrdnanceBox = [MissionSide.Acting] call _self.CreateExplosivesBoxInBase;
 			};
+			
+			// If the acting side has a drone, put it in the explosives box.
 			
 			if ("DRONE" in _self.GainedTokensActing) then {
 				var _actualSide = [MissionSide.Acting] call _self.GetActualSide;
@@ -147,8 +151,6 @@ namespace Campaigns.ShoeLace
 				_self.ActingOrdnanceBox addBackpackCargoGlobal [_uavBackpackClassName, 1];
 				_self.ActingOrdnanceBox addItemCargoGlobal [_uavTerminalClassName, 1];
 			};
-			
-			_self.ActingOrdnanceBox addBackpackCargoGlobal ["B_Kitbag_cbr", 1];
 			
 			// Spawn opposing side's base objects
 			
@@ -182,7 +184,7 @@ namespace Campaigns.ShoeLace
 				}];
 			} foreach _self.OpposingUnits as Object;
 			
-			call _base.Setup;
+			[_e] call _base.OnOpposingGroupInserted;
 		};
 
 		protected override method MissionObjective CreatePrimaryObjectiveForActing()
