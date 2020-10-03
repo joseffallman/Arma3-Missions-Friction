@@ -94,6 +94,8 @@ namespace Campaigns
 				["IR LASER POINTER", "acc_pointer_IR", "acc_pointer_IR"] new VehicleSideAlias,
 				["BIPOD", "bipod_01_F_blk", "bipod_02_F_blk"] new VehicleSideAlias,
 				
+				["EXPLOSIVE CHARGE", "DemoCharge_Remote_Mag", "DemoCharge_Remote_Mag"] new VehicleSideAlias,
+				["SATCHEL CHARGE", "SatchelCharge_Remote_Mag", "SatchelCharge_Remote_Mag"] new VehicleSideAlias,
 			];
 		};
 		
