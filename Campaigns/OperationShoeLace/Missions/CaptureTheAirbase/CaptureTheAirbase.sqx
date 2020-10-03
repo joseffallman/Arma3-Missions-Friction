@@ -41,6 +41,14 @@ namespace Campaigns.ShoeLace
 			_mLeaningToSide = MissionSide.Acting;
 			_mIsEven = true;
 			_mAmmoBoxActing = objNull;
+			_mBasicWeaponsActingActionId = -1;
+			_mExplosivesActingActionId = -1;
+			_mOpticsActingActionId = -1;
+			_mSuppliesActingActionId = -1;
+			_mBasicWeaponsOpposingActionId = -1;
+			_mExplosivesOpposingActionId = -1;
+			_mOpticsOpposingActionId = -1;
+			_mSuppliesOpposingActionId = -1;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
@@ -72,12 +80,15 @@ namespace Campaigns.ShoeLace
 			[_box, MissionSide.Acting] call _self.FillBoxWithExplosives;
 
 			if (!("BASIC WEAPONS" in _self.GainedTokensActing)) then {
-				_mBasicWeaponsActingActionId = [_box, "Take Basic Weapons", MissionSide.Acting] call _self.AddAction;
+				_mBasicWeaponsActingActionId = [_box, "Take Basic Weapons (and leave the rest)", MissionSide.Acting] call _self.AddAction;
 			};
 			
-			_mExplosivesActingActionId = [_box, "Take Explosives", MissionSide.Acting] call _self.AddAction;
-			_mOpticsActingActionId = [_box, "Take Optics", MissionSide.Acting] call _self.AddAction;
-			_mSuppliesActingActionId = [_box, "Take Supplies", MissionSide.Acting] call _self.AddAction;
+			if (!("EXPLOSIVES" in _self.GainedTokensActing)) then {
+				_mExplosivesActingActionId = [_box, "Take Explosives (and leave the rest)", MissionSide.Acting] call _self.AddAction;
+			};
+			
+			_mOpticsActingActionId = [_box, "Take Optics (and leave the rest)", MissionSide.Acting] call _self.AddAction;
+			_mSuppliesActingActionId = [_box, "Take Supplies (and leave the rest)", MissionSide.Acting] call _self.AddAction;
 
 			_mAmmoBoxActing = _box;
 
@@ -167,12 +178,15 @@ namespace Campaigns.ShoeLace
 			[_box, MissionSide.Opposing] call _self.FillBoxWithExplosives;
 
 			if (!("BASIC WEAPONS" in _self.GainedTokensOpposing)) then {
-				_mBasicWeaponsOpposingActionId = [_box, "Take Basic Weapons", MissionSide.Opposing] call _self.AddAction;
+				_mBasicWeaponsOpposingActionId = [_box, "Take Basic Weapons (and leave the rest)", MissionSide.Opposing] call _self.AddAction;
 			};
 			
-			_mExplosivesOpposingActionId = [_box, "Take Explosives", MissionSide.Opposing] call _self.AddAction;
-			_mOpticsOpposingActionId = [_box, "Take Optics", MissionSide.Opposing] call _self.AddAction;
-			_mSuppliesOpposingActionId = [_box, "Take Supplies", MissionSide.Opposing] call _self.AddAction;
+			if (!("EXPLOSIVES" in _self.GainedTokensOpposing)) then {
+				_mExplosivesOpposingActionId = [_box, "Take Explosives (and leave the rest)", MissionSide.Opposing] call _self.AddAction;
+			};
+			
+			_mOpticsOpposingActionId = [_box, "Take Optics (and leave the rest)", MissionSide.Opposing] call _self.AddAction;
+			_mSuppliesOpposingActionId = [_box, "Take Supplies (and leave the rest)", MissionSide.Opposing] call _self.AddAction;
 
 			_mAmmoBoxOpposing = _box;
 			
@@ -339,7 +353,7 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForActing()
 		{
 			var _p1 = "The Stratis Airbase is one of the keys in our operation. We need to capture it to enable an easier resupply chain from our main forces, and so that we do not risk it falling into enemy hands.";
-			var _p2 = "<br /><br />We know about an ammo cache. If you find an opportunity you may try to go there and secure something of interest for the rest of our operation.";
+			var _p2 = "<br /><br />We know about an ammo cache. If you find an opportunity you may try to go there and secure something of interest for the rest of our operation [use the action menu].";
 			var _p3 = "<br /><br />Remember to bring AT launchers!";
 		
 			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
@@ -348,7 +362,7 @@ namespace Campaigns.ShoeLace
 		protected override method String AddBriefingInfoForOpposing()
 		{
 			var _p1 = "The Stratis Airbase is one of the keys in our operation. We need to capture it to enable an easier resupply chain from our main forces, and so that we do not risk it falling into enemy hands.";
-			var _p2 = "<br /><br />We know about an ammo cache. If you find an opportunity you may try to go there and secure something of interest for the rest of our operation.";
+			var _p2 = "<br /><br />We know about an ammo cache. If you find an opportunity you may try to go there and secure something of interest for the rest of our operation [use the action menu].";
 			
 			return _p1 + _p2 + call _base.AddBriefingInfoForOpposing;
 		};
