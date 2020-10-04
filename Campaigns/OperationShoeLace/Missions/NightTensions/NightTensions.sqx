@@ -126,7 +126,7 @@ namespace Campaigns.ShoeLace
 				"m06o_AmbientParkedVehicle6", "m06o_AmbientParkedVehicle7", "m06o_AmbientParkedVehicle8", "m06o_AmbientParkedVehicle9", "m06o_AmbientParkedVehicle10"
 			];
 			
-			[_parkedVehicleMarkers] call OperationShoeLace.ShuffleArray;
+			[_parkedVehicleMarkers] call ShoeLaceMission.ShuffleArray;
 			
 			var _vehicleTypes = ["MRAP", "MRAP", "QUADBIKE", "QUADBIKE", "TRANSPORT TRUCK", "REPAIR TRUCK", "MEDICAL TRUCK"];
 			var _numberOfVehicles = 2 + floor random 7; // Between 2 and 8.

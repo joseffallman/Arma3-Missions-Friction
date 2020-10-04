@@ -80,7 +80,7 @@ namespace Campaigns.ShoeLace
 			_targetVehicles = [];
 			_vehicleMarkers = ["m01o_Vehicle1", "m01o_Vehicle2", "m01o_Vehicle3", "m01o_Vehicle4", "m01o_Vehicle5", "m01o_Vehicle6", "m01o_Vehicle7"];
 			
-			[_vehicleMarkers] call OperationShoeLace.ShuffleArray;
+			[_vehicleMarkers] call ShoeLaceMission.ShuffleArray;
 			
 			_vehicle = ["AMMO TRUCK", _vehicleMarkers select 0, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy ammo truck"];
@@ -110,7 +110,7 @@ namespace Campaigns.ShoeLace
 			_vehicle = ["QUADBIKE", _vehicleMarkers select 5, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_mAllVehicles pushBack _vehicle;
 			
-			[_targetVehicles] call OperationShoeLace.ShuffleArray;
+			[_targetVehicles] call ShoeLaceMission.ShuffleArray;
 
 			_mPrimaryTargetVehicle = _targetVehicles select 0;
 			_mSecondaryTargetVehicle = _targetVehicles select 1;

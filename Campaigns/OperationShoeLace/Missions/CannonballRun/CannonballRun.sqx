@@ -43,7 +43,7 @@ namespace Campaigns.ShoeLace
 			
 			// Ambient traffic
 			_mLocationMarkers = ["m_AirportRoadMarker", "m_NisiBayRoadMarker", "m_GirnaRoadMarker", "m_JayCoveRoadMarker", "m_TheSpartanRoadMarker", "m_LimeriBayRoadMarker", "m_CaminoTwinRoadMarker", "m_KillFarmRoadMarker", "m_NorthWestRoadMarker", "m_AgiaMarinaRoadMarker", "m_ComMastRoadMarker", "m_OldOutpostRoadMarker"];
-			[_mLocationMarkers] call OperationShoeLace.ShuffleArray;
+			[_mLocationMarkers] call ShoeLaceMission.ShuffleArray;
 			
 			_mAmbientCivilianVehicleTypes = ["C_Offroad_01_F", "C_Offroad_01_repair_F", "C_Quadbike_01_F", "C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_SUV_01_F", "C_Van_01_transport_F", "C_Van_01_box_F", "C_Van_01_fuel_F"];
 			_mAmbientAafVehicleTypes = ["O_Truck_03_ammo_F", "I_MRAP_03_F", "I_MRAP_03_hmg_F", "I_Quadbike_01_F"];

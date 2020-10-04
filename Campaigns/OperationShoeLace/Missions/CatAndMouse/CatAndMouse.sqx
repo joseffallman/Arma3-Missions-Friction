@@ -38,7 +38,7 @@ namespace Campaigns.ShoeLace
 			
 			private _startMarkers = ["m09_StartMarker1", "m09_StartMarker2", "m09_StartMarker3", "m09_StartMarker4", "m09_StartMarker5", "m09_StartMarker6", "m09_StartMarker7", "m09_StartMarker8", "m09_StartMarker9", "m09_StartMarker10", "m09_StartMarker11", "m09_StartMarker12"];
 			
-			[_startMarkers] call OperationShoeLace.ShuffleArray;
+			[_startMarkers] call ShoeLaceMission.ShuffleArray;
 			
 			_mission.StartMarkersActing = [_startMarkers select 0, _startMarkers select 1, _startMarkers select 2, _startMarkers select 3, _startMarkers select 4, _startMarkers select 5];
 			_mission.StartMarkersOpposing = [_startMarkers select 6, _startMarkers select 7, _startMarkers select 8, _startMarkers select 9, _startMarkers select 10, _startMarkers select 11];
