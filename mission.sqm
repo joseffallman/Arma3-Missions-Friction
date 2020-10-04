@@ -117,7 +117,7 @@ randomSeed=16377955;
 class ScenarioData
 {
 	author="Engima";
-	overviewText="Tensions arise, and two special teams on two different sides fight for victory in this operation about navigate through many of the challenges in modern warfare. A team vs team campaign divided into several missions, playable for 2-10 players.";
+	overviewText="Tensions arise, and two special teams on two different sides fight for victory in this operation about navigating through many of the challenges in modern warfare. This is a Team vs Team campaign divided into seven short missions, playable for 2-10 players.";
 	overViewPicture="OperationShoeLace.jpg";
 	respawn=3;
 	respawnDelay=5.1502514;
@@ -133,25 +133,6 @@ class CustomAttributes
 	{
 		name="Multiplayer";
 		class Attribute0
-		{
-			property="RespawnButton";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					class type
-					{
-						type[]=
-						{
-							"SCALAR"
-						};
-					};
-					value=0;
-				};
-			};
-		};
-		class Attribute1
 		{
 			property="RespawnTemplates";
 			expression="true";
@@ -184,6 +165,25 @@ class CustomAttributes
 							};
 						};
 					};
+				};
+			};
+		};
+		class Attribute1
+		{
+			property="RespawnButton";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=0;
 				};
 			};
 		};
@@ -2228,6 +2228,7 @@ class Mission
 			a=3;
 			b=3;
 			id=211;
+			atlOffset=0.40145493;
 		};
 		class Item85
 		{
