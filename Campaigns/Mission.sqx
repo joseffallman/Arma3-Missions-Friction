@@ -13,6 +13,7 @@ using Sqx.Services;
 using Tvtcf.Common;
 using Tvtcf.Communication;
 using Tvtcf.Server;
+using Campaigns.Shared;
 
 namespace Campaigns
 {
@@ -399,7 +400,7 @@ namespace Campaigns
 		// Gets the Remote object that contains logic to send event notifications to clients, and 
 		// can be used as a cleaner substitute for the remoteExec command.
 		// This Remote object is to be extended by the campaign developer with new methods when needed.
-		protected property Campaigns.Network.Remote Remote { get; private set; };
+		protected property Campaigns.Shared.Network.Remote Remote { get; private set; };
 		
 		// Gets or sets the insertion map markers for the acting side.
 		// This property must be set in the initialization phase of the mission.
@@ -513,7 +514,7 @@ namespace Campaigns
 		};
 		
 		// Loads the mission with all gained and lost history items.
-		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_gainedTokensActing" as Array, "_lostTokensActing" as Array, "_gainedTokensOpposing" as Array, "_lostTokensOpposing" as Array, "_remote" as Campaigns.Network.Remote)
+		public method Prepare("_baseMarkersConfig" as IBaseMarkersConfig, "_serverActionHandler" as ServerActionHandler, "_westlyGroup" as Group, "_eastlyGroup" as Group, "_gainedTokensActing" as Array, "_lostTokensActing" as Array, "_gainedTokensOpposing" as Array, "_lostTokensOpposing" as Array, "_remote" as Campaigns.Shared.Network.Remote)
 		{
 			_mBaseMarkersConfig = _baseMarkersConfig;
 			_mServerActionHandler = _serverActionHandler;

@@ -22,7 +22,7 @@
  
 using Tvtcf.Server;
 
-namespace Campaigns
+namespace Campaigns.Shared
 {
 	public class ObjectTypeDictionary
 	{
