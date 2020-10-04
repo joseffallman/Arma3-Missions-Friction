@@ -76,6 +76,26 @@ namespace Campaigns
 				
 				// Turrets
 				["STATIC AA LAUNCHER", "B_static_AA_F", "O_static_AA_F"] new VehicleSideAlias,
+				
+				// Items
+				["OPTIC ACO", "optic_Aco", "optic_ACO_grn"] new VehicleSideAlias,
+				["OPTIC ACO SMG", "optic_Aco_smg", "optic_ACO_grn_smg"] new VehicleSideAlias,
+				["OPTIC RCO", "optic_Hamr", "optic_MRCO"] new VehicleSideAlias,
+				["OPTIC MOS", "optic_SOS", "optic_SOS"] new VehicleSideAlias,
+				["OPTIC LRPS", "optic_LRPS", "optic_LRPS"] new VehicleSideAlias,
+				
+				["BINOCULAR", "Binocular", "Binocular"] new VehicleSideAlias,
+				["LASER DESIGNATOR", "Laserdesignator", "Laserdesignator_02"] new VehicleSideAlias,
+				["DESIGNATOR BATTERIES", "Laserbatteries", "Laserbatteries"] new VehicleSideAlias,
+				["RANGE FINDER", "Rangefinder", "Rangefinder"] new VehicleSideAlias,
+				["FIRST AID KIT", "FirstAidKit", "FirstAidKit"] new VehicleSideAlias,
+				["GPS", "ItemGPS", "ItemGPS"] new VehicleSideAlias,
+				["FLASHLIGHT", "acc_flashlight", "acc_flashlight"] new VehicleSideAlias,
+				["IR LASER POINTER", "acc_pointer_IR", "acc_pointer_IR"] new VehicleSideAlias,
+				["BIPOD", "bipod_01_F_blk", "bipod_02_F_blk"] new VehicleSideAlias,
+				
+				["EXPLOSIVE CHARGE", "DemoCharge_Remote_Mag", "DemoCharge_Remote_Mag"] new VehicleSideAlias,
+				["SATCHEL CHARGE", "SatchelCharge_Remote_Mag", "SatchelCharge_Remote_Mag"] new VehicleSideAlias,
 			];
 		};
 		

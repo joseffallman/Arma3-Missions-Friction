@@ -94,7 +94,7 @@ namespace Campaigns
 		// value will expand until a position is found.
 		private static method FindSpawnPos("_markPos" as Array, ["_initialRadius" as Scalar, 0], ["_isHelicopter" as Boolean, false])
 		{
-			private ["_spawnpos", "_randir", "_extendedRadius", "_randis", "_houses", "_vehicles", "_isFlat", "_danger", "_foundIt", "_tries"];
+			private ["_spawnpos", "_randir", "_extendedRadius", "_randis", "_houses", "_supplies", "_vehicles", "_isFlat", "_danger", "_foundIt", "_tries"];
 			private ["_distanceToNearestVehicle" as Scalar, "_distanceFromBuilding" as Scalar, "_allowedSteepness" as Scalar];
 			
 			_distanceFromBuilding = 10;
@@ -118,11 +118,13 @@ namespace Campaigns
 				_randis = _initialRadius + floor random _extendedRadius;
 				_spawnpos = [(_markpos select 0) + ((sin _randir) * _randis), (_markpos select 1) + ((cos _randir) * _randis), 0.1];
 				_houses = nearestObjects [_spawnpos, ["house","wall"], 50];
+				_supplies = _spawnpos nearSupplies 2;
 				_vehicles = nearestObjects [_spawnpos, ["LandVehicle", "AirVehicle", "Man"], 25];
 				_isFlat = _spawnpos isFlatEmpty [2, -1, _allowedSteepness, 10, 0, false, objNull ];
 				_danger = false;
 				{ if (floor(_spawnpos distance getPos _x) < _distanceFromBuilding) then { _danger=true; }; } forEach _houses;
 				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _vehicles;
+				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _supplies;
 				if (surfaceIsWater _spawnpos) then { _danger=true; };
 				if (count _isFlat < 1 ) then { _danger=true; };
 				if (!_danger) then { 
