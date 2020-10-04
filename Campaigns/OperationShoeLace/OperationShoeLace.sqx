@@ -69,8 +69,8 @@ namespace Campaigns.ShoeLace
 		
 		public override method Mission GetNextMission()
 		{
-			[west] call _mCaptureTheAirbase.SetActingSide;
-			return _mCaptureTheAirbase;
+//			[west] call _mAirStationAssault.SetActingSide;
+//			return _mAirStationAssault;
 			var _mission = call _base.GetNextMission;
 			
 			if (!isNull _mission) then
