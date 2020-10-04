@@ -10,7 +10,7 @@
 
 using Tvtcf.Communication;
 
-namespace Campaigns.Network
+namespace Campaigns.Shared.Network
 {
 	public class Remote : CampaignRemote
 	{
@@ -26,7 +26,7 @@ namespace Campaigns.Network
 			
 				switch (_methodFullName) do
 				{
-					case "ClientEventReciever.OnLockVehicle": { _parameters spawn Campaigns.Network.ClientEventReciever.OnLockVehicle; };
+					case "ClientEventReciever.OnLockVehicle": { _parameters spawn Campaigns.Shared.Network.ClientEventReciever.OnLockVehicle; };
 				};
 			};
 		};

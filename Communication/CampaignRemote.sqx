@@ -8,8 +8,6 @@
  * Base class for custom remove invocations used in campaings.
  */
 
-using Campaigns.Network;
-
 namespace Tvtcf.Communication
 {
 	public class CampaignRemote
@@ -19,7 +17,7 @@ namespace Tvtcf.Communication
 		// _parameter (Any): The parameter (or list of parameters) to use in the method call.
 		public method Invoke("_methodName" as String, ["_parameter" as Any, []])
 		{
-			["ClientEventReciever." + _methodName, _parameter] remoteExec ["Campaigns_Network_Remote_Recieve", Tvtcf.Communication.RemoteTargetOptions.All];
+			["ClientEventReciever." + _methodName, _parameter] remoteExec ["Campaigns_Shared_Network_Remote_Recieve", Tvtcf.Communication.RemoteTargetOptions.All];
 		};
 	};
 };
