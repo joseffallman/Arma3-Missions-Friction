@@ -4,16 +4,6 @@
     <SubNodes>
       <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Campaigns" FileName="Campaigns">
         <SubNodes>
-          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Network" FileName="Campaigns\Network">
-            <SubNodes>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Campaigns\Network\ClientEventReciever.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Remote.sqx" FileName="Campaigns\Network\Remote.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
-            </SubNodes>
-          </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="OperationShoeLace" FileName="Campaigns\OperationShoeLace">
             <SubNodes>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Missions" FileName="Campaigns\OperationShoeLace\Missions">
@@ -85,6 +75,16 @@
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Shared" FileName="Campaigns\Shared">
             <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Network" FileName="Campaigns\Shared\Network">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Campaigns\Shared\Network\ClientEventReciever.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Remote.sqx" FileName="Campaigns\Shared\Network\Remote.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Campaigns\Shared\ObjectTypeDictionary.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
