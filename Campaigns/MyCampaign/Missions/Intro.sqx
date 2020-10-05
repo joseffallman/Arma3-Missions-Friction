@@ -8,99 +8,22 @@
  * The first mission of my operation.
  */
 
-using Tvtcf.Common;
 using Tvtcf.Server;
 using Campaigns;
-using Campaigns.Network;
 
 namespace Campaigns.MyCampaign
 {
 	public class Intro : Mission
 	{
-		private fields ["_mSecondarySucceeded" as Boolean, "_mSeconds" as Scalar];
-		
 		// Creates a Intro object.
 		public constructor()
 		{
 			call _base.Constructor;
-			_mSeconds = 0;
 		};
 		
 		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Intro";
-			_mission.StartMarkersActing = ["m06o_StartArea1"];
-			_mission.StartMarkersOpposing = ["m06o_StartArea1"];
-			_mission.StartTimeOfDay = 12;
-			_mission.AddReturnObjectiveForActing = true;
-			_mission.AddReturnObjectiveForOpposing = true;
-		};
-		
-		protected override method Setup()
-		{
-			
-			["ASSAULT BOAT", BaseMarker.Naval, MissionSide.Acting] call _self.CreateSideVehicleInBase;
-			["AMMOBOX SPECIAL WEAPONS", BaseMarker.AmmoCrate, MissionSide.Acting] call _self.CreateSideVehicleInBase;
-			
-			call _base.Setup;
-		};
-		
-		public override method OnAction("_actionId" as Scalar, "_target" as Object, "_actor" as Object)
-		{
-			_mSecondarySucceeded = true;
-		};
-		
-		protected override method MissionObjective CreatePrimaryObjectiveForActing()
-		{
-			return ["Survive one minute."] new MissionObjective;
-		};
-		
-		protected override method MissionObjective CreateSecondaryObjectiveForActing()
-		{
-			return ["Select MRAP."] new MissionObjective;
-		};
-		
-		protected override method MissionObjective CreatePrimaryObjectiveForOpposing()
-		{
-			return ["Survive one minute."] new MissionObjective;
-		};
-		
-		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
-		{
-			if (_self.RemainingTime <= 29) then {
-				return ObjectiveState.Succeeded;
-			};
-
-			return ObjectiveState.None;
-		};
-		
-		protected override method ObjectiveState CheckSecondaryObjectiveStateActing()
-		{
-			if (_mSecondarySucceeded) then {
-				return ObjectiveState.Succeeded;
-			};
-			
-			return ObjectiveState.None;
-		};
-		
-		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
-		{
-			if (_self.RemainingTime <= 28) then {
-				return ObjectiveState.Succeeded;
-			};
-
-			return ObjectiveState.None;
-		};
-		
-		protected override method OnEachIteration()
-		{
-			if (_mSeconds == 10) then
-			{
-				var _car = ["MRAP HMG", BaseMarker.LandVehicles, MissionSide.Acting, true] call _self.CreateSideVehicleInBase;
-				[_car] call _self.Remote.OnLockVehicle;
-			};
-			
-			_mSeconds = _mSeconds + 1;
 		};
 	};
 };
