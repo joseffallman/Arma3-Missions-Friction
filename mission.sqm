@@ -2449,6 +2449,7 @@ class Mission
 			position[]={2240.1343,5.0198975,5387.4595};
 			name="m11a_LandingZone1";
 			type="Empty";
+			angle=159.17957;
 			id=241;
 			atlOffset=-2.2360659;
 		};
@@ -2494,11 +2495,11 @@ class Mission
 		class Item109
 		{
 			dataType="Marker";
-			position[]={2079.9495,4.1941223,5383.915};
+			position[]={2089.1672,3.2793269,5359.6753};
 			name="m11a_LandingZone2";
 			type="Empty";
+			angle=182.07387;
 			id=254;
-			atlOffset=0.52867413;
 		};
 		class Item110
 		{
@@ -2506,6 +2507,7 @@ class Mission
 			position[]={2167.436,7.876709,5306.0132};
 			name="m11a_LandingZone3";
 			type="Empty";
+			angle=204.06665;
 			id=255;
 			atlOffset=-1.4198818;
 		};

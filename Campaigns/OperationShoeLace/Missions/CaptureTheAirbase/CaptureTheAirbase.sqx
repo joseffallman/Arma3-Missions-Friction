@@ -25,7 +25,7 @@ namespace Campaigns.ShoeLace
 		private fields ["_mActingGroup1" as Group, "_mActingGroup2" as Group, "_mActingGroup3" as Group, "_mActingGroup4" as Group];
 		private fields ["_mOpposingGroup1" as Group, "_mOpposingGroup2" as Group, "_mOpposingGroup3" as Group];
 		private fields ["_mSpawnedIndepententSoldiers" as Array, "_mSpawnedActingSoldiers" as Array, "_mSpawnedOpposingSoldiers" as Array];
-		private fields ["_mLeaningToSide" as MissionSide, "_mIsEven" as Boolean, "_mWeaponCacheMarkerActing" as String, "_mWeaponCacheMarkerOpposing" as String];
+		private fields ["_mLeaningToSide" as String, "_mWeaponCacheMarkerActing" as String, "_mWeaponCacheMarkerOpposing" as String];
 		private fields ["_mBasicWeaponsActingActionId" as Scalar, "_mExplosivesActingActionId" as Scalar, "_mOpticsActingActionId" as Scalar, "_mSuppliesActingActionId" as Scalar];
 		private fields ["_mBasicWeaponsOpposingActionId" as Scalar, "_mExplosivesOpposingActionId" as Scalar, "_mOpticsOpposingActionId" as Scalar, "_mSuppliesOpposingActionId" as Scalar];
 		private fields ["_mAmmoBoxActing" as Object, "_mAmmoBoxOpposing" as Object];
@@ -38,8 +38,7 @@ namespace Campaigns.ShoeLace
 			_mSpawnedIndepententSoldiers = [];
 			_mSpawnedActingSoldiers = [];
 			_mSpawnedOpposingSoldiers = [];
-			_mLeaningToSide = MissionSide.Acting;
-			_mIsEven = true;
+			_mLeaningToSide = "";
 			_mAmmoBoxActing = objNull;
 			_mBasicWeaponsActingActionId = -1;
 			_mExplosivesActingActionId = -1;
@@ -392,22 +391,38 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
+			// If the other side has won, we will lose.
+			
 			if (_self.PrimaryObjectiveStateOpposing == ObjectiveState.Succeeded) then {
 				return ObjectiveState.Failed;
 			};
 			
-			if (!_mIsEven && _mLeaningToSide == MissionSide.Acting) then {
-				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
-				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
-				_self.GainedTokensActing pushBack "AIRBASE";
+			// If all players are dead, or if time is up, then victory goes to the one with most allied in the tower area.
+			
+			var _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			var _enemiesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower) + ([_self.OpposingUnits] call _self.CountUnitsNearTower);
+			var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
+			
+			if (_self.RemainingTime == 0 || _allPlayersAreDead) then
+			{
+				if (_friendliesCloseToTowerCount >= _enemiesCloseToTowerCount) then {
+					_self.GainedTokensActing pushBack "AIRBASE";
 					return ObjectiveState.Succeeded;
 				};
 			};
 			
-			var _enemiesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
-			var _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			// At any time, if friendlies are more than five times more than enemies, domination is a fact.
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
+				_self.GainedTokensActing pushBack "AIRBASE";
+				return ObjectiveState.Succeeded;
+			};
+			
+			// If there are very few enemies left, and we are more then thay are, we have won.
+			
+			private _totalUnitsCount = ({alive _x} count _mSpawnedActingSoldiers) + ({alive _x} count _mSpawnedOpposingSoldiers) + ({alive _x} count _mSpawnedIndepententSoldiers) + (call _self.CountUnitsAliveActing) + (call _self.CountUnitsAliveOpposing);
+			
+			if (_totalUnitsCount < 10 && _enemiesCloseToTowerCount <= 2 && _friendliesCloseToTowerCount > _enemiesCloseToTowerCount) then {
 				_self.GainedTokensActing pushBack "AIRBASE";
 				return ObjectiveState.Succeeded;
 			};
@@ -417,22 +432,38 @@ namespace Campaigns.ShoeLace
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
+			// If the other side has won, we will lose
+			
 			if (_self.PrimaryObjectiveStateActing == ObjectiveState.Succeeded) then {
 				return ObjectiveState.Failed;
 			};
 			
-			if (!_mIsEven && _mLeaningToSide == MissionSide.Opposing) then {
-				var _allPlayersAreDead = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) + ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) == 0;
-				if (_self.RemainingTime == 0 || _allPlayersAreDead) then {
+			// If all players are dead, then victory goes to the one with most allied in the tower area.
+			
+			var _friendliesCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_self.OpposingUnits] call _self.CountUnitsNearTower);
+			var _enemiesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			var _allPlayersAreDead = ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) + ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) == 0;
+			
+			if (_self.RemainingTime == 0 || _allPlayersAreDead) then
+			{
+				if (_friendliesCloseToTowerCount >= _enemiesCloseToTowerCount) then {
 					_self.GainedTokensOpposing pushBack "AIRBASE";
 					return ObjectiveState.Succeeded;
 				};
 			};
 			
-			var _enemiesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower);
-			var _friendliesCloseToTowerCount = ([_mSpawnedActingSoldiers] call _self.CountUnitsNearTower) + ([_self.ActingUnits] call _self.CountUnitsNearTower);
+			// At any time, if friendlies are more than five times more than enemies, domination is a fact.
 			
 			if (_friendliesCloseToTowerCount > _enemiesCloseToTowerCount * 5) then {
+				_self.GainedTokensOpposing pushBack "AIRBASE";
+				return ObjectiveState.Succeeded;
+			};
+			
+			// If there are very few enemies left, and we are more then thay are, we have won.
+			
+			private _totalUnitsCount = ({alive _x} count _mSpawnedActingSoldiers) + ({alive _x} count _mSpawnedOpposingSoldiers) + ({alive _x} count _mSpawnedIndepententSoldiers) + (call _self.CountUnitsAliveActing) + (call _self.CountUnitsAliveOpposing);
+			
+			if (_totalUnitsCount < 10 && _enemiesCloseToTowerCount <= 2 && _friendliesCloseToTowerCount > _enemiesCloseToTowerCount) then {
 				_self.GainedTokensOpposing pushBack "AIRBASE";
 				return ObjectiveState.Succeeded;
 			};
@@ -458,21 +489,20 @@ namespace Campaigns.ShoeLace
 			private _opposingCloseToTowerCount = ([_mSpawnedOpposingSoldiers] call _self.CountUnitsNearTower) + ([_self.OpposingUnits] call _self.CountUnitsNearTower);
 			private _indepentendCloseToTowerCount = [_mSpawnedIndepententSoldiers] call _self.CountUnitsNearTower;
 			
-			//private _total = ({alive _x} count _mSpawnedActingSoldiers) + ({alive _x} count _mSpawnedOpposingSoldiers) + ({alive _x} count _mSpawnedIndepententSoldiers) + (call _self.CountUnitsAliveActing) + (call _self.CountUnitsAliveOpposing);
-			//hint ("A: " + str _actingCloseToTowerCount + ", O: " + str _opposingCloseToTowerCount + ", I: " + str _indepentendCloseToTowerCount + ", T: " + str _total);
+			private _total = ({alive _x} count _mSpawnedActingSoldiers) + ({alive _x} count _mSpawnedOpposingSoldiers) + ({alive _x} count _mSpawnedIndepententSoldiers) + (call _self.CountUnitsAliveActing) + (call _self.CountUnitsAliveOpposing);
+			hint ("A: " + str _actingCloseToTowerCount + ", O: " + str _opposingCloseToTowerCount + ", I: " + str _indepentendCloseToTowerCount + ", T: " + str _total);
 		
 			// Check if one of the sides are about to win
-			if (_actingCloseToTowerCount > (_opposingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && !_mIsEven && _mLeaningToSide != MissionSide.Acting) then {
+			if (_actingCloseToTowerCount >= (_opposingCloseToTowerCount + _indepentendCloseToTowerCount) * 1.5 && _mLeaningToSide != "ACTING") then {
 				[MissionSide.Acting, "Winning momentum."] call _self.ShowNotification;
 				[MissionSide.Opposing, "Loosing momentum."] call _self.ShowNotification;
-				_mIsEven = false;
-				_mLeaningToSide = MissionSide.Acting;
+				_mLeaningToSide = "ACTING";
 			};
-			if (_opposingCloseToTowerCount > (_actingCloseToTowerCount + _indepentendCloseToTowerCount) * 2 && !_mIsEven && _mLeaningToSide != MissionSide.Opposing) then {
+			
+			if (_opposingCloseToTowerCount >= (_actingCloseToTowerCount + _indepentendCloseToTowerCount) * 1.5 && _mLeaningToSide != "OPPOSING") then {
 				[MissionSide.Acting, "Loosing momentum."] call _self.ShowNotification;
 				[MissionSide.Opposing, "Winning momentum."] call _self.ShowNotification;
-				_mIsEven = false;
-				_mLeaningToSide = MissionSide.Opposing;
+				_mLeaningToSide = "OPPOSING";
 			};
 		
 			// Acting
@@ -505,7 +535,10 @@ namespace Campaigns.ShoeLace
 					_mActingGroup2 leaveVehicle _mChopper1;
 					[_mActingGroup1] call _self.AddInfantrySadWaypoints;
 					[_mActingGroup2] call _self.AddInfantrySadWaypoints;
-					(group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
+					
+					var _waypoint = (group driver _mChopper1) addWaypoint [getMarkerPos "m11a_Helicopter1", 0];
+					_waypoint setWaypointSpeed "FULL";
+					_waypoint setWaypointBehaviour "CARELESS";
 					_mChopper1State = TransportState.Returning;
 				};
 			};
@@ -534,7 +567,10 @@ namespace Campaigns.ShoeLace
 					_mActingGroup4 leaveVehicle _mChopper2;
 					[_mActingGroup3] call _self.AddInfantrySadWaypoints;
 					[_mActingGroup4] call _self.AddInfantrySadWaypoints;
-					(group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
+					
+					var _waypoint = (group driver _mChopper2) addWaypoint [getMarkerPos "m11a_Helicopter2", 0];
+					_waypoint setWaypointSpeed "FULL";
+					_waypoint setWaypointBehaviour "CARELESS";
 					_mChopper2State = TransportState.Returning;
 				};
 			};
@@ -564,7 +600,9 @@ namespace Campaigns.ShoeLace
 				private _allUnitsHasExited = { alive _x && vehicle _x == _mChopper3 } count _self.ActingUnits == 0;
 			
 				if (_allUnitsHasExited) then {
-					(group driver _mChopper3) addWaypoint [getMarkerPos "m11a_Helicopter3", 0];
+					var _waypoint = (group driver _mChopper3) addWaypoint [getMarkerPos "m11a_Helicopter3", 0];
+					_waypoint setWaypointSpeed "FULL";
+					_waypoint setWaypointBehaviour "CARELESS";
 				};
 			};
 
