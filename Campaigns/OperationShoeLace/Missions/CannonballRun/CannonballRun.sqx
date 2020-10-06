@@ -53,7 +53,7 @@ namespace Campaigns.ShoeLace
 		{
 			var _p1 = "The diplomacy with AAF has been making progress, and a ceasefire agreement is close. Now they have asked us for help in planning an attack on our common enemy. They need us to aid them with equipment. This might be a good chance to improve our relations, so can they help us if we need it later. The only problem now should be the enemy air superiority.";
 			var _p2 = "<br /><br />Note that an armed vehicle is loaded and stands ready for your disposal at the area of the truck.";
-			var _p3 = "<br /><br />Remember to bring and anti air launcher.";
+			var _p3 = "<br /><br />Remember to bring an anti air launcher.";
 			
 			return _p1 + _p2 + _p3 + call _base.AddBriefingInfoForActing;
 		};
@@ -189,7 +189,7 @@ namespace Campaigns.ShoeLace
 		protected method CheckAmbientUnitKilled()
 		{
 			{
-				var _side = _x getVariable "UnitSide" as Side;
+				var _side = _x getVariable ["UnitSide", civilian] as Side;
 				var _killedBySide = _x getVariable ["KilledBySide", civilian] as Side;
 				
 				if (_side != _killedBySide && (_killedBySide == west || _killedBySide == east)) then
@@ -216,7 +216,7 @@ namespace Campaigns.ShoeLace
 						[MissionSide.Opposing, false] call _base.SetIndependentAlliance;
 					};
 				};
-			} foreach _mAmbientUnits;
+			} foreach _mAmbientUnits as Object;
 		};
 		
 		protected override method OnEachIteration()
