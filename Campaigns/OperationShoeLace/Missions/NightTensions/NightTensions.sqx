@@ -71,8 +71,6 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
-			_self.GainedTokensActing pushBack "AIRBASE SECRET";
-		
 			_mPrimaryObjectiveNumber = selectRandom [1,2,3,4,5];
 			_mPrimaryObjectiveMarker = "m06a_PrimaryObjective" + str _mPrimaryObjectiveNumber;
 			
@@ -98,7 +96,7 @@ namespace Campaigns.ShoeLace
 			// Helicopter
 			
 			_mHelicopter = ["HEAVY ATTACK HELICOPTER", "m_AirbaseHelipad1", MissionSide.Opposing, false, false] call _self.CreateSideVehicleOnMarker;
-			[_mHelicopter] call _self.Remote.OnLockVehicle;
+			_mHelicopter lock true;
 			
 			// Add an AI group that helps defending the area.
 			

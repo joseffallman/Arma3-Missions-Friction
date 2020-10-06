@@ -84,24 +84,24 @@ namespace Campaigns.ShoeLace
 			
 			_vehicle = ["AMMO TRUCK", _vehicleMarkers select 0, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy ammo truck"];
-			[_vehicle] call _self.Remote.OnLockVehicle;
+			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["DEVICE TRUCK", _vehicleMarkers select 1, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy device truck"];
-			[_vehicle] call _self.Remote.OnLockVehicle;
+			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["REPAIR TRUCK", _vehicleMarkers select 2, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
 			_vehicle setVariable ["ObjectiveText", "Destroy repair truck"];
-			[_vehicle] call _self.Remote.OnLockVehicle;
+			_vehicle lock true;
 			_targetVehicles pushBack _vehicle;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["MEDICAL TRUCK", _vehicleMarkers select 3, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;
-			[_vehicle] call _self.Remote.OnLockVehicle;
+			_vehicle lock true;
 			_mAllVehicles pushBack _vehicle;
 			
 			_vehicle = ["MRAP", _vehicleMarkers select 4, MissionSide.Opposing] call _self.CreateSideVehicleOnMarker;

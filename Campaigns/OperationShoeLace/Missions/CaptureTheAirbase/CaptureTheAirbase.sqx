@@ -95,13 +95,13 @@ namespace Campaigns.ShoeLace
 			
 			_mChopper1 = ["TRANSPORT HELICOPTER", "m11a_Helicopter1", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper1 engineOn true;
-			[_mChopper1] call _self.Remote.OnLockVehicle;
+			_mChopper1 lock true;
 			_mChopper1State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper1;
 			
 			_mChopper2 = ["TRANSPORT HELICOPTER", "m11a_Helicopter2", MissionSide.Acting, false, true] call _self.CreateSideVehicleOnMarker;
 			_mChopper2 engineOn true;
-			[_mChopper2] call _self.Remote.OnLockVehicle;
+			_mChopper2 lock true;
 			_mChopper2State = TransportState.Waiting;
 			{ _x setCaptive true; } foreach crew _mChopper2;
 			
