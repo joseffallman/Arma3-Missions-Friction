@@ -71,6 +71,8 @@ namespace Campaigns.ShoeLace
 		
 		protected override method Setup()
 		{
+			_self.GainedTokensActing pushBack "AIRBASE SECRET";
+		
 			_mPrimaryObjectiveNumber = selectRandom [1,2,3,4,5];
 			_mPrimaryObjectiveMarker = "m06a_PrimaryObjective" + str _mPrimaryObjectiveNumber;
 			
@@ -150,7 +152,7 @@ namespace Campaigns.ShoeLace
 			{
 				_mDrawingsAreStolen = true;
 				[MissionSide.Acting, "Found drawings! Task will be completed if you bring them home."] call _self.ShowNotification;
-				_mSoundSource = createSoundSource ["Sound_Alarm2", getPos nearestBuilding player, [], 0];
+				_mSoundSource = createSoundSource ["Sound_Alarm2", getPos nearestBuilding _actor, [], 0];
 			}
 			else {
 				var _text = "Found clue to search in building " + str _mPrimaryObjectiveNumber;
@@ -208,6 +210,11 @@ namespace Campaigns.ShoeLace
 			
 			return [_shortDescription, _longDescription] new MissionObjective;
 		};
+		
+//		protected override method OnActingGroupInserted("_e" as Tvtcf.Server.InsertionEventArgs)
+//		{
+//			_mSoundSource = createSoundSource ["Sound_Alarm2", _e.Position, [], 0];
+//		};
 		
 		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
