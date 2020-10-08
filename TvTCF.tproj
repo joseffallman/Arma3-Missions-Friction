@@ -77,6 +77,9 @@
             <SubNodes>
               <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Network" FileName="Campaigns\Shared\Network">
                 <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_README.sqx" FileName="Campaigns\Shared\Network\_README.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Campaigns\Shared\Network\ClientEventReciever.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
