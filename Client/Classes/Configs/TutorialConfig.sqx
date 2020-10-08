@@ -23,7 +23,7 @@ namespace Tvtcf.Client
 				[
 		    		TutorialType.CoopAndSpInfo,
 		    		"NOT INTENDED TO PLAY IN SINGLE PLAYER OR COOP!",
-		    		"This campaign concept is intended to be played in TvT (or PvP) with human players on both sides. It is possible to play it anyway, if the purpose is to e.g. try it and see if the concept is interesting to play with friends.\n\nIf you only play with human players on one side, you may encounter strange behavior, such as skipped missions or unfulfilled objectives.";
+		    		"This campaign concept is intended to be played in TvT (or PvP) with human players on both sides. It is possible to play it anyway, if the purpose is to e.g. try it and see if the concept is interesting to play with friends.\n\nIf you only play with human players on one side, you may encounter strange behavior, such as skipped missions or prefulfilled objectives.";
 	    		] new Tutorial,
 			];
 		};
