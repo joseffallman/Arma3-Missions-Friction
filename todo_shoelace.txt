@@ -1,2 +1,0 @@
-*Lite mer variation på vapen.
-*Texterna Gained Tokens och Lost Tokens ska bort om man inte har några tokens.
