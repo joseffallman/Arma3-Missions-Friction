@@ -480,10 +480,15 @@ namespace Tvtcf.Server
 		
 		private method Boolean MissionTimeIsUp()
 		{
-			var _tickedTimeSec = floor diag_tickTime;
-			var _campaignEndTimeSec = _mCampaignStartTickTime + _mCampaignLimitTime * 60;
-
-			return _tickedTimeSec >= _campaignEndTimeSec;
+			if (_mCampaignLimitTime > 0) then
+			{
+				var _tickedTimeSec = floor diag_tickTime;
+				var _campaignEndTimeSec = _mCampaignStartTickTime + _mCampaignLimitTime * 60;
+	
+				return _tickedTimeSec >= _campaignEndTimeSec;
+			};
+			
+			return false;
 		};
 		
 		protected override method Run()
