@@ -11,7 +11,7 @@ class Header
   maxPlayers = 10;
 };
 
-onLoadName = "Operation Shoe Lace";
+onLoadName = "Operation Shoe Lace v1.01";
 overviewText = "Operation Shoe Lace";
 onLoadMission = "Built upon Engima's TvT Campaign Framework (TvTCF)."; // This very text is to be here for the reason of fulfilling the licence. See the file LICENCE.
 
