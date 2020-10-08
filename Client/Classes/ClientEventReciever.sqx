@@ -27,6 +27,23 @@ namespace Tvtcf.Client.Statics
 			[] spawn {
 				sleep 6;
 				[TutorialType.Welcome] call TutorialHandler.ShowTutorial;
+				
+				var _allPlayers = call BIS_fnc_listPlayers;
+				var _westRepresented = false;
+				var _eastRepresented = false;
+				
+				{
+					if (side group _x == west) then {
+						_westRepresented = true;
+					} else {
+						_eastRepresented = true;
+					};
+				} foreach _allPlayers;
+				
+				if (!_westRepresented || !_eastRepresented) then {
+					sleep 2;
+					[TutorialType.CoopAndSpInfo] call TutorialHandler.ShowTutorial;
+				};
 			};
 		};
 	

@@ -8,6 +8,7 @@
  * The first mission of my operation.
  */
 
+using Tvtcf.Common;
 using Tvtcf.Server;
 using Campaigns;
 

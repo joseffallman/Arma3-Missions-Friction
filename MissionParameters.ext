@@ -27,6 +27,15 @@ class Params
 		default = 0;
 	};
 	
+	class CampaignLimitTime
+	{
+		// paramsArray[2]
+		title="Campaign Time Limit (The current mission will be played until end.)";
+		values[]={0, 60, 90, 120, 150, 180, 210, 240, 270, 300};
+		texts[]={"Play all missions", "1 hour", "1.5 hours", "2 hours", "2.5 hours", "3 hours", "3.5 hours", "4 hours", "4.5 hours", "5 hours"};
+		default = 0;
+	};
+	
 	class AiWest
 	{
 		// paramsArray[3]
