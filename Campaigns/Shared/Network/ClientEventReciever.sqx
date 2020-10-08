@@ -5,7 +5,7 @@
  * Author:  Engima
  *
  * Description:
- * Static class that handles all remote campaign events sent from the server to client machines.
+ * Static class that handles all remote campaign events sent from the server to client machines (see README.sqx).
  */
 
 using Tvtcf.Common;
@@ -17,13 +17,17 @@ namespace Campaigns.Shared.Network
 {
 	public class ClientEventReciever
 	{
-		// All client event methods in this class start with "On", since they are recieving information about an event,
-		// rather than being demanded to perform some particular action.
+		// Add more necessary static event methods below.
+		// All methods in this class are executed when the corresponding event is sent from the server.
 		
-		// Called on all clients when a vehicle needs to be locked.
-		public static method OnLockVehicle("_vehicle" as Object)
+		// Called on all clients when a message need to be shown for players on one side.
+		// _message (String): The message to show.
+		// _showOnSide (Side): The message is shown for all players on this side.
+		public static method OnShowMessage("_message" as String, "_showOnSide" as Side)
 		{
-			_vehicle lock true;
+			if (_showOnSide == playerSide) then {
+				titleText [_message, "PLAIN"];
+			};
 		};
 	};
 };
