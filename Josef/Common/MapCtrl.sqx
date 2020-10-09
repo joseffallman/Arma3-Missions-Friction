@@ -1,0 +1,145 @@
+/*
+ * Name:	ZoomToMarker
+ * Date:	2020-10-04
+ * Version: 1.0
+ * Author:  josef
+ *
+ * Description:
+ * zoomtomarkers
+ */
+disableSerialization;
+ 
+namespace Josef.Common
+{
+	public class MapCtrl
+	{
+	
+		// Creates a ZoomToMarker object.
+		public constructor {
+		};
+		
+		/*
+		/ Return default map ctrl in a Array.
+		*/
+		public static method Array DefaultMapControl() {
+			var _defaultMainMapCtrl = (findDisplay 12) displayCtrl 51;
+			return [_defaultMainMapCtrl];
+		};
+		
+		/*
+		/ Open default map.
+		*/
+		public static method OpenDefaultMap() {
+			openMap true;
+		};
+		
+		/*
+		/ Move and zoom map to rectangle
+		/ Params:
+		/		_mapControl:   Array with one control.
+		/		_rectangle:    Array with two arrays, top-left pos and bottom-right pos.
+		/		_border:       Distance from rectangle to screen side.
+		/		_minZoomLevel: A minimum zoom level, from 1 to 0.01
+		/ 
+		*/
+		public static method Boolean MoveMapToRectangle("_mapControlArray" as Array, "_rectangle" as Array, ["_border" as Scalar, 50], ["_minZoomLevel" as Scalar, 0.05] )
+		{
+			private "_ctrlMap" as Control;
+			_ctrlMap = _mapControlArray select 0;
+			private _zoom = ctrlScale _ctrlMap;
+			
+			
+			var _topleft = _rectangle select 0;
+			var _bottomright = _rectangle select 1;
+			
+			var _top    = (_topleft select 1) + _border;
+			var _left   = (_topleft select 0) - _border;
+			var _bottom = (_bottomright select 1) - _border;
+			var _right  = (_bottomright select 0) + _border;
+			var _center = [((_right - _left) /2) + _left, ((_top - _bottom) / 2) + _bottom];
+			
+			_ctrlMap ctrlMapAnimAdd [0, 1, _center];
+			ctrlMapAnimCommit _ctrlMap;
+			waitUntil {ctrlMapAnimDone _ctrlMap};
+			 
+			// Debug info.
+			//[[_left, _top], "hd_dot", "ColorBlack", "MarkerLeftTop", true] call Sqx.Markers.Marker.CreateIconMarkerLocal;
+			//[[_right, _bottom], "hd_dot", "ColorBlack", "MarkerRightBottom", true] call Sqx.Markers.Marker.CreateIconMarkerLocal;
+			//[_center, "hd_dot", "ColorBlack", "MarkerCenter", true] call Sqx.Markers.Marker.CreateIconMarkerLocal;
+		
+			var _ctrlPos = ctrlPosition _ctrlMap;
+			var _maxX = (_ctrlPos select 0) + (_ctrlPos select 2);
+			var _maxY = (_ctrlPos select 1) + (_ctrlPos select 3);
+			var _screenLeftTop     = _ctrlMap ctrlMapScreenToWorld [(_ctrlPos select 0), (_ctrlPos select 1)];
+			var _screenRightBottom = _ctrlMap ctrlMapScreenToWorld [_maxX, _maxY];
+			
+			// Loop and zoom until we are inside of border.
+			while {	(_screenLeftTop select 0)     < _left && 
+					(_screenLeftTop select 1)     > _top &&
+					(_screenRightBottom select 1) < _bottom &&
+					(_screenRightBottom select 0) > _right &&
+					_zoom > _minZoomLevel
+			} do {
+				_zoom = _zoom * 0.95;
+				_ctrlMap ctrlMapAnimAdd [0, _zoom, _center];
+				ctrlMapAnimCommit _ctrlMap;
+				
+				waitUntil {ctrlMapAnimDone _ctrlMap};
+				_screenLeftTop     = _ctrlMap ctrlMapScreenToWorld [(_ctrlPos select 0), (_ctrlPos select 1)];
+				_screenRightBottom = _ctrlMap ctrlMapScreenToWorld [_maxX, _maxY];
+			};
+		};
+		
+		
+		/*
+		/	Return a rectangle that will surround all markers.
+		/	param: Array with markers.
+		/
+		/	Return: Array in format [[left, top], [right, bottom]]
+		*/
+		public static method Array MarkersBoundingBox("_markers" as Array)
+		{
+			
+			var _left   = 0;
+			var _top    = 0;
+			var _right  = 0;
+			var _bottom = 0;
+		
+			{
+				var _markerPos = getMarkerPos _x;
+				var _markerSize = getMarkerSize _x;
+				if (_forEachIndex == 0) then {
+					_left    = (_markerPos select 0) - (_markerSize select 0);
+					_right   = (_markerPos select 0) + (_markerSize select 0);
+					_top     = (_markerPos select 1) + (_markerSize select 1);
+					_bottom  = (_markerPos select 1) - (_markerSize select 1);
+				};
+				
+				
+				if (_left > ((_markerPos select 0) - (_markerSize select 0))) then {
+					_left = (_markerPos select 0) - (_markerSize select 0);
+				};
+				
+				if (_right < ((_markerPos select 0) + (_markerSize select 0))) then {
+					_right = (_markerPos select 0) + (_markerSize select 0);
+				};
+				
+				if (_top < ((_markerPos select 1) + (_markerSize select 1))) then {
+					_top = (_markerPos select 1) + (_markerSize select 1);
+				};
+				
+				if (_bottom > ((_markerPos select 1) - (_markerSize select 1))) then {
+					_bottom  = (_markerPos select 1) - (_markerSize select 1);
+				};
+				
+				
+			} foreach _markers as String;
+			
+			var _rect = [[_left, _top], [_right, _bottom]];
+			return _rect;
+		};
+
+		
+	};
+};
+
