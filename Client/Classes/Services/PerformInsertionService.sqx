@@ -12,6 +12,7 @@ using Sqx.Services;
 using Tvtcf.Communication;
 using Tvtcf.Common.Statics;
 using Tvtcf.Common;
+using Josef.Common;
 
 namespace Tvtcf.Client
 {
@@ -67,9 +68,12 @@ namespace Tvtcf.Client
 			{
 				// Open the map and ask player to select a position
 				
-				openMap true;
-				mapAnimAdd [1, 0.25, _mMapMarkerHandler.InsertionMapPosition];
-				mapAnimCommit;
+				//openMap true;
+				//mapAnimAdd [1, 0.25, _mMapMarkerHandler.InsertionMapPosition];
+				//mapAnimCommit;
+				call MapCtrl.OpenDefaultMap;
+				var _bBox = [_mInsertionMarkers] call MapCtrl.MarkersBoundingBox;
+				[call MapCtrl.DefaultMapControl, _bBox, 50, 0.02] call MapCtrl.MoveMapToRectangle;
 
 				// Wait for map click
 				
