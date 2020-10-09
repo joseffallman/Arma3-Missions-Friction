@@ -225,9 +225,9 @@ class Mission
 			type="rectangle";
 			colorName="ColorEAST";
 			fillName="SolidBorder";
-			a=150;
-			b=70;
-			angle=257.6929;
+			a=70;
+			b=150;
+			angle=-9.999999;
 			drawBorder=1;
 			id=0;
 			atlOffset=-0.87586975;
