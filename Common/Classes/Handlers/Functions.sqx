@@ -104,7 +104,18 @@ namespace Tvtcf.Common
 		
 		public static method ShuffleArray("_array" as Array)
 		{
-			
+			for "_i" from 0 to (count _array) * 2 do
+			{
+				private _index1 = floor random count _array;
+				private _index2 = floor random count _array;
+				
+				if (_index1 != _index2) then
+				{
+					var _item = _array select _index1;
+					_array set [_index1, _array select _index2];
+					_array set [_index2, _item];
+				};
+			};
 		};
 	};
 };
