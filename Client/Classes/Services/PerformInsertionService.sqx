@@ -79,21 +79,31 @@ namespace Tvtcf.Client
 				
 				_mWaitingForMapClick = true;
 				
-				["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
+				titleText ["<t color='#0000ff' size='1.5' valign='bottom'><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Select an insertion position inside one of the blue insertion markers.</t>", "PLAIN", -1, true, true];
+				//["Select an insertion position inside one of the insertion markers."] call _mMessageHandler.ShowSubTitle;
 				
-				waitUntil {	!_mWaitingForMapClick || !visibleMap };
+				var _clickedInside = false;
 				
-				if (!_mWaitingForMapClick) then
+				while { !_clickedInside && visibleMap } do
 				{
-					if ([_mMapPos, _mInsertionMarkers] call _self.InAnyMarker) then {
-						["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _mMapPos, true]] call Remote.Invoke;
-					}
-					else {
-						["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
+					waitUntil {	!_mWaitingForMapClick || !visibleMap };
+					
+					if (!_mWaitingForMapClick) then
+					{
+						if ([_mMapPos, _mInsertionMarkers] call _self.InAnyMarker) then {
+							["ServerEventReciever.OnPlayerPerformingInsertion", [playerSide, _mMapPos, true]] call Remote.Invoke;
+							_clickedInside = true;
+						}
+						else {
+							titleText ["<t color='#ff0000' size='1.5' valign='bottom'><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Insertion must be inside the blue insertion markers. Please try again.</t>", "PLAIN", -1, true, true];
+							//["Insertion must be in the insertion markers. Please try again."] call _mMessageHandler.ShowSubTitle;
+							_mWaitingForMapClick = true;
+						};
 					};
 				};
 			};
 			
+			titleFadeOut 1;
 			call _base.Run;
 		};
 	};
