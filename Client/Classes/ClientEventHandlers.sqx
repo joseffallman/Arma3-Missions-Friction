@@ -19,7 +19,7 @@ namespace Tvtcf.Client.Statics
 		public static method Init()
 		{
 			// Fires when preload finishes.
-			["ClientEventHandlerId_01", "onPreloadFinished",
+			["ClientEventHandlerId_01", "onPreloadFinished", // TODO: Kan det hänta att denna körs flera gånger? Vad kan bli fel då?
 			{
 				private _hasInserted = false;
 			
@@ -59,7 +59,7 @@ namespace Tvtcf.Client.Statics
 			}];
 			
 			// Triggered when the player is killed.
-			player addEventHandler ["Killed", {
+			player addEventHandler ["Killed", { // TODO: Vad händer om en blir skjuten mellan uppdragen...?
 				params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
 				
 				ClientState.IsAlive = false;
