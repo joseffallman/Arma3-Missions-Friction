@@ -20,8 +20,9 @@ namespace Tvtcf.Common
 			_self.MandatoryPrepareTime = (paramsArray select 1);
 			_self.TimeBetweenMissions = (paramsArray select 2);
 			_self.CampaignLimitTime = (paramsArray select 3);
-			_self.AiWestFrequency = (paramsArray select 4);
-			_self.AiEastFrequency = (paramsArray select 5);
+			_self.CampaignMode = (paramsArray select 4);
+			_self.AiWestFrequency = (paramsArray select 5);
+			_self.AiEastFrequency = (paramsArray select 6);
 		};
 		
 		public property Boolean EnableServerAdminOptions { get; private set; };
@@ -31,6 +32,8 @@ namespace Tvtcf.Common
 		public property Scalar TimeBetweenMissions { get; private set; };
 		
 		public property Scalar CampaignLimitTime { get; private set; };
+		
+		public property CampaignMode CampaignMode { get; private set; };
 		
 		public property Scalar AiWestFrequency { get; private set; };
 		

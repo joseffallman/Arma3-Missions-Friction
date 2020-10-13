@@ -17,14 +17,14 @@ namespace Tvtcf.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar, "_mCampaignLimitTime" as Scalar];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar, "_mCampaignLimitTime" as Scalar, "_mCampaignMode" as CampaignMode];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mForceNextMission" as Boolean, "_mObjectiveChangeCollection" as ObjectiveChangeCollection, "_mMissionResults" as Array /* of MissionResult */];
 		private fields ["_mCampaignStartTickTime" as Scalar];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar, "_campaignLimitTime" as Scalar)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar, "_campaignLimitTime" as Scalar, "_campaignMode" as CampaignMode)
 		{
 			call _base.Constructor;
 			
@@ -34,6 +34,7 @@ namespace Tvtcf.Server
 			_mAiUnitsEastCount = _aiUnitsEastCount;
 			_mTimeBetweenMissions = _timeBetweenMissions;
 			_mCampaignLimitTime = _campaignLimitTime;
+			_mCampaignMode = _campaignMode;
 			_mForceNextMission = false;
 			_mObjectiveChangeCollection = new ObjectiveChangeCollection;
 			_mMissionResults = [];
@@ -45,6 +46,7 @@ namespace Tvtcf.Server
 		
 		public method SetCampaign("_campaign" as Campaign)
 		{
+			[_mCampaignMode] call _campaign.SetCampaignMode;
 			_mCampaign = _campaign;
 		};
 		
@@ -505,7 +507,7 @@ namespace Tvtcf.Server
 			
 			// Run each mission
 			
-			_mCurrentMission = call _mCampaign.GetNextMission;
+			_mCurrentMission = call _mCampaign.GetNextMissionToPlay;
 			_mMissionResults = [];
 			private _isFirstMission = true;
 			
@@ -617,7 +619,7 @@ namespace Tvtcf.Server
 				
 				call _mCurrentMission.Dispose;
 				
-				var _nextMission = call _mCampaign.GetNextMission;
+				var _nextMission = call _mCampaign.GetNextMissionToPlay;
 				var _isLastMission = isNull _nextMission;
 				
 				if (call _self.MissionTimeIsUp) then {

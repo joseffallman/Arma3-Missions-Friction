@@ -101,5 +101,10 @@ namespace Tvtcf.Common
 		    
 		    return _return + _str;
 		};
+		
+		public static method ShuffleArray("_array" as Array)
+		{
+			
+		};
 	};
 };

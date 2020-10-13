@@ -29,16 +29,25 @@ class Params
 	
 	class CampaignLimitTime
 	{
-		// paramsArray[2]
+		// paramsArray[3]
 		title="Campaign Time Limit (The current mission will be played until end.)";
 		values[]={0, 60, 90, 120, 150, 180, 210, 240, 270, 300};
 		texts[]={"Play all missions", "1 hour", "1.5 hours", "2 hours", "2.5 hours", "3 hours", "3.5 hours", "4 hours", "4.5 hours", "5 hours"};
 		default = 0;
 	};
 	
+	class CampaignMode
+	{
+		// paramsArray[4]
+		title="Campaign Mode";
+		values[]={1, 2};
+		texts[]={"Follow Storyline", "Randomize missions"};
+		default = 1;
+	};
+	
 	class AiWest
 	{
-		// paramsArray[3]
+		// paramsArray[5]
 		title="AI Units West Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};
@@ -47,7 +56,7 @@ class Params
 	
 	class AiEast
 	{
-		// paramsArray[4]
+		// paramsArray[6]
 		title="AI Units East Frequency";
 		values[]={0, 1, 2, 3, 4, 5};
 		texts[]={0, 1, 2, 3, 4, 5};
