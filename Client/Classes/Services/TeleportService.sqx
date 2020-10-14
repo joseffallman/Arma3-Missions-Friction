@@ -25,9 +25,72 @@ namespace Tvtcf.Client
 			_mTeleportVehicles = _teleportVehicles;
 		};
 		
+		private static method Array FindSafePos("_pos" as Array)
+		{
+			private ["_spawnpos", "_randir", "_extendedRadius", "_randis", "_houses", "_supplies", "_vehicles", "_isFlat", "_danger", "_foundIt", "_tries"];
+			private ["_distanceToNearestVehicle" as Scalar, "_distanceFromBuilding" as Scalar, "_allowedSteepness" as Scalar];
+			
+			_distanceFromBuilding = 10;
+			_allowedSteepness = 0.5;
+			
+			_distanceToNearestVehicle = 9;
+			
+			_spawnpos = [];
+			_foundIt = false;
+			_tries = 0;
+			_extendedRadius = 0;
+			
+			while { true } do {
+				scopeName "SpawnPosGen";
+				
+				_randir = floor random 360;
+				_randis = floor random _extendedRadius;
+				_spawnpos = [(_pos select 0) + ((sin _randir) * _randis), (_pos select 1) + ((cos _randir) * _randis), 0.1];
+				_houses = nearestObjects [_spawnpos, ["house","wall"], 50];
+				_supplies = _spawnpos nearSupplies 2;
+				_vehicles = nearestObjects [_spawnpos, ["LandVehicle", "AirVehicle", "Man"], 25];
+				_isFlat = _spawnpos isFlatEmpty [2, -1, _allowedSteepness, 10, 0, false, objNull ];
+				_danger = false;
+				{ if (floor(_spawnpos distance getPos _x) < _distanceFromBuilding) then { _danger=true; }; } forEach _houses;
+				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _vehicles;
+				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _supplies;
+				if (surfaceIsWater _spawnpos) then { _danger=true; };
+				if (count _isFlat < 1 ) then { _danger=true; };
+				if (!_danger) then { 
+					_foundIt = true;
+					breakOut "SpawnPosGen"
+				};
+				_tries = _tries + 1;
+				_extendedRadius = _extendedRadius + 0.5;
+				sleep 0.01;
+			};
+			
+			if (!_foundIt) then {
+				_spawnPos = [];
+			};
+			
+			return _spawnpos;
+		};
+		
 		private method TeleportVehicleAndCrew("_vehicle" as Object)
 		{
-			_vehicle setPos [(_mPosition select 0) - 3 + random 6, (_mPosition select 1) - 3 + random 6, 0.25];
+			var _everyoneInTheSameVehicle = true;
+			
+			{
+				if (vehicle _x != _x) then { // If unit in vehicle
+					if (vehicle _x != _vehicle) then {
+						_everyoneInTheSameVehicle = false;
+					};
+				};
+			} foreach units group player as Object;
+			
+			var _safePos = _mPosition;
+			
+			if (!_everyoneInTheSameVehicle) then {
+				_safePos = [_mPosition] call _self.FindSafePos;
+			};
+			
+			_vehicle setPos [(_safePos select 0), (_safePos select 1), 0.25];
 		};
 		
 		// Teleports the player instantly.
