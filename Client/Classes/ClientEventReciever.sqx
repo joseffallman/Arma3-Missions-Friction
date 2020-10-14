@@ -149,7 +149,9 @@ namespace Tvtcf.Client.Statics
 						params ["_teleporter" as TeleportService];
 						
 						sleep 5;
-						call ClientObjects.CameraHandler.ResetPlayerCamera;
+						
+						[true] call ClientState.SetPlayerIsAlive;
+						call ClientObjects.CameraHandler.UpdateDeathCamera;
 						call _teleporter.RunAsync;
 					};
 				};
@@ -181,13 +183,16 @@ namespace Tvtcf.Client.Statics
 			else {
 				player setUnitLoadout "O_Soldier_F";
 			};
+			
+			// "Resurrect" player.
+			[true] call ClientState.SetPlayerIsAlive;
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_isLastMission" as Boolean)
 		{
 			// "Resurrect" player.
-			ClientState.IsAlive = true;
-			call ClientObjects.CameraHandler.ResetPlayerCamera;
+			[true] call ClientState.SetPlayerIsAlive;
+			call ClientObjects.CameraHandler.UpdateDeathCamera;
 			
 			// Add mission result to history briefing.
 			[_missionResult] call ClientObjects.BriefingHandler.AddMissionResultToHistory;
@@ -229,8 +234,11 @@ namespace Tvtcf.Client.Statics
 		
 		public static method OnUnitKilled("_playerUid" as String, "_unit" as Object, "_killer" as Object)
 		{
-			if (_playerUid != getPlayerUID player) then {
-				call ClientObjects.CameraHandler.SetDeathCamera;
+			// If another player has died, update current player's death camera - in case we are currently following the player who just died.
+			
+			if (_playerUid != getPlayerUID player) then
+			{
+				call ClientObjects.CameraHandler.UpdateDeathCamera;
 			};
 		};
 		
