@@ -39,13 +39,13 @@ namespace Tvtcf.Client
 		private method SetDeathCamera()
 		{
 			// If the unit we are currently following is noone or is dead, then switch camera
-			if (isNull _mCameraUnit || { !(alive _mCameraUnit) }) then
+			if (isNull _mCameraUnit || { !(cameraOn == _mCameraUnit) || !(alive _mCameraUnit) }) then
 			{
 				var _missionUnits = (call PublicVariableHandler.GetInsertedWestlyUnits) + (call PublicVariableHandler.GetInsertedEastlyUnits);
 			
 				// First, switch to a player in the same group
 				{
-					if (alive _x && isPlayer _x && (side group _x == playerSide)) then {
+					if (alive _x && isPlayer _x && (side group _x == playerSide) && _x != player) then {
 						switchCamera _x;
 						_mCameraUnit = _x;
 						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
@@ -55,7 +55,7 @@ namespace Tvtcf.Client
 				
 				// Second, switch to a player on the other side
 				{
-					if (alive _x && isPlayer _x) then {
+					if (alive _x && isPlayer _x && (side group _x != playerSide) && _x != player) then {
 						switchCamera _x;
 						_mCameraUnit = _x;
 						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
@@ -65,7 +65,7 @@ namespace Tvtcf.Client
 				
 				// Third, switch to AI in the same group
 				{
-					if (alive _x && (side group _x == playerSide)) then {
+					if (alive _x && (side group _x == playerSide) && _x != player) then {
 						switchCamera _x;
 						_mCameraUnit = _x;
 						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
@@ -75,7 +75,7 @@ namespace Tvtcf.Client
 				
 				// Third, switch to AI in the other group
 				{
-					if (alive _x) then {
+					if (alive _x && _x != player) then {
 						switchCamera _x;
 						_mCameraUnit = _x;
 						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
