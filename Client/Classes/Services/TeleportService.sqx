@@ -54,7 +54,6 @@ namespace Tvtcf.Client
 				{ if (floor(_spawnpos distance getPos _x) < _distanceFromBuilding) then { _danger=true; }; } forEach _houses;
 				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _vehicles;
 				{ if (floor(_spawnpos distance getPos _x) < _distanceToNearestVehicle) then { _danger=true; }; } forEach _supplies;
-				if (surfaceIsWater _spawnpos) then { _danger=true; };
 				if (count _isFlat < 1 ) then { _danger=true; };
 				if (!_danger) then { 
 					_foundIt = true;
