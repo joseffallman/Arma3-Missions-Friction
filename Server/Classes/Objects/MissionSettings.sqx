@@ -16,7 +16,6 @@ namespace Tvtcf.Server
 		{
 			_self.Name = "New Mission";
 			_self.StartTimeOfDay = 12;
-			_self.MissionTimeLimit = 30;
 			_self.StartMarkersActing = [];
 			_self.StartMarkersOpposing = [];
 			_self.SideMarkersActing = [];
@@ -28,8 +27,6 @@ namespace Tvtcf.Server
 		public property String Name { get; set; };
 		
 		public property Scalar StartTimeOfDay { get; set; };
-		
-		public property Scalar MissionTimeLimit { get; set; };
 		
 		public property Array StartMarkersActing { get; set; };
 		

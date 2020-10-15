@@ -57,8 +57,8 @@ namespace Campaigns
 			
 			_self.Name = _missionSettings.Name;
 			_self.StartTimeOfDay = _missionSettings.StartTimeOfDay;
-			_self.MissionTimeLimit = _missionSettings.MissionTimeLimit;
-			_self.RemainingTime = _missionSettings.MissionTimeLimit;
+			_self.MissionTimeLimit = 30;
+			_self.RemainingTime = _self.MissionTimeLimit;
 			_self.StartMarkersActing = _missionSettings.StartMarkersActing;
 			_self.StartMarkersOpposing = _missionSettings.StartMarkersOpposing;
 			_self.SideMarkersActing = _missionSettings.SideMarkersActing;
