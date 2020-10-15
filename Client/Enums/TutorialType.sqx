@@ -10,6 +10,7 @@ namespace Tvtcf.Client
 {
 	public enum TutorialType
 	{
-		Welcome
+		Welcome,
+		CoopAndSpInfo
 	};
 };

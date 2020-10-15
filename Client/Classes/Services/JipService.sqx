@@ -126,7 +126,7 @@ namespace Tvtcf.Client
 			// Set camera
 			
 		    sleep 1;
-			call ClientObjects.CameraHandler.SetDeathCamera;
+			call ClientObjects.CameraHandler.UpdateDeathCamera;
 			sleep 0.5;
 			
 	  		cutText ["","BLACK IN", 1];

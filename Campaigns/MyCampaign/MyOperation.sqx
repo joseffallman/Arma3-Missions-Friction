@@ -8,7 +8,6 @@
  * This is my own TvT campaign.
  */
 
-using Tvtcf.Server;
 using Campaigns;
 
 namespace Campaigns.MyCampaign
@@ -24,7 +23,6 @@ namespace Campaigns.MyCampaign
 		protected override method SelectMissions("_missions" as Array /* of Mission */)
 		{
 			_missions pushBack new Intro;
-			_missions pushBack new Survive;
 			
 			// TODO: Add more missions to the campaign here. Use the following pattern:
 		

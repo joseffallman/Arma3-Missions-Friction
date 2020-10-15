@@ -17,13 +17,14 @@ namespace Tvtcf.Server
 {
 	public class CampaignEngine : Service
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mServerActionHandler" as ServerActionHandler, "_mCampaign" as Campaign, "_mMissionUnitsHandler" as MissionUnitsHandler, "_mWestlyUnits" as Array, "_mEastlyUnits" as Array, "_mAiUnitsWestCount" as Scalar, "_mAiUnitsEastCount" as Scalar, "_mTimeBetweenMissions" as Scalar, "_mCampaignLimitTime" as Scalar, "_mCampaignMode" as CampaignMode];
 		private fields ["_mCurrentMission" as Mission, "_mEastHasInserted" as Boolean, "_mWestHasInserted" as Boolean, "_mMissionMarkersInfo" as MissionMarkersInfo];
 		private fields ["_mWestPrimaryObjectiveCompleted" as Boolean, "_mWestSecondaryObjectiveCompleted" as Boolean, "_mWestReturnObjectiveCompleted" as Boolean, "_mEastPrimaryObjectiveCompleted" as Boolean, "_mEastSecondaryObjectiveCompleted" as Boolean, "_mEastReturnObjectiveCompleted" as Boolean];
 		private fields ["_mForceNextMission" as Boolean, "_mObjectiveChangeCollection" as ObjectiveChangeCollection, "_mMissionResults" as Array /* of MissionResult */];
+		private fields ["_mCampaignStartTickTime" as Scalar];
 	
 		// Creates a Campaign object.
-		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar)
+		public constructor("_baseMarkersConfig" as IBaseMarkersConfig, "_missionUnitsHandler" as MissionUnitsHandler, "_aiUnitsWestCount" as Scalar, "_aiUnitsEastCount" as Scalar, "_timeBetweenMissions" as Scalar, "_campaignLimitTime" as Scalar, "_campaignMode" as CampaignMode)
 		{
 			call _base.Constructor;
 			
@@ -32,6 +33,8 @@ namespace Tvtcf.Server
 			_mAiUnitsWestCount = _aiUnitsWestCount;
 			_mAiUnitsEastCount = _aiUnitsEastCount;
 			_mTimeBetweenMissions = _timeBetweenMissions;
+			_mCampaignLimitTime = _campaignLimitTime;
+			_mCampaignMode = _campaignMode;
 			_mForceNextMission = false;
 			_mObjectiveChangeCollection = new ObjectiveChangeCollection;
 			_mMissionResults = [];
@@ -43,6 +46,7 @@ namespace Tvtcf.Server
 		
 		public method SetCampaign("_campaign" as Campaign)
 		{
+			[_mCampaignMode] call _campaign.SetCampaignMode;
 			_mCampaign = _campaign;
 		};
 		
@@ -469,11 +473,24 @@ namespace Tvtcf.Server
 			} foreach (call _mMissionUnitsHandler.GetSwitchableUnits);
 			
 			if (([MissionSide.Acting] call _mission.GetActualSide) == west) then {
-				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, new Campaigns.Network.Remote] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, new Campaigns.Shared.Network.Remote] call _mission.Prepare;
 			}
 			else {
-				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, new Campaigns.Network.Remote] call _mission.Prepare;
+				[_mBaseMarkersConfig, _mServerActionHandler, _westGroup, _eastGroup, [_mCampaign.GainedTokensEast] call _self.CloneArray, [_mCampaign.LostTokensEast] call _self.CloneArray, [_mCampaign.GainedTokensWest] call _self.CloneArray, [_mCampaign.LostTokensWest] call _self.CloneArray, new Campaigns.Shared.Network.Remote] call _mission.Prepare;
 			};
+		};
+		
+		private method Boolean MissionTimeIsUp()
+		{
+			if (_mCampaignLimitTime > 0) then
+			{
+				var _tickedTimeSec = floor diag_tickTime;
+				var _campaignEndTimeSec = _mCampaignStartTickTime + _mCampaignLimitTime * 60;
+	
+				return _tickedTimeSec >= _campaignEndTimeSec;
+			};
+			
+			return false;
 		};
 		
 		protected override method Run()
@@ -486,10 +503,11 @@ namespace Tvtcf.Server
 			sleep 3;
 			
 			["ClientEventReciever.OnCampaignStart", []] call Remote.Invoke;
+			_mCampaignStartTickTime = floor diag_tickTime;
 			
 			// Run each mission
 			
-			_mCurrentMission = call _mCampaign.GetNextMission;
+			_mCurrentMission = call _mCampaign.GetNextMissionToPlay;
 			_mMissionResults = [];
 			private _isFirstMission = true;
 			
@@ -601,8 +619,13 @@ namespace Tvtcf.Server
 				
 				call _mCurrentMission.Dispose;
 				
-				var _nextMission = call _mCampaign.GetNextMission;
+				var _nextMission = call _mCampaign.GetNextMissionToPlay;
 				var _isLastMission = isNull _nextMission;
+				
+				if (call _self.MissionTimeIsUp) then {
+					_nextMission = classNull;
+					_isLastMission = true;
+				};
 				
 				var _missionResult = [_mCurrentMission.Name, _missionResultWest, _missionResultEast, _accumulatedScoreWest, _accumulatedScoreEast] new MissionResult;
 				
@@ -628,7 +651,12 @@ namespace Tvtcf.Server
 					_mForceNextMission = false;
 				};
 				
-				_mCurrentMission = _nextMission;
+				if (call _self.MissionTimeIsUp) then {
+					_mCurrentMission = classNull;
+				}
+				else {
+					_mCurrentMission = _nextMission;
+				};
 			};
 
 			["ClientEventReciever.OnCampaignEnded", [_accumulatedScoreWest, _accumulatedScoreEast]] call Remote.Invoke;

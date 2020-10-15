@@ -11,9 +11,6 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Intro.sqx" FileName="Campaigns\MyCampaign\Missions\Intro.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
-                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Survive.sqx" FileName="Campaigns\MyCampaign\Missions\Survive.sqx">
-                    <SubNodes />
-                  </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="InitCampaign.sqx" FileName="Campaigns\MyCampaign\InitCampaign.sqx">
@@ -24,18 +21,21 @@
               </ProjectNodeViewModel>
             </SubNodes>
           </ProjectNodeViewModel>
-          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Network" FileName="Campaigns\Network">
-            <SubNodes>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Campaigns\Network\ClientEventReciever.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Remote.sqx" FileName="Campaigns\Network\Remote.sqx">
-                <SubNodes />
-              </ProjectNodeViewModel>
-            </SubNodes>
-          </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Shared" FileName="Campaigns\Shared">
             <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Network" FileName="Campaigns\Shared\Network">
+                <SubNodes>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="_README.sqx" FileName="Campaigns\Shared\Network\_README.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ClientEventReciever.sqx" FileName="Campaigns\Shared\Network\ClientEventReciever.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Remote.sqx" FileName="Campaigns\Shared\Network\Remote.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
+                </SubNodes>
+              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Campaigns\Shared\ObjectTypeDictionary.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
@@ -279,6 +279,9 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="BaseMarker.sqx" FileName="Common\Enums\BaseMarker.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="CampaignMode.sqx" FileName="Common\Enums\CampaignMode.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectivePrio.sqx" FileName="Common\Enums\ObjectivePrio.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
@@ -321,6 +324,17 @@
           </ProjectNodeViewModel>
           <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TutorialDialog.hpp" FileName="Dialogs\TutorialDialog.hpp">
             <SubNodes />
+          </ProjectNodeViewModel>
+        </SubNodes>
+      </ProjectNodeViewModel>
+      <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Josef" FileName="Josef">
+        <SubNodes>
+          <ProjectNodeViewModel xsi:type="ProjectFolderNodeViewModel" Name="Common" FileName="Josef\Common">
+            <SubNodes>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MapCtrl.sqx" FileName="Josef\Common\MapCtrl.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+            </SubNodes>
           </ProjectNodeViewModel>
         </SubNodes>
       </ProjectNodeViewModel>

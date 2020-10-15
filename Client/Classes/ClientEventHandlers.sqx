@@ -16,29 +16,36 @@ namespace Tvtcf.Client.Statics
 {
 	public class ClientEventHandlers
 	{
+		private static fields ["_mFirstPreloadDone" as Boolean];
+	
 		public static method Init()
 		{
+			_mFirstPreloadDone = false;
+
 			// Fires when preload finishes.
 			["ClientEventHandlerId_01", "onPreloadFinished",
 			{
-				private _hasInserted = false;
-			
-				if (playerSide == west) then {
-					_hasInserted = call PublicVariableHandler.GetWestHasInserted;
-				}
-				else {
-					_hasInserted = call PublicVariableHandler.GetEastHasInserted;
-				};
-			
-				ClientState.IsAlive = !_hasInserted;
+				diag_log ("EH 'OnPreloadFinished': " + str _mFirstPreloadDone);
 				
-				if (didJIP) then {
-					call ClientObjects.JipService.RunAsync;
+				if (!_mFirstPreloadDone) then
+				{
+					[true] call ClientState.SetPlayerIsAlive;
+						
+					if (didJIP) then
+					{
+						var _isInserted = call ClientState.GetHasInserted;
+
+						[!_isInserted] call ClientState.SetPlayerIsAlive;
+						call ClientObjects.JipService.RunAsync;
+					};
+
+					_mFirstPreloadDone = true;
 				};
 			}] call BIS_fnc_addStackedEventHandler;
-			
+
 			// Triggered when player clicks somewhere the map.
 			addMissionEventHandler ["MapSingleClick", {
+				diag_log ("EH 'MapSingleClick': " + str _this);
 				params ["_units" as Array, "_pos" as Array, "_alt" as Boolean, "_shift" as Boolean];
 				
 				if (ClientObjects.PerformInsertionService.IsRunning) then {
@@ -48,21 +55,28 @@ namespace Tvtcf.Client.Statics
 			
 			// Triggered when the player respawns.
 			player addEventHandler ["Respawn", {
+				diag_log ("EH 'Respawn': " + str _this);
 				params ["_player" as Object, "_corpse"];
 				
 				[] spawn {
 					waitUntil { player == player };
 					
 					call TvtcfActionMenuHandler.UpdateVisibleOptions;
-					call ClientObjects.CameraHandler.SetDeathCamera;
+					call ClientObjects.CameraHandler.UpdateDeathCamera;
 				};
 			}];
 			
 			// Triggered when the player is killed.
-			player addEventHandler ["Killed", {
+			player addEventHandler ["Killed",
+			{
+				diag_log ("EH 'Killed': " + str _this);
 				params ["_unit" as Object, "_killer" as Object, "_instigator" as Object, "_useEffects" as Boolean];
 				
-				ClientState.IsAlive = false;
+				var _isInserted = call ClientState.GetHasInserted;
+				
+				if (_isInserted) then {
+					[false] call ClientState.SetPlayerIsAlive;
+				};
 				
 				["ClientEventReciever.OnUnitKilled", [getPlayerUID player, _unit, _killer]] call Remote.Invoke;
 			}];

@@ -24,67 +24,68 @@ namespace Tvtcf.Client
 			_mCameraUnit = objNull;
 		};
 		
-		public method SetDeathCamera()
+		// Sets the death camera on the player if he is considered to be dead for the mission. Or, if alive, resets the death camera.
+		public method UpdateDeathCamera()
 		{
-			private _hasInserted = false;
-			private _missionUnits = (call PublicVariableHandler.GetInsertedWestlyUnits) + (call PublicVariableHandler.GetInsertedEastlyUnits);
-		
-			if (playerSide == west) then {
-				_hasInserted = call PublicVariableHandler.GetWestHasInserted;
+			if (ClientState.IsAlive) then {
+				call _self.ResetPlayerCamera;
 			}
 			else {
-				_hasInserted = call PublicVariableHandler.GetEastHasInserted;
-			};
-			
-			if (_hasInserted && !ClientState.IsAlive) then
-			{
-				// If the unit we are currently following has logged out or is dead, then switch camera
-				if (isNull _mCameraUnit || { !(alive _mCameraUnit) }) then
-				{
-					// First, switch to a player in the same group
-					{
-						if (alive _x && isPlayer _x && (side group _x == playerSide)) then {
-							switchCamera _x;
-							_mCameraUnit = _x;
-							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
-							return;
-						};
-					} foreach _missionUnits;
-					
-					// Second, switch to a player on the other side
-					{
-						if (alive _x && isPlayer _x) then {
-							switchCamera _x;
-							_mCameraUnit = _x;
-							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
-							return;
-						};
-					} foreach _missionUnits;
-					
-					// Third, switch to AI in the same group
-					{
-						if (alive _x && (side group _x == playerSide)) then {
-							switchCamera _x;
-							_mCameraUnit = _x;
-							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
-							return;
-						};
-					} foreach _missionUnits;
-					
-					// Third, switch to AI in the other group
-					{
-						if (alive _x) then {
-							switchCamera _x;
-							_mCameraUnit = _x;
-							["Following " + name _x] call _mClientMessageHandler.ShowMessage;
-							return;
-						};
-					} foreach _missionUnits;
-				};
+				call _self.SetDeathCamera;
 			};
 		};
 		
-		public method ResetPlayerCamera()
+		// Sets or updates the death camera for the player.
+		private method SetDeathCamera()
+		{
+			// If the unit we are currently following is noone or is dead, then switch camera
+			if (isNull _mCameraUnit || { !(cameraOn == _mCameraUnit) || !(alive _mCameraUnit) }) then
+			{
+				var _missionUnits = (call PublicVariableHandler.GetInsertedWestlyUnits) + (call PublicVariableHandler.GetInsertedEastlyUnits);
+			
+				// First, switch to a player in the same group
+				{
+					if (alive _x && isPlayer _x && (side group _x == playerSide) && _x != player) then {
+						switchCamera _x;
+						_mCameraUnit = _x;
+						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
+						return;
+					};
+				} foreach _missionUnits;
+				
+				// Second, switch to a player on the other side
+				{
+					if (alive _x && isPlayer _x && (side group _x != playerSide) && _x != player) then {
+						switchCamera _x;
+						_mCameraUnit = _x;
+						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
+						return;
+					};
+				} foreach _missionUnits;
+				
+				// Third, switch to AI in the same group
+				{
+					if (alive _x && (side group _x == playerSide) && _x != player) then {
+						switchCamera _x;
+						_mCameraUnit = _x;
+						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
+						return;
+					};
+				} foreach _missionUnits;
+				
+				// Third, switch to AI in the other group
+				{
+					if (alive _x && _x != player) then {
+						switchCamera _x;
+						_mCameraUnit = _x;
+						["Following " + name _x] call _mClientMessageHandler.ShowMessage;
+						return;
+					};
+				} foreach _missionUnits;
+			};
+		};
+		
+		private method ResetPlayerCamera()
 		{
 			switchCamera player;
 			_mCameraUnit = objNull;
