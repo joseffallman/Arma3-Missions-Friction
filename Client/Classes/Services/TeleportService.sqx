@@ -84,10 +84,22 @@ namespace Tvtcf.Client
 				};
 			} foreach units group player as Object;
 			
+			var _occupiedByAnotherVehicle = false;
+			
+			{
+				if (_x distance _mPosition < 10) then {
+					_occupiedByAnotherVehicle = true;
+				};
+			} foreach vehicles as Object;
+			
 			var _safePos = _mPosition;
 			
-			if (!_everyoneInTheSameVehicle) then {
+			if (!_everyoneInTheSameVehicle || _occupiedByAnotherVehicle) then {
 				_safePos = [_mPosition] call _self.FindSafePos;
+				
+				if (count _safePos == 0) then {
+					_safePos = [(_safePos select 0) - 3 + random 6, (_safePos select 1) - 3 + random 6, 0.25];
+				};
 			};
 			
 			_vehicle setPos [(_safePos select 0), (_safePos select 1), 0.25];
