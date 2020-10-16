@@ -36,6 +36,12 @@
                   </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Campaigns\Shared\Campaign.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Campaigns\Shared\Mission.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Campaigns\Shared\ObjectTypeDictionary.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
@@ -43,12 +49,6 @@
                 <SubNodes />
               </ProjectNodeViewModel>
             </SubNodes>
-          </ProjectNodeViewModel>
-          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Campaigns\Campaign.sqx">
-            <SubNodes />
-          </ProjectNodeViewModel>
-          <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Campaigns\Mission.sqx">
-            <SubNodes />
           </ProjectNodeViewModel>
         </SubNodes>
       </ProjectNodeViewModel>
