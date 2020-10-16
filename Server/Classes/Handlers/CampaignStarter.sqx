@@ -5,12 +5,10 @@
  * Author:  Engima
  *
  * Description:
- * This file/class has a single purpose to select a campaign for the campaign engine.
- * Organized in this way, and while this file will not be subject to change in future TvTCF CPacks, you can change this file to 
- * start a custom campaign, without it interfering with new CPack versions of the TvTCF framework.
+ * This class starts the campaign engine with the selected campaign.
  */
 
-call compile preprocessFileLineNumbers "Campaigns\MyCampaign\InitCampaign.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Shared\Bootstrapper.sqx";
 
 using Tvtcf.Common;
 using Tvtcf.Server;
@@ -22,8 +20,7 @@ namespace Tvtcf.Server.Statics
 	{
 		public method StartCampaign()
 		{
-			var _campaign = new Campaigns.MyCampaign.MyOperation;
-			
+			var _campaign = call Bootstrapper.GetCampaign;
 			[_campaign] call ServerObjects.CampaignEngine.SetCampaign;
 			call ServerObjects.CampaignEngine.RunAsync;
 		};

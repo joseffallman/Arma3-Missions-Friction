@@ -36,6 +36,9 @@
                   </ProjectNodeViewModel>
                 </SubNodes>
               </ProjectNodeViewModel>
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Bootstrapper.sqx" FileName="Campaigns\Shared\Bootstrapper.sqx">
+                <SubNodes />
+              </ProjectNodeViewModel>
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Campaign.sqx" FileName="Campaigns\Shared\Campaign.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
