@@ -14,12 +14,13 @@ namespace Tvtcf.Client
 {
 	public class MapMarkerHandler
 	{
-		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mLocalMarkers" as Array];
+		private fields ["_mBaseMarkersConfig" as IBaseMarkersConfig, "_mLocalStartMarkers" as Array, "_mLocalMarkers" as Array];
 		
 		// Creates a MapMarkerHandler object.
 		public constructor("_baseMarkersConfig" as IBaseMarkersConfig)
 		{
 			_mBaseMarkersConfig = _baseMarkersConfig;
+			_mLocalStartMarkers = [];
 			_mLocalMarkers = [];
 			_self.MissionHasReturnObjective = false;
 			_self.InsertionMapPosition = [];
@@ -32,8 +33,19 @@ namespace Tvtcf.Client
 		
 		public property Boolean MissionHasReturnObjective { get; private set; };
 		
-		public method AddExtractionMarker("_position" as Array)
+		private method RemoveStartMarkers()
 		{
+			{
+				deleteMarkerLocal _x;
+			} foreach _mLocalStartMarkers;
+			
+			_mLocalStartMarkers = [];
+		};
+		
+		public method AddInsertionMarker("_position" as Array)
+		{
+			call _self.RemoveStartMarkers;
+		
 			private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
 			_marker setMarkerShapeLocal "ICON";
 			_marker setMarkerTypeLocal "mil_start";
@@ -51,6 +63,8 @@ namespace Tvtcf.Client
 				deleteMarkerLocal _self.BaseMarker;
 			};
 			
+			call _self.RemoveStartMarkers;
+			
 			{
 				deleteMarkerLocal _x;
 			} foreach _mLocalMarkers;
@@ -59,7 +73,7 @@ namespace Tvtcf.Client
 			
 			// Draw start markers
 			
-			private _startMarkerColor = if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
+			private _startMarkerColor = "ColorBlack"; // if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };
 			var _startMarkers = [];
 			
 			{
@@ -69,14 +83,14 @@ namespace Tvtcf.Client
 					private _pos = getMarkerPos _x.Name;
 					
 					private _marker = createMarkerLocal [_name, _pos];
-					_mLocalMarkers pushBack _marker;
+					_mLocalStartMarkers pushBack _marker;
 					_startMarkers pushBack _marker;
 
 					_marker setMarkerShapeLocal (markerShape _x.Name);
 					_marker setMarkerSizeLocal (markerSize _x.Name);
 					_marker setMarkerDirLocal (markerDir _x.Name);
 					_marker setMarkerColorLocal _startMarkerColor;
-					_marker setMarkerBrushLocal "DiagGrid";
+					//_marker setMarkerBrushLocal "DiagGrid";
 				};
 			} foreach _missionMarkersInfo.StartMarkers as MarkerInfo;
 			

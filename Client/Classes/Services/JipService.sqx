@@ -118,7 +118,7 @@ namespace Tvtcf.Client
 				};
 				
 				if (_useExtractionMarker) then {
-					[_extractionPos] call ClientObjects.MapMarkerHandler.AddExtractionMarker;
+					[_extractionPos] call ClientObjects.MapMarkerHandler.AddInsertionMarker;
 					[_extractionPos] call ClientObjects.ExtractionSymbolHandler.CreateSymbol;
 				};
 			};

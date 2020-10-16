@@ -112,7 +112,7 @@ namespace Tvtcf.Client.Statics
 			
 			if (playerSide == side _group) then
 			{
-				[_position] call ClientObjects.MapMarkerHandler.AddExtractionMarker;
+				[_position] call ClientObjects.MapMarkerHandler.AddInsertionMarker;
 			
 				if (_doTeleport) then {
 					_teleporter = [_position] new TeleportService;
