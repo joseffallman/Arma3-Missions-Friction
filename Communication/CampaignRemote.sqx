@@ -29,7 +29,7 @@ namespace Tvtcf.Communication
 			{
 				// Messages routed to clients (or to a hosted server)
 				// All remote methods below this method need to be declared in this switch.
-				_parameters call compile ("_this spawn Campaigns_Shared_Network_ClientEventReciever_On" + _eventName + ";");
+				_parameters call compile ("_this spawn Campaigns_Network_ClientEventReciever_On" + _eventName + ";");
 			};
 		};
 	};

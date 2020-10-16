@@ -13,7 +13,7 @@ using Tvtcf.Common.Statics;
 using Tvtcf.Client;
 using Tvtcf.Communication;
 
-namespace Campaigns.Shared.Network
+namespace Campaigns.Network
 {
 	public class ClientEventReciever
 	{
