@@ -11,8 +11,8 @@ call compile preprocessFileLineNumbers "Server\Classes\Services\CampaignEngine.s
 
 call compile preprocessFileLineNumbers "Campaigns\Shared\Campaign.sqx";
 call compile preprocessFileLineNumbers "Campaigns\Shared\Mission.sqx";
-call compile preprocessFileLineNumbers "Campaigns\Shared\ObjectTypeDictionary.sqx";
-call compile preprocessFileLineNumbers "Campaigns\Shared\SoldierTypeDictionary.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Shared\VehicleDictionary.sqx";
+call compile preprocessFileLineNumbers "Campaigns\Shared\SoldierDictionary.sqx";
 
 using Tvtcf.Common.Statics;
 using Tvtcf.Server;

@@ -42,10 +42,10 @@
               <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Mission.sqx" FileName="Campaigns\Shared\Mission.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="ObjectTypeDictionary.sqx" FileName="Campaigns\Shared\ObjectTypeDictionary.sqx">
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="SoldierDictionary.sqx" FileName="Campaigns\Shared\SoldierDictionary.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
-              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="SoldierTypeDictionary.sqx" FileName="Campaigns\Shared\SoldierTypeDictionary.sqx">
+              <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="VehicleDictionary.sqx" FileName="Campaigns\Shared\VehicleDictionary.sqx">
                 <SubNodes />
               </ProjectNodeViewModel>
             </SubNodes>
