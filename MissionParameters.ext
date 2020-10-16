@@ -41,7 +41,7 @@ class Params
 		// paramsArray[4]
 		title="Campaign Mode";
 		values[]={1, 2};
-		texts[]={"Follow Storyline", "Randomize missions"};
+		texts[]={"Follow storyline", "Randomize missions"};
 		default = 1;
 	};
 	
