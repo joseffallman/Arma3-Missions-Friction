@@ -48,6 +48,10 @@ namespace Campaigns
 		};
 		
 		// Initializes and adds all permanent missions of the campaign.
+		// If you do not override the method GetNextMission then the campaign will be played in the same order as
+		// the missions are added here in the _missions array.
+		// If the campaign is played with the "Randomize missions" option, the missions that are added here will
+		// be shuffled and played through, and GetNextMission will never be called.
 		// _missions (Array of Mission): The array to add missions to. Empty when sent in.
 		protected virtual method SelectMissions("_missions" as Array /* of Mission */)
 		{

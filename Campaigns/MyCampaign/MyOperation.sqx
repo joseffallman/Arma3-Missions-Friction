@@ -24,10 +24,10 @@ namespace Campaigns.MyCampaign
 		{
 			_missions pushBack new Intro;
 			
-			// TODO: Add more missions to the campaign here. Use the following pattern:
+			// Add more missions to the campaign here. Use the following pattern:
 		
-			//_missions pushBack [west] new FlyMySpy;
-			//_missions pushBack [west] new HuntForTheDead;
+			//_missions pushBack new FlyMySpy;
+			//_missions pushBack new HuntForTheDead;
 			//...
 		};
 	};
