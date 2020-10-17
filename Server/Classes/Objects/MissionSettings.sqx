@@ -16,10 +16,10 @@ namespace Tvtcf.Server
 		{
 			_self.Name = "New Mission";
 			_self.StartTimeOfDay = 12;
-			_self.StartMarkersActing = [];
-			_self.StartMarkersOpposing = [];
-			_self.SideMarkersActing = [];
-			_self.SideMarkersOpposing = [];
+			_self.InsertionAreasActing = [];
+			_self.InsertionAreasOpposing = [];
+			_self.VisibleMarkersActing = [];
+			_self.VisibleMarkersOpposing = [];
 			_self.AddReturnObjectiveForActing = false;
 			_self.AddReturnObjectiveForOpposing = false;
 		};
@@ -28,13 +28,13 @@ namespace Tvtcf.Server
 		
 		public property Scalar StartTimeOfDay { get; set; };
 		
-		public property Array StartMarkersActing { get; set; };
+		public property Array InsertionAreasActing { get; set; };
 		
-		public property Array StartMarkersOpposing { get; set; };
+		public property Array InsertionAreasOpposing { get; set; };
 		
-		public property Array SideMarkersActing { get; set; };
+		public property Array VisibleMarkersActing { get; set; };
 		
-		public property Array SideMarkersOpposing { get; set; };
+		public property Array VisibleMarkersOpposing { get; set; };
 		
 		public property Boolean AddReturnObjectiveForActing { get; set; };
 		

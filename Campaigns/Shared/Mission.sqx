@@ -58,10 +58,10 @@ namespace Campaigns
 			_self.StartTimeOfDay = _missionSettings.StartTimeOfDay;
 			_self.MissionTimeLimit = 30;
 			_self.RemainingTime = _self.MissionTimeLimit;
-			_self.StartMarkersActing = _missionSettings.StartMarkersActing;
-			_self.StartMarkersOpposing = _missionSettings.StartMarkersOpposing;
-			_self.SideMarkersActing = _missionSettings.SideMarkersActing;
-			_self.SideMarkersOpposing = _missionSettings.SideMarkersOpposing;
+			_self.InsertionAreasActing = _missionSettings.InsertionAreasActing;
+			_self.InsertionAreasOpposing = _missionSettings.InsertionAreasOpposing;
+			_self.VisibleMarkersActing = _missionSettings.VisibleMarkersActing;
+			_self.VisibleMarkersOpposing = _missionSettings.VisibleMarkersOpposing;
 			_self.HasReturnObjectiveForActing = _missionSettings.AddReturnObjectiveForActing;
 			_self.HasReturnObjectiveForOpposing = _missionSettings.AddReturnObjectiveForOpposing;
 		};
@@ -401,23 +401,23 @@ namespace Campaigns
 		// This Remote object is to be extended by the campaign developer with new methods when needed.
 		protected property Campaigns.Network.Remote Remote { get; private set; };
 		
-		// Gets or sets the insertion map markers for the acting side.
+		// Gets the insertion map area markers for the acting side.
 		// This property must be set in the initialization phase of the mission.
-		// If this array is empty, then the group will be auto inserted in its base.
-		protected property Array StartMarkersActing { get; private set; };
+		// If this array is empty, then the group will be auto inserted in the base.
+		protected property Array InsertionAreasActing { get; private set; };
 		
-		// Gets or sets the insertion map markers for the opposing side.
+		// Gets the insertion map area markers for the opposing side.
 		// This property must be set in the initialization phase of the mission.
-		// If this array is empty, then the group will be auto inserted in its base.
- 		protected property Array StartMarkersOpposing { get; private set; };
+		// If this array is empty, then the group will be auto inserted in the base.
+ 		protected property Array InsertionAreasOpposing { get; private set; };
 		
-		// Gets or sets general markers that should be visible for the acting side.
+		// Gets the markers that is visible for all players on the acting side.
 		// This property must be set in the initialization phase of the mission.
-		protected property Array SideMarkersActing { get; private set; };
+		protected property Array VisibleMarkersActing { get; private set; };
 		
-		// Gets or sets general markers that should be visible for the opposing side.
+		// Gets the markers that is visible for all players on the opposing side.
 		// This property must be set in the initialization phase of the mission.
-		protected property Array SideMarkersOpposing { get; private set; };
+		protected property Array VisibleMarkersOpposing { get; private set; };
 		
 		// Gets and sets the start time of day. E.g. 12 for in the middle of the day, or 0 for midnight.
 		// This property may be set in the mission's construtor, and at mission startup, time is skipped ahead 
@@ -552,10 +552,10 @@ namespace Campaigns
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return _self.StartMarkersActing;
+				return _self.InsertionAreasActing;
 			};
 			
-			return _self.StartMarkersOpposing;
+			return _self.InsertionAreasOpposing;
 		};
 	
 		// Gets general map markers that should be visible for a side.
@@ -569,10 +569,10 @@ namespace Campaigns
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return _self.SideMarkersActing;
+				return _self.VisibleMarkersActing;
 			};
 			
-			return _self.SideMarkersOpposing;
+			return _self.VisibleMarkersOpposing;
 		};
 		
 		public method Boolean CheckSideHasExtractionMarker("_side" as Side)
