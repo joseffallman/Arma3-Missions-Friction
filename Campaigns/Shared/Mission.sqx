@@ -1031,7 +1031,7 @@ namespace Campaigns
 		// null, then the mission is never considered complete. If secondary 
 		// objective is null, then the mission is considered complete when the primary objective is complete.
 		// Returns (Boolean): true when mission is fully completed, otherwise false.
-		protected virtual method Boolean CheckMissionCompleteForActing()
+		protected virtual method Boolean GetMissionIsCompleteForActing()
 		{
 			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
@@ -1078,7 +1078,7 @@ namespace Campaigns
 		// null, then the mission is never considered complete. If secondary 
 		// objective is null, then the mission is considered complete when the primary objective is complete.
 		// Returns (Boolean): true when mission is fully completed, otherwise false.
-		protected virtual method Boolean CheckMissionCompleteForOpposing()
+		protected virtual method Boolean GetMissionIsCompleteForOpposing()
 		{
 			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
@@ -1154,22 +1154,12 @@ namespace Campaigns
 		// Returns (Boolean): true if it is time for the mission to shut down. Otherwise false.
 		protected virtual method Boolean ShouldMissionShutDown()
 		{
-			private _completeForActing = call _self.CheckMissionCompleteForActing;
-			private _completeForOpposing = call _self.CheckMissionCompleteForOpposing;
+			private _completeForActing = call _self.GetMissionIsCompleteForActing;
+			private _completeForOpposing = call _self.GetMissionIsCompleteForOpposing;
 			
 			if (_completeForActing && _completeForOpposing) then {
 				return true;
 			};
-
-/*
-			if (_completeForActing && (call _self.CountUnitsAliveOpposing) == 0) then {
-				return true;
-			};
-
-			if (_completeForOpposing && (call _self.CountUnitsAliveActing) == 0) then {
-				return true;
-			};
-*/
 			
 			private _aliveOpposingPlayers = ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) > 0;
 			diag_log ("GURGEL: _aliveOpposingPlayers: " + str _aliveOpposingPlayers);
