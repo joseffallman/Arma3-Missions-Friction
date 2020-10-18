@@ -73,7 +73,7 @@ namespace Tvtcf.Client
 				//mapAnimCommit;
 				call MapCtrl.OpenDefaultMap;
 				var _bBox = [_mInsertionMarkers] call MapCtrl.MarkersBoundingBox;
-				[call MapCtrl.DefaultMapControl, _bBox, 150, 0.02] call MapCtrl.MoveMapToRectangle;
+				[call MapCtrl.DefaultMapControl, _bBox, 150, 1000, 1.5, worldSize * 0.7] call MapCtrl.MoveMapToRectangle;
 
 				// Wait for map click
 				

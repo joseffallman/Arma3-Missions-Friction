@@ -36,30 +36,39 @@ namespace Josef.Common
 		/*
 		/ Move and zoom map to rectangle
 		/ Params:
-		/		_mapControl:   Array with one control.
-		/		_rectangle:    Array with two arrays, top-left pos and bottom-right pos.
-		/		_border:       Distance from rectangle to screen side.
-		/		_minZoomLevel: A minimum zoom level, from 1 to 0.01
+		/		_mapControl:        Array with one control.
+		/		_rectangle:         Array with two arrays, top-left pos and bottom-right pos.
+		/		_padding:           Distance from rectangle to screen side.
+		/		_minViewDistance:   A minimum vissible height or width.
+		/		_animationTime:     Time of zoom animation.
+		/		_startViewDistance: Start vissible height or width.
 		/ 
 		*/
-		public static method Boolean MoveMapToRectangle("_mapControlArray" as Array, "_rectangle" as Array, ["_border" as Scalar, 50], ["_minZoomLevel" as Scalar, 0.05] )
+		public static method MoveMapToRectangle("_mapControlArray" as Array, "_rectangle" as Array, ["_padding" as Scalar, 50], ["_minViewDistance" as Scalar, 100], ["_animationTime" as Scalar, 0], ["_startViewDistance" as Scalar, 1000] )
 		{
 			private "_ctrlMap" as Control;
 			_ctrlMap = _mapControlArray select 0;
-			private _zoom = 1;
+			var _zoom = 1;
 			
 			
 			var _topleft = _rectangle select 0;
 			var _bottomright = _rectangle select 1;
-			var _top    = (_topleft select 1) + _border;
-			var _left   = (_topleft select 0) - _border;
-			var _bottom = (_bottomright select 1) - _border;
-			var _right  = (_bottomright select 0) + _border;
+			var _top    = (_topleft select 1) + _padding;
+			var _left   = (_topleft select 0) - _padding;
+			var _bottom = (_bottomright select 1) - _padding;
+			var _right  = (_bottomright select 0) + _padding;
 			var _center = [((_right - _left) /2)  + _left, ((_top - _bottom) / 2) + _bottom];
-			var _largestSide = if ((_right-_left>_top-_bottom)) then {_right-_left} else {_top-_bottom};
-			_zoom   = (_largestSide / worldSize);
+			var _largestSide  = if ((_right-_left>_top-_bottom)) then {_right-_left} else {_top-_bottom};
+			var _minZoomLevel = _minViewDistance / worldSize;
+			_zoom  		 	  = _largestSide / worldSize;
 			
-			_ctrlMap ctrlMapAnimAdd [0, _zoom, _center];
+			if (_zoom < _minZoomLevel) then {
+				_zoom = _minZoomLevel;
+			};
+			
+			var _startZoom = (_startViewDistance / worldSize);
+			_ctrlMap ctrlMapAnimAdd [0, _startZoom, _center];
+			_ctrlMap ctrlMapAnimAdd [_animationTime, _zoom, _center];
 			ctrlMapAnimCommit _ctrlMap;
 			waitUntil {ctrlMapAnimDone _ctrlMap};
 			
