@@ -23,8 +23,7 @@ namespace Campaigns
 		
 		#region Initialization
 		
-		// Creates a mission and sets primitive properties like start time of day and start markers.
-		// _actingSide (Side): The side (east or west) that will act like the "acting" side in the mission.
+		// Creates a Mission object.
 		public constructor()
 		{
 			private ["_missionSettings" as MissionSettings];
@@ -66,10 +65,10 @@ namespace Campaigns
 			_self.HasReturnObjectiveForOpposing = _missionSettings.AddReturnObjectiveForOpposing;
 		};
 		
-		// Initialization the basic meta data for the mission, such as Name, Mission time.
+		// Initializes the basic meta data for the mission, such as name, day time and insertion markers.
 		// Called from the constructor of the Mission class.
-		// Always override this method in a mission, and at least set the _missionSettings.Name property.
-		// _mission (_missionSettings): An object containing necessary meta data for the mission.
+		// Always override this method in a mission, and at least set the _mission.Name property.
+		// _mission (MissionSettings): An object containing necessary meta data for the mission.
 		protected virtual method InitMission("_mission" as MissionSettings)
 		{
 		};
@@ -78,7 +77,7 @@ namespace Campaigns
 		
 		#region Private Methods
 
-		// Creates objectives for both sides and sets all primary- and secondary objective attributes for
+		// Creates objectives for both sides and sets all primary and secondary objective attributes for
 		// the mission.
 		private method CreateMissionObjectives()
 		{
@@ -87,7 +86,7 @@ namespace Campaigns
 			_self.PrimaryObjectiveForOpposing = call _self.CreatePrimaryObjectiveForOpposing;
 			_self.SecondaryObjectiveForOpposing = call _self.CreateSecondaryObjectiveForOpposing;
 		};
-		
+
 		// Finds a free spawn position around a given position.
 		// _markPos (Array): The position where to find a free spawn position.
 		// _initialRadius (Scalar): Optional. The initial radius how far from the position that is ok. This
