@@ -27,6 +27,8 @@ namespace Tvtcf.Client
 		{
 			private ["_tutorial" as Tutorial, "_tutorialDialog" as TutorialDialog];
 			
+			waitUntil { !dialog };
+			
 			if (!_mTutorialsTurnedOff) then {
 
 				_tutorial = [_tutorialType] call TutorialConfig.GetTutorial;
