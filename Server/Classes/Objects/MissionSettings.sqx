@@ -20,8 +20,8 @@ namespace Tvtcf.Server
 			_self.InsertionAreasOpposing = [];
 			_self.VisibleMarkersActing = [];
 			_self.VisibleMarkersOpposing = [];
-			_self.AddReturnObjectiveForActing = false;
-			_self.AddReturnObjectiveForOpposing = false;
+			_self.HasReturnObjectiveActing = false;
+			_self.HasReturnObjectiveOpposing = false;
 		};
 		
 		public property String Name { get; set; };
@@ -36,8 +36,8 @@ namespace Tvtcf.Server
 		
 		public property Array VisibleMarkersOpposing { get; set; };
 		
-		public property Boolean AddReturnObjectiveForActing { get; set; };
+		public property Boolean HasReturnObjectiveActing { get; set; };
 		
-		public property Boolean AddReturnObjectiveForOpposing { get; set; };
+		public property Boolean HasReturnObjectiveOpposing { get; set; };
 	};
 };

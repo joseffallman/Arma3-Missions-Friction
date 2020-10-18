@@ -61,8 +61,8 @@ namespace Campaigns
 			_self.InsertionAreasOpposing = _missionSettings.InsertionAreasOpposing;
 			_self.VisibleMarkersActing = _missionSettings.VisibleMarkersActing;
 			_self.VisibleMarkersOpposing = _missionSettings.VisibleMarkersOpposing;
-			_self.HasReturnObjectiveForActing = _missionSettings.AddReturnObjectiveForActing;
-			_self.HasReturnObjectiveForOpposing = _missionSettings.AddReturnObjectiveForOpposing;
+			_self.HasReturnObjectiveActing = _missionSettings.HasReturnObjectiveActing;
+			_self.HasReturnObjectiveOpposing = _missionSettings.HasReturnObjectiveOpposing;
 		};
 		
 		// Initializes the basic meta data for the mission, such as name, day time and insertion markers.
@@ -483,13 +483,13 @@ namespace Campaigns
 		// Initialize method, and after that it is updated by the campaign object.
 		public property Scalar RemainingTime { get; private set; };
 		
-		// Gets whether the mission will add a last objective to return to the insertion point after completing the
-		// other objectives.
-		public property Boolean HasReturnObjectiveForActing { get; private set; };
+		// Gets whether the framework will add a return objective for the acting side, for the users to 
+		// return to insertion point, after completing the other objectives.
+		public property Boolean HasReturnObjectiveActing { get; private set; };
 		
-		// Gets whether the mission will add a last objective to return to the insertion point after completing the
-		// other objectives.
-		public property Boolean HasReturnObjectiveForOpposing { get; private set; };
+		// Gets whether the framework will add a return objective for the opposing side, for the users to 
+		// return to insertion point, after completing the other objectives.
+		public property Boolean HasReturnObjectiveOpposing { get; private set; };
 		
 		#endregion
 		
@@ -581,10 +581,10 @@ namespace Campaigns
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return _self.HasReturnObjectiveForActing;
+				return _self.HasReturnObjectiveActing;
 			};
 			
-			return _self.HasReturnObjectiveForOpposing;
+			return _self.HasReturnObjectiveOpposing;
 		};
 		
 		// Gets the mission result for a side.
@@ -604,7 +604,7 @@ namespace Campaigns
 					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveStateActing, _secondaryObjectiveName, _self.SecondaryObjectiveStateActing, _self.HasReturnObjectiveForActing, _self.ReturnObjectiveStateActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveStateActing, _secondaryObjectiveName, _self.SecondaryObjectiveStateActing, _self.HasReturnObjectiveActing, _self.ReturnObjectiveStateActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
 			}
 			else
 			{
@@ -614,7 +614,7 @@ namespace Campaigns
 					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveStateOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveStateOpposing, _self.HasReturnObjectiveForOpposing, _self.ReturnObjectiveStateOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
+				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveStateOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveStateOpposing, _self.HasReturnObjectiveOpposing, _self.ReturnObjectiveStateOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
 			};
 		};
 		
@@ -647,7 +647,7 @@ namespace Campaigns
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
 				return _self.SecondaryObjectiveForActing;
 			};
-			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveForActing) then {
+			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveActing) then {
 				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
 			};
 			
@@ -657,7 +657,7 @@ namespace Campaigns
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
 				return _self.SecondaryObjectiveForOpposing;
 			};
-			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveForOpposing) then {
+			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveOpposing) then {
 				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
 			};
 			
@@ -937,7 +937,7 @@ namespace Campaigns
 		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckReturnObjectiveStateActing()
 		{
-			if (_self.HasReturnObjectiveForActing) then
+			if (_self.HasReturnObjectiveActing) then
 			{
 				private _primaryOrSecondaryObjectiveCompleted = false;
 				private _aliveUnitsCount = 0;
@@ -1005,7 +1005,7 @@ namespace Campaigns
 		// and None while the state is not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckReturnObjectiveStateOpposing()
 		{
-			if (_self.HasReturnObjectiveForOpposing) then
+			if (_self.HasReturnObjectiveOpposing) then
 			{
 				private _primaryOrSecondaryObjectiveCompleted = false;
 				private _aliveUnitsCount = 0;
@@ -1048,7 +1048,7 @@ namespace Campaigns
 			
 			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
 			
-			if (_self.HasReturnObjectiveForActing) then
+			if (_self.HasReturnObjectiveActing) then
 			{
 				private _returnCompleted = _self.ReturnObjectiveStateActing != ObjectiveState.None;
 				
@@ -1095,7 +1095,7 @@ namespace Campaigns
 			
 			// If there exists a return objective, mission is complete if primary OR secondary (and the return objective) is completed (has a state).
 			
-			if (_self.HasReturnObjectiveForOpposing) then
+			if (_self.HasReturnObjectiveOpposing) then
 			{
 				private _returnCompleted = _self.ReturnObjectiveStateOpposing != ObjectiveState.None;
 				
