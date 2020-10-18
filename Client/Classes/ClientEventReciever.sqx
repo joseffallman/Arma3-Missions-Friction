@@ -186,6 +186,9 @@ namespace Tvtcf.Client.Statics
 			
 			// "Resurrect" player.
 			[true] call ClientState.SetPlayerIsAlive;
+			
+			// Remove eventual extraction symbol
+			call ClientObjects.ExtractionSymbolHandler.DeleteSymbol;
 		};
 		
 		public static method OnMissionEnded("_missionResult" as MissionResult, "_isLastMission" as Boolean)
