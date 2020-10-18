@@ -66,21 +66,21 @@ namespace Tvtcf.Server
 			
 			{
 				_startMarkers pushBack [_x, west] new MarkerInfo;
-			} foreach [west] call _mission.GetStartMarkers as String;
+			} foreach [west] call _mission.GetInsertionAreaMarkers as String;
 			
 			{
 				_startMarkers pushBack [_x, east] new MarkerInfo;
-			} foreach [east] call _mission.GetStartMarkers as String;
+			} foreach [east] call _mission.GetInsertionAreaMarkers as String;
 			
 			{
 				_markers pushBack [_x, west] new MarkerInfo;
-			} foreach [west] call _mission.GetMarkersBySide as String;
+			} foreach [west] call _mission.GetVisibleMarkers as String;
 			
 			{
 				_markers pushBack [_x, east] new MarkerInfo;
-			} foreach [east] call _mission.GetMarkersBySide as String;
+			} foreach [east] call _mission.GetVisibleMarkers as String;
 			
-			_mMissionMarkersInfo = [_startMarkers, _markers, [west] call _mission.CheckSideHasExtractionMarker, [east] call _mission.CheckSideHasExtractionMarker] new MissionMarkersInfo;
+			_mMissionMarkersInfo = [_startMarkers, _markers, [west] call _mission.GetSideHasReturnObjective, [east] call _mission.GetSideHasReturnObjective] new MissionMarkersInfo;
 		
 			[_mMissionMarkersInfo] call PublicVariableHandler.BroadcastMissionMarkersInfo;
 			["ClientEventReciever.OnMissionSetup", [_mMissionMarkersInfo]] call Remote.Invoke;
