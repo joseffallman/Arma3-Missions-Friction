@@ -51,6 +51,7 @@ namespace Campaigns
 			_self.MissionTimeElapsed = 0;
 			_self.InsertionPointActing = [0, 0, 0];
 			_self.InsertionPointOpposing = [0, 0, 0];
+			_self.HasEnded = false;
 			
 			_missionSettings = new MissionSettings;
 			[_missionSettings] call _self.InitMission;
@@ -477,6 +478,10 @@ namespace Campaigns
 		
 		// Gets the position that the acting side selected for their insertion. [0, 0, 0] if the side has not yet inserted.
 		protected property Array InsertionPointOpposing { get; private set; };
+		
+		// Gets whether the mission has ended or not. Can be used in the check objective state methods 
+		// (e.g. CheckPrimaryObjectiveStateActing).
+		public property Boolean HasEnded { get; private set; };
 		
 		#endregion
 		
@@ -1205,6 +1210,12 @@ namespace Campaigns
 			};
 			
 			return false;
+		};
+		
+		public override method Handle Cancel()
+		{
+			_self.HasEnded = true;
+			call _base.Cancel;
 		};
 		
 		// Runs the mission service.

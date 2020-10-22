@@ -59,7 +59,7 @@ namespace Sqx.Services
 		// Asks the service to stop processing. If supported, script will close as soon as possible, and its IsRunning will be
 		// set to false when that happens.
 		// Returns (Handle): The script handle.
-		public method Handle Cancel()
+		public virtual method Handle Cancel()
 		{
 			_self.IsCancelling = true;
 		};
