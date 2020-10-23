@@ -26,11 +26,6 @@ namespace Sqx.Services
 		// Gets whether the service is currently asked to stop running.
 		protected property Boolean IsCancelling { get; private set; };
 		
-		// Called from RunAsync to reset things when starting a new processing.
-		protected virtual method Initialize()
-		{
-		};
-		
 		// Performs the service's logic as a separate process.
 		// Call this from the sub class'. Run when returning from the method (exiting service script).
 		protected virtual method Run()
@@ -40,16 +35,17 @@ namespace Sqx.Services
 		};
 		
 		// Starts the service to run concurrently.
-		// If service is already running, service will not restart, but only return the currently running script handle.
-		// Returns (Handle): The script handle for the running script.
-		public method Handle RunAsync()
+		// If service is already running, service will not restart unless Cancel is called first and the service has actually 
+		// stopped.
+		// Override this if you want to att initialization for each time the service start. Do not forget to call _base.RunAsync.
+		// Returns (Handle): The script handle for the currently started or running script.
+		public virtual method Handle RunAsync()
 		{
 			if (!_self.IsRunning) then
 			{
 				_self.IsRunning = true;
 				_self.IsCancelling = false;
 				
-				call _self.Initialize;
 				_mScriptHandle = spawn _self.Run;
 			};
 			

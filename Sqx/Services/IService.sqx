@@ -5,7 +5,7 @@
  * Author:  Engima
  *
  * Description:
- * Interface for all services.
+ * Interface for the service class.
  */
 namespace Sqx.Services
 {
