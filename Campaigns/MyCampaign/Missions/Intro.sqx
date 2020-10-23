@@ -1,11 +1,11 @@
 /*
  * Name:	Intro
  * Date:	2020-08-11
- * Version: 1.0
  * Author:  Engima
  *
  * Description:
  * The first mission of my operation.
+ * For documentation of all usable properties and methods, see the comments in file Campaigns\Shared\Mission.sqx.
  */
 
 using Tvtcf.Common;
@@ -25,6 +25,17 @@ namespace Campaigns.MyCampaign
 		protected override method InitMission("_mission" as MissionSettings)
 		{
 			_mission.Name = "Intro";
+		};
+		
+		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
+		{
+			// If mission has ended and any acting units are alive, return "Succeeded".
+			if (_self.HasEnded && (call _self.CountUnitsAliveActing) > 0) then {
+				return ObjectiveState.Succeeded;
+			};
+			
+			// Until any other objective condition above is met, return "None".
+			return ObjectiveState.None;
 		};
 	};
 };
