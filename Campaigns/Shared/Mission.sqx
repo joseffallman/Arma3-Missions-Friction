@@ -479,8 +479,9 @@ namespace Campaigns
 		// Gets the position that the acting side selected for their insertion. [0, 0, 0] if the side has not yet inserted.
 		protected property Array InsertionPointOpposing { get; private set; };
 		
-		// Gets whether the mission has ended or not. Can be used in the check objective state methods 
-		// (e.g. CheckPrimaryObjectiveStateActing).
+		// Gets whether the mission has ended or not. This property return true when the mission time is out, and when the
+		// mission ends before this - when Cancel is called. It can be used int the objective state methods (e.g. 
+		// CheckPrimaryObjectiveStateActing) to return the correct objective state when mission is interrupted.
 		public property Boolean HasEnded { get; private set; };
 		
 		#endregion
