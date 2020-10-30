@@ -233,6 +233,9 @@
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="DictionaryItem.sqx" FileName="Common\Classes\Objects\DictionaryItem.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
+                  <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="Marker.sqx" FileName="Common\Classes\Objects\Marker.sqx">
+                    <SubNodes />
+                  </ProjectNodeViewModel>
                   <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MarkerInfo.sqx" FileName="Common\Classes\Objects\MarkerInfo.sqx">
                     <SubNodes />
                   </ProjectNodeViewModel>
