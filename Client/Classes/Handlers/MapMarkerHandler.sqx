@@ -33,7 +33,7 @@ namespace Tvtcf.Client
 		
 		public property Boolean MissionHasReturnObjective { get; private set; };
 		
-		private method RemoveStartMarkers()
+		public method RemoveInsertionMarkers()
 		{
 			{
 				deleteMarkerLocal _x;
@@ -44,7 +44,7 @@ namespace Tvtcf.Client
 		
 		public method AddInsertionMarker("_position" as Array)
 		{
-			call _self.RemoveStartMarkers;
+			call _self.RemoveInsertionMarkers;
 		
 			private _marker = createMarkerLocal ["_extractionMarkerLocal", _position];
 			_marker setMarkerShapeLocal "ICON";
@@ -63,7 +63,7 @@ namespace Tvtcf.Client
 				deleteMarkerLocal _self.BaseMarker;
 			};
 			
-			call _self.RemoveStartMarkers;
+			call _self.RemoveInsertionMarkers;
 			
 			{
 				deleteMarkerLocal _x;

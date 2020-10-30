@@ -149,10 +149,12 @@ namespace Tvtcf.Server
 			[_mObjectiveChangeCollection] call PublicVariableHandler.BroadcastObjectiveChangeCollection;
 		};
 
-		public method Array InsertGroup("_side" as Side, "_position" as Array)
+		public method InsertionEventArgs InsertGroup("_side" as Side, "_position" as Array)
 		{
+			private "_e" as InsertionEventArgs;
+			_e = classNull;
+			
 			var _group = grpNull;
-			var _actualPos = _position;
 			
 			{
 				if (side group _x == _side) then {
@@ -165,7 +167,7 @@ namespace Tvtcf.Server
 				if (!_mWestHasInserted) then
 				{
 					if (!isNull _group) then {
-						_actualPos = [_group, _position] call _mCurrentMission.InsertGroup;
+						_e = [_group, _position] call _mCurrentMission.InsertGroup;
 						_mWestlyUnits = units _group;
 					};
 					
@@ -180,7 +182,7 @@ namespace Tvtcf.Server
 				if (!_mEastHasInserted) then
 				{
 					if (!isNull _group) then {
-						_actualPos = [_group, _position] call _mCurrentMission.InsertGroup;
+						_e = [_group, _position] call _mCurrentMission.InsertGroup;
 						_mEastlyUnits = units _group;
 					};
 					
@@ -191,7 +193,7 @@ namespace Tvtcf.Server
 				};
 			};
 			
-			return _actualPos;
+			return _e;
 		};
 		
 		public method EndCurrentMission()

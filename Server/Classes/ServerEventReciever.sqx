@@ -20,14 +20,14 @@ namespace Tvtcf.Server.Statics
 		// _position (Array): The position where to insert all players on the side.
 		public static method OnPlayerPerformingInsertion("_side" as Side, "_position" as Array, "_doTeleport" as Boolean)
 		{
-			private _actualPos = [_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
+			var _insertionEventArgs = [_side, _position] call ServerObjects.CampaignEngine.InsertGroup;
 			
-			private _switchableUnits = call ServerObjects.MissionUnitsHandler.GetSwitchableUnits;
+			var _switchableUnits = call ServerObjects.MissionUnitsHandler.GetSwitchableUnits;
 			
 			{
 				if (side group _x == _side) then
 				{
-					["ClientEventReciever.OnInsertGroup", [group _x, _actualPos, _doTeleport]] call Remote.Invoke;
+					["ClientEventReciever.OnInsertGroup", [group _x, _insertionEventArgs.Position, _insertionEventArgs.ShowInsertionMarker, _doTeleport]] call Remote.Invoke;
 					return;
 				};
 			} foreach _switchableUnits;

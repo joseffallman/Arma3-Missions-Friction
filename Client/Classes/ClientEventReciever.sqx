@@ -103,7 +103,7 @@ namespace Tvtcf.Client.Statics
 			call _briefingService.RunAsync;
 		};
 		
-		public static method OnInsertGroup("_group" as Group, "_position" as Array, "_doTeleport" as Boolean)
+		public static method OnInsertGroup("_group" as Group, "_position" as Array, "_showInsertionMarker" as Boolean, "_doTeleport" as Boolean)
 		{
 			private ["_teleporter" as TeleportService];
 			
@@ -112,7 +112,12 @@ namespace Tvtcf.Client.Statics
 			
 			if (playerSide == side _group) then
 			{
-				[_position] call ClientObjects.MapMarkerHandler.AddInsertionMarker;
+				if (_showInsertionMarker) then {
+					[_position] call ClientObjects.MapMarkerHandler.AddInsertionMarker;
+				}
+				else {
+					call ClientObjects.MapMarkerHandler.RemoveInsertionMarkers;
+				};
 			
 				if (_doTeleport) then {
 					_teleporter = [_position] new TeleportService;

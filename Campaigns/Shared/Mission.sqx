@@ -794,8 +794,8 @@ namespace Campaigns
 		// Note that this method is not called if there are no units in the group (e.g. solo player in MP and no AI).
 		// _group (Group): The group that is being inserted.
 		// _position (Array): The position where the group is inserted.
-		// Returns (Array): The insertion position (possibly altered by the mission).
-		public method Array InsertGroup("_group" as Group, "_position" as Array)
+		// Returns (InsertionEventArgs): Insertion information (possibly altered by the mission).
+		public method InsertionEventArgs InsertGroup("_group" as Group, "_position" as Array)
 		{
 			private ["_missionSide" as MissionSide, "_e" as InsertionEventArgs];
 			
@@ -814,7 +814,7 @@ namespace Campaigns
 				[_e] call _self.OnOpposingGroupInserted;
 			};
 			
-			return _e.Position;
+			return _e;
 		};
 		
 		// Called when a player selects an action created with the AddAction method.

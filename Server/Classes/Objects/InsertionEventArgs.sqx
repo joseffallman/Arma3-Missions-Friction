@@ -16,11 +16,14 @@ namespace Tvtcf.Server
 		{
 			_self.Side = _side;
 			_self.Position = _position;
+			_self.ShowInsertionMarker = true;
 		};
 		
 		public property Side Side { get; private set; };
 		
 		public property Array Position { get; set; };
+		
+		public property Boolean ShowInsertionMarker { get; set; };
 	};
 };
 
