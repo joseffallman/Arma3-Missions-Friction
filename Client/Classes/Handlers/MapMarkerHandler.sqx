@@ -53,10 +53,23 @@ namespace Tvtcf.Client
 			_mLocalMarkers pushBack _marker;
 		};
 		
-		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
+		public method AddMarker("_markerInfo" as Marker)
 		{
-			_self.MissionHasReturnObjective = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
+			var _marker = createMarkerLocal [_markerInfo.Name, _markerInfo.Position];
+			_marker setMarkerShapeLocal _markerInfo.Shape;
+			_marker setMarkerSizeLocal _markerInfo.Size;
+			_marker setMarkerDirLocal _markerInfo.Direction;
+			_marker setMarkerTypeLocal _markerInfo.Type;
+			_marker setMarkerColorLocal _markerInfo.Color;
+			_marker setMarkerBrushLocal _markerInfo.Brush;
+			_marker setMarkerTextLocal _markerInfo.Text;
+			_marker setMarkerAlphaLocal _markerInfo.Alpha;
+			
+			_mLocalMarkers pushBack _marker;
+		};
 		
+		public method CleanUpAllMarkers()
+		{
 			// Remove all earlier markers
 			
 			if (_self.BaseMarker != "") then {
@@ -70,7 +83,12 @@ namespace Tvtcf.Client
 			} foreach _mLocalMarkers;
 			
 			_mLocalMarkers = [];
-			
+		};
+		
+		public method UpdateMarkers("_missionMarkersInfo" as MissionMarkersInfo)
+		{
+			_self.MissionHasReturnObjective = [playerSide] call _missionMarkersInfo.CheckUseExtractionMarker;
+		
 			// Draw start markers
 			
 			private _startMarkerColor = "ColorBlack"; // if (playerSide == west) then { "colorBLUFOR" } else { "colorOPFOR" };

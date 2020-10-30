@@ -34,10 +34,9 @@ namespace Tvtcf.Common
 			["_direction" as Scalar, 0],
 			["_color" as String, "ColorBlack"],
 			["_brush" as String, "Solid"],
-			["_text" as String, ""],
 			["_alpha" as Scalar, 0.4])
 		{			
-			return ([_name, _position, _shape, _size, _direction, "hd_dot", _color, _brush, _text, _alpha] new Marker);
+			return ([_name, _position, _shape, _size, _direction, "hd_dot", _color, _brush, "", _alpha] new Marker);
 		};
 
 		#endregion
@@ -45,6 +44,7 @@ namespace Tvtcf.Common
 		#region Constructor
 
 		// Creates a Marker object.
+		// _name (String): The marker name of the marker.
 		// _position (Array): The marker's position.
 		// _shape (String): The shape of the marker ("RECTANGLE" or "ICON").
 		// _size (Array): The size of the marker. E.g. [1, 1].
@@ -54,7 +54,6 @@ namespace Tvtcf.Common
 		// _brush (String): The marker's brush (e.g. "Solid").
 		// _text (String): The marker's text.
 		// _alpha (Scalar): The marker's alpha.
-		// _name (String): The marker name of the marker.
 		public constructor(
 			"_name" as String,
 			"_position" as Array,
@@ -68,13 +67,13 @@ namespace Tvtcf.Common
 			["_alpha" as Scalar, 0.4])
 		{
 			if (isNil "Sqx_Markers_Marker_CurrentId") then {
-				Sqx_Markers_Marker_CurrentId = 1;
+				Tvtcf_Common_Marker_CurrentId = 1;
 			};
 			
 			// Generate a name if not an explicit name will be used.
 			if (_name == "") then {
-				_name = "Sqx_Markers_Marker_" + str Sqx_Markers_Marker_CurrentId;
-				Sqx_Markers_Marker_CurrentId = Sqx_Markers_Marker_CurrentId + 1;
+				_name = "Tvtcf_Common_Marker" + str Tvtcf_Common_Marker_CurrentId;
+				Tvtcf_Common_Marker_CurrentId = Tvtcf_Common_Marker_CurrentId + 1;
 			};
 			
 			_self.Name = _name;

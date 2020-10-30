@@ -320,14 +320,54 @@ namespace Campaigns
 			return [_soldierType, _position, _group] call _self.CreateAiSoldier;
 		};
 		
-		protected method CreateSideIconMarker()
+		// Creates an icon marker for one of the sides (acting or opposing).
+		// _missionSide (MissionSide): The side (acting or opposing) to see the marker.
+		// _name (String): The marker name of the marker.
+		// _position (Array): The marker's position.
+		// _type (String): The marker type (only relevant if _shape is "ICON").
+		// _color (String): The marker's color. Applies to Arma 3's colors, e.g. "ColorBlack".
+		// _text (String): The marker's text.
+		// _alpha (Scalar): The marker's alpha.
+		protected method CreateSideIconMarker(
+			"_missionSide" as MissionSide,
+			"_name" as String,
+			"_position" as Array, 
+			["_type" as String, "hd_dot"], 
+			["_color" as String, "ColorBlack"],
+			["_text" as String, ""],
+			["_alpha" as Scalar, 0.4])
 		{
-			
+			var _side = [_missionSide] call _self.GetActualSide;
+			var _marker = [_name, _position, _type, _color, _text, _alpha] call Marker.NewIconMarker;
+		
+			["ClientEventReciever.OnCreateSideMarker", [_side, _marker]] call Remote.Invoke;
 		};
 		
-		protected method CreateSideShapeMarker()
+		// Creates a shape marker for one of the sides (acting or opposing).
+		// _missionSide (MissionSide): The side (acting or opposing) to see the marker.
+		// _name (String): The marker name of the marker.
+		// _position (Array): The marker's position.
+		// _shape (String): The shape of the marker ("RECTANGLE" or "ICON").
+		// _size (Array): The size of the marker. E.g. [1, 1].
+		// _direction (Scalar): The marker's direction.
+		// _color (String): The marker's color. Applies to Arma 3's colors, e.g. "ColorBlack".
+		// _brush (String): The marker's brush (e.g. "Solid").
+		// _alpha (Scalar): The marker's alpha.
+		protected method CreateSideShapeMarker(
+			"_missionSide" as MissionSide,
+			"_name" as String,
+			"_position" as Array,
+			["_shape" as String, "RECTANGLE"],
+			["_size" as Array, [50, 50]],
+			["_direction" as Scalar, 0],
+			["_color" as String, "ColorBlack"],
+			["_brush" as String, "Solid"],
+			["_alpha" as Scalar, 0.4])
 		{
+			var _side = [_missionSide] call _self.GetActualSide;
+			var _marker = [_name, _position, _shape, _size, _direction, _color, _brush, _alpha] call Marker.NewShapeMarker;
 		
+			["ClientEventReciever.OnCreateSideMarker", [_side, _marker]] call Remote.Invoke;
 		};
 		
 		// Gets the actual side (east or west) out of a mission side (acting or opposing).

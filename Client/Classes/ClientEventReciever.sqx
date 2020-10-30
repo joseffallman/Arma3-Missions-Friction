@@ -59,6 +59,7 @@ namespace Tvtcf.Client.Statics
 		{
 			// Delete tasks
 			call ClientObjects.TaskHandler.DeleteAllTasks;
+			call ClientObjects.MapMarkerHandler.CleanUpAllMarkers;
 		};
 		
 		public static method OnMissionSetup("_missionMarkersInfo" as MissionMarkersInfo)
@@ -132,7 +133,14 @@ namespace Tvtcf.Client.Statics
 			// Hide insertion menu option
 			call TvtcfActionMenuHandler.UpdateVisibleOptions;
 		};
-		
+
+		public static method OnCreateSideMarker("_side" as Side, "_markerInfo" as Marker)
+		{
+			if (_side == playerSide) then {
+				[_markerInfo] call ClientObjects.MapMarkerHandler.AddMarker;
+			};
+		};
+
 		public static method OnTaskStateChanged("_side" as Side, "_objectivePrio" as ObjectivePrio, "_objectiveState" as ObjectiveState)
 		{
 			private ["_teleporter" as TeleportService];
