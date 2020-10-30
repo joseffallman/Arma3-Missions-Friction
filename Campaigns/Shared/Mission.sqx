@@ -320,6 +320,16 @@ namespace Campaigns
 			return [_soldierType, _position, _group] call _self.CreateAiSoldier;
 		};
 		
+		protected method CreateSideIconMarker()
+		{
+			
+		};
+		
+		protected method CreateSideShapeMarker()
+		{
+		
+		};
+		
 		// Gets the actual side (east or west) out of a mission side (acting or opposing).
 		// Avoid addressing the actual side in a mission. Instead use "mission side" whereever it is possible, i.e. "Acting" and "Opposing".
 		// _side (MissionSide): The mission side to ask for (acting or opposing).
