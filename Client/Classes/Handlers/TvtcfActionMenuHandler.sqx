@@ -35,7 +35,7 @@ namespace Tvtcf.Client
 		
 			if (_mMissionMenuActionId < 0 || isNull _player || { _player != player }) then
 			{
-				_mMissionMenuActionId = player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }, nil, 100];
+				_mMissionMenuActionId = player addAction ["<t color='#AAAAFF'>Open Mission Menu</t>", { call _self.Open; }, nil, 100, false];
 				_player = player;
 			};
 		};
