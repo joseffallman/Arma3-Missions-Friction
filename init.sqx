@@ -21,8 +21,10 @@ if (!isDedicated) then {
 };
 
 // If in singleplayer, remove all default AI units (since we are spawning new ones.)
-if (!isMultiplayer) then {
-	for "_i" from 1 to 5 do {
+if (!isMultiplayer) then
+{
+	for "_i" from 1 to 20 do
+	{
 		private _bluforUnitVar = "b" + str _i;
 		private _opforUnitVar = "o" + str _i;
 

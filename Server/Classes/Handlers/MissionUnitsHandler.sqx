@@ -54,6 +54,36 @@ namespace Tvtcf.Server
 			if (!isNil "b10" && { !isNull b5 }) then {
 				_switchableUnits pushBack b5;
 			};
+			if (!isNil "b11" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b12" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b13" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b14" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b15" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b16" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b17" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b18" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b19" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
+			if (!isNil "b20" && { !isNull b5 }) then {
+				_switchableUnits pushBack b5;
+			};
 			
 			if (!isNil "o1" && { !isNull o1 }) then {
 				_switchableUnits pushBack o1;
@@ -83,6 +113,36 @@ namespace Tvtcf.Server
 				_switchableUnits pushBack o4;
 			};
 			if (!isNil "o10" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o11" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o12" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o13" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o14" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o15" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o16" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o17" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o18" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o19" && { !isNull o5 }) then {
+				_switchableUnits pushBack o5;
+			};
+			if (!isNil "o20" && { !isNull o5 }) then {
 				_switchableUnits pushBack o5;
 			};
 			
