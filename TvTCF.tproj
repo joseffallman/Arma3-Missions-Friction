@@ -469,9 +469,6 @@
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="MissionParameters.ext" FileName="MissionParameters.ext">
         <SubNodes />
       </ProjectNodeViewModel>
-      <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="README.sqx" FileName="README.sqx">
-        <SubNodes />
-      </ProjectNodeViewModel>
       <ProjectNodeViewModel xsi:type="ProjectFileNodeViewModel" Name="TvTCF_LICENSE.txt" FileName="TvTCF_LICENSE.txt">
         <SubNodes />
       </ProjectNodeViewModel>
