@@ -26,16 +26,5 @@ namespace Campaigns.MyCampaign
 		{
 			_mission.Name = "Intro";
 		};
-		
-		protected override method ObjectiveState CheckPrimaryObjectiveStateActing()
-		{
-			// If mission has ended and any acting units are alive, return "Succeeded".
-			if (_self.HasEnded && (call _self.CountUnitsAliveActing) > 0) then {
-				return ObjectiveState.Succeeded;
-			};
-			
-			// Until any other objective condition above is met, return "None".
-			return ObjectiveState.None;
-		};
 	};
 };

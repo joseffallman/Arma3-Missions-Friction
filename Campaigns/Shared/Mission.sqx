@@ -982,24 +982,24 @@ namespace Campaigns
 		// Checks the primary objective state for the acting side..
 		// Called continously during the mission until it returns a state other than None. Then never again.
 		// Override this to specify the condition for when the acting side's primary objective is completed (Succeeded, Failed or Canceled).
-		// Default behavior is to return Succeeded when mission time is up and at least one unit on the side is still alive.
+		// Default behavior is to return Succeeded when mission ends and at least one unit on the side is still alive.
 		// Returns (ObjectiveState): Success when the objective is completed, Failed if it has failed, Canceled if should be considered Canceled, 
 		// and None while the state is yet not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckPrimaryObjectiveStateActing()
 		{
-			private _missionTimeIsUp = _self.RemainingTime == 0;
-			private _unitsStillAlive = (call _self.CountUnitsAliveActing) > 0;
+			var _unitsAlive = (call _self.CountUnitsAliveActing) > 0;
 			
-			if (!_unitsStillAlive) then {
+			// If no units are alive, return "Failed".
+			if (!_unitsAlive) then {
 				return ObjectiveState.Failed;
 			};
 			
-			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
-			
-			if (_groupHasSurvived) then {
+			// If mission has ended and at least one acting unit is alive, return "Succeeded".
+			if (_self.HasEnded && (call _self.CountUnitsAliveActing) > 0) then {
 				return ObjectiveState.Succeeded;
 			};
 			
+			// Until any other objective condition above is met, return "None".
 			return ObjectiveState.None;
 		};
 		
@@ -1051,23 +1051,19 @@ namespace Campaigns
 		// and None while the state is yet not set and the framework should continue checking.
 		protected virtual method ObjectiveState CheckPrimaryObjectiveStateOpposing()
 		{
-			private _missionTimeIsUp = _self.RemainingTime == 0;
-			private _unitsStillAlive = (call _self.CountUnitsAliveOpposing) > 0;
+			var _unitsAlive = (call _self.CountUnitsAliveOpposing) > 0;
 			
-			if (!_unitsStillAlive) then {
+			// If no units are alive, return "Failed".
+			if (!_unitsAlive) then {
 				return ObjectiveState.Failed;
 			};
 			
-			private _groupHasSurvived = _missionTimeIsUp && _unitsStillAlive;
-			
-			if (_groupHasSurvived) then {
+			// If mission has ended and at least one opposing unit is alive, return "Succeeded".
+			if (_self.HasEnded && (call _self.CountUnitsAliveOpposing) > 0) then {
 				return ObjectiveState.Succeeded;
 			};
 			
-			if (!_unitsStillAlive) then {
-				return ObjectiveState.Failed;
-			};
-			
+			// Until any other objective condition above is met, return "None".
 			return ObjectiveState.None;
 		};
 		
