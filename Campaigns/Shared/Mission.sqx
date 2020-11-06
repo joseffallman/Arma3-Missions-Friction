@@ -84,10 +84,10 @@ namespace Campaigns
 		// the mission.
 		private method CreateMissionObjectives()
 		{
-			_self.PrimaryObjectiveForActing = call _self.CreatePrimaryObjectiveForActing;
-			_self.SecondaryObjectiveForActing = call _self.CreateSecondaryObjectiveForActing;
-			_self.PrimaryObjectiveForOpposing = call _self.CreatePrimaryObjectiveForOpposing;
-			_self.SecondaryObjectiveForOpposing = call _self.CreateSecondaryObjectiveForOpposing;
+			_self.PrimaryObjectiveForActing = call _self.AddPrimaryObjectiveForActing;
+			_self.SecondaryObjectiveForActing = call _self.AddSecondaryObjectiveForActing;
+			_self.PrimaryObjectiveForOpposing = call _self.AddPrimaryObjectiveForOpposing;
+			_self.SecondaryObjectiveForOpposing = call _self.AddSecondaryObjectiveForOpposing;
 		};
 
 		// Finds a free spawn position around a given position.
@@ -893,7 +893,7 @@ namespace Campaigns
 		{
 			private ["_primaryObjective" as MissionObjective];
 			
-			_primaryObjective = call _self.CreatePrimaryObjectiveForActing;
+			_primaryObjective = call _self.AddPrimaryObjectiveForActing;
 			
 			if (!isNull _primaryObjective) then {
 				return _primaryObjective.FullDescription;
@@ -910,7 +910,7 @@ namespace Campaigns
 		{
 			private ["_primaryObjective" as MissionObjective];
 			
-			_primaryObjective = call _self.CreatePrimaryObjectiveForOpposing;
+			_primaryObjective = call _self.AddPrimaryObjectiveForOpposing;
 			
 			if (!isNull _primaryObjective) then {
 				return _primaryObjective.FullDescription;
@@ -919,42 +919,42 @@ namespace Campaigns
 			return "Carry out the mission.";
 		};
 
-		// Creates a primary objective/task for the acting side.
+		// Adds a primary objective/task for the acting side.
 		// Default behavior is to create a mission objective/task that says "Survive."
 		// Override this to create a primary objective/task for the acting side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. Must not return classNull.
-		protected virtual method MissionObjective CreatePrimaryObjectiveForActing()
+		protected virtual method MissionObjective AddPrimaryObjectiveForActing()
 		{
 			return ["Survive."] new MissionObjective;
 		};
 		
-		// Creates a secondary objective/task for the acting side.
+		// Adds a secondary objective/task for the acting side.
 		// Default behavior is to return classNull - i.e. the side has no secondary objective/task.
 		// Override this to create a secondary objective/task for the acting side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. classNull if the mission has no secondary objective/task.
-		protected virtual method MissionObjective CreateSecondaryObjectiveForActing()
+		protected virtual method MissionObjective AddSecondaryObjectiveForActing()
 		{
 			return classNull;
 		};
 
-		// Creates a primary objective/task for the opposing side.
+		// Adds a primary objective/task for the opposing side.
 		// Default behavior is to create a mission objective/task that says "Survive."
 		// Override this to create a primary objective/task for the opposing side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. Must not return classNull.
-		protected virtual method MissionObjective CreatePrimaryObjectiveForOpposing()
+		protected virtual method MissionObjective AddPrimaryObjectiveForOpposing()
 		{
 			return ["Survive."] new MissionObjective;
 		};
 		
-		// Creates a secondary objective/task for the opposing side.
+		// Adds a secondary objective/task for the opposing side.
 		// Default behavior is to return classNull - i.e. the side has no secondary objective/task.
 		// Override this to create a secondary objective/task for the opposing side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. classNull if the mission has no secondary objective/task.
-		protected virtual method MissionObjective CreateSecondaryObjectiveForOpposing()
+		protected virtual method MissionObjective AddSecondaryObjectiveForOpposing()
 		{
 			return classNull;
 		};
