@@ -84,10 +84,10 @@ namespace Campaigns
 		// the mission.
 		private method CreateMissionObjectives()
 		{
-			_self.PrimaryObjectiveForActing = call _self.AddPrimaryObjectiveForActing;
-			_self.SecondaryObjectiveForActing = call _self.AddSecondaryObjectiveForActing;
-			_self.PrimaryObjectiveForOpposing = call _self.AddPrimaryObjectiveForOpposing;
-			_self.SecondaryObjectiveForOpposing = call _self.AddSecondaryObjectiveForOpposing;
+			_self.PrimaryObjectiveActing = call _self.AddPrimaryObjectiveActing;
+			_self.SecondaryObjectiveActing = call _self.AddSecondaryObjectiveActing;
+			_self.PrimaryObjectiveOpposing = call _self.AddPrimaryObjectiveOpposing;
+			_self.SecondaryObjectiveOpposing = call _self.AddSecondaryObjectiveOpposing;
 		};
 
 		// Finds a free spawn position around a given position.
@@ -494,16 +494,16 @@ namespace Campaigns
 		protected property Array OpposingUnits { get; private set; };
 
 		// Gets the primary objective briefing information for the acting side.
-		protected property MissionObjective PrimaryObjectiveForActing { get; private set; };
+		protected property MissionObjective PrimaryObjectiveActing { get; private set; };
 		
 		// Gets the secondary objective briefing information for the acting side. classNull if there is no secondary objective.
-		protected property MissionObjective SecondaryObjectiveForActing { get; private set; };
+		protected property MissionObjective SecondaryObjectiveActing { get; private set; };
 		
 		// Gets the primary objective briefing information for the opposing side.
-		protected property MissionObjective PrimaryObjectiveForOpposing { get; private set; };
+		protected property MissionObjective PrimaryObjectiveOpposing { get; private set; };
 		
 		// Gets the secondary objective briefing information for the opposing side. classNull if there is no secondary objective.
-		protected property MissionObjective SecondaryObjectiveForOpposing { get; private set; };
+		protected property MissionObjective SecondaryObjectiveOpposing { get; private set; };
 		
 		// Gets the current state of the primary objective for the acting side.
 		protected property ObjectiveState PrimaryObjectiveStateActing { get; private set; };
@@ -674,21 +674,21 @@ namespace Campaigns
 			{
 				_secondaryObjectiveName = "";
 				
-				if (!isNull _self.SecondaryObjectiveForActing) then {
-					_secondaryObjectiveName = _self.SecondaryObjectiveForActing.ShortDescription;
+				if (!isNull _self.SecondaryObjectiveActing) then {
+					_secondaryObjectiveName = _self.SecondaryObjectiveActing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForActing.ShortDescription, _self.PrimaryObjectiveStateActing, _secondaryObjectiveName, _self.SecondaryObjectiveStateActing, _self.HasReturnObjectiveActing, _self.ReturnObjectiveStateActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
+				return [_self.PrimaryObjectiveActing.ShortDescription, _self.PrimaryObjectiveStateActing, _secondaryObjectiveName, _self.SecondaryObjectiveStateActing, _self.HasReturnObjectiveActing, _self.ReturnObjectiveStateActing, count _self.ActingUnits, { alive _x } count _self.ActingUnits] new MissionResultInfo;
 			}
 			else
 			{
 				_secondaryObjectiveName = "";
 				
-				if (!isNull _self.SecondaryObjectiveForOpposing) then {
-					_secondaryObjectiveName = _self.SecondaryObjectiveForOpposing.ShortDescription;
+				if (!isNull _self.SecondaryObjectiveOpposing) then {
+					_secondaryObjectiveName = _self.SecondaryObjectiveOpposing.ShortDescription;
 				};
 				
-				return [_self.PrimaryObjectiveForOpposing.ShortDescription, _self.PrimaryObjectiveStateOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveStateOpposing, _self.HasReturnObjectiveOpposing, _self.ReturnObjectiveStateOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
+				return [_self.PrimaryObjectiveOpposing.ShortDescription, _self.PrimaryObjectiveStateOpposing, _secondaryObjectiveName, _self.SecondaryObjectiveStateOpposing, _self.HasReturnObjectiveOpposing, _self.ReturnObjectiveStateOpposing, count _self.OpposingUnits, { alive _x } count _self.OpposingUnits] new MissionResultInfo;
 			};
 		};
 		
@@ -699,11 +699,11 @@ namespace Campaigns
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting) then {
-				return call _self.AddBriefingInfoForActing;
+				return call _self.AddBriefingActing;
 			};
 			
 			if (_missionSide == MissionSide.Opposing) then {
-				return call _self.AddBriefingInfoForOpposing;
+				return call _self.AddBriefingOpposing;
 			};
 			
 			return "";
@@ -716,20 +716,20 @@ namespace Campaigns
 			_missionSide = [_side] call _self.GetMissionSide;
 			
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Primary) then {
-				return _self.PrimaryObjectiveForActing;
+				return _self.PrimaryObjectiveActing;
 			};
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Secondary) then {
-				return _self.SecondaryObjectiveForActing;
+				return _self.SecondaryObjectiveActing;
 			};
 			if (_missionSide == MissionSide.Acting && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveActing) then {
 				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
 			};
 			
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Primary) then {
-				return _self.PrimaryObjectiveForOpposing;
+				return _self.PrimaryObjectiveOpposing;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Secondary) then {
-				return _self.SecondaryObjectiveForOpposing;
+				return _self.SecondaryObjectiveOpposing;
 			};
 			if (_missionSide == MissionSide.Opposing && _prio == ObjectivePrio.Return && _self.HasReturnObjectiveOpposing) then {
 				return ["Return to insertion point", "Return to the insertion point."] new MissionObjective;
@@ -889,11 +889,11 @@ namespace Campaigns
 		// Default behavior is to return the full description from the primary objective.
 		// Override this if you want to show the players some briefing information.
 		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
-		protected virtual method String AddBriefingInfoForActing()
+		protected virtual method String AddBriefingActing()
 		{
 			private ["_primaryObjective" as MissionObjective];
 			
-			_primaryObjective = call _self.AddPrimaryObjectiveForActing;
+			_primaryObjective = call _self.AddPrimaryObjectiveActing;
 			
 			if (!isNull _primaryObjective) then {
 				return _primaryObjective.FullDescription;
@@ -906,11 +906,11 @@ namespace Campaigns
 		// Default behavior is to return the full description from the primary objective.
 		// Override this if you want to show the players some briefing information.
 		// Returns (String): Briefing information. Empty string if no briefing information should be shown.
-		protected virtual method String AddBriefingInfoForOpposing()
+		protected virtual method String AddBriefingOpposing()
 		{
 			private ["_primaryObjective" as MissionObjective];
 			
-			_primaryObjective = call _self.AddPrimaryObjectiveForOpposing;
+			_primaryObjective = call _self.AddPrimaryObjectiveOpposing;
 			
 			if (!isNull _primaryObjective) then {
 				return _primaryObjective.FullDescription;
@@ -924,7 +924,7 @@ namespace Campaigns
 		// Override this to create a primary objective/task for the acting side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. Must not return classNull.
-		protected virtual method MissionObjective AddPrimaryObjectiveForActing()
+		protected virtual method MissionObjective AddPrimaryObjectiveActing()
 		{
 			return ["Survive."] new MissionObjective;
 		};
@@ -934,7 +934,7 @@ namespace Campaigns
 		// Override this to create a secondary objective/task for the acting side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. classNull if the mission has no secondary objective/task.
-		protected virtual method MissionObjective AddSecondaryObjectiveForActing()
+		protected virtual method MissionObjective AddSecondaryObjectiveActing()
 		{
 			return classNull;
 		};
@@ -944,7 +944,7 @@ namespace Campaigns
 		// Override this to create a primary objective/task for the opposing side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. Must not return classNull.
-		protected virtual method MissionObjective AddPrimaryObjectiveForOpposing()
+		protected virtual method MissionObjective AddPrimaryObjectiveOpposing()
 		{
 			return ["Survive."] new MissionObjective;
 		};
@@ -954,7 +954,7 @@ namespace Campaigns
 		// Override this to create a secondary objective/task for the opposing side.
 		// This method is called during the mission's startup phase.
 		// Returns (MissionObjective): Mission objective/task information. classNull if the mission has no secondary objective/task.
-		protected virtual method MissionObjective AddSecondaryObjectiveForOpposing()
+		protected virtual method MissionObjective AddSecondaryObjectiveOpposing()
 		{
 			return classNull;
 		};
@@ -1113,12 +1113,12 @@ namespace Campaigns
 		// mission is considered complete when the primary objective is complete. If there exists a return objective, mission 
 		// is complete if primary OR secondary (and the return objective) is completed (has a state).
 		// Returns (Boolean): true when the acting players are ready to end the mission, otherwise false.
-		protected virtual method Boolean GetMissionIsCompleteForActing()
+		protected virtual method Boolean GetMissionIsCompleteActing()
 		{
 			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
-			_primaryObjective = _self.PrimaryObjectiveForActing;
-			_secondaryObjective = _self.SecondaryObjectiveForActing;
+			_primaryObjective = _self.PrimaryObjectiveActing;
+			_secondaryObjective = _self.SecondaryObjectiveActing;
 			
 			var _primaryExists = !isNull _primaryObjective;
 			var _secondaryExists = !isNull _secondaryObjective;
@@ -1161,12 +1161,12 @@ namespace Campaigns
 		// mission is considered complete when the primary objective is complete. If there exists a return objective, mission 
 		// is complete if primary OR secondary (and the return objective) is completed (has a state).
 		// Returns (Boolean): true when the opposing players are ready to end the mission, otherwise false.
-		protected virtual method Boolean GetMissionIsCompleteForOpposing()
+		protected virtual method Boolean GetMissionIsCompleteOpposing()
 		{
 			private ["_primaryObjective" as MissionObjective, "_secondaryObjective" as MissionObjective];
 			
-			_primaryObjective = _self.PrimaryObjectiveForOpposing;
-			_secondaryObjective = _self.SecondaryObjectiveForOpposing;
+			_primaryObjective = _self.PrimaryObjectiveOpposing;
+			_secondaryObjective = _self.SecondaryObjectiveOpposing;
 			
 			private _primaryExists = !isNull _primaryObjective;
 			private _secondaryExists = !isNull _secondaryObjective;
@@ -1237,22 +1237,22 @@ namespace Campaigns
 		// Returns (Boolean): true if it is time for the mission to shut down. Otherwise false.
 		protected virtual method Boolean ShouldMissionShutDown()
 		{
-			private _completeForActing = call _self.GetMissionIsCompleteForActing;
-			private _completeForOpposing = call _self.GetMissionIsCompleteForOpposing;
+			private _completeActing = call _self.GetMissionIsCompleteActing;
+			private _completeOpposing = call _self.GetMissionIsCompleteOpposing;
 			
-			if (_completeForActing && _completeForOpposing) then {
+			if (_completeActing && _completeOpposing) then {
 				return true;
 			};
 			
 			private _aliveOpposingPlayers = ([MissionSide.Opposing] call _self.CountPlayersAliveOnSide) > 0;
 			diag_log ("GURGEL: _aliveOpposingPlayers: " + str _aliveOpposingPlayers);
-			if (_completeForActing && !_aliveOpposingPlayers) then {
+			if (_completeActing && !_aliveOpposingPlayers) then {
 				return true;
 			};
 
 			private _aliveActingPlayers = ([MissionSide.Acting] call _self.CountPlayersAliveOnSide) > 0;
 			diag_log ("GURGEL: _aliveActingPlayers: " + str _aliveActingPlayers);
-			if (_completeForOpposing && !_aliveActingPlayers) then {
+			if (_completeOpposing && !_aliveActingPlayers) then {
 				return true;
 			};
 			
