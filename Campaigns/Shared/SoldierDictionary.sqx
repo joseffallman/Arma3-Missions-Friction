@@ -66,11 +66,32 @@ namespace Campaigns
 			];
 		};
 		
+		// Adds an entry to the soldier dictionary. If an entry with the provided alias already exists it
+		// will be overwritten.
+		// _alias (String): An alias for the soldier of object type.
+		// _westVehicleType (String): Classname if west.
+		// _eastVehicleType (String): Classname if east.
 		public method AddEntry("_alias" as String, "_westVehicleType" as String, "_eastVehicleType" as String)
 		{
+			// Check if the alias already exists, and in case it does, overrite it.
+			
+			for "_i" from 0 to count _mSoldierTypes do
+			{
+				var _item = _mSoldierTypes select _i as VehicleSideAlias;
+				
+				if (_item.Name == _alias) then {
+					_mSoldierTypes set [_i, [_alias, _westVehicleType, _eastVehicleType] new VehicleSideAlias];
+					return;
+				};
+			};
+		
 			_mSoldierTypes pushBack [_alias, _westVehicleType, _eastVehicleType] new VehicleSideAlias;
 		};
 		
+		// Gets a soldier type classname by a side.
+		// _alias (String): The alias.
+		// _side (Side): The side.
+		// Returns (String): The class name matching the alias and side. Empty string ("") if the alias was not found.
 		public method String GetSoldierType("_alias" as String, "_side" as Side)
 		{
 			{

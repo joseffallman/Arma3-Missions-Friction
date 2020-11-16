@@ -98,11 +98,32 @@ namespace Campaigns
 			];
 		};
 		
+		// Adds an entry to the vehicle dictionary. If an entry with the provided alias already exists it
+		// will be overwritten.
+		// _alias (String): An alias for the vehicle of object type.
+		// _westVehicleType (String): Classname if west.
+		// _eastVehicleType (String): Classname if east.
 		public method AddEntry("_alias" as String, "_westVehicleType" as String, "_eastVehicleType" as String)
 		{
+			// Check if the alias already exists, and in case it does, overrite it.
+			
+			for "_i" from 0 to count _mVehicleTypes do
+			{
+				var _item = _mVehicleTypes select _i as VehicleSideAlias;
+				
+				if (_item.Name == _alias) then {
+					_mVehicleTypes set [_i, [_alias, _westVehicleType, _eastVehicleType] new VehicleSideAlias];
+					return;
+				};
+			};
+		
 			_mVehicleTypes pushBack [_alias, _westVehicleType, _eastVehicleType] new VehicleSideAlias;
 		};
 		
+		// Gets a vehicle type classname by a side.
+		// _alias (String): The alias.
+		// _side (Side): The side.
+		// Returns (String): The class name matching the alias and side. Empty string ("") if the alias was not found.
 		public method String GetVehicleType("_alias" as String, "_side" as Side)
 		{
 			{
