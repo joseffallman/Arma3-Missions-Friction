@@ -30,18 +30,21 @@ namespace Campaigns
 		// Creates a VehicleDictionary object.
 		public constructor()
 		{
-			_mVehicleTypes = [
+			_mVehicleTypes =
+			[				
 				// Trucks
 				["AMMO TRUCK", "B_Truck_01_ammo_F", "O_Truck_03_ammo_F"] new VehicleSideAlias,
-				["TRANSPORT TRUCK", "B_Truck_01_transport_F", "O_Truck_03_transport_F"] new VehicleSideAlias,
+				["DEVICE TRUCK", "B_Truck_01_box_F", "O_Truck_03_device_F"] new VehicleSideAlias,
 				["FUEL TRUCK", "B_Truck_01_fuel_F", "O_Truck_03_fuel_F"] new VehicleSideAlias,
 				["MEDICAL TRUCK", "B_Truck_01_medical_F", "O_Truck_03_medical_F"] new VehicleSideAlias,
-				["DEVICE TRUCK", "B_Truck_01_box_F", "O_Truck_03_device_F"] new VehicleSideAlias,
 				["REPAIR TRUCK", "B_Truck_01_Repair_F", "O_Truck_03_repair_F"] new VehicleSideAlias,
+				["TRANSPORT TRUCK", "B_Truck_01_transport_F", "O_Truck_03_transport_F"] new VehicleSideAlias,
+				["TRANSPORT TRUCK COVERED", "B_Truck_01_covered_F", "O_Truck_03_covered_F"] new VehicleSideAlias,
 				
 				// Cars
-				["MRAP", "B_MRAP_01_F", "O_MRAP_02_F"] new VehicleSideAlias,
-				["MRAP HMG", "B_MRAP_01_hmg_F", "O_MRAP_02_hmg_F"] new VehicleSideAlias,
+				["CAR", "B_MRAP_01_F", "O_MRAP_02_F"] new VehicleSideAlias,
+				["CAR GMG", "B_MRAP_01_gmg_F", "O_MRAP_02_gmg_F"] new VehicleSideAlias,
+				["CAR HMG", "B_MRAP_01_hmg_F", "O_MRAP_02_hmg_F"] new VehicleSideAlias,
 				["QUADBIKE", "B_Quadbike_01_F", "O_Quadbike_01_F"] new VehicleSideAlias,
 				["PROWLER", "B_LSV_01_unarmed_F", "O_LSV_02_unarmed_F"] new VehicleSideAlias,
 				["PROWLER ARMED", "B_LSV_01_armed_F", "O_LSV_02_armed_F"] new VehicleSideAlias,
