@@ -597,6 +597,9 @@ namespace Tvtcf.Server
 					[_mCurrentMission] call _self.CheckAndNotifyObjectives;
 				};
 				
+				// Check objectives one last time, in case they are dependent of each other.
+				[_mCurrentMission] call _self.CheckAndNotifyObjectives;
+				
 				// Take care of eventual gained and lost tokens
 				[_mCurrentMission] call _self.SaveHistoryTokens;
 				
